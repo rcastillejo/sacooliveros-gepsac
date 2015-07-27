@@ -1,2 +1,2 @@
 # sacooliveros-gepsac
-# test
+# Sistema de Gestión de Psicología Académica
