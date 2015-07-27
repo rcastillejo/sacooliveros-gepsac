@@ -1,0 +1,250 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>com.sacooliveros.gepsac</groupId>
+        <artifactId>gepsac-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../gepsac-parent/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>gepsac-backoffice</artifactId>
+    <packaging>war</packaging>
+	
+    <properties>
+        <struts.version>1.3.10</struts.version>
+    </properties>
+	
+    <name>gepsac-backoffice</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>                    
+        </plugins>
+    </build>
+	
+    <dependencies>  
+	
+		<!--1. Servidor de aplicaciones-->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+            <scope>provided</scope>
+        </dependency>
+		
+		<!--2. Struts -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-core</artifactId>
+            <version>${struts.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-el</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-extras</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-mailreader-dao</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-scripting</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-taglib</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts-tiles</artifactId>
+            <version>${struts.version}</version>
+        </dependency>
+		
+		
+        <!--<dependency>
+            <groupId>com.novatronic.components</groupId>
+            <artifactId>CompAAS-SCANova</artifactId>
+            <version>1.0.1</version>
+
+        </dependency>-->
+
+        <dependency>
+            <groupId>displaytag</groupId>
+            <artifactId>displaytag</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <!--            <scope>provided</scope>-->
+        </dependency>
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <!--dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.3</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency-->
+
+        <!--dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.6.2</version>
+        </dependency-->
+
+        <!-- .jar para reporte -->
+
+        <dependency>
+            <groupId>net.sf.jxls</groupId>
+            <artifactId>jxls-core</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+            <type>jar</type>
+        </dependency>
+        <!--        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.4.2</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+       
+        <dependency>
+            <artifactId>xml-apis</artifactId>
+            <groupId>xml-apis</groupId>
+            <version>1.0.b2</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>saxpath</artifactId>
+            <version>1.0-FCS</version>
+        </dependency>-->
+        
+        <dependency>
+            <groupId>net.sourceforge.jexcelapi</groupId>
+            <artifactId>jxl</artifactId>
+            <version>2.6.10</version>
+        </dependency>
+        <!-- Dependencia base -->
+
+        <!-- Dependencia que gestiona la configuracion de Log4j: Es una extension -->
+
+        <!-- Dependencia para aplicaciones Web -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <!--dependency>
+            <groupId>com.novatronic.estandares</groupId>
+            <artifactId>Nova-configuration</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.novatronic.estandares</groupId>
+            <artifactId>Nova-configuration-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.novatronic.estandares</groupId>
+            <artifactId>Nova-configuration-log4j</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.novatronic.sixscj.components</groupId>
+            <artifactId>CompBD</artifactId>
+            <version>2.10.3</version>
+        </dependency-->
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.1-901-1.jdbc4</version>
+        </dependency>
+        <!--dependency>
+            <groupId>com.novatronic.pscabas</groupId>
+            <artifactId>pscabas-core-integrador</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context crossContext="false" debug="5" docBase="myapp" path="/sca">
+  <!-- JavaMail session factory -->
+  <Resource auth="Container" mail.debug="true" mail.password="Sistemas123" mail.smtp.auth="true" mail.smtp.host="smtp.gmail.com" mail.smtp.port="25" mail.smtp.starttls.enable="true" mail.transport.protocol="smtp" mail.user="global.bussines.ti@gmail.com" name="mail/Session" type="javax.mail.Session"/>
+</Context>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!-- ===================================================================== -->
+<!--                                                                       -->
+<!--  Log4j Configuration                                                  -->
+<!--                                                                       -->
+<!-- ===================================================================== -->
+<!-- $Id: log4j.xml 5723 2007-07-08 22:54:42Z myuan $ -->
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+    <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">       
+        <param name="File" value="${jboss.server.log.dir}/sca.log" />
+        <param name="DatePattern" value="'.'yyyyMMdd" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p (%c) - %m {%l}%n" />
+        </layout>
+    </appender>
+    
+    
+    <appender name="SYN-PERFORMANCE" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="${jboss.server.log.dir}/sca_perf.log"/>
+        <param name="Append" value="true"/>
+        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%t] %m%n"/>
+        </layout>
+    </appender>
+    
+    <appender name="ASYNC-PERFORMANCE" class="org.apache.log4j.AsyncAppender">        
+        <param name="BufferSize" value="1024"/>
+        <appender-ref ref="SYN-PERFORMANCE"/>      
+    </appender>
+    
+    
+    
+    <appender name="VELOCITYLOG" class="org.apache.log4j.DailyRollingFileAppender">       
+        <param name="File" value="${jboss.server.log.dir}/velocity.log" />
+        <param name="DatePattern" value="'.'yyyyMMdd" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p (%c) - %m {%l}%n" />
+        </layout>
+    </appender>  
+    
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p (%c) - %m {%l}%n" />
+        </layout>
+    </appender>     
+    
+    
+    <category name="org.apache.commons">
+        <priority value="ERROR"/>
+    </category>
+    
+    <category name="com.novatronic.formatter">
+        <priority value="ERROR"/>
+    </category>
+    
+    <category name="org.apache.struts">
+        <priority value="ERROR"/>
+    </category>
+  
+    <category name="org.apache.commons.digester">
+         <priority value="ERROR"/>
+    </category>
+    
+    <category name="org.ajax4jsf">
+         <priority value="ERROR"/>
+    </category>
+    
+     <category name="org.richfaces">
+         <priority value="ERROR"/>
+    </category>
+    
+    <category name="com.novatronic.core.bd">
+        <priority value="DEBUG"/>
+    </category>
+    
+     <category name="com.novatronic.pscabas">
+         <priority value="DEBUG"/>
+    </category>
+    
+    <category name="com.novatronic.sca">
+         <priority value="DEBUG"/>
+    </category>
+    
+    <category name="com.novatronic.components.hsm.factory.HSM">
+         <priority value="DEBUG"/>
+    </category>
+    
+    
+    
+    <!--<logger name="velocity" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="VELOCITYLOG"/>
+    </logger>-->
+    
+    <logger name="performance" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="ASYNC-PERFORMANCE"/>
+    </logger>
+
+
+
+    <root>
+        <priority value="DEBUG" />        
+        <appender-ref ref="FILE" />
+        <!--<appender-ref ref="CONSOLE" />-->
+    </root>
+    
+    
+    
+	
+    
+</log4j:configuration>
