@@ -227,3 +227,9 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
+/gepsac/gepsac-model/target/
+/gepsac/gepsac-dao/target/
+/gepsac/gepsac-controller-module/target/
+/gepsac/gepsac-service/target/
+/gepsac/gepsac-controller/target/
+/gepsac/gepsac-proxyws/target/
