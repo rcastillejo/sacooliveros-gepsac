@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="PlanificacionService" targetNamespace="http://service.gepsac.sacooliveros.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.gepsac.sacooliveros.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://service.gepsac.sacooliveros.com/" version="1.0" xmlns:tns="http://service.gepsac.sacooliveros.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="aperturar" type="tns:aperturar"/>
+<xs:element name="aperturarResponse" type="tns:aperturarResponse"/>
+<xs:element name="configurar" type="tns:configurar"/>
+<xs:element name="configurarResponse" type="tns:configurarResponse"/>
+<xs:element name="generar" type="tns:generar"/>
+<xs:element name="generarResponse" type="tns:generarResponse"/>
+<xs:complexType name="configurar">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:planEstrategico"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="planEstrategico">
+    <xs:complexContent>
+      <xs:extension base="tns:documento">
+        <xs:sequence>
+          <xs:element name="anio" type="xs:int"/>
+          <xs:element minOccurs="0" name="fecApertura" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecFin" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecInicio" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecPlan" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecRegistro" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="hitos" type="xs:string"/>
+          <xs:element minOccurs="0" name="titulo" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+<xs:complexType name="documento">
+    <xs:sequence>
+      <xs:element name="estado" type="xs:int"/>
+      <xs:element minOccurs="0" name="fecCre" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="fecMod" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="numDoc" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuCre" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuMod" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="configurarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="generar">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:planEstrategico"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="generarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="aperturar">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:planEstrategico"/>
+    </xs:sequence>
+  </xs:complexType>
+<xs:complexType name="aperturarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="configurarResponse">
+    <wsdl:part element="tns:configurarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="configurar">
+    <wsdl:part element="tns:configurar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="aperturarResponse">
+    <wsdl:part element="tns:aperturarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="aperturar">
+    <wsdl:part element="tns:aperturar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generar">
+    <wsdl:part element="tns:generar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generarResponse">
+    <wsdl:part element="tns:generarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PlanificacionService">
+    <wsdl:operation name="configurar">
+      <wsdl:input message="tns:configurar" name="configurar">
+    </wsdl:input>
+      <wsdl:output message="tns:configurarResponse" name="configurarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generar">
+      <wsdl:input message="tns:generar" name="generar">
+    </wsdl:input>
+      <wsdl:output message="tns:generarResponse" name="generarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="aperturar">
+      <wsdl:input message="tns:aperturar" name="aperturar">
+    </wsdl:input>
+      <wsdl:output message="tns:aperturarResponse" name="aperturarResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PlanificacionServiceSoapBinding" type="tns:PlanificacionService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="configurar">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="configurar">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="configurarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generar">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="generar">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="generarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="aperturar">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="aperturar">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="aperturarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PlanificacionService">
+    <wsdl:port binding="tns:PlanificacionServiceSoapBinding" name="PlanificacionServicePort">
+      <soap:address location="http://Ricardo-PC:8180/gepsac-service/PlanificacionService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

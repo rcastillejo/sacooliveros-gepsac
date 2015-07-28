@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sacooliveros.gepsac</groupId>
@@ -11,8 +11,13 @@
     
     <modules>
         <module>gepsac-parent</module>
-        <module>gepsac-backoffice</module>
+        <!--module>gepsac-backoffice</module-->
         <module>gepsac-model</module>
+        <module>gepsac-service</module>
+        <module>gepsac-controller</module>
+        <module>gepsac-controller-module</module>
+        <module>gepsac-dao</module>
+        <module>gepsac-proxyws</module>
     </modules>
 
 </project>

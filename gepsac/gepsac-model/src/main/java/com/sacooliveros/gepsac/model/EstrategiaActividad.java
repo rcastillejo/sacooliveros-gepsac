@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.model.util;
+package com.sacooliveros.gepsac.model;
 
 /**
  *
  * @author Ricardo
  */
-public interface Frecuencia {
-    String HORA = "";
-    String MINUTO = "H";
+public class EstrategiaActividad {
+    
 }

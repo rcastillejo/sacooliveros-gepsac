@@ -9,7 +9,7 @@ package com.sacooliveros.gepsac.model;
  *
  * @author Ricardo
  */
-public class Actividad extends Documento {
+public class Actividad extends Model {
 
     private String nombre;
     private String descripcion;
@@ -59,6 +59,10 @@ public class Actividad extends Documento {
 
     public void setSesiones(int sesiones) {
         this.sesiones = sesiones;
+    }
+    
+    public void calcularFrecuencia(){
+        this.frecuencia = this.duracion / this.sesiones;
     }
 
     public double getFrecuencia() {
