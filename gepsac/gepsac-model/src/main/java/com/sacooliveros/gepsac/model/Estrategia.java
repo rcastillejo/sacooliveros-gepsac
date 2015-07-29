@@ -5,19 +5,19 @@
  */
 package com.sacooliveros.gepsac.model;
 
+import com.sacooliveros.gepsac.model.common.Model;
 import java.util.List;
 
 /**
  *
  * @author Ricardo
  */
-public class Estrategia extends Model{
-    
+public class Estrategia extends Model {
+
     private String nombre;
     private String descripcion;
-    
-    private List<Actividad> actividades;
-    private List<Indicador> indicadores;
+
+    private List<EstrategiaActividad> actividades;
 
     public String getNombre() {
         return nombre;
@@ -35,21 +35,12 @@ public class Estrategia extends Model{
         this.descripcion = descripcion;
     }
 
-    public List<Actividad> getActividades() {
+    public List<EstrategiaActividad> getActividades() {
         return actividades;
     }
 
-    public void setActividades(List<Actividad> actividades) {
+    public void setActividades(List<EstrategiaActividad> actividades) {
         this.actividades = actividades;
     }
 
-    public List<Indicador> getIndicadores() {
-        return indicadores;
-    }
-
-    public void setIndicadores(List<Indicador> indicadores) {
-        this.indicadores = indicadores;
-    }
-    
-    
 }

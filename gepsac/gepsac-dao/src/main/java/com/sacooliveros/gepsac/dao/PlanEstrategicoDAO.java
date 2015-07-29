@@ -6,15 +6,15 @@
 
 package com.sacooliveros.gepsac.dao;
 
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 
 /**
  *
  * @author rcastillejo
  */
-public interface PlanEstrategicoDAO extends BaseDao<PlanEstrategico>{ 
-    PlanEstrategico obtener(String id);
-    PlanEstrategico obtenerAnio(int anio);
+public interface PlanEstrategicoDAO extends BaseDao<Plan>{ 
+    Plan obtener(String id);
+    Plan obtenerAnio(int anio);
     /*
     Map buscarComoReporteInicio();
     Map listar(Map fecha);

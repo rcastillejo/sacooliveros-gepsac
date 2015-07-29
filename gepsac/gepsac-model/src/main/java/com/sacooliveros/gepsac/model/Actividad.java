@@ -5,6 +5,8 @@
  */
 package com.sacooliveros.gepsac.model;
 
+import com.sacooliveros.gepsac.model.common.Model;
+
 /**
  *
  * @author Ricardo
@@ -16,7 +18,7 @@ public class Actividad extends Model {
     private int duracion;
     private String tipoFrecuencia;
     private int sesiones;
-    private double frecuencia;
+    private int frecuencia;
 
     public Actividad() {
     }
@@ -60,17 +62,22 @@ public class Actividad extends Model {
     public void setSesiones(int sesiones) {
         this.sesiones = sesiones;
     }
-    
-    public void calcularFrecuencia(){
-        this.frecuencia = this.duracion / this.sesiones;
+
+    public void calcularFrecuencia() {
+        this.frecuencia = (int) Math.ceil(this.duracion / this.sesiones);
     }
 
-    public double getFrecuencia() {
+    public int getFrecuencia() {
         return frecuencia;
     }
 
-    public void setFrecuencia(double frecuencia) {
+    public void setFrecuencia(int frecuencia) {
         this.frecuencia = frecuencia;
+    }
+
+    @Override
+    public String toString() {
+        return "Actividad{" + "nombre=" + nombre + ", descripcion=" + descripcion + ", duracion=" + duracion + ", tipoFrecuencia=" + tipoFrecuencia + ", sesiones=" + sesiones + ", frecuencia=" + frecuencia + '}';
     }
 
 }

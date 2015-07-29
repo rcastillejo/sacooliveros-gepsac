@@ -5,14 +5,14 @@
  */
 package com.sacooliveros.gepsac.controller.usuario;
 
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 
 /**
  *
  * @author Ricardo
  */
 public class ConfigurarPlanController {
-    public String configurar(PlanEstrategico plan){
+    public String configurar(Plan plan){
         return null;
     }
     

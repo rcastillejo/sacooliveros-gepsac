@@ -6,7 +6,7 @@
 package com.sacooliveros.gepsac.dao;
 
 import com.sacooliveros.gepsac.dao.exception.DAOException;
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class PlanEstrategicoMockDAO implements PlanEstrategicoDAO {
     
-    private final List<PlanEstrategico> planes;
+    private final List<Plan> planes;
     
     public PlanEstrategicoMockDAO() {
         planes = new ArrayList();
@@ -30,14 +30,14 @@ public class PlanEstrategicoMockDAO implements PlanEstrategicoDAO {
     }
      
     @Override
-    public PlanEstrategico obtener(int id) {
+    public Plan obtener(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     @Override
-    public PlanEstrategico obtener(String id) {
-        PlanEstrategico planEncontrado = null;
-        for (PlanEstrategico plan : planes) {
+    public Plan obtener(String id) {
+        Plan planEncontrado = null;
+        for (Plan plan : planes) {
             if(plan.getCodigo().equals(id)){
                 planEncontrado = plan;
                 break;
@@ -47,9 +47,9 @@ public class PlanEstrategicoMockDAO implements PlanEstrategicoDAO {
     }
 
     @Override
-    public PlanEstrategico obtenerAnio(int anio) {
-        PlanEstrategico planEncontrado = null;
-        for (PlanEstrategico plan : planes) {
+    public Plan obtenerAnio(int anio) {
+        Plan planEncontrado = null;
+        for (Plan plan : planes) {
             if(plan.getAnio() == anio){
                 planEncontrado = plan;
                 break;
@@ -60,7 +60,7 @@ public class PlanEstrategicoMockDAO implements PlanEstrategicoDAO {
 
 
     @Override
-    public void ingresar(PlanEstrategico plan) {
+    public void ingresar(Plan plan) {
         plan.setFecCre(new Date());
         boolean agregado = planes.add(plan);
         if(!agregado){
@@ -69,16 +69,16 @@ public class PlanEstrategicoMockDAO implements PlanEstrategicoDAO {
     }
 
     @Override
-    public void actualizar(PlanEstrategico plan) {
+    public void actualizar(Plan plan) {
         plan.setFecMod(new Date());
-        PlanEstrategico planEncontrado = obtener(plan.getCodigo());
+        Plan planEncontrado = obtener(plan.getCodigo());
         int index = planes.indexOf(planEncontrado);
         planes.set(index, plan);
     }
 
     @Override
-    public void eliminar(PlanEstrategico plan) {
-        PlanEstrategico planEncontrado = obtener(plan.getCodigo());
+    public void eliminar(Plan plan) {
+        Plan planEncontrado = obtener(plan.getCodigo());
         boolean eliminado = planes.remove(planEncontrado);
         if(!eliminado){
             throw new DAOException("No se pudo eliminar");

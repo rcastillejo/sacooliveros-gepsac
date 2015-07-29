@@ -19,6 +19,8 @@ CREATE TABLE tp_planestrategia
   
   fec_inicio timestamp without time zone, 
   fec_fin timestamp without time zone, 
+
+  hitos character varying(100) NOT NULL,
   
   cod_estado int, 
   

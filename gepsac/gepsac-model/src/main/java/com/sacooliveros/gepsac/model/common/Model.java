@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.model;
+package com.sacooliveros.gepsac.model.common;
 
 import java.util.Date;
 
@@ -69,6 +69,11 @@ public class Model {
 
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" + "codigo=" + codigo + ", fecCre=" + fecCre + ", usuCre=" + usuCre + ", fecMod=" + fecMod + ", usuMod=" + usuMod + ", estado=" + estado + '}';
     }
 
 }

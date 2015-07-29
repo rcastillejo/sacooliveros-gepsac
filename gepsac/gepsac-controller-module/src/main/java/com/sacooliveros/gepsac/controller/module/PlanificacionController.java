@@ -8,7 +8,7 @@ package com.sacooliveros.gepsac.controller.module;
 import com.sacooliveros.gepsac.controller.module.exception.ConrollerModuleException;
 import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.PlanEstrategicoDAO;
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.util.Estado;
 import java.text.MessageFormat;
 import java.util.Date;
@@ -44,8 +44,8 @@ public class PlanificacionController {
         }
     }
 
-    public List<PlanEstrategico> listar() {
-        List<PlanEstrategico> listado;
+    public List<Plan> listar() {
+        List<Plan> listado;
         try {
             PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
             listado = planDao.listar();
@@ -59,7 +59,7 @@ public class PlanificacionController {
         return listado;
     }
 
-    public String configurar(PlanEstrategico plan) {
+    public String configurar(Plan plan) {
         try {
             PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
@@ -73,7 +73,7 @@ public class PlanificacionController {
         }
     }
 
-    public String aperturar(PlanEstrategico plan) {
+    public String aperturar(Plan plan) {
         try {
             PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
@@ -87,12 +87,17 @@ public class PlanificacionController {
         }
     }
 
-    public String programar(PlanEstrategico plan) {
+    public String programar(Plan plan) {
         try {
+            Programacion programacion = new Programacion();
             PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
-            plan.setEstado(Estado.PlanEstrategico.APERTURADO);
-            plan.setFecApertura(new Date());
+            plan.setEstado(Estado.PlanEstrategico.PROGRAMADO);
+            plan.setFecPlan(new Date());
+
+            programacion.configure(plan);
+            programacion.calcularFechasDisponibles();
+            programacion.elaborarCronograma();
 
             planDao.actualizar(plan);
             return MessageFormat.format(Mensaje.APERTURAR, plan.getCodigo());

@@ -3,32 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.model;
-
-import java.util.Date;
+package com.sacooliveros.gepsac.model.common;
 
 /**
  *
  * @author Ricardo
  */
-public class RestriccionFecha {
-
-    private Date fecha;
+public class Tipo {
+    private int codigo;
+    private String nombre;
     private String descripcion;
 
-    public RestriccionFecha(Date fecha) {
-        this.fecha = fecha;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public RestriccionFecha() {
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -38,5 +37,5 @@ public class RestriccionFecha {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
+    
 }

@@ -5,6 +5,7 @@
  */
 package com.sacooliveros.gepsac.model;
 
+import com.sacooliveros.gepsac.model.common.Model;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Ricardo
  */
-public class PlanEstrategico extends Model {
+public class Plan extends Model {
 
     private Date fecRegistro;
     private Date fecApertura;
@@ -25,6 +26,8 @@ public class PlanEstrategico extends Model {
     private String hitos;
 
     private List<RestriccionFecha> restriccionFechas;
+
+    private List<PlanActividad> actividadesSeleccionadas;
 
     public String getTitulo() {
         return titulo;
@@ -98,5 +101,12 @@ public class PlanEstrategico extends Model {
         this.restriccionFechas = restriccionFechas;
     }
 
+    public List<PlanActividad> getActividadesSeleccionadas() {
+        return actividadesSeleccionadas;
+    }
+
+    public void setActividadesSeleccionadas(List<PlanActividad> actividadesSeleccionadas) {
+        this.actividadesSeleccionadas = actividadesSeleccionadas;
+    }
 
 }

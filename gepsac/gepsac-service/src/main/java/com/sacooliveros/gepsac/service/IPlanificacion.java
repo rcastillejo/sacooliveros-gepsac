@@ -5,7 +5,7 @@
  */
 package com.sacooliveros.gepsac.service;
 
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.service.exception.ServiceException;
 import java.util.List;
 import javax.jws.WebMethod;
@@ -18,15 +18,15 @@ import javax.jws.WebParam;
 public interface IPlanificacion {
     
     @WebMethod(operationName = "configurar")
-    List<PlanEstrategico> listar() throws ServiceException;
+    List<Plan> listar() throws ServiceException;
     
     @WebMethod(operationName = "configurar")
-    String configurar(@WebParam(name = "plan")PlanEstrategico plan) throws ServiceException;
+    String configurar(@WebParam(name = "plan")Plan plan) throws ServiceException;
     
     @WebMethod(operationName = "aperturar")
-    String aperturar(@WebParam(name = "plan")PlanEstrategico plan) throws ServiceException;
+    String aperturar(@WebParam(name = "plan")Plan plan) throws ServiceException;
     
     @WebMethod(operationName = "generar")
-    String generar(@WebParam(name = "plan")PlanEstrategico plan) throws ServiceException;
+    String generar(@WebParam(name = "plan")Plan plan) throws ServiceException;
     
 }

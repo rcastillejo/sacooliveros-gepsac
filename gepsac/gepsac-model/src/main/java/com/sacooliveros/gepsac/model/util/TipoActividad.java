@@ -9,11 +9,10 @@ package com.sacooliveros.gepsac.model.util;
  *
  * @author Ricardo
  */
-public interface Estado {
-    
-    interface PlanEstrategico{
-        int CONFIGURADO = 11;
-        int APERTURADO = 12;
-        int PROGRAMADO = 13;
-    }
+public interface TipoActividad {
+
+    int CAPACITACION = 1;
+    int CAPACITACION_VIRTUAL = 2;
+    int EVALUACION = 3;
+    int EVALUACION_VIRTUAL = 4;
 }

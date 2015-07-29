@@ -3,8 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.sacooliveros.gepsac</groupId>
-        <artifactId>gepsac</artifactId>
+        <artifactId>gepsac-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../gepsac-parent/pom.xml</relativePath>
     </parent>
     <artifactId>gepsac-controller-module</artifactId>
     <packaging>jar</packaging>

@@ -5,6 +5,8 @@
  */
 package com.sacooliveros.gepsac.model;
 
+import com.sacooliveros.gepsac.model.common.Model;
+
 /**
  *
  * @author Ricardo

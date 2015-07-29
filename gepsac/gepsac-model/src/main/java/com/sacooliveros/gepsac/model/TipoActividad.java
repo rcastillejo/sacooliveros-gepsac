@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.model.util;
+package com.sacooliveros.gepsac.model;
+
+import com.sacooliveros.gepsac.model.common.Tipo;
 
 /**
  *
  * @author Ricardo
  */
-public interface Estado {
-    
-    interface PlanEstrategico{
-        int CONFIGURADO = 11;
-        int APERTURADO = 12;
-        int PROGRAMADO = 13;
-    }
+public class TipoActividad extends Tipo {
+ 
+ 
 }

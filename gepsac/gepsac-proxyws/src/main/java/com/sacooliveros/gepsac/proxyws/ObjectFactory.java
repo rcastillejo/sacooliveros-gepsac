@@ -39,6 +39,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Documento }
+     * 
+     */
+    public Documento createDocumento() {
+        return new Documento();
+    }
+
+    /**
      * Create an instance of {@link PlanEstrategico }
      * 
      */
@@ -52,22 +60,6 @@ public class ObjectFactory {
      */
     public AperturarResponse createAperturarResponse() {
         return new AperturarResponse();
-    }
-
-    /**
-     * Create an instance of {@link ConfigurarResponse }
-     * 
-     */
-    public ConfigurarResponse createConfigurarResponse() {
-        return new ConfigurarResponse();
-    }
-
-    /**
-     * Create an instance of {@link Documento }
-     * 
-     */
-    public Documento createDocumento() {
-        return new Documento();
     }
 
     /**
@@ -92,6 +84,14 @@ public class ObjectFactory {
      */
     public Configurar createConfigurar() {
         return new Configurar();
+    }
+
+    /**
+     * Create an instance of {@link ConfigurarResponse }
+     * 
+     */
+    public ConfigurarResponse createConfigurarResponse() {
+        return new ConfigurarResponse();
     }
 
     /**

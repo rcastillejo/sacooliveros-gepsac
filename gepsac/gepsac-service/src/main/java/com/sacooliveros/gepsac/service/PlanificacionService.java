@@ -7,7 +7,7 @@ package com.sacooliveros.gepsac.service;
 
 import com.sacooliveros.gepsac.controller.module.PlanificacionController;
 import com.sacooliveros.gepsac.controller.module.exception.ConrollerModuleException;
-import com.sacooliveros.gepsac.model.PlanEstrategico;
+import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.service.exception.ServiceException;
 import java.util.List;
 import javax.jws.WebService;
@@ -30,7 +30,7 @@ public class PlanificacionService implements IPlanificacion {
     }
 
     @Override
-    public List<PlanEstrategico> listar() {
+    public List<Plan> listar() {
         try {
             return controller.listar();
         } catch (ConrollerModuleException e) {
@@ -40,7 +40,7 @@ public class PlanificacionService implements IPlanificacion {
     }
     
     @Override
-    public String configurar(PlanEstrategico plan) {
+    public String configurar(Plan plan) {
         try {
             return controller.configurar(plan);
         } catch (ConrollerModuleException e) {
@@ -50,7 +50,7 @@ public class PlanificacionService implements IPlanificacion {
     }
 
     @Override
-    public String aperturar(PlanEstrategico plan) {
+    public String aperturar(Plan plan) {
         try {
             return controller.aperturar(plan);
         } catch (ConrollerModuleException e) {
@@ -60,8 +60,13 @@ public class PlanificacionService implements IPlanificacion {
     }
 
     @Override
-    public String generar(PlanEstrategico plan) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String generar(Plan plan) {
+        try {
+            return controller.programar(plan);
+        } catch (ConrollerModuleException e) {
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getCodigo(), e.getMessage());
+        }
     }
 
 }
