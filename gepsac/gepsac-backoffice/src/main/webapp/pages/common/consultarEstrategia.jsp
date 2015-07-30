@@ -11,7 +11,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js"></script>
 <script type="text/javascript">
     //alert('COLORRRR' + gOptions.color);
-    var table = '#div-resultado';
+    var table = '#div-resultado'; 
 
 
     var combo = '#div-combo';
