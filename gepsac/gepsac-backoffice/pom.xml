@@ -26,8 +26,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.0.2</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>                    
         </plugins>
@@ -93,14 +93,6 @@
             <version>${struts.version}</version>
         </dependency>
 		
-		
-        <!--<dependency>
-            <groupId>com.novatronic.components</groupId>
-            <artifactId>CompAAS-SCANova</artifactId>
-            <version>1.0.1</version>
-
-        </dependency>-->
-
         <dependency>
             <groupId>displaytag</groupId>
             <artifactId>displaytag</artifactId>
@@ -111,62 +103,7 @@
             <artifactId>gson</artifactId>
             <version>2.2.2</version>
         </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <!--            <scope>provided</scope>-->
-        </dependency>
         
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.10</version>
-            <scope>test</scope>
-        </dependency>
-        <!--dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.3</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency-->
-
-        <!--dependency>
-            <groupId>org.apache.velocity</groupId>
-            <artifactId>velocity</artifactId>
-            <version>1.6.2</version>
-        </dependency-->
-
-        <!-- .jar para reporte -->
-
-        <dependency>
-            <groupId>net.sf.jxls</groupId>
-            <artifactId>jxls-core</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>itextpdf</artifactId>
-            <version>5.4.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-            <type>jar</type>
-        </dependency>
         <!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
@@ -210,41 +147,16 @@
             <artifactId>commons-logging</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <!--dependency>
-            <groupId>com.novatronic.estandares</groupId>
-            <artifactId>Nova-configuration</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.novatronic.estandares</groupId>
-            <artifactId>Nova-configuration-web</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.novatronic.estandares</groupId>
-            <artifactId>Nova-configuration-log4j</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.novatronic.sixscj.components</groupId>
-            <artifactId>CompBD</artifactId>
-            <version>2.10.3</version>
-        </dependency-->
-        <dependency>
-            <groupId>postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>9.1-901-1.jdbc4</version>
-        </dependency>
-        <!--dependency>
-            <groupId>com.novatronic.pscabas</groupId>
-            <artifactId>pscabas-core-integrador</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency-->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.12</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gepsac-proxyws</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

@@ -5,20 +5,21 @@
  */
 package com.sacooliveros.gepsac.model.common;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Ricardo
  */
-public class Model {
+public class Model implements Serializable{
 
     private String codigo;
     private Date fecCre;
     private String usuCre;
     private Date fecMod;
     private String usuMod;
-    private int estado;
+    private String estado;
 
     public Model() {
     }
@@ -63,11 +64,11 @@ public class Model {
         this.usuMod = usuMod;
     }
 
-    public int getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(int estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 

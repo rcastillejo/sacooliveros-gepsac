@@ -8,6 +8,7 @@ package com.sacooliveros.gepsac.controller.module;
 import com.sacooliveros.gepsac.controller.module.exception.LimiteHoraLaboralException;
 import com.sacooliveros.gepsac.model.Actividad;
 import com.sacooliveros.gepsac.model.PlanActividad;
+import com.sacooliveros.gepsac.model.PlanEstrategia;
 import com.sacooliveros.gepsac.model.RestriccionFecha;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -132,7 +133,6 @@ public class ProgramacionTest {
         List<PlanActividad> actividadesPlan;
         List<RestriccionFecha> fechasRestringidas;
         fechasRestringidas = new ArrayList<>();
-        actividadesPlan = new ArrayList<>();
         Programacion instance = new Programacion();
         Calendar calFec = Calendar.getInstance();
         calFec.set(2015, 2, 16);
@@ -151,22 +151,30 @@ public class ProgramacionTest {
         Actividad actividad;
         PlanActividad actividadPlan;
 
-        for (int i = 0; i < 90; i++) {
-            actividadPlan = new PlanActividad();
-            actividad = new Actividad();
-            actividad.setCodigo("AC000-" + i);
-            actividad.setNombre("AC000-" + i);
-            actividad.setFrecuencia((int) (Math.random() * 3 + 1));
-            //actividad.setFrecuencia(8);
-            actividadPlan.setActividad(actividad);
-            actividadesPlan.add(actividadPlan);
+        List<PlanEstrategia> estrategias = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            PlanEstrategia estrategia = new PlanEstrategia();
+            actividadesPlan = new ArrayList<>();
+            for (int j = 0; j < 16; j++) {
+                actividadPlan = new PlanActividad();
+                actividad = new Actividad();
+                actividad.setCodigo("AC000-" + i + "-" + j);
+                actividad.setNombre("AC000-" + i + "-" + j);
+                actividad.setFrecuencia((int) (Math.random() * 3 + 1));
+                //actividad.setFrecuencia(8);
+                actividadPlan.setActividad(actividad);
+                actividadesPlan.add(actividadPlan);
+            }
+            estrategia.setActividadesSeleccionadas(actividadesPlan);
+            estrategias.add(estrategia);
         }
 
         log.debug("rango de fechas [inicio={},fin{}]", instance.getFechaInicio().getTime(), instance.getFechaFin().getTime());
 
         instance.setRestriccionFechas(fechasRestringidas);
 
-        instance.setActividades(actividadesPlan);
+        instance.setActividades(estrategias);
 
         instance.calcularFechasDisponibles();
 
@@ -181,6 +189,8 @@ public class ProgramacionTest {
             log.debug("actividad de plan NO programado [actividad={},planActividad{}]", planActividad.getActividad(), planActividad);
         }
 
+        assertTrue(instance.getActividades() != null && !instance.getActividades().isEmpty());
+        assertTrue(instance.getActividadesNoProgramadas() == null || instance.getActividadesNoProgramadas().isEmpty());
     }
 
     /**

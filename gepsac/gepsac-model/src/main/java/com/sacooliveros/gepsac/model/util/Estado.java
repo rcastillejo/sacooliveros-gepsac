@@ -12,8 +12,8 @@ package com.sacooliveros.gepsac.model.util;
 public interface Estado {
     
     interface PlanEstrategico{
-        int CONFIGURADO = 11;
-        int APERTURADO = 12;
-        int PROGRAMADO = 13;
+        String REGISTRADO = "PLA0001";
+        String CONFIGURADO = "PLA0002";
+        String PROGRAMADO = "PLA0003";
     }
 }

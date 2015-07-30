@@ -6,17 +6,11 @@
         <listener-class>com.novatronic.estandares.config.listener.ConfigurationListener</listener-class>
     </listener>-->
     
-    <!--Reporte-->
-    <context-param>
-        <description>Ruta de configuracion de BMovil Conector HTTP</description>
-        <param-name>com.novatronic.sca.dao.factory</param-name>
-        <param-value>1</param-value>
-    </context-param>
     
-    <listener>
+    <!--<listener>
         <description>Configuration Socket Listener</description>
         <listener-class>com.novatronic.sca.listener.ReporteAppListener</listener-class>
-    </listener>
+    </listener>-->
     
     <servlet>
         <servlet-name>action</servlet-name>

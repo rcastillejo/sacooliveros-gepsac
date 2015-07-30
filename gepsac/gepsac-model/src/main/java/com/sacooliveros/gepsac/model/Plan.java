@@ -16,8 +16,8 @@ import java.util.List;
 public class Plan extends Model {
 
     private Date fecRegistro;
-    private Date fecApertura;
-    private Date fecPlan;
+    private Date fecConfiguracion;
+    private Date fecProgramacion;
     private Date fecInicio;
     private Date fecFin;
 
@@ -27,7 +27,7 @@ public class Plan extends Model {
 
     private List<RestriccionFecha> restriccionFechas;
 
-    private List<PlanActividad> actividadesSeleccionadas;
+    private List<PlanEstrategia> estrategiasSeleccionadas;
 
     public String getTitulo() {
         return titulo;
@@ -53,20 +53,20 @@ public class Plan extends Model {
         this.fecRegistro = fecRegistro;
     }
 
-    public Date getFecApertura() {
-        return fecApertura;
+    public Date getFecConfiguracion() {
+        return fecConfiguracion;
     }
 
-    public void setFecApertura(Date fecApertura) {
-        this.fecApertura = fecApertura;
+    public void setFecConfiguracion(Date fecConfiguracion) {
+        this.fecConfiguracion = fecConfiguracion;
     }
 
-    public Date getFecPlan() {
-        return fecPlan;
+    public Date getFecProgramacion() {
+        return fecProgramacion;
     }
 
-    public void setFecPlan(Date fecPlan) {
-        this.fecPlan = fecPlan;
+    public void setFecProgramacion(Date fecProgramacion) {
+        this.fecProgramacion = fecProgramacion;
     }
 
     public Date getFecInicio() {
@@ -101,12 +101,12 @@ public class Plan extends Model {
         this.restriccionFechas = restriccionFechas;
     }
 
-    public List<PlanActividad> getActividadesSeleccionadas() {
-        return actividadesSeleccionadas;
+    public List<PlanEstrategia> getEstrategiasSeleccionadas() {
+        return estrategiasSeleccionadas;
     }
 
-    public void setActividadesSeleccionadas(List<PlanActividad> actividadesSeleccionadas) {
-        this.actividadesSeleccionadas = actividadesSeleccionadas;
+    public void setEstrategiasSeleccionadas(List<PlanEstrategia> estrategiasSeleccionadas) {
+        this.estrategiasSeleccionadas = estrategiasSeleccionadas;
     }
 
 }

@@ -15,7 +15,7 @@ public interface BaseDao<T> {
 
     List<T> listar();
 
-    T obtener(int id);
+    T obtener(String id);
 
     void ingresar(T t);
 

@@ -1,6 +1,7 @@
 
 package com.sacooliveros.gepsac.proxyws;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -31,11 +32,25 @@ public interface PlanificacionService {
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "configurar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Configurar")
-    @ResponseWrapper(localName = "configurarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ConfigurarResponse")
-    public String configurar(
+    @RequestWrapper(localName = "programar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Programar")
+    @ResponseWrapper(localName = "programarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ProgramarResponse")
+    public String programar(
         @WebParam(name = "arg0", targetNamespace = "")
-        PlanEstrategico arg0);
+        Plan arg0);
+
+    /**
+     * 
+     * @return
+     *     returns com.sacooliveros.gepsac.proxyws.Plan
+     * @throws ServiceException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerVigente", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerVigente")
+    @ResponseWrapper(localName = "obtenerVigenteResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerVigenteResponse")
+    public Plan obtenerVigente()
+        throws ServiceException_Exception
+    ;
 
     /**
      * 
@@ -45,24 +60,21 @@ public interface PlanificacionService {
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "generar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Generar")
-    @ResponseWrapper(localName = "generarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.GenerarResponse")
-    public String generar(
+    @RequestWrapper(localName = "registrar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Registrar")
+    @ResponseWrapper(localName = "registrarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.RegistrarResponse")
+    public String registrar(
         @WebParam(name = "arg0", targetNamespace = "")
-        PlanEstrategico arg0);
+        Plan arg0);
 
     /**
      * 
-     * @param arg0
      * @return
-     *     returns java.lang.String
+     *     returns java.util.List<com.sacooliveros.gepsac.proxyws.Plan>
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "aperturar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Aperturar")
-    @ResponseWrapper(localName = "aperturarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.AperturarResponse")
-    public String aperturar(
-        @WebParam(name = "arg0", targetNamespace = "")
-        PlanEstrategico arg0);
+    @RequestWrapper(localName = "listar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Listar")
+    @ResponseWrapper(localName = "listarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ListarResponse")
+    public List<Plan> listar();
 
 }

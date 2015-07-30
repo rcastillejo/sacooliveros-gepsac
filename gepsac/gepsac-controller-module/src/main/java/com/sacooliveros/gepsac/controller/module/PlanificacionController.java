@@ -7,10 +7,11 @@ package com.sacooliveros.gepsac.controller.module;
 
 import com.sacooliveros.gepsac.controller.module.exception.ConrollerModuleException;
 import com.sacooliveros.gepsac.dao.DAOFactory;
-import com.sacooliveros.gepsac.dao.PlanEstrategicoDAO;
+import com.sacooliveros.gepsac.dao.PlanDAO;
 import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.util.Estado;
 import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,8 @@ public class PlanificacionController {
 
     interface Mensaje {
 
-        String CONFIGURAR = "La configuración fue satisfactoria [{0}]";
-        String APERTURAR = "La configuración fue satisfactoria [{0}]";
+        String REGISTRAR = "La configuración fue satisfactoria [{0}]";
+        String PROGRAMAR = "La programación fue satisfactoria [{0}]";
 
     }
 
@@ -37,17 +38,17 @@ public class PlanificacionController {
         interface Mensaje {
 
             String GENERAL = "No se pudo realizar la  operación [{0}]";
-            String LISTAR = "No se encuentra planes estrategicos";
-            String CONFIGURAR = "Error al configurar el plan";
-            String APERTURAR = "Error al aperturar el plan";
-            String GENERAR = "Error al generar el plan";
+            String LISTAR = "No se encuentra planes";
+            String REGISTRAR = "Error al registrar el plan";
+            String PROGRAMAR = "Error al programar el plan";
+            String CONSULTAR_VIGENTE = "No se encontro un plan vigente";
         }
     }
 
     public List<Plan> listar() {
         List<Plan> listado;
         try {
-            PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
             listado = planDao.listar();
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
@@ -59,50 +60,52 @@ public class PlanificacionController {
         return listado;
     }
 
-    public String configurar(Plan plan) {
+    public Plan obtenerPlanVigente() {
+        Plan planVigente;
         try {
-            PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            planVigente = planDao.obtenerVigente(Calendar.getInstance().get(Calendar.YEAR));
+        } catch (Exception e) {
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
+        }
 
-            plan.setEstado(Estado.PlanEstrategico.CONFIGURADO);
+        if (planVigente == null) {
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_VIGENTE);
+        }
+
+        return planVigente;
+    }
+
+    public String registrar(Plan plan) {
+        try {
+            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+            plan.setEstado(Estado.PlanEstrategico.REGISTRADO);
             plan.setFecRegistro(new Date());
 
             planDao.ingresar(plan);
-            return MessageFormat.format(Mensaje.CONFIGURAR, plan.getCodigo());
+            return MessageFormat.format(Mensaje.REGISTRAR, plan.getCodigo());
         } catch (Exception e) {
-            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONFIGURAR, e);
-        }
-    }
-
-    public String aperturar(Plan plan) {
-        try {
-            PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
-
-            plan.setEstado(Estado.PlanEstrategico.APERTURADO);
-            plan.setFecApertura(new Date());
-
-            planDao.actualizar(plan);
-            return MessageFormat.format(Mensaje.APERTURAR, plan.getCodigo());
-        } catch (Exception e) {
-            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.APERTURAR, e);
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR, e);
         }
     }
 
     public String programar(Plan plan) {
         try {
             Programacion programacion = new Programacion();
-            PlanEstrategicoDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
             plan.setEstado(Estado.PlanEstrategico.PROGRAMADO);
-            plan.setFecPlan(new Date());
+            plan.setFecProgramacion(new Date());
 
             programacion.configure(plan);
             programacion.calcularFechasDisponibles();
             programacion.elaborarCronograma();
 
             planDao.actualizar(plan);
-            return MessageFormat.format(Mensaje.APERTURAR, plan.getCodigo());
+            return MessageFormat.format(Mensaje.PROGRAMAR, plan.getCodigo());
         } catch (Exception e) {
-            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.APERTURAR, e);
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.PROGRAMAR, e);
         }
     }
 

@@ -5,7 +5,7 @@
     <context-param>
         <description>Modo Factory</description>
         <param-name>com.sacooliveros.gepsac.dao.factory</param-name>
-        <param-value>2</param-value>
+        <param-value>1</param-value>
     </context-param>
     <listener>
         <listener-class>com.sacooliveros.gepsac.service.listener.ServiceListener</listener-class>

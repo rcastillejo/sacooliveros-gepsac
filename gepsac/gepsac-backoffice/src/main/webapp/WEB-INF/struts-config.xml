@@ -7,9 +7,10 @@
 
 <struts-config>
     <form-beans>
-        <!--Modulo Reportes-->
+        <!--Modulo Planificacion-->
+        <form-bean name="configurarEstrategiaForm" type="com.novatronic.sca.form.plan.ConfigurarEstrategiaForm" />
+        <!--
         <form-bean name="transaccionReporteForm" type="com.novatronic.sca.form.reporte.TransaccionReporteForm" />
-        
         <form-bean name="usuarioForm" type="com.novatronic.sca.security.form.UsuarioForm" />
         <form-bean name="usuarioAdminForm" type="com.novatronic.sca.security.form.UsuarioForm" />
         <form-bean name="empresaForm" type="com.novatronic.sca.security.form.EmpresaForm" />
@@ -32,7 +33,7 @@
         <form-bean name="importarForm" type="com.novatronic.sca.security.form.ImportarTemplateForm" />
         <form-bean name="importarAdminForm" type="com.novatronic.sca.security.form.ImportarTemplateForm" />
         <form-bean name="cambioClaveForm" type="com.novatronic.sca.security.form.CambioClaveForm" />
-        <form-bean name="olvideClaveForm" type="com.novatronic.sca.security.form.OlvideClaveForm" />
+        <form-bean name="olvideClaveForm" type="com.novatronic.sca.security.form.OlvideClaveForm" />-->
     </form-beans>
     
     <global-exceptions>
@@ -49,8 +50,17 @@
     </global-forwards>
 
     <action-mappings>
-    
-        <!--Reporte-->        
+            
+        <action path="/ConfigurarEstrategia" 
+                type="com.novatronic.sca.action.plan.ConfigurarEstrategiaAction"
+                name="configurarEstrategiaForm"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="configurarEstrategia" path="configurarEstrategia" redirect="true"/>
+        </action>
+        
+        <!--       
         <action path="/TransaccionReporte" 
                 type="com.novatronic.sca.action.reporte.TransaccionReporteAction"
                 name="transaccionReporteForm"
@@ -59,7 +69,6 @@
                 validate="false">
             <forward name="transaccionReporte" path="transaccionReporte" redirect="true"/>
         </action>
-         
         <action path="/Usuario" type="com.novatronic.sca.action.UsuarioAction"
                 name="usuarioForm"
                 parameter="method" 
@@ -216,7 +225,7 @@
             <forward name="olvideClave" path="olvideClave"  redirect="true"/>
             <forward name="volverALogin" path="volverALogin" redirect="true"/>
         </action>
-        
+        -->
     </action-mappings>
     
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

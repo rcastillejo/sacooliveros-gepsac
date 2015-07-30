@@ -4,10 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 
 
-import com.novatronic.pscabas.core.model.Usuario;
 
 public class TiposUtil {
 
@@ -108,11 +106,6 @@ public class TiposUtil {
             return true;
         }
         return false;
-    }
-
-    public static Usuario getUsuarioEnSesion(HttpServletRequest request) {
-        Usuario usuario = (Usuario) request.getSession().getAttribute(Constantes.USUARIO_SESSION);
-        return usuario;
     }
 
     public static Boolean existeAtributoPolitica(String atributo, String valor) {

@@ -10,8 +10,8 @@ import com.sacooliveros.gepsac.controller.module.util.Constantes;
 import com.sacooliveros.gepsac.model.Actividad;
 import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.PlanActividad;
+import com.sacooliveros.gepsac.model.PlanEstrategia;
 import com.sacooliveros.gepsac.model.RestriccionFecha;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class Programacion {
         setFechaFin(plan.getFecFin());
         horasDia = Constantes.HORAS_LABORAL;
         restriccionFechas = plan.getRestriccionFechas();
-        actividades = plan.getActividadesSeleccionadas();
+        setActividades(plan.getEstrategiasSeleccionadas());
         leerHitos(plan.getHitos());
     }
 
@@ -191,8 +191,13 @@ public class Programacion {
         this.restriccionFechas = restriccionFechas;
     }
 
-    public void setActividades(List<PlanActividad> actividades) {
-        this.actividades = actividades;
+    public void setActividades(List<PlanEstrategia> estrategias) {
+        actividades = new ArrayList<>();
+        for (PlanEstrategia estrategiasSeleccionada : estrategias) {
+            for (PlanActividad actividadSeleccionada : estrategiasSeleccionada.getActividadesSeleccionadas()) {
+                actividades.add(actividadSeleccionada);
+            }
+        }
     }
 
     public Calendar getFechaInicio() {
@@ -230,5 +235,5 @@ public class Programacion {
     public List<Date> getHitos() {
         return hitos;
     }
-
+    
 }

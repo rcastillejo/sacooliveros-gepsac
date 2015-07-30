@@ -36,11 +36,11 @@ public abstract class GenericAction<E> extends DispatchAction {
     }
 
     public ActionForward init(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-    	  // System.out.println("ENTROOOOOOOO");
+
         ActionForward actionForward = null;
-    	if(!ActionUtil.estaLogeado(request)){
+    	/*if(!ActionUtil.estaLogeado(request)){
     		ActionUtil.redirectionarALogin(request,response);
-    	}
+    	}*/
     	E action = (E) form;
         try {
             actionForward = initImpl(mapping, action, request, response);        		
@@ -60,8 +60,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        }  catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
@@ -73,8 +71,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        }  catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
@@ -86,8 +82,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        }  catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
@@ -100,8 +94,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : ", e);            
         }
@@ -114,8 +106,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        }catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
@@ -128,8 +118,6 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
@@ -151,8 +139,6 @@ public abstract class GenericAction<E> extends DispatchAction {
                 generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* Num0berFormatException : " + e.getMessage(), e);
-        } catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage(), e);
         }
@@ -176,11 +162,7 @@ public abstract class GenericAction<E> extends DispatchAction {
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
-        try {
             generalAction(resultado, response);
-        } catch (IOException ex) {
-            logger.error("EX* IOException : " + ex.getMessage());
-        }
     }
 
     public void eliminar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -190,14 +172,12 @@ public abstract class GenericAction<E> extends DispatchAction {
             generalAction(resultado, response);
         } catch (NumberFormatException e) {
             logger.error("EX* NumberFormatException : " + e.getMessage());
-        } catch (IOException e) {
-            logger.error("EX* IOException : " + e.getMessage());
         } catch (Exception e) {
             logger.error("EX* Exception : " + e.getMessage());
         }
     }
 
-    protected void generalAction(Resultado resultado, HttpServletResponse response) throws IOException {
+    protected void generalAction(Resultado resultado, HttpServletResponse response) {
         int code = Constantes.CODE_FAILED;
         String json = null;
         String mensaje = null;
@@ -210,8 +190,12 @@ public abstract class GenericAction<E> extends DispatchAction {
         }
         
         if(StringUtils.isNotBlank(mensaje)) {
+            try {
         	response.getWriter().write(mensaje);
-        	response.flushBuffer();
+        	response.flushBuffer();                
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         response.setStatus(code);
     }

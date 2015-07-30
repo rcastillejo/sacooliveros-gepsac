@@ -40,9 +40,9 @@ public class PlanificacionService implements IPlanificacion {
     }
     
     @Override
-    public String configurar(Plan plan) {
+    public String registrar(Plan plan) {
         try {
-            return controller.configurar(plan);
+            return controller.registrar(plan);
         } catch (ConrollerModuleException e) {
             log.error(e.getMessage(), e);
             throw new ServiceException(e.getCodigo(), e.getMessage());
@@ -50,19 +50,29 @@ public class PlanificacionService implements IPlanificacion {
     }
 
     @Override
-    public String aperturar(Plan plan) {
+    public String programar(Plan plan) {
         try {
-            return controller.aperturar(plan);
+            return controller.programar(plan);
         } catch (ConrollerModuleException e) {
             log.error(e.getMessage(), e);
             throw new ServiceException(e.getCodigo(), e.getMessage());
         }
     }
 
-    @Override
+    /*@Override
     public String generar(Plan plan) {
         try {
             return controller.programar(plan);
+        } catch (ConrollerModuleException e) {
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getCodigo(), e.getMessage());
+        }
+    }*/
+
+    @Override
+    public Plan obtenerVigente() throws ServiceException {        
+        try {
+            return controller.obtenerPlanVigente();
         } catch (ConrollerModuleException e) {
             log.error(e.getMessage(), e);
             throw new ServiceException(e.getCodigo(), e.getMessage());

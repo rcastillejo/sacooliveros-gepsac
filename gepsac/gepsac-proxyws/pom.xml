@@ -31,10 +31,12 @@
                     <!--<wsdlDirectory>${basedir}/src/main/resource/wsdl</wsdlDirectory>-->
                     <packageName>com.sacooliveros.gepsac.proxyws</packageName>
                     <!--<wsdlUrls>
-                        <wsdlUrl>http://localhost:8080/SimulaWSUDC/SimulaWSUDC?wsdl</wsdlUrl>
-                    </wsdlUrls>-->   
+                        <wsdlUrl>http://localhost:8180/gepsac-service/PlanificacionService?wsdl</wsdlUrl>
+                        <wsdlUrl>http://localhost:8180/gepsac-service/CommonService?wsdl</wsdlUrl>
+                    </wsdlUrls>-->
                     <wsdlFiles>
-                        <wsdlFile>PlanificacionService.wsdl</wsdlFile>
+                        <wsdlFile>PlanificacionService.xml</wsdlFile>
+                        <wsdlFile>CommonService.xml</wsdlFile>
                     </wsdlFiles>
                     <sourceDestDir>src/main/java</sourceDestDir>
                     <extension>true</extension>

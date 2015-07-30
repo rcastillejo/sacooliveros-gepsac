@@ -11,7 +11,7 @@
     
     <modules>
         <module>gepsac-parent</module>
-        <!--module>gepsac-backoffice</module-->
+        <module>gepsac-backoffice</module>
         <module>gepsac-model</module>
         <module>gepsac-service</module>
         <module>gepsac-controller</module>

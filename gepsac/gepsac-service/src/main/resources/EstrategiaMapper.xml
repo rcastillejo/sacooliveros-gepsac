@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.EstrategiaMapper" >
+  
+    <resultMap id="recordResultMap" type="com.sacooliveros.gepsac.model.Estrategia" >
+        <id column="cod_estrategia" property="codigo" jdbcType="VARCHAR" />
+        <result column="titulo_estrategia" property="nombre" jdbcType="VARCHAR" />
+        <result column="des_estrategia" property="descripcion" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado" jdbcType="VARCHAR" />
+    </resultMap>
+    <!--
+    <resultMap id="actividadResultMap" type="com.sacooliveros.gepsac.model.Actividad">
+        <id column="cod_actividad" property="codigo" jdbcType="VARCHAR" />
+        <result column="nom_actividad" property="nombre" jdbcType="VARCHAR" />
+        <result column="des_actividad" property="descripcion" jdbcType="VARCHAR" />
+    </resultMap>-->
+  
+    <resultMap id="recordEstAct" type="com.sacooliveros.gepsac.model.EstrategiaActividad" >      
+        <id column="cod_actividad" property="actividad.codigo" jdbcType="VARCHAR" />  
+        <result column="cod_estrategia" property="codigoEstrategia" jdbcType="VARCHAR" /> 
+        <result column="nom_actividad" property="actividad.nombre" jdbcType="VARCHAR" />  
+        <result column="des_actividad" property="actividad.descripcion" jdbcType="VARCHAR" /> 
+        <!--<association property="actividad" resultMap="actividadResultMap"/>-->
+    </resultMap>
+ 
+    <select id="query" resultMap="recordResultMap">
+        SELECT
+        cod_estrategia,
+        titulo_estrategia,
+        des_estrategia,
+        fec_registro,
+        cod_estado
+        FROM tp_estrategia
+    </select>
+ 
+    <select id="queryActividad" resultMap="recordEstAct">
+        SELECT
+        a.cod_actividad,
+        a.cod_estrategia,
+        b.nom_actividad,
+        b.des_actividad
+        FROM 
+        tp_estrategia_actividad a inner join tp_actividad b on a.cod_actividad = b.cod_actividad
+        where
+        a.cod_estrategia = #{codigoEstrategia}
+    </select>
+</mapper>

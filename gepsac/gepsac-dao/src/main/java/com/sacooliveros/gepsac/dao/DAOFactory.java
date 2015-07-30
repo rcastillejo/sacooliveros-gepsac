@@ -5,6 +5,8 @@
  */
 package com.sacooliveros.gepsac.dao;
 
+import com.sacooliveros.gepsac.dao.factory.MyBatisDAOFactory;
+import com.sacooliveros.gepsac.dao.factory.MockDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 
 /**
@@ -12,12 +14,12 @@ import com.sacooliveros.gepsac.dao.exception.DAOException;
  * @author rcastillejo
  */
 public abstract class DAOFactory {
-
-    public static final int SP = 1;
+    
+    public static final int MY_IBATIS = 1;
     public static final int MOCK = 2;
-
+    
     private static int whichFactory;
-
+    
     public static void init(String whichFac) {
         try {
             init(Integer.parseInt(whichFac));
@@ -25,21 +27,22 @@ public abstract class DAOFactory {
             throw new DAOException("Error al identificar el factory: " + whichFac, e);
         }
     }
-
+    
     public static void init(int whichFac) {
         whichFactory = whichFac;
     }
-
+    
     public static DAOFactory getDAOFactory() throws DAOException {
         switch (whichFactory) {
-            case SP:
-                return new StoredProcedureDAOFactory();
+            case MY_IBATIS:
+                return new MyBatisDAOFactory();
             case MOCK:
                 return MockDAOFactory.getInstance();
             default:
-                return new StoredProcedureDAOFactory();
+                throw new DAOException("Fabrica DAO invalido [" + whichFactory + "]");
         }
     }
-
-    public abstract PlanEstrategicoDAO getPlanEstrategicoDAO();
+    
+    public abstract PlanDAO getPlanEstrategicoDAO();
+    public abstract EstrategiaDAO getEstrategiaDAO();
 }
