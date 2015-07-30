@@ -1,4 +1,11 @@
-﻿
-DROP TABLE tp_planestrategia;
-DROP TABLE tp_estado;
-
+﻿drop table tp_plan_indicador;
+drop table tp_plan_actividad;
+drop table tp_plan_estrategia;
+drop table tp_estrategia_indicador;
+drop table tp_estrategia_actividad;
+drop table tp_plan_hito;
+drop table tp_plan;
+drop table tp_indicador;
+drop table tp_actividad;
+drop table tp_estrategia;
+drop table tp_estado;
