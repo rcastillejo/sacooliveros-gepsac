@@ -7,10 +7,10 @@ package com.novatronic.sca.action.plan;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.novatronic.sca.form.plan.ConfigurarEstrategiaForm;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
+import com.sacooliveros.gepsac.proxyws.CommonService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
@@ -39,6 +39,35 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
         jsonBuilder = new GsonBuilder().create();
     }
 
+    public void initConsultarEstrategia(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            CommonService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
+
+            Resultado resultado = createSuccessResult(service.listarEstrategia());
+
+            generalAction(resultado, response);
+        } catch (Exception e) {
+            log.error("Error al obtener plan", e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+
+    public void initConsultarActividad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            CommonService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
+            String codigoEstrategia = request.getParameter("codigoEstrategia");
+            log.debug("Consultando actividades de la estrategia [{}]", codigoEstrategia);
+
+            Resultado resultado = createSuccessResult(service.listarEstrategiaActividad(codigoEstrategia));
+
+            generalAction(resultado, response);
+        } catch (Exception e) {
+            log.error("Error al obtener plan", e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+
+    
     public void obtenerPlanRegistrado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);

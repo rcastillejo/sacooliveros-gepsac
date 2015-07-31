@@ -8,20 +8,9 @@
 
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/ZeroClipboard.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/TableTools.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js">
-    var refresco;
-    alert('COLORRRR' + gOptions.color);
-    if (gOptions.enabled) {
-        for (var i = 0; i < gOptions.count; i++) {
-            console.log(gOptions.refresh);
-            refresco = gOptions.refresh;
-        }
-    }
-    alert(refresco);
-    window.setTimeout(function () {
-        document.location.reload(true);
-    }, gOptions.refresh);</script>
-<script type="text/javascript">
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js"></script>
+
+<script type = "text/javascript" >
     //alert('COLORRRR' + gOptions.color);
     var table = '#div-resultado';
     var action = '/ConfigurarEstrategia.do';
@@ -46,65 +35,33 @@
     var myColumnsReq = [];
     var dialog;
 
-    $(function () {
-        cargarPlan();
+    $(document).ready(function () {
+        obtenerPlanRegistrado();
 
         //CargarModal ConsultarEstrategia
-        $("#btnConsultarEstrategia").click(function(e) {
+        $("#btnConsultarEstrategia").click(function (e) {
             e.preventDefault();
-            $('#dialog').load("<%=request.getContextPath()%>" + '/pages/common/consultarEstrategia.jsp').dialog('open');
+            fn_util_AbreModal("",
+                    "<%=request.getContextPath()%>" + '/pages/common/consultarEstrategia.jsp',
+                    900, 500, null);
         });
         
+        //CargarModal ConsultarEstrategia
+        $("#btnConsultarActividad").click(function (e) {
+            e.preventDefault();
+            
+            if(objItemSeleccionado && objItemSeleccionado !== null){
+                fn_util_AbreModal("",
+                        "<%=request.getContextPath()%>" + '/pages/common/consultarActividad.jsp?codigoEstrategia='+objItemSeleccionado.codigo,
+                        900, 500, null);
+            } else{
+                fn_mdl_alert("Debe seleccionar una estrategia", null, "VALIDACIONES");
+            }
+            
+        });
     });
 
-    function initDataTable(id, data) {
-        var table = $('<table id="tbl-resultado"></table>');
-        console.log('Armando la vista listado', id, 'datos', data);
-        table.dataTable({
-            "bFilter": false,
-            "bDestroy": true,
-            //"sDom": 'T<"clear">lfrtip',
-            "bLengthChange": false,
-            "bSortClasses": false,
-            "aaData": data,
-            "bInfo": false,
-            "sPaginationType": "full_numbers",
-            //"aaSorting": [[1, 'asc']],
-            "aaSorting": [[1, 'desc']],
-            "sScrollY": "auto",
-            "sScrollX": "930px",
-            "sScrollXInner": "110%",
-            "oLanguage": {
-                "sUrl": "../resources/language/dataTables.spanish.txt"
-            },
-            "aoColumns": myColumnsReq,
-            "fnDrawCallback": function (oSettings) {
-                if (oSettings.bSorted || oSettings.bFiltered) {
-                    for (var i = 0, iLen = oSettings.aiDisplay.length; i < iLen; i++) {
-                        $('td:eq(0)', oSettings.aoData[oSettings.aiDisplay[i]].nTr).html(i + 1);
-                    }
-                }
-            }
-        });
-        $(id).append(table);
-    }
-
-
-    function initDataCombo(id, data) {
-        console.log('Armando la vista listado Combo', id, 'datos', data);
-        jQuery.each(data, function (i, val) {
-            $(id).append('<option value="' + val.codigo + '">' + val.descripcion + '</option>');
-        });
-    }
-    function initDataComboReporte(id, data) {
-        console.log('Armando la vista listado Combo Reporte', id, 'datos', data);
-        jQuery.each(data, function (i, val) {
-            lista_descripcion[i] = val.nombre_columnas;
-            $(id).append('<option value="' + val.id_reporte + '">' + val.descripcion_reporte + '</option>');
-        });
-    }
-
-    function cargarPlan() {
+    function obtenerPlanRegistrado() {
         $("#mensajeError").empty();
         $.ajax({
             type: "POST",
@@ -112,53 +69,158 @@
             url: "<%=request.getContextPath()%>" + action + '?method=obtenerPlanRegistrado'
         }).done(function (plan) {
             console.log('plan', plan);
-            setPlan(plan);
+            cargarPlan(plan);
         }).fail(function (error) {
             console.log('error', error);
             errorFormulario();
         });
     }
 
-    function setPlan(plan) {
+    function cargarPlan(plan) {
         $("#codigo").val(plan.codigo);
         $("#fecInicio").val(plan.fecInicio.year + '-' + plan.fecInicio.month + '-' + plan.fecInicio.day);
         $("#fecFin").val(plan.fecFin.year + '-' + plan.fecFin.month + '-' + plan.fecFin.day);
     }
 
-    function cargarConsultarEstrategia() {
-        $("#mensajeError").empty();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=consultarEstrategia'
-        }).done(function (estrategias) {
-            console.log('estrategias', estrategias);
-        }).fail(function (error) {
-            console.log('error', error);
-            errorFormulario();
+    function validarItemDuplicado(name, value) {
+        var isValid = true;
+        $("#tblDetalle #tblDetalleEstrategia-"+value+" tbody tr").map(function (index, elem) {
+            if (isValid) {
+                $('.inputValue', this).each(function () {
+                    var k = $(this).data("name");
+                    var v = $(this).val() || $(this).text();
+                    if (isValid && k == name && v == value) {
+                        isValid = false;
+                    }
+                });
+            }
         });
+        return isValid;
+    }
+    function validarItemActividadDuplicado(name, value, estrategia) {
+        var isValid = true;
+        $("#tblDetalleEstrategia-" + estrategia + " #tblDetalleActividad tbody tr").map(function (index, elem) {
+            if (isValid) {
+                $('.inputValue', this).each(function () {
+                    var k = $(this).data("name");
+                    var v = $(this).val() || $(this).text();
+                    if (isValid && k == name && v == value) {
+                        isValid = false;
+                    }
+                });
+            }
+        });
+        return isValid;
     }
 
-    function cargarConsultarActividad() {
-        $("#mensajeError").empty();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=consultarActividad'
-        }).done(function (actividades) {
-            console.log('actividades', actividades);
-        }).fail(function (error) {
-            console.log('error', error);
-            errorFormulario();
-        });
+    var objItemSeleccionado;
+    var objItemActividadSeleccionado;
+
+    function fn_checkListaItemDetalle(objCheck, item) {
+        $('input[id*="chkEliminar"]').prop('checked', false);
+        console.log('obj', objCheck);
+        objCheck.checked = true;
+        //objCheck.prop('checked', false);
+        objItemSeleccionado = item;
     }
+
+    function fn_seleccionarItemDetalle() {
+        console.log('objItemSeleccionado', objItemSeleccionado);
+        if (objItemSeleccionado && objItemSeleccionado !== null) {
+            objItemSeleccionado.remove();
+            objItemSeleccionado = undefined;
+        } else {
+            fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
+        }
+    }
+
+
+    function cargarEstrategia(json) {
+
+        var valid = validarItemDuplicado('codigoEstrategia', json.codigo);
+        if (!valid) {
+            fn_mdl_alert("La estrategia ya se encuetra agregada", null, "VALIDACIONES");
+        } else {
+            console.log('cargando estrategia...', json);
+
+            var table = $("#tblDetalle");
+            var detalle = $("#tblDetalleEstrategia").clone();
+            
+            detalle.attr('id', 'tblDetalleEstrategia-' + json.codigo);
+            detalle.show();
+            
+            detalle.find("#lblCodigo").append(json.codigo);
+            detalle.find("#lblNombre").append(json.nombre);
+
+            table.append(detalle);
+
+            detalle.find("#chkId").click(function () {
+                fn_checkListaItemDetalle($(this).get(0), json);
+            });
+            detalle.find("#lnkEliminar").click(function () {
+                //fn_checkListaItemDetalle($(this).get(0), json);
+                detalle.remove();
+            });
+        }
+
+        fn_util_CierraModal();
+
+    }
+/*
+    function fn_checkListaItemActividad(objCheck, item) {
+        $('input[id*="chkEliminarActividad"]').prop('checked', false);
+        console.log('obj', objCheck);
+        objCheck.checked = true;
+        //objCheck.prop('checked', false);
+        objItemActividadSeleccionado = item;
+    }
+
+    function fn_seleccionarItemActividad() {
+        console.log('objItemActividadSeleccionado', objItemActividadSeleccionado);
+        if (objItemActividadSeleccionado && objItemActividadSeleccionado != null) {
+            objItemActividadSeleccionado.remove();
+            objItemActividadSeleccionado = undefined;
+        } else {
+            fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
+        }
+    }
+
+    function cargarActividad(json) {
+
+        var valid = validarItemDuplicado('codigoActividad', json.listaPrecioId);
+        if (!valid) {
+            fn_mdl_alert("El servicio ya se encuetra agregado", null, "VALIDACIONES");
+        } else {
+
+            console.log('cargando...', json);
+
+            var table = $("#tblDetalle");
+
+            var detalle = $("#tblDetalleEstrategia").clone();
+
+            detalle.find("#lblCodigo").append(json.codigo);
+            detalle.find("#lblNombre").append(json.nombre);
+
+            table.find("tbody").append(detalle);
+
+            detalle.find("#chkEliminar").click(function () {
+                fn_checkListaItemDetalle($(this).get(0), detalle);
+            });
+
+            calcularTotalesDetalle();
+
+        }
+
+        fn_util_CierraModal();
+
+    }
+*/
 </script>
 
 <div class="div-pagina">
 
     <div id="div-pagina-titulo" class="div-pagina-titulo">
         <%--<bean:message key="empresa.titulo" bundle="rsEmpresa" />--%>
-        Configurar Estrategia
     </div>
     <div>
         <input type="button" id="btnConsultarEstrategia" value="Consultar Estrategia" />
@@ -172,12 +234,10 @@
             <!-- INCIO PANEL-->
             <div id="div-busqueda" class="div-busqueda">
                 <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-                    Plan
+                    Configurar Estrategia de Plan
                 </div>
 
-                <div id="div-busqueda-filtros" class="div-busqueda-filtros">                        
-
-
+                <div id="div-busqueda-filtros" class="div-busqueda-filtros">
                     <div class="div-busqueda-filtro">
                         Codigo: 
                         <input id="codigo" type="text" disabled="true">
@@ -200,6 +260,71 @@
 
             <div id="div-resultado">
 
+                <div id="rowDetalleActividad" style="display:none;">   
+                    <table>    
+                        <tr>                
+                            <td>
+                                <input id="chkEliminarActividad" type="checkbox"/>
+                            </td>
+                            <td>
+                                <label id="lblCodigoActividad" class="inputValue" data-name="codigoActividad"></label>
+                            </td>
+                            <td>
+                                <label id="lblNombreActividad"></label>
+                            </td>
+                            <td>
+                                <label id="lblIndicacores" class="inputValue" ></label>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+
+                <div id="tblDetalleEstrategia" style="display: none;">
+                    <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                        <thead>
+                            <tr>
+                                <th>-</th>
+                                <th>N°</th>
+                                <th>Estrategia</th>
+                            </tr>	
+                        </thead>                        
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input id="chkId" type="checkbox"/>
+                                </td>
+                                <td>
+                                    <label id="lblCodigo" class="inputValue" data-name="codigoEstrategia"></label>
+                                </td>
+                                <td>
+                                    <label id="lblNombre"></label>
+                                </td>
+                                <td>
+                                    <button id="lnkEliminar" type="button" value="Eliminar">
+                                        <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                    <table id="tblDetalleActividad" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                        <thead>
+                            <tr>
+                                <th>-</th>
+                                <th>N°</th>
+                                <th>Actividad</th>
+                                <th>Indicadores</th>
+                            </tr>	
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div id="tblDetalle">
+                    
+                </div>
             </div>
 
             <div class="mensaje" >
@@ -213,15 +338,7 @@
                 </span>
             </div>  
 
-            <div>
-                <html:link page="index.jsp" >
-                    Regresar	
-                </html:link>
-            </div>
-
         </html:form>
-
-        <div id="dialog" style="display: none;"></div>  
     </div>
 
 </div>
