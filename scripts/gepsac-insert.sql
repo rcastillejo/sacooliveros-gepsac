@@ -25,6 +25,7 @@ INSERT INTO tp_estado VALUES ('IND0001', 'Activo');
 INSERT INTO tp_estado VALUES ('IND0002', 'Inactivo');
 INSERT INTO tp_estado VALUES ('ACT0001', 'Registrado');
 INSERT INTO tp_estado VALUES ('EST0001', 'Registrado');
+INSERT INTO tp_estado VALUES ('EST0002', 'Configurado');
 INSERT INTO tp_estado VALUES ('EAI0001', 'Activo');
 INSERT INTO tp_estado VALUES ('EAI0002', 'Inactivo');
 INSERT INTO tp_estado VALUES ('PLA0001', 'Registrado');
@@ -48,7 +49,7 @@ INSERT INTO tp_actividad VALUES ('ACT0002', 'Reconocimiento de  los roles del bu
 -- Data for Name: tp_estrategia; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO tp_estrategia VALUES ('EST20150729001', 'Reducir los casos de acoso escolar', 'Reducir los casos de acoso escolar', NULL, 'EST0001');
+INSERT INTO tp_estrategia VALUES ('EST20150729001', 'Reducir los casos de acoso escolar', 'Reducir los casos de acoso escolar', NULL, 'EST0002');
 INSERT INTO tp_estrategia VALUES ('EST20150729002', 'Incrementar la intervención de los padres', 'Incrementar la intervención de los padres', NULL, 'EST0001');
 
 

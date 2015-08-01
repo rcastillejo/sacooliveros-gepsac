@@ -8,6 +8,7 @@ package com.sacooliveros.gepsac.dao;
 
 import com.sacooliveros.gepsac.model.Estrategia;
 import com.sacooliveros.gepsac.model.EstrategiaActividad;
+import com.sacooliveros.gepsac.model.Indicador;
 import java.util.List;
 
 /**
@@ -17,5 +18,6 @@ import java.util.List;
 public interface EstrategiaDAO extends BaseDao<Estrategia>{
     
     List<EstrategiaActividad> listarActividad(String id);
+    List<Indicador> listarIndicador(String estrategiaId, String actividadId);
     
 }

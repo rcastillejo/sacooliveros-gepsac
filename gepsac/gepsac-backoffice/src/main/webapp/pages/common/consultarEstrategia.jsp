@@ -40,8 +40,7 @@
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            $("#mensajeError").append(error);
-            //fn_mdl_alert("Error al obtener el listado de estrategias", null, "CONSULTAS");
+            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "CONSULTAS");
         });
     }
 
@@ -62,6 +61,7 @@
         detalle.find("#lblCodigo").append(json.codigo);
         detalle.find("#lblNombre").append(json.nombre);
         detalle.find("#lblDescripcion").append(json.descripcion);
+        detalle.find("#lblEstado").append(json.estado.nombre);
 
         table.find("tbody").append(detalle);
 
@@ -79,11 +79,6 @@
     function fn_seleccionar() {
         if (item && item != null) {
             console.log("itemSeleccionado", item);
-            /*if (item.estado == "EST0001") {
-                parent.cargarEstrategia(item);
-            } else {
-                fn_mdl_alert("No puede se puede realizar la liquidación del Siniestro de Tipo Choque", null, "VALIDACIONES");
-            }*/
             parent.cargarEstrategia(item);
         } else {
             fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
@@ -134,6 +129,9 @@
                     <td>
                         <label id="lblDescripcion" class="inputValue" data-name="descripcion" ></label>
                     </td>
+                    <td>
+                        <label id="lblEstado" class="inputValue" data-name="estado" ></label>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -145,6 +143,7 @@
                     <th>Código</th>	
                     <th>Nombre</th>
                     <th>Descripcion</th>
+                    <th>Estado</th>
                 </tr>	
             </thead>
             <tbody></tbody>

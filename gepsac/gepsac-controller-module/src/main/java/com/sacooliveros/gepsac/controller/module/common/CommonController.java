@@ -52,6 +52,11 @@ public class CommonController {
         try {
             EstrategiaDAO dao = DAOFactory.getDAOFactory().getEstrategiaDAO();
             listado = dao.listarActividad(codigoEstrategia);
+            
+            for (EstrategiaActividad actividad : listado) {
+                actividad.setIndicadores(dao.listarIndicador(codigoEstrategia, actividad.getActividad().getCodigo()));
+            }
+            
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
         }

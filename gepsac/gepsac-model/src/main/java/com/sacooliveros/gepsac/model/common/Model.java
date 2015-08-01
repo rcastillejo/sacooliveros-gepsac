@@ -19,7 +19,7 @@ public class Model implements Serializable{
     private String usuCre;
     private Date fecMod;
     private String usuMod;
-    private String estado;
+    private Estado estado;
 
     public Model() {
     }
@@ -64,13 +64,20 @@ public class Model implements Serializable{
         this.usuMod = usuMod;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
-
+    
     public void setEstado(String estado) {
+        Estado est = new Estado();
+        est.setCodigo(estado);
+        this.estado = est;
+    }
+    
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
+
 
     @Override
     public String toString() {

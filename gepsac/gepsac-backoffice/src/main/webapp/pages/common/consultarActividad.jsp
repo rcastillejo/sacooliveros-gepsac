@@ -45,8 +45,8 @@
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            $("#mensajeError").append(error);
-            //fn_mdl_alert("Error al obtener el listado de estrategias", null, "CONSULTAS");
+            //$("#mensajeError").append(error);
+            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "CONSULTAS");
         });
     }
 
@@ -64,9 +64,9 @@
 
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
-        detalle.find("#lblCodigo").append(json.codigo);
-        detalle.find("#lblNombre").append(json.nombre);
-        detalle.find("#lblDescripcion").append(json.descripcion);
+        detalle.find("#lblCodigo").append(json.actividad.codigo);
+        detalle.find("#lblNombre").append(json.actividad.nombre);
+        detalle.find("#lblDescripcion").append(json.actividad.descripcion);
 
         table.find("tbody").append(detalle);
 
@@ -84,12 +84,7 @@
     function fn_seleccionar() {
         if (item && item != null) {
             console.log("itemSeleccionado", item);
-            /*if (item.estado == "EST0001") {
-                parent.cargarEstrategia(item);
-            } else {
-                fn_mdl_alert("No puede se puede realizar la liquidación del Siniestro de Tipo Choque", null, "VALIDACIONES");
-            }*/
-            parent.cargarEstrategia(item);
+            parent.cargarActividad(item);
         } else {
             fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
         }
@@ -103,7 +98,7 @@
     <!-- INCIO PANEL-->
     <div id="div-busqueda" class="div-busqueda">
         <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-            Consulta de Estrategias
+            Consulta de Actividades
         </div>
 
         <div id="div-busqueda-filtros" class="div-busqueda-filtros">

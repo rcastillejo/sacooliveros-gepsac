@@ -18,7 +18,7 @@
         <result column="fec_registro" property="fecRegistro" jdbcType="DATE" />
         <result column="fec_inicio" property="fecInicio" jdbcType="DATE" />
         <result column="fec_fin" property="fecFin" jdbcType="DATE" />
-        <result column="cod_estado" property="estado" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
     </resultMap>
   
     <select id="query" resultMap="recordResultMap">

@@ -20,7 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="codigo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="estado" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="estado" type="{http://service.gepsac.sacooliveros.com/}estado" minOccurs="0"/>
  *         &lt;element name="fecCre" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecMod" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="usuCre" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -50,7 +50,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Model {
 
     protected String codigo;
-    protected String estado;
+    protected Estado estado;
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar fecCre;
     @XmlSchemaType(name = "dateTime")
@@ -87,10 +87,10 @@ public class Model {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Estado }
      *     
      */
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
@@ -99,10 +99,10 @@ public class Model {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Estado }
      *     
      */
-    public void setEstado(String value) {
+    public void setEstado(Estado value) {
         this.estado = value;
     }
 

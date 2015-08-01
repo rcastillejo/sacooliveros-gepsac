@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.EstrategiaMapper;
 import com.sacooliveros.gepsac.model.Estrategia;
 import com.sacooliveros.gepsac.model.EstrategiaActividad;
+import com.sacooliveros.gepsac.model.Indicador;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,6 +93,22 @@ public class EstrategiaMyIbatisDAO extends GenericMyIbatisDAO implements Estrate
             //mapper = getMapper(EstrategiaMapper.class);
             List<EstrategiaActividad> listado = session.selectList("queryActividad", id);//mapper.queryActividad(id);
             log.debug("Listado Actividad tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
+            return listado;
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<Indicador> listarIndicador(String estratediaId, String actividadId) {
+        SqlSession session = null;
+        EstrategiaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EstrategiaMapper.class);
+            List<Indicador> listado = mapper.queryIndicador(estratediaId, actividadId);
+            log.debug("Listado Indicador tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
             return listado;
         } finally {
             closeConnection(session);
