@@ -14,7 +14,6 @@ import com.sacooliveros.gepsac.proxyws.CommonService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +30,8 @@ import org.slf4j.LoggerFactory;
  */
 public class ConfigurarEstrategiaAction extends DispatchAction {
 
-    private static final Logger log = LoggerFactory.getLogger(ConfigurarEstrategiaAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurarEstrategiaAction.class);
     private final Gson jsonBuilder;
-    private Map parametros;
 
     public ConfigurarEstrategiaAction() {
         jsonBuilder = new GsonBuilder().create();
@@ -47,7 +45,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            log.error("Error al obtener plan", e);
+            logger.error("Error al obtener plan", e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -56,27 +54,45 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
         try {
             CommonService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
             String codigoEstrategia = request.getParameter("codigoEstrategia");
-            log.debug("Consultando actividades de la estrategia [{}]", codigoEstrategia);
+            logger.debug("Consultando actividades de la estrategia [{}]", codigoEstrategia);
 
             Resultado resultado = createSuccessResult(service.listarEstrategiaActividad(codigoEstrategia));
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            log.error("Error al obtener plan", e);
+            logger.error("Error al obtener plan", e);
             generalAction(createErrorResult(e), response);
         }
     }
 
-    
+    public void guardarConfiguracionPlan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("guardarConfiguracionPlan ... ");
+        try {
+            PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
+            String json = request.getParameter("data");
+            logger.debug("json [{}]", json);
+            com.sacooliveros.gepsac.proxyws.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.Plan.class);
+
+            logger.debug("plan [{}]", plan);
+            //String msg = service.programar(plan);
+
+            generalAction(createSuccessResult(""), response);
+        } catch (Exception e) {
+            logger.error("Error al guardar la configuracion del plan", e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+
     public void obtenerPlanRegistrado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("obtenerPlanRegistrado ...");
         try {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
 
             Resultado resultado = createSuccessResult(service.obtenerVigente());
-
+            
             generalAction(resultado, response);
         } catch (Exception e) {
-            log.error("Error al obtener plan", e);
+            logger.error("Error al obtener plan", e);
             generalAction(createErrorResult(e), response);
         }
     }

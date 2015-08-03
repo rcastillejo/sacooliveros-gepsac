@@ -52,7 +52,7 @@
 
             var sError = validarConfiguracion();
 
-            if (sError == "") {
+            if (sError === "") {
                 fn_mdl_confirma("¿Está seguro que desea guardar la configuracion del Plan?",
                         function () {
                             guardarConfiguracion();
@@ -70,7 +70,128 @@
         //$('.tooltip').tooltip();
 
     });
-    //TODO: validarConfiguracion, guardarConfiguracion
+
+    function validarConfiguracion() {
+        var sError = "";
+
+        var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
+
+        if (elEstrategias.length === 0) {
+            sError = sError + "   - Debe agregar al menos una estrategia. <br/>";
+        } else {
+            elEstrategias.map(function (index, elem) {
+                var actividades = 0;
+                console.log('index', index, 'elem', elem);
+
+                var codEstrategia = $(this).find('#lblCodigo').text();
+
+                var elActividad = $(this).find('.actividad');
+                var codActividad = elActividad.find('#lblCodigoActividad').text();
+
+                console.log('elActividad', elActividad, 'lblActividad', codActividad);
+
+                actividades += elActividad.length;
+
+                if (actividades === 0) {
+                    sError = sError + "   - Debe agregar al menos una actividad para la estrategia " + codEstrategia + " <br/>";
+                }
+            });
+        }
+        return sError;
+    }
+
+    function serializeConfiguracionPlan(){
+        var dataSerialize = {};
+        var listadoVal = [];
+
+        var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
+        
+
+        elEstrategias.map(function (index, elem) {
+            var estrategia = {};
+            var actividades = [];
+
+            var elEstrategia = $(this).find('#tblEstrategia');
+            var elActividades = $(this).find('#tblDetalleActividad');
+
+
+            estrategia = getData(elEstrategia);
+
+            elActividades.find("tbody tr").each(function () {
+                var actividad = getData($(this));
+                var lstIndicadores = [];
+                var indicadores = actividad.indicadores.split(',');                
+                
+                for(var i in indicadores){                    
+                    lstIndicadores.push({'codigo': indicadores[i]});
+                }
+                
+                actividad['indicadores'] = lstIndicadores;
+                actividades.push(actividad);
+            });
+
+
+            var str = elActividades.serialize();
+            console.log('serialize', str);
+
+            estrategia['actividades'] = actividades;
+
+            listadoVal.push(estrategia);
+            console.log('listDetalle', listadoVal);
+        });
+        
+        dataSerialize = getData($("#div-busqueda-filtros"));
+        dataSerialize["estrategiasSeleccionadas"] = listadoVal;
+        
+        console.log("dataSerialize", dataSerialize);
+        return dataSerialize;
+    }
+
+    function getData(jQueryEl) {
+        var data = {};
+        jQueryEl.find(".inputValue").each(function () {
+            var k = $(this).data("name");
+            var v = $(this).val() || $(this).text();
+            if (v && v !== '') {
+                var ks = k.split(".");
+                if (ks.length === 1) {
+                    data[ks[0]] = v;
+                } else {
+                    var d = data[ks[0]] || {};
+                    d[ks[1]] = v;
+                    data[ks[0]] = d;
+                }
+            }
+
+        });
+
+
+        return data;
+    }
+
+    function guardarConfiguracion() {
+        var data = serializeConfiguracionPlan();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&data='
+        }).done(function (msg) {
+            console.log('msg', msg);
+            //cargarPlan(plan);
+            fn_mdl_alert(msg, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "CONFIRMACION");
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "CONFIRMACION");
+        });
+        
+        //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
+        //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
+
+    }
 
     function obtenerPlanRegistrado() {
         $("#mensajeError").empty();
@@ -83,7 +204,9 @@
             cargarPlan(plan);
         }).fail(function (error) {
             console.log('error', error);
-            errorFormulario();
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "CONSULTAS");
         });
     }
 
@@ -100,7 +223,7 @@
                 $('.inputValue', this).each(function () {
                     var k = $(this).data("name");
                     var v = $(this).val() || $(this).text();
-                    if (isValid && k == name && v == value) {
+                    if (isValid && k === name && v === value) {
                         isValid = false;
                     }
                 });
@@ -108,6 +231,7 @@
         });
         return isValid;
     }
+
     function validarItemActividadDuplicado(name, value, estrategia) {
         var isValid = true;
         $("#tblDetalleEstrategia-" + estrategia + " #tblDetalleActividad tbody tr").map(function (index, elem) {
@@ -115,7 +239,7 @@
                 $('.inputValue', this).each(function () {
                     var k = $(this).data("name");
                     var v = $(this).val() || $(this).text();
-                    if (isValid && k == name && v == value) {
+                    if (isValid && k === name && v === value) {
                         isValid = false;
                     }
                 });
@@ -123,7 +247,7 @@
         });
         return isValid;
     }
-    
+
     function cargarEstrategia(json) {
 
         if (json.estado.codigo === "EST0002") {
@@ -172,7 +296,7 @@
         fn_util_CierraModal();
 
     }
-    
+
     function cargarActividad(json) {
 
         var valid = validarItemActividadDuplicado('codigoActividad', json.actividad.codigo, json.codigoEstrategia);
@@ -185,15 +309,22 @@
             var table = $("#tblDetalleEstrategia-" + json.codigoEstrategia + " #tblDetalleActividad");
 
             var detalle = $("#rowDetalleActividad").find("tbody tr").clone();
-
+            detalle.attr('id', json.actividad.codigo);
+            detalle.attr('class', 'actividad');
             detalle.find("#lblCodigoActividad").append(json.actividad.codigo);
             detalle.find("#lblNombreActividad").append(json.actividad.nombre);
 
-            for (var i in json.indicadores) {
-                var indicador = json.indicadores[i];
-                //var tooltip = $('<a href="#" class="tooltip" ></a>').attr('title', indicador.codigo + '<br/>' + indicador.nombre).append(indicador.nombre);
+            var indicadores = json.indicadores;
+            for (var i in indicadores) {
+                var indicador = indicadores[i];
+                detalle.find("#hdnIndicadores").append(indicador.codigo);
                 detalle.find("#lblIndicadores").append(indicador.nombre);
-                detalle.find("#lblIndicadores").append(',');
+
+                if (indicadores.length - 1 > i) {
+                    detalle.find("#hdnIndicadores").append(',');
+                    detalle.find("#lblIndicadores").append('<br/>');
+                }
+
             }
 
             table.find("tbody").append(detalle);
@@ -224,8 +355,6 @@
         <%--<bean:message key="empresa.titulo" bundle="rsEmpresa" />--%>
     </div>
     <div>
-        <asp:Button ID="btnGrabar" runat="server" Text="" OnClientClick="return cargarDetallePresupuesto();" OnClick="btnGrabar_Click" ClientIDMode="Static" Style="display: none;" />
-
         <input type="button" id="btnConsultarEstrategia" value="Consultar Estrategia" />
         <input type="button" id="btnGuardarConfiguracion" value="Guardar Configuración" />
         <input type="button" id="btnAgregarEstrategia" value="Agregar Estrategia" />
@@ -242,7 +371,7 @@
                 <div id="div-busqueda-filtros" class="div-busqueda-filtros">
                     <div class="div-busqueda-filtro">
                         Codigo: 
-                        <input id="codigo" type="text" disabled="true">
+                        <input id="codigo" type="text" disabled="true" class="inputValue" data-name="codigo">
                     </div>
                     <div class="div-busqueda-filtro">
                         Fecha Inicio: 
@@ -266,13 +395,14 @@
                     <table>    
                         <tr>
                             <td>
-                                <label id="lblCodigoActividad" class="inputValue" data-name="codigoActividad"></label>
+                                <label id="lblCodigoActividad" class="inputValue" data-name="actividad.codigo" name="actividad.codigo"></label>
                             </td>
                             <td>
                                 <label id="lblNombreActividad"></label>
                             </td>
                             <td>
-                                <label id="lblIndicadores" class="inputValue" ></label>
+                                <label id="hdnIndicadores" class="inputValue" data-name="indicadores" name="indicadores" style="display: none"></label>
+                                <label id="lblIndicadores" ></label>
                             </td>
                             <td>
                                 <button id="lnkEliminarActividad" type="button" value="Eliminar">
@@ -285,7 +415,7 @@
 
 
                 <div id="tblDetalleEstrategia" style="display: none;">
-                    <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                    <table id="tblEstrategia" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
                         <thead>
                             <tr>
                                 <th>N°</th>
@@ -295,7 +425,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <label id="lblCodigo" class="inputValue" data-name="codigoEstrategia"></label>
+                                    <label id="lblCodigo" class="inputValue" data-name="codigoEstrategia" name="codigoEstrategia"></label>
                                 </td>
                                 <td>
                                     <label id="lblNombre"></label>
