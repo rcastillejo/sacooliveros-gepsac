@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class PlanEstrategia extends Estrategia {
 
+    private String codigoPlan;
     private List<PlanActividad> actividadesSeleccionadas;
 
     public List<PlanActividad> getActividadesSeleccionadas() {
@@ -23,9 +24,17 @@ public class PlanEstrategia extends Estrategia {
         this.actividadesSeleccionadas = actividadesSeleccionadas;
     }
 
+    public String getCodigoPlan() {
+        return codigoPlan;
+    }
+
+    public void setCodigoPlan(String codigoPlan) {
+        this.codigoPlan = codigoPlan;
+    }
+
     @Override
     public String toString() {
-        return "PlanEstrategia{" + "actividadesSeleccionadas=" + actividadesSeleccionadas + '}';
+        return "PlanEstrategia{" + "codigoPlan=" + codigoPlan + ", actividadesSeleccionadas=" + actividadesSeleccionadas + '}';
     }
 
 }

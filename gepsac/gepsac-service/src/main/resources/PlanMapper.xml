@@ -60,4 +60,31 @@
         where
         cod_plan = #{codigo}
     </select>
+  
+    <update id="update">
+        Update tp_plan set 
+            fec_registro = #{fecRegistro}, fec_programacion = #{fecProgramacion}, fec_configuracion = #{fecConfiguracion}, 
+            fec_inicio = #{fecInicio}, fec_fin = #{fecFin}, cod_estado = #{estado.codigo}
+        where anio = #{anio} and cod_plan = #{codigo}
+    </update>
+  
+    <insert id="insertEstrategia">
+        Insert into tp_plan_estrategia (cod_plan, cod_estrategia) 
+        Values (#{codigoPlan}, #{codigo})
+    </insert>
+    
+    <insert id="insertActividad">
+        Insert into tp_plan_actividad (cod_plan, cod_estrategia, cod_actividad, cod_estado) 
+        Values (#{codigoPlan}, #{codigoEstrategia}, #{actividad.codigo}, #{estado.codigo})
+    </insert>
+  
+    <delete id="deleteEstrategia">
+        Delete from tp_plan_estrategia
+        where cod_plan= #{codigoPlan}
+    </delete>
+    
+    <delete id="deleteActividad">
+        Delete from tp_plan_actividad
+        where cod_plan= #{codigoPlan}
+    </delete>
 </mapper>

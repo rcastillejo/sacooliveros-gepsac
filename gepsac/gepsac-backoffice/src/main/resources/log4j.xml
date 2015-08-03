@@ -53,6 +53,11 @@
         <level value="DEBUG" />
         <appender-ref ref="TRAZADO"/>
     </logger>
+    
+    <logger name="com.novatronic.sca.action" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="TRAZADO"/>
+    </logger>
 
     <root>
         <level value="ERROR" />        

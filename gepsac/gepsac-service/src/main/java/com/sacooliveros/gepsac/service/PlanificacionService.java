@@ -79,4 +79,14 @@ public class PlanificacionService implements IPlanificacion {
         }
     }
 
+    @Override
+    public String configurar(Plan plan) throws ServiceException {                
+        try {
+            return controller.configurar(plan);
+        } catch (ConrollerModuleException e) {
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getCodigo(), e.getMessage());
+        }
+    }
+
 }

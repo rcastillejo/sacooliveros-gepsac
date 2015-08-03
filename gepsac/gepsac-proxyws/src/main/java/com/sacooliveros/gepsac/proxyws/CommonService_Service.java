@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.1
  * 
  */
-@WebServiceClient(name = "CommonService", targetNamespace = "http://service.gepsac.sacooliveros.com/", wsdlLocation = "file:/D:/UPC/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml")
+@WebServiceClient(name = "CommonService", targetNamespace = "http://service.gepsac.sacooliveros.com/", wsdlLocation = "file:/D:/rcastillejo/Documentos/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml")
 public class CommonService_Service
     extends Service
 {
@@ -30,9 +30,9 @@ public class CommonService_Service
         try {
             URL baseUrl;
             baseUrl = com.sacooliveros.gepsac.proxyws.CommonService_Service.class.getResource(".");
-            url = new URL(baseUrl, "file:/D:/UPC/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml");
+            url = new URL(baseUrl, "file:/D:/rcastillejo/Documentos/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml");
         } catch (MalformedURLException e) {
-            logger.warning("Failed to create URL for the wsdl Location: 'file:/D:/UPC/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml', retrying as a local file");
+            logger.warning("Failed to create URL for the wsdl Location: 'file:/D:/rcastillejo/Documentos/PI2/fuentes/sacooliveros-gepsac/gepsac/gepsac-proxyws/src/wsdl/CommonService.xml', retrying as a local file");
             logger.warning(e.getMessage());
         }
         COMMONSERVICE_WSDL_LOCATION = url;

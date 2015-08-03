@@ -14,6 +14,7 @@ CREATE TABLE tp_plan
   anio int NOT NULL,
   
   fec_registro timestamp without time zone, 
+  fec_configuracion timestamp without time zone, 
   fec_programacion timestamp without time zone,
   
   fec_inicio timestamp without time zone, 

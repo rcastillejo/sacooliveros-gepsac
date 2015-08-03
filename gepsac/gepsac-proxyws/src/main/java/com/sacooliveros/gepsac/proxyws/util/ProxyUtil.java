@@ -16,12 +16,14 @@ import javax.xml.ws.BindingProvider;
  * @author Ricardo
  */
 public class ProxyUtil {
+    private static final String PLAN_ENDPOINT = "http://localhost:8180/gepsac-service/PlanificacionService";
+    private static final String COMMON_ENDPOINT = "http://localhost:8180/gepsac-service/CommonService";
 
     public static PlanificacionService getPlanificacionServicePort(long timeout) {
         PlanificacionService_Service service = new PlanificacionService_Service();
         PlanificacionService port = service.getPlanificacionServicePort();
         BindingProvider bp = (BindingProvider) port;
-        //bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
+        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, PLAN_ENDPOINT);
         bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", timeout);
         bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", timeout);
         return port;
@@ -31,7 +33,7 @@ public class ProxyUtil {
         CommonService_Service service = new CommonService_Service();
         CommonService port = service.getCommonServicePort();
         BindingProvider bp = (BindingProvider) port;
-        //bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
+        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, COMMON_ENDPOINT);
         bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", timeout);
         bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", timeout);
         return port;

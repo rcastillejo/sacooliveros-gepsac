@@ -7,6 +7,8 @@
 package com.sacooliveros.gepsac.dao;
 
 import com.sacooliveros.gepsac.model.Plan;
+import com.sacooliveros.gepsac.model.PlanActividad;
+import com.sacooliveros.gepsac.model.PlanEstrategia;
 
 /**
  *
@@ -14,6 +16,10 @@ import com.sacooliveros.gepsac.model.Plan;
  */
 public interface PlanDAO extends BaseDao<Plan>{ 
     Plan obtenerVigente(int anio);
+    void deleteEstrategia(String codigoPlan);
+    void deleteActividad(String codigoPlan);
+    void insertEstrategia(PlanEstrategia estrategia);
+    void insertActividad(PlanActividad actividad);
     /*
     Map buscarComoReporteInicio();
     Map listar(Map fecha);

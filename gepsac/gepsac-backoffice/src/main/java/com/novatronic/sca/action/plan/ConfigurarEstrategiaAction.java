@@ -66,17 +66,18 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
     }
 
     public void guardarConfiguracionPlan(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        logger.debug("guardarConfiguracionPlan ... ");
+        logger.debug("guardando configuracion del plan ... ");
         try {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
-            String json = request.getParameter("data");
+            String json = request.getParameter("configuracionPlan");
             logger.debug("json [{}]", json);
             com.sacooliveros.gepsac.proxyws.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.Plan.class);
 
             logger.debug("plan [{}]", plan);
-            //String msg = service.programar(plan);
-
-            generalAction(createSuccessResult(""), response);
+            String msg = service.configurar(plan);
+            
+            logger.info("Configuracion plan guardado [{}]", msg);
+            generalAction(createSuccessResult(msg), response);
         } catch (Exception e) {
             logger.error("Error al guardar la configuracion del plan", e);
             generalAction(createErrorResult(e), response);

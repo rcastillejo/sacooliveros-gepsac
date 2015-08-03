@@ -1,9 +1,10 @@
 package com.sacooliveros.gepsac.dao.mybatis.mapper;
 
 import com.sacooliveros.gepsac.model.Plan;
+import com.sacooliveros.gepsac.model.PlanActividad;
+import com.sacooliveros.gepsac.model.PlanEstrategia;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 
 public interface PlanMapper {
 
@@ -13,16 +14,16 @@ public interface PlanMapper {
 
     public Plan obtenerVigente(@Param("anio") int anio);
 
-    @Update("Update tp_plan set "
-            + "fec_registro = #{fecRegistro}, fec_programacion = #{fecProgramacion} "
-            + "fec_inicio = #{fecInicio}, fec_fin = #{fecFin}, cod_estado = #{estado.codigo} "
-            + "tituo = #{titulo} where anio = #{anio} and cod_plan = #{codigo}")
     public int update(Plan model);
+    
+    public int insertEstrategia(PlanEstrategia model);
+    
+    public int insertActividad(PlanActividad model);
+    
+    public int deleteEstrategia(String codigoPlan);
+    
+    public int deleteActividad(String codigoPlan);
 
-    @Update("Update tp_plan set "
-            + "fec_registro = #{fecRegistro}, fec_programacion = #{fecProgramacion} "
-            + "fec_inicio = #{fecInicio}, fec_fin = #{fecFin}, cod_estado = #{estado.codigo} "
-            + "tituo = #{titulo} where anio = #{anio} and cod_plan = #{codigo}")
-    public int insert(Plan model);
+    //public int insert(Plan model);
 
 }

@@ -9,9 +9,12 @@ import com.sacooliveros.gepsac.dao.PlanDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.PlanMapper;
 import com.sacooliveros.gepsac.model.Plan;
-import java.util.ArrayList;
+import com.sacooliveros.gepsac.model.PlanActividad;
+import com.sacooliveros.gepsac.model.PlanEstrategia;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -19,10 +22,9 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
 
-    private final List<Plan> planes;
+    private static final Logger log = LoggerFactory.getLogger(PlanMyIbatisDAO.class);
 
     public PlanMyIbatisDAO() {
-        planes = new ArrayList();
     }
 
     @Override
@@ -33,37 +35,43 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
         try {
             session = getConnection();
             mapper = session.getMapper(PlanMapper.class);
-            return mapper.query();
+            List listado = mapper.query();
+            log.debug("Listado Actividad tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
+            return listado;
         } finally {
             closeConnection(session);
         }
     }
 
-
     @Override
     public Plan obtener(String id) {
+        Plan plan;
         SqlSession session = null;
         PlanMapper mapper;
 
         try {
             session = getConnection();
             mapper = session.getMapper(PlanMapper.class);
+            plan = mapper.get(id);
+            log.info("Plan obtenido [{}]", plan);
             return mapper.get(id);
         } finally {
             closeConnection(session);
         }
     }
-    
+
     @Override
     public Plan obtenerVigente(int anio) {
-        
+        Plan planVigente;
         SqlSession session = null;
         PlanMapper mapper;
 
         try {
             session = getConnection();
             mapper = session.getMapper(PlanMapper.class);
-            return mapper.obtenerVigente(anio);
+            planVigente = mapper.obtenerVigente(anio);
+            log.info("Plan vigente obtenido [{}]", planVigente);
+            return planVigente;
         } finally {
             closeConnection(session);
         }
@@ -82,9 +90,50 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
         try {
             session = getConnection();
             mapper = session.getMapper(PlanMapper.class);
+            log.debug("Actualizando [{}] ...", plan);
             if (mapper.update(plan) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
+            session.commit();
+            log.info("Plan actualizado [{}]", plan);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public void insertEstrategia(PlanEstrategia estrategia) {
+        SqlSession session = null;
+        PlanMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(PlanMapper.class);
+            log.debug("Ingresando [{}] ...", estrategia);
+            if (mapper.insertEstrategia(estrategia) == 0) {
+                throw new DAOException("No se pudo ingresar");
+            }
+            session.commit();
+            log.info("Estrategia ingresada [{}]", estrategia);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public void insertActividad(PlanActividad actividad) {
+        SqlSession session = null;
+        PlanMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(PlanMapper.class);
+            log.debug("Ingresando [{}] ...", actividad);
+            if (mapper.insertActividad(actividad) == 0) {
+                throw new DAOException("No se pudo ingresar");
+            }
+            session.commit();
+            log.info("Actividad ingresada [{}]", actividad);
         } finally {
             closeConnection(session);
         }
@@ -92,7 +141,45 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
 
     @Override
     public void eliminar(Plan plan) {
-        
+
+    }
+
+    @Override
+    public void deleteEstrategia(String codigoPlan) {
+        SqlSession session = null;
+        PlanMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(PlanMapper.class);
+            log.debug("Eliminado [{}] ...", codigoPlan);
+            if (mapper.deleteEstrategia(codigoPlan) == 0) {
+                throw new DAOException("No se pudo eliminar");
+            }
+            session.commit();
+            log.info("Estrategias del plan [{}] eliminados", codigoPlan);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public void deleteActividad(String codigoPlan) {
+        SqlSession session = null;
+        PlanMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(PlanMapper.class);
+            log.debug("Eliminado [{}] ...", codigoPlan);
+            if (mapper.deleteActividad(codigoPlan) == 0) {
+                throw new DAOException("No se pudo eliminar");
+            }
+            session.commit();
+            log.info("Actividades del plan [{}] eliminados", codigoPlan);
+        } finally {
+            closeConnection(session);
+        }
     }
 
 }

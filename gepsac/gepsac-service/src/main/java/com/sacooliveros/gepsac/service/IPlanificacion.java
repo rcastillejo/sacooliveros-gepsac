@@ -26,10 +26,10 @@ public interface IPlanificacion {
     @WebMethod(operationName = "registrar")
     String registrar(@WebParam(name = "plan")Plan plan) throws ServiceException;
     
+    @WebMethod(operationName = "configurar")
+    String configurar(@WebParam(name = "plan")Plan plan) throws ServiceException;
+    
     @WebMethod(operationName = "programar")
     String programar(@WebParam(name = "plan")Plan plan) throws ServiceException;
-    
-    /*@WebMethod(operationName = "generar")
-    String generar(@WebParam(name = "plan")Plan plan) throws ServiceException;*/
-    
+        
 }

@@ -5,6 +5,7 @@
  */
 package com.sacooliveros.gepsac.model;
 
+import com.sacooliveros.gepsac.model.common.Estado;
 import java.util.Date;
 
 /**
@@ -13,10 +14,12 @@ import java.util.Date;
  */
 public class PlanActividad extends EstrategiaActividad {
 
+    private String codigoPlan;
     private Date fechaProgramada;
     private Date fechaEjecutada;
     private int meta;
     private boolean programado;
+    private Estado estado;
 
     public void setProgramado(boolean programado) {
         this.programado = programado;
@@ -50,9 +53,26 @@ public class PlanActividad extends EstrategiaActividad {
         return programado;
     }
 
+    public String getCodigoPlan() {
+        return codigoPlan;
+    }
+
+    public void setCodigoPlan(String codigoPlan) {
+        this.codigoPlan = codigoPlan;
+    }
+
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
-        return "PlanActividad{" + "fechaProgramada=" + fechaProgramada + ", fechaEjecutada=" + fechaEjecutada + ", meta=" + meta + ", programado=" + programado + '}';
+        return "PlanActividad{" + "codigoPlan=" + codigoPlan + ", fechaProgramada=" + fechaProgramada + ", fechaEjecutada=" + fechaEjecutada + ", meta=" + meta + ", programado=" + programado + ", estado=" + estado + '}';
     }
+
 
 }

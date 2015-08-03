@@ -29,6 +29,23 @@ public interface PlanificacionService {
      * @param arg0
      * @return
      *     returns java.lang.String
+     * @throws ServiceException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "configurar", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.Configurar")
+    @ResponseWrapper(localName = "configurarResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ConfigurarResponse")
+    public String configurar(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Plan arg0)
+        throws ServiceException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
      */
     @WebMethod
     @WebResult(targetNamespace = "")

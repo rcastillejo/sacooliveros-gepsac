@@ -109,4 +109,9 @@ public class Plan extends Model {
         this.estrategiasSeleccionadas = estrategiasSeleccionadas;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + ", " + "Plan{" + "fecRegistro=" + fecRegistro + ", fecConfiguracion=" + fecConfiguracion + ", fecProgramacion=" + fecProgramacion + ", fecInicio=" + fecInicio + ", fecFin=" + fecFin + ", titulo=" + titulo + ", anio=" + anio + ", hitos=" + hitos + ", restriccionFechas=" + restriccionFechas + ", estrategiasSeleccionadas=" + estrategiasSeleccionadas + '}';
+    }
+
 }

@@ -134,7 +134,7 @@
             var str = elActividades.serialize();
             console.log('serialize', str);
 
-            estrategia['actividades'] = actividades;
+            estrategia['actividadesSeleccionadas'] = actividades;
 
             listadoVal.push(estrategia);
             console.log('listDetalle', listadoVal);
@@ -174,7 +174,7 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&data='
+            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&configuracionPlan='+JSON.stringify(data)
         }).done(function (msg) {
             console.log('msg', msg);
             //cargarPlan(plan);
@@ -425,7 +425,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <label id="lblCodigo" class="inputValue" data-name="codigoEstrategia" name="codigoEstrategia"></label>
+                                    <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
                                 </td>
                                 <td>
                                     <label id="lblNombre"></label>
