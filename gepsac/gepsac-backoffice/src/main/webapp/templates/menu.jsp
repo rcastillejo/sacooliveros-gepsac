@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
 <div class="cnt-menu">
-    <div class="sca-novatronic" >
+    <!--<div class="sca-novatronic" >
         <img src="<%=request.getContextPath()%>/resources/images/novatronic.png" /> 
-    </div>
+    </div>-->
     <ul id="accordion">
 <!--     EMPRESA -->
 

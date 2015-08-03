@@ -9,11 +9,11 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <div class="sca-header">
-    <div style="float: left">
+    <div style="display: inline-block;">
         <span class="sca-title">
             <bean:message key="header.title"/>
         </span>	
-    </div>
+    </div><!--
     <div style="float: right; margin-right: 20px">
         <div style="float: left; width: 250px">
             <bean:message key="header.usuario"/> : ${usuario.usuario} <br>
@@ -22,15 +22,13 @@
             </a>
         
         </div>
-        <!-- div style="float: left; width: 140px">
-            <div class="leftTimeDiv"></div>
-        </div -->
+        
         <div style="float: left">
             <a href="<%=request.getContextPath()%>/Login.do?method=cerrarCesion">
                 <bean:message key="header.salir"/>
             </a>
         </div>
             
-    </div>
+    </div>-->
 </div>
 <div class="separatorGreen" style="clear: both"></div>
