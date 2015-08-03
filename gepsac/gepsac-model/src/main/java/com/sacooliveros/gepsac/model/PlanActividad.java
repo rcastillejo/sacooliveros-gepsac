@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.model;
 
 import com.sacooliveros.gepsac.model.common.Estado;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -20,6 +21,7 @@ public class PlanActividad extends EstrategiaActividad {
     private int meta;
     private boolean programado;
     private Estado estado;
+    private List<PlanIndicador> indicadoresSeleccionados;
 
     public void setProgramado(boolean programado) {
         this.programado = programado;
@@ -69,10 +71,18 @@ public class PlanActividad extends EstrategiaActividad {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "PlanActividad{" + "codigoPlan=" + codigoPlan + ", fechaProgramada=" + fechaProgramada + ", fechaEjecutada=" + fechaEjecutada + ", meta=" + meta + ", programado=" + programado + ", estado=" + estado + '}';
+    public List<PlanIndicador> getIndicadoresSeleccionados() {
+        return indicadoresSeleccionados;
     }
 
+    public void setIndicadoresSeleccionados(List<PlanIndicador> indicadoresSeleccionados) {
+        this.indicadoresSeleccionados = indicadoresSeleccionados;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanActividad{" + "codigoPlan=" + codigoPlan + ", fechaProgramada=" + fechaProgramada + ", fechaEjecutada=" + fechaEjecutada + ", meta=" + meta + ", programado=" + programado + ", estado=" + estado + ", indicadoresSeleccionados=" + indicadoresSeleccionados + '}';
+    }
+    
 
 }

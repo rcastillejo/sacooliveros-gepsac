@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}estrategia">
  *       &lt;sequence>
  *         &lt;element name="actividadesSeleccionadas" type="{http://service.gepsac.sacooliveros.com/}planActividad" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="codigoPlan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -30,7 +31,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "planEstrategia", propOrder = {
-    "actividadesSeleccionadas"
+    "actividadesSeleccionadas",
+    "codigoPlan"
 })
 public class PlanEstrategia
     extends Estrategia
@@ -38,6 +40,7 @@ public class PlanEstrategia
 
     @XmlElement(nillable = true)
     protected List<PlanActividad> actividadesSeleccionadas;
+    protected String codigoPlan;
 
     /**
      * Gets the value of the actividadesSeleccionadas property.
@@ -66,6 +69,30 @@ public class PlanEstrategia
             actividadesSeleccionadas = new ArrayList<PlanActividad>();
         }
         return this.actividadesSeleccionadas;
+    }
+
+    /**
+     * Gets the value of the codigoPlan property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCodigoPlan() {
+        return codigoPlan;
+    }
+
+    /**
+     * Sets the value of the codigoPlan property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCodigoPlan(String value) {
+        this.codigoPlan = value;
     }
 
 }

@@ -21,7 +21,7 @@ public interface EstrategiaMapper {
   
   @Select("SELECT * FROM tp_estrategia where cod_estrategia = #{codigoEstrategia")
   public Estrategia get(@Param("codigoEstrategia") String codigoEstrategia);
+  
    
-
 
 }

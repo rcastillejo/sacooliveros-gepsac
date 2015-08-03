@@ -11,6 +11,7 @@ import com.sacooliveros.gepsac.dao.PlanDAO;
 import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.PlanActividad;
 import com.sacooliveros.gepsac.model.PlanEstrategia;
+import com.sacooliveros.gepsac.model.PlanIndicador;
 import com.sacooliveros.gepsac.model.util.Estado;
 import java.text.MessageFormat;
 import java.util.Calendar;
@@ -50,6 +51,8 @@ public class PlanificacionController {
             String CONFIGURAR = "Error al configurar el plan";
             String PROGRAMAR = "Error al programar el plan";
             String CONSULTAR_VIGENTE = "No se encontro un plan vigente";
+            String CONSULTAR_PARA_CONFIGURAR = "Plan no disponible para configurar";
+            String CONSULTAR_CONFIGURADO = "Error al consultar plan configurado";
         }
     }
 
@@ -112,6 +115,11 @@ public class PlanificacionController {
             planDao.actualizar(planAConfigurar);
 
             try {
+                planDao.deleteIndicador(plan.getCodigo());
+            } catch (Exception e) {
+                log.warn("Error al eliminar indicador", e);
+            }
+            try {
                 planDao.deleteActividad(plan.getCodigo());
             } catch (Exception e) {
                 log.warn("Error al eliminar actividad", e);
@@ -134,6 +142,15 @@ public class PlanificacionController {
                     actividad.setEstado(planAConfigurar.getEstado());
 
                     planDao.insertActividad(actividad);
+
+                    for (PlanIndicador indicador : actividad.getIndicadoresSeleccionados()) {
+                        indicador.setCodigoPlan(actividad.getCodigoPlan());
+                        indicador.setCodigoEstrategia(actividad.getCodigoEstrategia());
+                        indicador.setCodigoActividad(actividad.getActividad().getCodigo());
+                        indicador.setEstado(planAConfigurar.getEstado());
+
+                        planDao.insertIndicador(indicador);
+                    }
                 }
 
             }
@@ -161,6 +178,44 @@ public class PlanificacionController {
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.PROGRAMAR, e);
         }
+    }
+
+    public Plan obtenerConfigurarPlan() {
+        Plan planVigente;
+
+        planVigente = obtenerPlanVigente();
+
+        if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
+
+            try {
+
+                PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+                List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
+
+                for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
+                    List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
+                    estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
+                    
+                    for (PlanActividad actividad : actividadesSeleccionadas) {
+                        List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
+                                planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
+                        actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
+                    }
+                    
+                }
+
+                planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
+                return planVigente;
+            } catch (Exception e) {
+                throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+            }
+        } else if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.REGISTRADO)) {
+            return planVigente;
+        } else {
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_CONFIGURAR);
+        }
+
     }
 
 }

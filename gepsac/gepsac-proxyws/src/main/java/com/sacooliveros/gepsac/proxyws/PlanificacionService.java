@@ -43,6 +43,20 @@ public interface PlanificacionService {
 
     /**
      * 
+     * @return
+     *     returns com.sacooliveros.gepsac.proxyws.Plan
+     * @throws ServiceException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerConfigurarPlan", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerConfigurarPlan")
+    @ResponseWrapper(localName = "obtenerConfigurarPlanResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerConfigurarPlanResponse")
+    public Plan obtenerConfigurarPlan()
+        throws ServiceException_Exception
+    ;
+
+    /**
+     * 
      * @param arg0
      * @return
      *     returns java.lang.String

@@ -5,6 +5,8 @@
   <xs:element name="configurarResponse" type="tns:configurarResponse"/>
   <xs:element name="listar" type="tns:listar"/>
   <xs:element name="listarResponse" type="tns:listarResponse"/>
+  <xs:element name="obtenerConfigurarPlan" type="tns:obtenerConfigurarPlan"/>
+  <xs:element name="obtenerConfigurarPlanResponse" type="tns:obtenerConfigurarPlanResponse"/>
   <xs:element name="obtenerVigente" type="tns:obtenerVigente"/>
   <xs:element name="obtenerVigenteResponse" type="tns:obtenerVigenteResponse"/>
   <xs:element name="programar" type="tns:programar"/>
@@ -49,6 +51,7 @@
       <xs:extension base="tns:estrategia">
         <xs:sequence>
           <xs:element maxOccurs="unbounded" minOccurs="0" name="actividadesSeleccionadas" nillable="true" type="tns:planActividad"/>
+          <xs:element minOccurs="0" name="codigoPlan" type="xs:string"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -68,8 +71,11 @@
     <xs:complexContent>
       <xs:extension base="tns:estrategiaActividad">
         <xs:sequence>
+          <xs:element minOccurs="0" name="codigoPlan" type="xs:string"/>
+          <xs:element minOccurs="0" name="estado" type="tns:estado"/>
           <xs:element minOccurs="0" name="fechaEjecutada" type="xs:dateTime"/>
           <xs:element minOccurs="0" name="fechaProgramada" type="xs:dateTime"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="indicadoresSeleccionados" nillable="true" type="tns:planIndicador"/>
           <xs:element name="meta" type="xs:int"/>
           <xs:element name="programado" type="xs:boolean"/>
         </xs:sequence>
@@ -82,6 +88,36 @@
       <xs:element minOccurs="0" name="codigoEstrategia" type="xs:string"/>
       <xs:element maxOccurs="unbounded" minOccurs="0" name="indicadores" nillable="true" type="tns:indicador"/>
     </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="estado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="planIndicador">
+    <xs:complexContent>
+      <xs:extension base="tns:indicador">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigoActividad" type="xs:string"/>
+          <xs:element minOccurs="0" name="codigoEstrategia" type="xs:string"/>
+          <xs:element minOccurs="0" name="codigoPlan" type="xs:string"/>
+          <xs:element name="meta" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="indicador">
+    <xs:complexContent>
+      <xs:extension base="tns:model">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+          <xs:element minOccurs="0" name="formula" type="xs:string"/>
+          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+          <xs:element minOccurs="0" name="tipoIndicador" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="actividad">
     <xs:complexContent>
@@ -97,24 +133,6 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="estado">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
-      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="indicador">
-    <xs:complexContent>
-      <xs:extension base="tns:model">
-        <xs:sequence>
-          <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
-          <xs:element minOccurs="0" name="formula" type="xs:string"/>
-          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
-          <xs:element minOccurs="0" name="tipoIndicador" type="xs:string"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="restriccionFecha">
     <xs:sequence>
       <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
@@ -124,6 +142,14 @@
   <xs:complexType name="configurarResponse">
     <xs:sequence>
       <xs:element minOccurs="0" name="return" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obtenerConfigurarPlan">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="obtenerConfigurarPlanResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:plan"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="programar">
@@ -168,36 +194,24 @@
   </xs:complexType>
 </xs:schema>
   </wsdl:types>
-  <wsdl:message name="listarResponse">
-    <wsdl:part element="tns:listarResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="registrar">
-    <wsdl:part element="tns:registrar" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="configurarResponse">
-    <wsdl:part element="tns:configurarResponse" name="parameters">
+  <wsdl:message name="obtenerConfigurarPlan">
+    <wsdl:part element="tns:obtenerConfigurarPlan" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="programar">
     <wsdl:part element="tns:programar" name="parameters">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="obtenerVigenteResponse">
-    <wsdl:part element="tns:obtenerVigenteResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="configurar">
     <wsdl:part element="tns:configurar" name="parameters">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="listar">
-    <wsdl:part element="tns:listar" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="programarResponse">
     <wsdl:part element="tns:programarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listar">
+    <wsdl:part element="tns:listar" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="registrarResponse">
@@ -212,11 +226,39 @@
     <wsdl:part element="tns:obtenerVigente" name="parameters">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="listarResponse">
+    <wsdl:part element="tns:listarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registrar">
+    <wsdl:part element="tns:registrar" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="configurarResponse">
+    <wsdl:part element="tns:configurarResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerVigenteResponse">
+    <wsdl:part element="tns:obtenerVigenteResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerConfigurarPlanResponse">
+    <wsdl:part element="tns:obtenerConfigurarPlanResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:portType name="PlanificacionService">
     <wsdl:operation name="configurar">
       <wsdl:input message="tns:configurar" name="configurar">
     </wsdl:input>
       <wsdl:output message="tns:configurarResponse" name="configurarResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:ServiceException" name="ServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerConfigurarPlan">
+      <wsdl:input message="tns:obtenerConfigurarPlan" name="obtenerConfigurarPlan">
+    </wsdl:input>
+      <wsdl:output message="tns:obtenerConfigurarPlanResponse" name="obtenerConfigurarPlanResponse">
     </wsdl:output>
       <wsdl:fault message="tns:ServiceException" name="ServiceException">
     </wsdl:fault>
@@ -256,6 +298,18 @@
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="configurarResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault name="ServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="obtenerConfigurarPlan">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerConfigurarPlan">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerConfigurarPlanResponse">
         <soap:body use="literal"/>
       </wsdl:output>
       <wsdl:fault name="ServiceException">

@@ -20,6 +20,28 @@
         <result column="fec_fin" property="fecFin" jdbcType="DATE" />
         <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
     </resultMap>
+    
+    <resultMap id="recordPlanEstrategia" type="com.sacooliveros.gepsac.model.PlanEstrategia" >
+        <id column="cod_estrategia" property="codigo" jdbcType="VARCHAR" />
+        <result column="cod_plan" property="codigoPlan" jdbcType="VARCHAR" /> 
+        <result column="titulo_estrategia" property="nombre" jdbcType="VARCHAR" />
+        <result column="des_estrategia" property="descripcion" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="nom_estado" property="estado.nombre" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="recordPlanActividad" type="com.sacooliveros.gepsac.model.PlanActividad" >      
+        <id column="cod_actividad" property="actividad.codigo" jdbcType="VARCHAR" />  
+        <result column="cod_plan" property="codigoPlan" jdbcType="VARCHAR" /> 
+        <result column="cod_estrategia" property="codigoEstrategia" jdbcType="VARCHAR" /> 
+        <result column="nom_actividad" property="actividad.nombre" jdbcType="VARCHAR" />  
+        <result column="des_actividad" property="actividad.descripcion" jdbcType="VARCHAR" /> 
+    </resultMap>
+    
+    <resultMap id="recordPlanIndicador" type="com.sacooliveros.gepsac.model.PlanIndicador" >      
+        <id column="cod_indicador" property="codigo" jdbcType="VARCHAR" />  
+        <result column="nom_indicador" property="nombre" jdbcType="VARCHAR" /> 
+    </resultMap>
   
     <select id="query" resultMap="recordResultMap">
         SELECT
@@ -77,7 +99,13 @@
         Insert into tp_plan_actividad (cod_plan, cod_estrategia, cod_actividad, cod_estado) 
         Values (#{codigoPlan}, #{codigoEstrategia}, #{actividad.codigo}, #{estado.codigo})
     </insert>
-  
+    
+    <insert id="insertIndicador">
+        Insert into tp_plan_indicador (cod_plan, cod_estrategia, cod_actividad, cod_indicador, cod_estado) 
+        Values (#{codigoPlan}, #{codigoEstrategia}, #{codigoActividad}, #{codigo}, #{estado.codigo})
+    </insert>
+    
+    <!--Estos delete se invocan al registrar o actualizar un plan en los estados : registrado o configurado-->
     <delete id="deleteEstrategia">
         Delete from tp_plan_estrategia
         where cod_plan= #{codigoPlan}
@@ -87,4 +115,49 @@
         Delete from tp_plan_actividad
         where cod_plan= #{codigoPlan}
     </delete>
+    
+    <delete id="deleteIndicador">
+        Delete from tp_plan_indicador
+        where cod_plan= #{codigoPlan}
+    </delete>
+    
+    <select id="queryPlanEstrategia" resultMap="recordPlanEstrategia">
+        SELECT
+        a.cod_plan,
+        b.cod_estrategia,
+        b.titulo_estrategia,
+        b.des_estrategia,
+        b.fec_registro,
+        c.cod_estado,
+        c.nom_estado
+        FROM 
+        tp_plan_estrategia a inner join tp_estrategia b on a.cod_estrategia = b.cod_estrategia
+        inner join tp_estado c on b.cod_estado = c.cod_estado
+        where
+        a.cod_plan = #{codigo}
+    </select>
+  
+    <select id="queryPlanActividad" resultMap="recordPlanActividad">
+        SELECT
+        a.cod_plan,
+        a.cod_actividad,
+        a.cod_estrategia,
+        b.nom_actividad,
+        b.des_actividad
+        FROM 
+        tp_plan_actividad a inner join tp_actividad b on a.cod_actividad = b.cod_actividad
+        where
+        a.cod_plan = #{codigo} and a.cod_estrategia = #{codigoEstrategia}
+    </select>
+  
+    <select id="queryPlanIndicador" resultMap="recordPlanIndicador">        
+        SELECT
+        a.cod_indicador,
+        b.nom_indicador
+        FROM 
+        tp_plan_indicador a inner join tp_indicador b on a.cod_indicador = b.cod_indicador
+        where
+        a.cod_plan = #{codigo} and a.cod_estrategia = #{codigoEstrategia} and a.cod_actividad = #{codigoActividad}
+        
+    </select>
 </mapper>

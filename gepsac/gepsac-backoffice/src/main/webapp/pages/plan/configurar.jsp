@@ -12,6 +12,7 @@
 
 <script type = "text/javascript" >
     //alert('COLORRRR' + gOptions.color);
+    var formatDate = 'dd/mm/yy';
     var table = '#div-resultado';
     var action = '/ConfigurarEstrategia.do';
 
@@ -100,12 +101,12 @@
         return sError;
     }
 
-    function serializeConfiguracionPlan(){
+    function serializeConfiguracionPlan() {
         var dataSerialize = {};
         var listadoVal = [];
 
         var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
-        
+
 
         elEstrategias.map(function (index, elem) {
             var estrategia = {};
@@ -120,13 +121,13 @@
             elActividades.find("tbody tr").each(function () {
                 var actividad = getData($(this));
                 var lstIndicadores = [];
-                var indicadores = actividad.indicadores.split(',');                
-                
-                for(var i in indicadores){                    
+                var indicadores = actividad.indicadoresSeleccionados.split(',');
+
+                for (var i in indicadores) {
                     lstIndicadores.push({'codigo': indicadores[i]});
                 }
-                
-                actividad['indicadores'] = lstIndicadores;
+
+                actividad['indicadoresSeleccionados'] = lstIndicadores;
                 actividades.push(actividad);
             });
 
@@ -139,10 +140,10 @@
             listadoVal.push(estrategia);
             console.log('listDetalle', listadoVal);
         });
-        
+
         dataSerialize = getData($("#div-busqueda-filtros"));
         dataSerialize["estrategiasSeleccionadas"] = listadoVal;
-        
+
         console.log("dataSerialize", dataSerialize);
         return dataSerialize;
     }
@@ -174,7 +175,7 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&configuracionPlan='+JSON.stringify(data)
+            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&configuracionPlan=' + JSON.stringify(data)
         }).done(function (msg) {
             console.log('msg', msg);
             //cargarPlan(plan);
@@ -187,7 +188,7 @@
                 location.assign("<%=request.getContextPath()%>");
             }, "CONFIRMACION");
         });
-        
+
         //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
         //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
 
@@ -201,19 +202,46 @@
             url: "<%=request.getContextPath()%>" + action + '?method=obtenerPlanRegistrado'
         }).done(function (plan) {
             console.log('plan', plan);
-            cargarPlan(plan);
+            if (plan.estado.codigo === 'PLA0001') {//Registrado
+                cargarPlan(plan);
+            } else if (plan.estado.codigo === 'PLA0002') {//Configurado
+                cargarPlanEstrategia(plan);
+            } else {
+                fn_mdl_alert('El plan ya fue configurado', function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "VALIDACIONES");
+            }
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
                 location.assign("<%=request.getContextPath()%>");
-            }, "CONSULTAS");
+            }, "VALIDACIONES");
         });
+    }
+
+    function cargarPlanEstrategia(plan) {
+
+        cargarPlan(plan);
+
+        for (var i in plan.estrategiasSeleccionadas) {
+            var estrategia = plan.estrategiasSeleccionadas[i];
+            cargarEstrategia(estrategia);
+
+            for (var j in estrategia.actividadesSeleccionadas) {
+                var actividad = estrategia.actividadesSeleccionadas[j];
+                cargarActividadIndicadores(actividad, actividad.indicadoresSeleccionados);
+            }
+
+        }
     }
 
     function cargarPlan(plan) {
         $("#codigo").val(plan.codigo);
-        $("#fecInicio").val(plan.fecInicio.year + '-' + plan.fecInicio.month + '-' + plan.fecInicio.day);
-        $("#fecFin").val(plan.fecFin.year + '-' + plan.fecFin.month + '-' + plan.fecFin.day);
+        var dateIni = new Date(plan.fecInicio.year, plan.fecInicio.month - 1, plan.fecInicio.day);
+        $("#fecInicio").val($.datepicker.formatDate(formatDate, dateIni));
+        var dateFin = new Date(plan.fecFin.year, plan.fecFin.month - 1, plan.fecFin.day);
+        $("#fecFin").val($.datepicker.formatDate(formatDate, dateFin));
+        console.log('dateIni', dateIni, 'dateFin', dateFin);
     }
 
     function validarItemDuplicado(name, value) {
@@ -252,7 +280,7 @@
 
         if (json.estado.codigo === "EST0002") {
 
-            var valid = validarItemDuplicado('codigoEstrategia', json.codigo);
+            var valid = validarItemDuplicado('codigo', json.codigo);
             if (!valid) {
                 fn_mdl_alert("La estrategia ya se encuetra agregada", null, "VALIDACIONES");
             } else {
@@ -298,8 +326,13 @@
     }
 
     function cargarActividad(json) {
+        cargarActividadIndicadores(json, json.indicadores);
+        fn_util_CierraModal();
 
-        var valid = validarItemActividadDuplicado('codigoActividad', json.actividad.codigo, json.codigoEstrategia);
+    }
+
+    function cargarActividadIndicadores(json, indicadores) {
+        var valid = validarItemActividadDuplicado('actividad.codigo', json.actividad.codigo, json.codigoEstrategia);
         if (!valid) {
             fn_mdl_alert("La actividad ya se encuentra agregada en la estrategia " + json.codigoEstrategia, null, "VALIDACIONES");
         } else {
@@ -314,7 +347,7 @@
             detalle.find("#lblCodigoActividad").append(json.actividad.codigo);
             detalle.find("#lblNombreActividad").append(json.actividad.nombre);
 
-            var indicadores = json.indicadores;
+            //var indicadores = json.indicadores;
             for (var i in indicadores) {
                 var indicador = indicadores[i];
                 detalle.find("#hdnIndicadores").append(indicador.codigo);
@@ -343,7 +376,7 @@
         }
         //objItemSeleccionado === null;
         //objItemActividadSeleccionado === null;
-        fn_util_CierraModal();
+        //fn_util_CierraModal();
 
     }
 
@@ -401,7 +434,7 @@
                                 <label id="lblNombreActividad"></label>
                             </td>
                             <td>
-                                <label id="hdnIndicadores" class="inputValue" data-name="indicadores" name="indicadores" style="display: none"></label>
+                                <label id="hdnIndicadores" class="inputValue" data-name="indicadoresSeleccionados" name="indicadoresSeleccionados" style="display: none"></label>
                                 <label id="lblIndicadores" ></label>
                             </td>
                             <td>

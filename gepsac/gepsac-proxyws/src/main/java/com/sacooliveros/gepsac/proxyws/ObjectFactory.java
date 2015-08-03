@@ -37,59 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Actividad }
+     * Create an instance of {@link EstrategiaActividad }
      * 
      */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaActividad }
-     * 
-     */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaActividadResponse }
-     * 
-     */
-    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
-        return new ListarEstrategiaActividadResponse();
-    }
-
-    /**
-     * Create an instance of {@link Indicador }
-     * 
-     */
-    public Indicador createIndicador() {
-        return new Indicador();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategia }
-     * 
-     */
-    public ListarEstrategia createListarEstrategia() {
-        return new ListarEstrategia();
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
     }
 
     /**
@@ -101,11 +53,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EstrategiaActividad }
+     * Create an instance of {@link ListarEstrategiaActividad }
      * 
      */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link Indicador }
+     * 
+     */
+    public Indicador createIndicador() {
+        return new Indicador();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaActividadResponse }
+     * 
+     */
+    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
+        return new ListarEstrategiaActividadResponse();
+    }
+
+    /**
+     * Create an instance of {@link Estrategia }
+     * 
+     */
+    public Estrategia createEstrategia() {
+        return new Estrategia();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategia }
+     * 
+     */
+    public ListarEstrategia createListarEstrategia() {
+        return new ListarEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link Actividad }
+     * 
+     */
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
@@ -114,6 +106,14 @@ public class ObjectFactory {
      */
     public Estado createEstado() {
         return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
     }
 
     /**

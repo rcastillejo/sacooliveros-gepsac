@@ -89,7 +89,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
         try {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
 
-            Resultado resultado = createSuccessResult(service.obtenerVigente());
+            Resultado resultado = createSuccessResult(service.obtenerConfigurarPlan());
             
             generalAction(resultado, response);
         } catch (Exception e) {

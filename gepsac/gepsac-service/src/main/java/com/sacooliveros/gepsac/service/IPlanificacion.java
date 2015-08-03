@@ -23,6 +23,9 @@ public interface IPlanificacion {
     @WebMethod(operationName = "obtenerVigente")
     Plan obtenerVigente() throws ServiceException;
     
+    @WebMethod(operationName = "obtenerConfigurarPlan")
+    Plan obtenerConfigurarPlan() throws ServiceException;
+    
     @WebMethod(operationName = "registrar")
     String registrar(@WebParam(name = "plan")Plan plan) throws ServiceException;
     
