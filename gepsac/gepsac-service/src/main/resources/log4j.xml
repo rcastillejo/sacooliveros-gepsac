@@ -53,6 +53,11 @@
         <level value="DEBUG" />
         <appender-ref ref="TRAZADO"/>
     </logger>
+    
+    <logger name="com.sacooliveros.gepsac.dao.myibatis" additivity="false">
+        <level value="ERROR" />
+        <appender-ref ref="ERROR"/>
+    </logger>
 
     <root>
         <level value="ERROR" />        

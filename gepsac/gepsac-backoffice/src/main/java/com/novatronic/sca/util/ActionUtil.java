@@ -351,4 +351,10 @@ public final class ActionUtil {
         }
     }
 
+    public static String obtenerNombreUsuarioLogeado(HttpServletRequest request) {
+        HttpSession httpSession = request.getSession(false);
+        String username = (String) httpSession.getAttribute(Config.USERNAME_SESSION);
+        return username == null ? Config.USERNAME_DEMO : username;
+    }
+
 }

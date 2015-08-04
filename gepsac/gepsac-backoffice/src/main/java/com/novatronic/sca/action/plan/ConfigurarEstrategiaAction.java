@@ -7,6 +7,7 @@ package com.novatronic.sca.action.plan;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.novatronic.sca.log.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
@@ -14,6 +15,7 @@ import com.sacooliveros.gepsac.proxyws.CommonService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
+import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -45,7 +47,10 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            logger.error("Error al obtener plan", e);
+            //logger.error("Error al obtener plan", e);
+            LoggerUtil.error(logger, "consultarEstrategia", "planificación",
+                    Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
+                    e.getMessage(), e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -60,7 +65,10 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            logger.error("Error al obtener plan", e);
+            //logger.error("Error al obtener plan", e);
+            LoggerUtil.error(logger, "consultarActividad", "planificación",
+                    Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
+                    e.getMessage(), e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -75,11 +83,14 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
             logger.debug("plan [{}]", plan);
             String msg = service.configurar(plan);
-            
+
             logger.info("Configuracion plan guardado [{}]", msg);
             generalAction(createSuccessResult(msg), response);
         } catch (Exception e) {
-            logger.error("Error al guardar la configuracion del plan", e);
+            //logger.error("Error al guardar la configuracion del plan", e);
+            LoggerUtil.error(logger, "guardarConfiguracionPlan", "planificación",
+                    Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
+                    e.getMessage(), e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -90,10 +101,12 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
 
             Resultado resultado = createSuccessResult(service.obtenerConfigurarPlan());
-            
+
             generalAction(resultado, response);
         } catch (Exception e) {
-            logger.error("Error al obtener plan", e);
+            LoggerUtil.error(logger, "obtenerPlanVigente", "planificación",
+                    Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
+                    e.getMessage(), e);
             generalAction(createErrorResult(e), response);
         }
     }
