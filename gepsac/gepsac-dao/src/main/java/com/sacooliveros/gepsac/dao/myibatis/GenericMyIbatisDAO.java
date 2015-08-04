@@ -5,10 +5,7 @@
  */
 package com.sacooliveros.gepsac.dao.myibatis;
 
-import com.sacooliveros.gepsac.dao.mybatis.mapper.EstrategiaMapper;
 import com.sacooliveros.gepsac.dao.mybatis.session.SessionFactory;
-import com.sacooliveros.gepsac.model.EstrategiaActividad;
-import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 /**

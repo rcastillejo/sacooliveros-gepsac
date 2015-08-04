@@ -31,7 +31,7 @@ public class PlanificacionController {
     interface Mensaje {
 
         String REGISTRAR = "El registro fue satisfactorio [{0}]";
-        String CONFIGURAR = "La configuración fue satisfactoria [{0}]";
+        String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
         String PROGRAMAR = "La programación fue satisfactoria [{0}]";
 
     }
@@ -40,7 +40,7 @@ public class PlanificacionController {
 
         interface Codigo {
 
-            String GENERAL = "EPE099";
+            String GENERAL = "ERR099";
         }
 
         interface Mensaje {
@@ -211,6 +211,44 @@ public class PlanificacionController {
                 throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
             }
         } else if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.REGISTRADO)) {
+            return planVigente;
+        } else {
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_CONFIGURAR);
+        }
+
+    }
+
+    public Plan obtenerProgramarPlan() {
+        Plan planVigente;
+
+        planVigente = obtenerPlanVigente();
+
+        if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.PROGRAMADO)) {
+
+            try {
+
+                PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+                List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
+
+                for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
+                    List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
+                    estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
+                    
+                    for (PlanActividad actividad : actividadesSeleccionadas) {
+                        List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
+                                planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
+                        actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
+                    }
+                    
+                }
+
+                planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
+                return planVigente;
+            } catch (Exception e) {
+                throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+            }
+        } else if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
             return planVigente;
         } else {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_CONFIGURAR);

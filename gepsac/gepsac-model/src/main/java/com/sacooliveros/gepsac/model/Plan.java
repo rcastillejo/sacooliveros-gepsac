@@ -20,7 +20,7 @@ public class Plan extends Model {
     private Date fecProgramacion;
     private Date fecInicio;
     private Date fecFin;
-
+    
     private String titulo;
     private int anio;
     private String hitos;
