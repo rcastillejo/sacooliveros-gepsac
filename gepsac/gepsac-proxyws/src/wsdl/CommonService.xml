@@ -138,7 +138,7 @@
   </wsdl:binding>
   <wsdl:service name="CommonService">
     <wsdl:port binding="tns:CommonServiceSoapBinding" name="CommonServicePort">
-      <soap:address location="http://rcastillejo:8180/gepsac-service/CommonService"/>
+      <soap:address location="http://Ricardo-PC:8180/gepsac-service/CommonService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

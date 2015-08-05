@@ -4,6 +4,7 @@ drop table tp_plan_estrategia;
 drop table tp_estrategia_indicador;
 drop table tp_estrategia_actividad;
 drop table tp_plan_hito;
+drop table tp_plan_fecha_restriccion;
 drop table tp_plan;
 drop table tp_indicador;
 drop table tp_actividad;

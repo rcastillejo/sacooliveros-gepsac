@@ -52,6 +52,24 @@ WITH (
   OIDS=FALSE
 );
 
+
+CREATE TABLE tp_plan_fecha_restriccion
+(
+  cod_plan character varying(15) NOT NULL,  
+  fec_ini_rest date NOT NULL,  -- Se utiliza para una fecha o rango
+  fec_fin_rest date NOT NULL, -- Se utiliza para el rango
+  tip_rest character varying(2) NOT NULL,  -- U: Una Fecha, R: Rango de fechas
+  des_rest character varying(150) NOT NULL,  
+  
+  CONSTRAINT pk_tp_plan_fecha_restriccion PRIMARY KEY (cod_plan, fec_ini_rest, fec_fin_rest),
+  CONSTRAINT fk_tp_plan_fecha_restriccion_1 FOREIGN KEY (cod_plan)
+      REFERENCES tp_plan (cod_plan) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
 CREATE TABLE tp_indicador
 (
   cod_indicador character varying(15) NOT NULL,  

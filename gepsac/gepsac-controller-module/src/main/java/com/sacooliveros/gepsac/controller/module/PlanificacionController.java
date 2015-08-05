@@ -53,6 +53,8 @@ public class PlanificacionController {
             String CONSULTAR_VIGENTE = "No se encontro un plan vigente";
             String CONSULTAR_PARA_CONFIGURAR = "Plan no disponible para configurar";
             String CONSULTAR_CONFIGURADO = "Error al consultar plan configurado";
+            String CONSULTAR_PARA_PROGRAMAR = "Plan no disponible para realizar la programacion";
+            String CONSULTAR_PROGRAMADO = "Error al consultar plan programado";
         }
     }
 
@@ -157,28 +159,75 @@ public class PlanificacionController {
 
             return MessageFormat.format(Mensaje.CONFIGURAR, plan.getCodigo());
         } catch (Exception e) {
+            log.error("Error al grabar la configuración", e);
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONFIGURAR, e);
         }
     }
 
-    public String programar(Plan plan) {
+    public Plan generarProgramacion(Plan plan) {
+        Programacion programacion = new Programacion();
         try {
-            Programacion programacion = new Programacion();
             PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            Plan planAProgramar = planDao.obtener(plan.getCodigo());
+            planAProgramar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
 
-            plan.setEstado(Estado.PlanEstrategico.PROGRAMADO);
-            plan.setFecProgramacion(new Date());
-
-            programacion.configure(plan);
+            programacion.configure(planAProgramar);
             programacion.calcularFechasDisponibles();
             programacion.elaborarCronograma();
 
-            planDao.actualizar(plan);
-            return MessageFormat.format(Mensaje.PROGRAMAR, plan.getCodigo());
+            return plan;
+
         } catch (Exception e) {
+            log.error("Error al generar la programación", e);
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.PROGRAMAR, e);
         }
     }
+    /*
+     public String programar(Plan plan) {
+     Plan planAProgramar;
+     try {
+     PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+     planAProgramar = planDao.obtener(plan.getCodigo());
+
+     planAProgramar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
+     planAProgramar.setEstado(Estado.PlanEstrategico.PROGRAMADO);
+     planAProgramar.setFecConfiguracion(new Date());
+
+     planDao.actualizar(planAProgramar);
+
+     for (PlanEstrategia estrategia : planAProgramar.getEstrategiasSeleccionadas()) {
+
+     estrategia.setCodigoPlan(planAProgramar.getCodigo());
+
+     planDao.updateEstrategia(estrategia);
+
+     for (PlanActividad actividad : estrategia.getActividadesSeleccionadas()) {
+     actividad.setCodigoPlan(estrategia.getCodigoPlan());
+     actividad.setCodigoEstrategia(estrategia.getCodigo());
+     actividad.setEstado(planAProgramar.getEstado());
+
+     planDao.updateActividad(actividad);
+
+     for (PlanIndicador indicador : actividad.getIndicadoresSeleccionados()) {
+     indicador.setCodigoPlan(actividad.getCodigoPlan());
+     indicador.setCodigoEstrategia(actividad.getCodigoEstrategia());
+     indicador.setCodigoActividad(actividad.getActividad().getCodigo());
+     indicador.setEstado(planAProgramar.getEstado());
+
+     planDao.updateIndicador(indicador);
+     }
+     }
+
+     }
+
+     return MessageFormat.format(Mensaje.PROGRAMAR, plan.getCodigo());
+     } catch (Exception e) {
+     throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.PROGRAMAR, e);
+     }
+        
+     }
+     */
 
     public Plan obtenerConfigurarPlan() {
         Plan planVigente;
@@ -196,13 +245,13 @@ public class PlanificacionController {
                 for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
                     List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
                     estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
-                    
+
                     for (PlanActividad actividad : actividadesSeleccionadas) {
                         List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
                                 planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
                         actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
                     }
-                    
+
                 }
 
                 planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
@@ -223,7 +272,32 @@ public class PlanificacionController {
 
         planVigente = obtenerPlanVigente();
 
-        if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.PROGRAMADO)) {
+        /*if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.PROGRAMADO)) {
+
+         try {
+
+         PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+         List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
+
+         for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
+         List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
+         estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
+                    
+         for (PlanActividad actividad : actividadesSeleccionadas) {
+         List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
+         planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
+         actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
+         }
+                    
+         }
+
+         planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
+         return planVigente;
+         } catch (Exception e) {
+         throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+         }
+         } else*/ if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
 
             try {
 
@@ -234,24 +308,22 @@ public class PlanificacionController {
                 for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
                     List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
                     estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
-                    
+
                     for (PlanActividad actividad : actividadesSeleccionadas) {
                         List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
                                 planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
                         actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
                     }
-                    
+
                 }
 
                 planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
                 return planVigente;
             } catch (Exception e) {
-                throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+                throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PROGRAMADO, e);
             }
-        } else if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
-            return planVigente;
         } else {
-            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_CONFIGURAR);
+            throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_PROGRAMAR);
         }
 
     }

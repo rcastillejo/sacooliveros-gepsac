@@ -8,7 +8,8 @@
 <struts-config>
     <form-beans>
         <!--Modulo Planificacion-->
-        <form-bean name="configurarEstrategiaForm" type="com.novatronic.sca.form.plan.ConfigurarEstrategiaForm" />
+        <form-bean name="configurarEstrategiaForm" type="com.sacooliveros.gepsac.form.planificacion.ConfigurarEstrategiaForm" />
+        <form-bean name="programarPlanForm" type="com.sacooliveros.gepsac.form.planificacion.ProgramarPlanForm" />
         <!--
         <form-bean name="transaccionReporteForm" type="com.novatronic.sca.form.reporte.TransaccionReporteForm" />
         <form-bean name="usuarioForm" type="com.novatronic.sca.security.form.UsuarioForm" />
@@ -52,12 +53,21 @@
     <action-mappings>
             
         <action path="/ConfigurarEstrategia" 
-                type="com.novatronic.sca.action.plan.ConfigurarEstrategiaAction"
+                type="com.sacooliveros.gepsac.action.planificacion.ConfigurarEstrategiaAction"
                 name="configurarEstrategiaForm"
                 scope="request"
                 parameter="method" 
                 validate="false">
             <forward name="configurarEstrategia" path="configurarEstrategia" redirect="true"/>
+        </action>
+            
+        <action path="/ProgramarPlan" 
+                type="com.sacooliveros.gepsac.action.planificacion.ProgramarPlanAction"
+                name="programarPlanForm"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="programarPlan" path="programarPlan" redirect="true"/>
         </action>
         
         <!--       

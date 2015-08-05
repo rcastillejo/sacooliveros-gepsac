@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.novatronic.sca.exception;
+package com.sacooliveros.gepsac.exception;
 
 import com.novatronic.sca.util.Constantes;
 

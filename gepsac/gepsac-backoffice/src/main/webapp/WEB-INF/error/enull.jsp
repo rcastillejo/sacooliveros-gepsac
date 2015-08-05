@@ -22,7 +22,7 @@
 		<bean:message key="opcion.error.mensaje.noexiste"/>
 		</p>
 		<p>
-			<br> <a href="<%=request.getContextPath()%>/Login.do?method=initLogin"> <bean:message key="opcion.volver.login"/></a>
+			<br> <a href="<%=request.getContextPath()%>/"> <bean:message key="opcion.volver"/></a>
 		
 		</p>
 	</div>

@@ -60,14 +60,16 @@ public class Programacion {
     }
 
     private void leerHitos(String strhitos) {
-        SimpleDateFormat sdf = new SimpleDateFormat(Constantes.FMT_FECHA);
-        String[] arrayHitos = strhitos.split(",");
-        hitos = new ArrayList<>();
-        for (String strHito : arrayHitos) {
-            try {
-                hitos.add(sdf.parse(strHito));
-            } catch (ParseException e) {
-                log.warn("El hito no se pudo interpretar [{}]", strHito);
+        if (!(strhitos == null || strhitos.isEmpty())) {
+            SimpleDateFormat sdf = new SimpleDateFormat(Constantes.FMT_FECHA);
+            String[] arrayHitos = strhitos.split(",");
+            hitos = new ArrayList<>();
+            for (String strHito : arrayHitos) {
+                try {
+                    hitos.add(sdf.parse(strHito));
+                } catch (ParseException e) {
+                    log.warn("El hito no se pudo interpretar [{}]", strHito);
+                }
             }
         }
     }
@@ -79,18 +81,22 @@ public class Programacion {
     }
 
     public boolean isAvailableDay(Calendar cal) {
-        int dayOfYear = cal.get(Calendar.DAY_OF_YEAR);
-        int dayOfYearNotAvailable;
-        Calendar calRestriccion;
-        for (RestriccionFecha restriccionFecha : restriccionFechas) {
-            calRestriccion = Calendar.getInstance();
-            calRestriccion.setTime(restriccionFecha.getFecha());
-            dayOfYearNotAvailable = calRestriccion.get(Calendar.DAY_OF_YEAR);
-            if (dayOfYear == dayOfYearNotAvailable) {
-                return Boolean.FALSE;
+        if (restriccionFechas == null || restriccionFechas.isEmpty()) {
+            return Boolean.TRUE;
+        } else {
+            int dayOfYear = cal.get(Calendar.DAY_OF_YEAR);
+            int dayOfYearNotAvailable;
+            Calendar calRestriccion;
+            for (RestriccionFecha restriccionFecha : restriccionFechas) {
+                calRestriccion = Calendar.getInstance();
+                calRestriccion.setTime(restriccionFecha.getFecha());
+                dayOfYearNotAvailable = calRestriccion.get(Calendar.DAY_OF_YEAR);
+                if (dayOfYear == dayOfYearNotAvailable) {
+                    return Boolean.FALSE;
+                }
             }
+            return Boolean.TRUE;
         }
-        return Boolean.TRUE;
     }
 
     public void calcularFechasDisponibles() {
@@ -235,5 +241,5 @@ public class Programacion {
     public List<Date> getHitos() {
         return hitos;
     }
-    
+
 }

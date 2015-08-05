@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.novatronic.sca.action.plan;
+package com.sacooliveros.gepsac.action.planificacion;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.novatronic.sca.log.LoggerUtil;
+import com.sacooliveros.gepsac.exception.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;

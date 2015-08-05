@@ -14,11 +14,13 @@
             <div>Planificación</div>
             <ul style="display: none;">
                 <li>
-                    <%--<html:link page="/TransaccionReporte.do?method=inicializarBusqueda" >
-                        Reporte Transacciones
-                    </html:link>--%>
                     <html:link page="/ConfigurarEstrategia.do?method=init" >
-                        Configurar Estrategia
+                        Configurar Plan
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/ProgramarPlan.do?method=init" >
+                        Programar Plan
                     </html:link>
                 <li> 
             </ul>

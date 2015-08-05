@@ -1,8 +1,3 @@
-<%
-	int timeout = session.getMaxInactiveInterval();
-//	response.setHeader("Refresh", timeout + "; URL = /sca/default.jsp");
-	response.setHeader("Refresh", timeout + "; URL = /moduloReportes/sessionExpired.jsp");
-%>
 
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>

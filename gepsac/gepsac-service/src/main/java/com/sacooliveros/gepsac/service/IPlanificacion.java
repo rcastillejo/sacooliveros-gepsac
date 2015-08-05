@@ -10,29 +10,36 @@ import com.sacooliveros.gepsac.service.exception.ServiceException;
 import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 
 /**
  *
  * @author Ricardo
  */
 public interface IPlanificacion {
-    
+
     @WebMethod(operationName = "configurar")
     List<Plan> listar() throws ServiceException;
-    
+
     @WebMethod(operationName = "obtenerVigente")
     Plan obtenerVigente() throws ServiceException;
-    
+
     @WebMethod(operationName = "obtenerConfigurarPlan")
     Plan obtenerConfigurarPlan() throws ServiceException;
-    
+
     @WebMethod(operationName = "registrar")
-    String registrar(@WebParam(name = "plan")Plan plan) throws ServiceException;
-    
+    String registrar(@WebParam(name = "plan") Plan plan) throws ServiceException;
+
     @WebMethod(operationName = "configurar")
-    String configurar(@WebParam(name = "plan")Plan plan) throws ServiceException;
-    
+    String configurar(@WebParam(name = "plan") Plan plan) throws ServiceException;
+
+    @WebMethod(operationName = "obtenerProgramarPlan")
+    Plan obtenerProgramarPlan() throws ServiceException;
+
+    @WebMethod(operationName = "generarProgramacion")
+    Plan generarProgramacion(@WebParam(name = "plan") Plan plan) throws ServiceException;
+
     @WebMethod(operationName = "programar")
-    String programar(@WebParam(name = "plan")Plan plan) throws ServiceException;
-        
+    String programar(@WebParam(name = "plan") Plan plan) throws ServiceException;
+
 }

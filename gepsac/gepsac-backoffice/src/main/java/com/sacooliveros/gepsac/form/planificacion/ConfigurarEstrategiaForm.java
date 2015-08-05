@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.novatronic.sca.form.plan;
+package com.sacooliveros.gepsac.form.planificacion;
 
 import java.util.Map;
 import java.util.TreeMap;

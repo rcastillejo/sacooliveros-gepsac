@@ -37,6 +37,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link Indicador }
+     * 
+     */
+    public Indicador createIndicador() {
+        return new Indicador();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaActividadResponse }
+     * 
+     */
+    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
+        return new ListarEstrategiaActividadResponse();
+    }
+
+    /**
      * Create an instance of {@link Actividad }
      * 
      */
@@ -53,22 +85,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaActividadResponse }
-     * 
-     */
-    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
-        return new ListarEstrategiaActividadResponse();
-    }
-
-    /**
      * Create an instance of {@link ListarEstrategiaResponse }
      * 
      */
@@ -77,19 +93,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
+     * Create an instance of {@link Estrategia }
      * 
      */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link EstrategiaActividad }
-     * 
-     */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    public Estrategia createEstrategia() {
+        return new Estrategia();
     }
 
     /**
@@ -101,19 +109,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Indicador }
+     * Create an instance of {@link EstrategiaActividad }
      * 
      */
-    public Indicador createIndicador() {
-        return new Indicador();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
     }
 
     /**

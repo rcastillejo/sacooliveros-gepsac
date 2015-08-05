@@ -35,6 +35,10 @@
     </definition>-->
     
     <definition name="configurarEstrategia" extends="principal">
-        <put name="content" value="/pages/plan/configurar.jsp" type="page"/>
+        <put name="content" value="/pages/planificacion/configurar.jsp" type="page"/>
+    </definition>
+    
+    <definition name="programarPlan" extends="principal">
+        <put name="content" value="/pages/planificacion/programar.jsp" type="page"/>
     </definition>
 </tiles-definitions>

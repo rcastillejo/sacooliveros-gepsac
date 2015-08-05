@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="com.novatronic.sca.util.Resultado"%>
 <%@ taglib uri="http://struts.apache.org/tags-bean"  prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html"  prefix="html" %>
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
@@ -14,7 +13,7 @@
     //alert('COLORRRR' + gOptions.color);
     var formatDate = 'dd/mm/yy';
     var table = '#div-resultado';
-    var action = '/ConfigurarEstrategia.do';
+    var action = '/ProgramarPlan.do';
 
 
     var combo = '#div-combo';
@@ -37,26 +36,36 @@
     var dialog;
 
     $(document).ready(function () {
-        obtenerPlanRegistrado();
+        obtenerProgramarPlan();
 
         //CargarModal ConsultarEstrategia
-        $("#btnConsultarEstrategia").click(function (e) {
-            e.preventDefault();
-            fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/common/consultarEstrategia.jsp',
-                    900, 500, null);
-        });
-
-        //CargarModal ConsultarEstrategia
-        $("#btnGuardarConfiguracion").click(function (e) {
+        $("#btnGenerarProgramacion").click(function (e) {
             e.preventDefault();
 
-            var sError = validarConfiguracion();
+            var sError = validar();
 
             if (sError === "") {
-                fn_mdl_confirma("¿Está seguro que desea guardar la configuracion del Plan?",
+                fn_mdl_confirma("¿Está seguro que desea generar la prorgamación del Plan?",
                         function () {
-                            guardarConfiguracion();
+                            generar();
+                        },
+                        null,
+                        null,
+                        "CONFIRMACIÓN"
+                        );
+            } else {
+                fn_mdl_alert(sError, null, "VALIDACIONES");
+            }
+        });
+        $("#btnGuardarProgramacion").click(function (e) {
+            e.preventDefault();
+
+            var sError = validar();
+
+            if (sError === "") {
+                fn_mdl_confirma("¿Está seguro que desea guardar la prorgamación del Plan?",
+                        function () {
+                            guardar();
                         },
                         null,
                         null,
@@ -72,7 +81,7 @@
 
     });
 
-    function validarConfiguracion() {
+    function validar() {
         var sError = "";
 
         var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
@@ -170,12 +179,35 @@
         return data;
     }
 
-    function guardarConfiguracion() {
+    function generar() {
         var data = serializeConfiguracionPlan();
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&configuracionPlan=' + JSON.stringify(data)
+            url: "<%=request.getContextPath()%>" + action + '?method=generarProgramacionPlan&plan=' + JSON.stringify(data)
+        }).done(function (msg) {
+            console.log('msg', msg);
+            //cargarPlan(plan);
+            /*fn_mdl_alert(msg, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "CONFIRMACION");*/
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "CONFIRMACION");
+        });
+
+        //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
+        //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
+
+    }
+    function guardar() {
+        var data = serializeConfiguracionPlan();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "<%=request.getContextPath()%>" + action + '?method=guardarProgramacionPlan&plan=' + JSON.stringify(data)
         }).done(function (msg) {
             console.log('msg', msg);
             //cargarPlan(plan);
@@ -194,20 +226,20 @@
 
     }
 
-    function obtenerPlanRegistrado() {
-        $("#mensajeError").empty();
+    function obtenerProgramarPlan() {
+        
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=obtenerPlanRegistrado'
+            url: "<%=request.getContextPath()%>" + action + '?method=obtenerProgramarPlan'
         }).done(function (plan) {
             console.log('plan', plan);
-            if (plan.estado.codigo === 'PLA0001') {//Registrado
-                cargarPlan(plan);
-            } else if (plan.estado.codigo === 'PLA0002') {//Configurado
+            if (plan.estado.codigo === 'PLA0002') {//Configurado
                 cargarPlanEstrategia(plan);
-            } else {
-                fn_mdl_alert('El plan ya fue configurado', function () {
+            } /*else if (plan.estado.codigo === 'PLA0003') {//Programado
+                cargarPlanEstrategia(plan);
+            }*/ else {
+                fn_mdl_alert('El plan ya fue programado', function () {
                     location.assign("<%=request.getContextPath()%>");
                 }, "VALIDACIONES");
             }
@@ -318,7 +350,7 @@
             }
 
         } else {
-            fn_mdl_alert("No puede se puede agregar la estrategia ya que no está configurado", null, "VALIDACIONES");
+            fn_mdl_alert("No se puede agregar la estrategia ya que no está configurado", null, "VALIDACIONES");
         }
 
         fn_util_CierraModal();
@@ -388,17 +420,16 @@
         <%--<bean:message key="empresa.titulo" bundle="rsEmpresa" />--%>
     </div>
     <div>
-        <input type="button" id="btnConsultarEstrategia" value="Consultar Estrategia" />
-        <input type="button" id="btnGuardarConfiguracion" value="Guardar Configuración" />
-        <input type="button" id="btnAgregarEstrategia" value="Agregar Estrategia" />
+        <input type="button" id="btnGenerarProgramacion" value="Generar Estrategia" />
+        <input type="button" id="btnGuardarProgramacion" value="Guardar Prorgamación" />
     </div>
     <div id="dvData">
-        <html:form styleId="frmReporte" action="ConfigurarEstrategia.do?method=busqueda" method="POST">
+        <html:form styleId="frmReporte" action="ProgramarPlan.do?method=busqueda" method="POST">
             <input id="hdnBuscast" type="submit" style="display: none;" />
             <!-- INCIO PANEL-->
             <div id="div-busqueda" class="div-busqueda">
                 <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-                    Configurar Estrategia de Plan
+                    Programación del Plan
                 </div>
 
                 <div id="div-busqueda-filtros" class="div-busqueda-filtros">

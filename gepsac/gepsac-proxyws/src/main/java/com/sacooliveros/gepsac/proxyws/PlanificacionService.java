@@ -43,6 +43,20 @@ public interface PlanificacionService {
 
     /**
      * 
+     * @param arg0
+     * @return
+     *     returns com.sacooliveros.gepsac.proxyws.Plan
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "generarProgramacion", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.GenerarProgramacion")
+    @ResponseWrapper(localName = "generarProgramacionResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.GenerarProgramacionResponse")
+    public Plan generarProgramacion(
+        @WebParam(name = "arg0", targetNamespace = "")
+        Plan arg0);
+
+    /**
+     * 
      * @return
      *     returns com.sacooliveros.gepsac.proxyws.Plan
      * @throws ServiceException_Exception
@@ -52,6 +66,20 @@ public interface PlanificacionService {
     @RequestWrapper(localName = "obtenerConfigurarPlan", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerConfigurarPlan")
     @ResponseWrapper(localName = "obtenerConfigurarPlanResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerConfigurarPlanResponse")
     public Plan obtenerConfigurarPlan()
+        throws ServiceException_Exception
+    ;
+
+    /**
+     * 
+     * @return
+     *     returns com.sacooliveros.gepsac.proxyws.Plan
+     * @throws ServiceException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerProgramarPlan", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerProgramarPlan")
+    @ResponseWrapper(localName = "obtenerProgramarPlanResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.ObtenerProgramarPlanResponse")
+    public Plan obtenerProgramarPlan()
         throws ServiceException_Exception
     ;
 
