@@ -19,13 +19,13 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <pre>
  * &lt;complexType name="planActividad">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}estrategiaActividad">
+ *     &lt;extension base="{http://planificacion.service.gepsac.sacooliveros.com/}estrategiaActividad">
  *       &lt;sequence>
  *         &lt;element name="codigoPlan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="estado" type="{http://service.gepsac.sacooliveros.com/}estado" minOccurs="0"/>
+ *         &lt;element name="estado" type="{http://planificacion.service.gepsac.sacooliveros.com/}estado" minOccurs="0"/>
  *         &lt;element name="fechaEjecutada" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fechaProgramada" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
- *         &lt;element name="indicadoresSeleccionados" type="{http://service.gepsac.sacooliveros.com/}planIndicador" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="indicadoresSeleccionados" type="{http://planificacion.service.gepsac.sacooliveros.com/}planIndicador" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="meta" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="programado" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>

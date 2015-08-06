@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="planIndicador">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}indicador">
+ *     &lt;extension base="{http://planificacion.service.gepsac.sacooliveros.com/}indicador">
  *       &lt;sequence>
  *         &lt;element name="codigoActividad" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="codigoEstrategia" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>

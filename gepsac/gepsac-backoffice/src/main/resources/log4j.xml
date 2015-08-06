@@ -12,7 +12,7 @@
     <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
         <param name="Target" value="System.out"/>
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d [%t] [%-5p] (%c) - %m {%l}%n" />
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] %m %l%n" />
         </layout>
     </appender>
     
@@ -21,20 +21,21 @@
         <param name="DatePattern" value="'.'yyyyMMdd" />
         <param name="Append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d [%t] [%-5p] (%c) - %m {%l}%n" />
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
         </layout>
     </appender>    
     
     <appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">       
         <param name="File" value="${jboss.server.log.dir}/gepsac_backoffice/error.log" />
         <param name="DatePattern" value="'.'yyyyMMdd" />
+         <param name="Threshold" value="ERROR" />
         <param name="Append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d [%t] [%-5p] (%c) - %m {%l}%n" />
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
         </layout>
     </appender>    
     
-    <appender name="PERFORMANCE" class="org.apache.log4j.DailyRollingFileAppender">
+    <!--<appender name="PERFORMANCE" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="File" value="${jboss.server.log.dir}/gepsac_backoffice/perfomance.log"/>
         <param name="Append" value="true"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
@@ -46,15 +47,15 @@
     <logger name="performance" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="PERFORMANCE"/>
-    </logger>
+    </logger>-->
      
     
-    <logger name="com.sacooliveros.gepsac" additivity="false">
+    <logger name="com.sacooliveros.gepsac">
         <level value="DEBUG" />
         <appender-ref ref="TRAZADO"/>
     </logger>
     
-    <logger name="com.novatronic.sca.action" additivity="false">
+    <logger name="com.novatronic.sca.action">
         <level value="DEBUG" />
         <appender-ref ref="TRAZADO"/>
     </logger>

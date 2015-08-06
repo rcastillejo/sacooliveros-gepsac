@@ -5,7 +5,7 @@
  */
 package com.sacooliveros.gepsac.model;
 
-import com.sacooliveros.gepsac.model.common.Estado;
+import com.sacooliveros.gepsac.model.comun.Estado;
 import java.util.Date;
 import java.util.List;
 

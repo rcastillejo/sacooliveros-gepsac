@@ -189,8 +189,8 @@
             console.log('msg', msg);
             //cargarPlan(plan);
             /*fn_mdl_alert(msg, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "CONFIRMACION");*/
+             location.assign("<%=request.getContextPath()%>");
+             }, "CONFIRMACION");*/
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
@@ -227,7 +227,7 @@
     }
 
     function obtenerProgramarPlan() {
-        
+
         $.ajax({
             type: "POST",
             dataType: 'json',
@@ -237,8 +237,8 @@
             if (plan.estado.codigo === 'PLA0002') {//Configurado
                 cargarPlanEstrategia(plan);
             } /*else if (plan.estado.codigo === 'PLA0003') {//Programado
-                cargarPlanEstrategia(plan);
-            }*/ else {
+             cargarPlanEstrategia(plan);
+             }*/ else {
                 fn_mdl_alert('El plan ya fue programado', function () {
                     location.assign("<%=request.getContextPath()%>");
                 }, "VALIDACIONES");
@@ -417,7 +417,7 @@
 <div class="div-pagina">
 
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        <%--<bean:message key="empresa.titulo" bundle="rsEmpresa" />--%>
+        Programación del Plan
     </div>
     <div>
         <input type="button" id="btnGenerarProgramacion" value="Generar Estrategia" />
@@ -429,7 +429,7 @@
             <!-- INCIO PANEL-->
             <div id="div-busqueda" class="div-busqueda">
                 <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-                    Programación del Plan
+                    Datos del Plan
                 </div>
 
                 <div id="div-busqueda-filtros" class="div-busqueda-filtros">
@@ -468,54 +468,55 @@
                                 <label id="hdnIndicadores" class="inputValue" data-name="indicadoresSeleccionados" name="indicadoresSeleccionados" style="display: none"></label>
                                 <label id="lblIndicadores" ></label>
                             </td>
-                            <td>
-                                <button id="lnkEliminarActividad" type="button" value="Eliminar">
-                                    <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
-                                </button>
-                            </td>
                         </tr>
                     </table>
                 </div>
 
 
                 <div id="tblDetalleEstrategia" style="display: none;">
-                    <table id="tblEstrategia" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Estrategia</th>
-                            </tr>	
-                        </thead>                        
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
-                                </td>
-                                <td>
-                                    <label id="lblNombre"></label>
-                                </td>
-                                <td>
-                                    <input type="button" id="btnConsultarActividad" value="Consultar Actividad">
-                                </td>
-                                <td>
-                                    <button id="lnkEliminar" type="button" value="Eliminar">
-                                        <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                    <table id="tblDetalleActividad" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Actividad</th>
-                                <th>Indicadores</th>
-                            </tr>	
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+
+                    <div id="tblEstrategia" class="div-busqueda">
+                        <div class="div-busqueda-titulo">
+                            Datos de la Estrategia
+                        </div>
+                        <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Estrategia</th>
+                                </tr>	
+                            </thead>                        
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
+                                    </td>
+                                    <td>
+                                        <label id="lblNombre"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="no-float"></div>
+
+                        <div id="tblDetalleActividad" class="div-busqueda">
+                            <div class="div-busqueda-titulo">
+                                Relacion de Actividades
+                            </div>      
+                            <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Actividad</th>
+                                        <th>Indicadores</th>
+                                    </tr>	
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <div class="no-float"></div>
+                        </div>                  
+                    </div>                    
                 </div>
 
                 <div id="tblDetalle">

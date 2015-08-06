@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="planEstrategia">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}estrategia">
+ *     &lt;extension base="{http://planificacion.service.gepsac.sacooliveros.com/}estrategia">
  *       &lt;sequence>
- *         &lt;element name="actividadesSeleccionadas" type="{http://service.gepsac.sacooliveros.com/}planActividad" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="actividadesSeleccionadas" type="{http://planificacion.service.gepsac.sacooliveros.com/}planActividad" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="codigoPlan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>

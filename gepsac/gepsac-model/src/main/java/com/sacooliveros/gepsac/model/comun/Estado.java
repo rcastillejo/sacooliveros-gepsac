@@ -3,22 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.model.common;
+package com.sacooliveros.gepsac.model.comun;
+
+import java.io.Serializable;
 
 /**
  *
  * @author Ricardo
  */
-public class Tipo {
-    private int codigo;
-    private String nombre;
-    private String descripcion;
+public class Estado implements Serializable {
 
-    public int getCodigo() {
+    private String codigo;
+    private String nombre;
+
+    public Estado() {
+    }
+
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -30,12 +35,9 @@ public class Tipo {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    @Override
+    public String toString() {
+        return "Estado{" + "codigo=" + codigo + ", nombre=" + nombre + '}';
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-    
 }

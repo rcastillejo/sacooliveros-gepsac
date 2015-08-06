@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="actividad">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}model">
+ *     &lt;extension base="{http://comun.service.gepsac.sacooliveros.com/}model">
  *       &lt;sequence>
  *         &lt;element name="descripcion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="duracion" type="{http://www.w3.org/2001/XMLSchema}int"/>

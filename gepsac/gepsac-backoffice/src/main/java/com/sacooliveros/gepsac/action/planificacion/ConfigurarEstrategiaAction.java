@@ -11,7 +11,7 @@ import com.sacooliveros.gepsac.exception.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
-import com.sacooliveros.gepsac.proxyws.CommonService;
+import com.sacooliveros.gepsac.proxyws.ComunService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
     public void initConsultarEstrategia(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
-            CommonService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
+            ComunService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
 
             Resultado resultado = createSuccessResult(service.listarEstrategia());
 
@@ -57,7 +57,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
     public void initConsultarActividad(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
-            CommonService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
+            ComunService service = ProxyUtil.getCommonServicePort(Config.TIMEOUT);
             String codigoEstrategia = request.getParameter("codigoEstrategia");
             logger.debug("Consultando actividades de la estrategia [{}]", codigoEstrategia);
 

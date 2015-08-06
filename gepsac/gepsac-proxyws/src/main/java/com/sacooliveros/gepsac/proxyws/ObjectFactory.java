@@ -24,10 +24,10 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ListarEstrategiaActividadResponse_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "listarEstrategiaActividadResponse");
-    private final static QName _ListarEstrategiaResponse_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "listarEstrategiaResponse");
-    private final static QName _ListarEstrategia_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "listarEstrategia");
-    private final static QName _ListarEstrategiaActividad_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "listarEstrategiaActividad");
+    private final static QName _ListarEstrategia_QNAME = new QName("http://comun.service.gepsac.sacooliveros.com/", "listarEstrategia");
+    private final static QName _ListarEstrategiaActividadResponse_QNAME = new QName("http://comun.service.gepsac.sacooliveros.com/", "listarEstrategiaActividadResponse");
+    private final static QName _ListarEstrategiaResponse_QNAME = new QName("http://comun.service.gepsac.sacooliveros.com/", "listarEstrategiaResponse");
+    private final static QName _ListarEstrategiaActividad_QNAME = new QName("http://comun.service.gepsac.sacooliveros.com/", "listarEstrategiaActividad");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sacooliveros.gepsac.proxyws
@@ -37,19 +37,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
      * Create an instance of {@link Estado }
      * 
      */
     public Estado createEstado() {
         return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link Estrategia }
+     * 
+     */
+    public Estrategia createEstrategia() {
+        return new Estrategia();
+    }
+
+    /**
+     * Create an instance of {@link EstrategiaActividad }
+     * 
+     */
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link Actividad }
+     * 
+     */
+    public Actividad createActividad() {
+        return new Actividad();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaActividad }
+     * 
+     */
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
     }
 
     /**
@@ -69,14 +109,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Actividad }
-     * 
-     */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
      * Create an instance of {@link ListarEstrategia }
      * 
      */
@@ -85,42 +117,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaResponse }
+     * Create an instance of {@link JAXBElement }{@code <}{@link ListarEstrategia }{@code >}}
      * 
      */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
-    }
-
-    /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaActividad }
-     * 
-     */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
-    }
-
-    /**
-     * Create an instance of {@link EstrategiaActividad }
-     * 
-     */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    @XmlElementDecl(namespace = "http://comun.service.gepsac.sacooliveros.com/", name = "listarEstrategia")
+    public JAXBElement<ListarEstrategia> createListarEstrategia(ListarEstrategia value) {
+        return new JAXBElement<ListarEstrategia>(_ListarEstrategia_QNAME, ListarEstrategia.class, null, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ListarEstrategiaActividadResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "listarEstrategiaActividadResponse")
+    @XmlElementDecl(namespace = "http://comun.service.gepsac.sacooliveros.com/", name = "listarEstrategiaActividadResponse")
     public JAXBElement<ListarEstrategiaActividadResponse> createListarEstrategiaActividadResponse(ListarEstrategiaActividadResponse value) {
         return new JAXBElement<ListarEstrategiaActividadResponse>(_ListarEstrategiaActividadResponse_QNAME, ListarEstrategiaActividadResponse.class, null, value);
     }
@@ -129,25 +138,16 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link ListarEstrategiaResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "listarEstrategiaResponse")
+    @XmlElementDecl(namespace = "http://comun.service.gepsac.sacooliveros.com/", name = "listarEstrategiaResponse")
     public JAXBElement<ListarEstrategiaResponse> createListarEstrategiaResponse(ListarEstrategiaResponse value) {
         return new JAXBElement<ListarEstrategiaResponse>(_ListarEstrategiaResponse_QNAME, ListarEstrategiaResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ListarEstrategia }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "listarEstrategia")
-    public JAXBElement<ListarEstrategia> createListarEstrategia(ListarEstrategia value) {
-        return new JAXBElement<ListarEstrategia>(_ListarEstrategia_QNAME, ListarEstrategia.class, null, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ListarEstrategiaActividad }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "listarEstrategiaActividad")
+    @XmlElementDecl(namespace = "http://comun.service.gepsac.sacooliveros.com/", name = "listarEstrategiaActividad")
     public JAXBElement<ListarEstrategiaActividad> createListarEstrategiaActividad(ListarEstrategiaActividad value) {
         return new JAXBElement<ListarEstrategiaActividad>(_ListarEstrategiaActividad_QNAME, ListarEstrategiaActividad.class, null, value);
     }

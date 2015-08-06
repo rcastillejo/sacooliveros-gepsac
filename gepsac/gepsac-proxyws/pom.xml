@@ -36,7 +36,7 @@
                     </wsdlUrls>-->
                     <wsdlFiles>
                         <wsdlFile>PlanificacionService.xml</wsdlFile>
-                        <wsdlFile>CommonService.xml</wsdlFile>
+                        <wsdlFile>ComunService.xml</wsdlFile>
                     </wsdlFiles>
                     <sourceDestDir>src/main/java</sourceDestDir>
                     <extension>true</extension>
@@ -71,4 +71,12 @@
             </plugin>
         </plugins>    
     </build>
+    <dependencies>        
+        <dependency>
+            <groupId>javax.xml.ws</groupId>
+            <artifactId>jaxws-api</artifactId>
+            <version>2.2.11</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

@@ -19,17 +19,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * <pre>
  * &lt;complexType name="plan">
  *   &lt;complexContent>
- *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}model">
+ *     &lt;extension base="{http://planificacion.service.gepsac.sacooliveros.com/}model">
  *       &lt;sequence>
  *         &lt;element name="anio" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="estrategiasSeleccionadas" type="{http://service.gepsac.sacooliveros.com/}planEstrategia" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="estrategiasSeleccionadas" type="{http://planificacion.service.gepsac.sacooliveros.com/}planEstrategia" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="fecConfiguracion" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecFin" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecInicio" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecProgramacion" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecRegistro" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="hitos" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="restriccionFechas" type="{http://service.gepsac.sacooliveros.com/}restriccionFecha" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="restriccionFechas" type="{http://planificacion.service.gepsac.sacooliveros.com/}restriccionFecha" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="titulo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>

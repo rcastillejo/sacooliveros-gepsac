@@ -11,7 +11,6 @@ import com.sacooliveros.gepsac.exception.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
-import com.sacooliveros.gepsac.proxyws.CommonService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
@@ -122,7 +121,7 @@ public class ProgramarPlanAction extends DispatchAction {
         try {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
 
-            Resultado resultado = createSuccessResult(service.obtenerConfigurarPlan());
+            Resultado resultado = createSuccessResult(service.obtenerProgramarPlan());
 
             generalAction(resultado, response);
         } catch (Exception e) {

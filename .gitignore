@@ -234,3 +234,4 @@ nb-configuration.xml
 /gepsac/gepsac-controller/target/
 /gepsac/gepsac-proxyws/target/
 /gepsac/gepsac-backoffice/target/
+/gepsac/gepsac-controller-struts/target/

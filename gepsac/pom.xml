@@ -14,7 +14,6 @@
         <module>gepsac-backoffice</module>
         <module>gepsac-model</module>
         <module>gepsac-service</module>
-        <module>gepsac-controller</module>
         <module>gepsac-controller-module</module>
         <module>gepsac-dao</module>
         <module>gepsac-proxyws</module>

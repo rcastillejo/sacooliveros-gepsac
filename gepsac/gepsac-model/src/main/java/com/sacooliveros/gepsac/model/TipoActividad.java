@@ -5,7 +5,7 @@
  */
 package com.sacooliveros.gepsac.model;
 
-import com.sacooliveros.gepsac.model.common.Tipo;
+import com.sacooliveros.gepsac.model.comun.Tipo;
 
 /**
  *

@@ -447,43 +447,57 @@
 
 
                 <div id="tblDetalleEstrategia" style="display: none;">
-                    <table id="tblEstrategia" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Estrategia</th>
-                            </tr>	
-                        </thead>                        
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
-                                </td>
-                                <td>
-                                    <label id="lblNombre"></label>
-                                </td>
-                                <td>
-                                    <input type="button" id="btnConsultarActividad" value="Consultar Actividad">
-                                </td>
-                                <td>
-                                    <button id="lnkEliminar" type="button" value="Eliminar">
-                                        <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br/>
-                    <table id="tblDetalleActividad" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                        <thead>
-                            <tr>
-                                <th>N°</th>
-                                <th>Actividad</th>
-                                <th>Indicadores</th>
-                            </tr>	
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+
+                    <div id="tblEstrategia" class="div-busqueda">
+                        <div class="div-busqueda-titulo">
+                            Datos de la Estrategia
+                        </div>
+                        <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Estrategia</th>
+                                </tr>	
+                            </thead>                        
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
+                                    </td>
+                                    <td>
+                                        <label id="lblNombre"></label>
+                                    </td>
+                                    <td>
+                                        <input type="button" id="btnConsultarActividad" value="Consultar Actividad">
+                                    </td>
+                                    <td>
+                                        <button id="lnkEliminar" type="button" value="Eliminar">
+                                            <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="no-float"></div>
+
+                        <div id="tblDetalleActividad" class="div-busqueda">
+                            <div class="div-busqueda-titulo">
+                                Relacion de Actividades
+                            </div>      
+                            <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Actividad</th>
+                                        <th>Indicadores</th>
+                                    </tr>	
+                                </thead>
+                                <tbody></tbody>
+                            </table>   
+                            <div class="no-float"></div>               
+                        </div>
+                    </div>
                 </div>
 
                 <div id="tblDetalle">
