@@ -81,11 +81,11 @@
     }
 
     function fn_seleccionar() {
-        if (item && item != null) {
+        if (item && item !== null) {
             console.log("itemSeleccionado", item);
             parent.cargarActividad(item);
         } else {
-            fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
+            fn_mdl_alert("Debe seleccionar una actividad", null, "VALIDACIONES");
         }
     }
 

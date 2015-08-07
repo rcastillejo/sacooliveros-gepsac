@@ -76,11 +76,11 @@
     }
 
     function fn_seleccionar() {
-        if (item && item != null) {
+        if (item && item !== null) {
             console.log("itemSeleccionado", item);
             parent.cargarEstrategia(item);
         } else {
-            fn_mdl_alert("Debe seleccionar un registro", null, "VALIDACIONES");
+            fn_mdl_alert("Debe seleccionar una estrategia", null, "VALIDACIONES");
         }
     }
 
@@ -140,7 +140,7 @@
                 <tr>
                     <th>_</th>
                     <th>Código</th>	
-                    <th>Nombre</th>
+                    <th>Título</th>
                     <th>Descripcion</th>
                     <th>Estado</th>
                 </tr>	

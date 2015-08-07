@@ -8,6 +8,12 @@
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/ZeroClipboard.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/TableTools.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/fullcalendar.min.js"></script>
+<link href='<%=request.getContextPath()%>/resources/css/fullcalendar.css' rel='stylesheet' />
+<link href='<%=request.getContextPath()%>/resources/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='<%=request.getContextPath()%>/resources/js/lang-all.js'></script>
 
 <script type = "text/javascript" >
     //alert('COLORRRR' + gOptions.color);
@@ -38,6 +44,11 @@
     $(document).ready(function () {
         obtenerProgramarPlan();
 
+        $("#btnCancelar").click(function (e) {
+            e.preventDefault();
+            location.assign("<%=request.getContextPath()%>");
+        });
+        
         //CargarModal ConsultarEstrategia
         $("#btnGenerarProgramacion").click(function (e) {
             e.preventDefault();
@@ -76,6 +87,74 @@
             }
         });
 
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'anterior,siguiente hoy',
+                center: 'title'
+                //right: 'month,agendaWeek,agendaDay'
+            },
+            defaultDate: new Date(),
+            lang: 'es',
+            editable: false,
+            eventLimit: true,
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2015-02-01'
+                },
+                {
+                    title: 'Long Event',
+                    start: '2015-02-07',
+                    end: '2015-02-10'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2015-02-09T16:00:00'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2015-02-16T16:00:00'
+                },
+                {
+                    title: 'Conference',
+                    start: '2015-02-11',
+                    end: '2015-02-13'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2015-02-12T10:30:00',
+                    end: '2015-02-12T12:30:00'
+                },
+                {
+                    title: 'Lunch',
+                    start: '2015-02-12T12:00:00'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2015-02-12T14:30:00'
+                },
+                {
+                    title: 'Happy Hour',
+                    start: '2015-02-12T17:30:00'
+                },
+                {
+                    title: 'Dinner',
+                    start: '2015-02-12T20:00:00'
+                },
+                {
+                    title: 'Birthday Party',
+                    start: '2015-02-13T07:00:00'
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2015-02-28'
+                }
+            ]
+        });
 
         //$('.tooltip').tooltip();
 
@@ -422,6 +501,7 @@
     <div>
         <input type="button" id="btnGenerarProgramacion" value="Generar Estrategia" />
         <input type="button" id="btnGuardarProgramacion" value="Guardar Prorgamación" />
+        <input type="button" id="btnCancelar" value="Cancelar" />
     </div>
     <div id="dvData">
         <html:form styleId="frmReporte" action="ProgramarPlan.do?method=busqueda" method="POST">
@@ -522,6 +602,9 @@
                 <div id="tblDetalle">
 
                 </div>
+
+
+                <div id='calendar'></div>
             </div>
 
             <div class="mensaje" >

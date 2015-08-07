@@ -38,6 +38,11 @@
     $(document).ready(function () {
         obtenerPlanRegistrado();
 
+        $("#btnCancelar").click(function (e) {
+            e.preventDefault();
+            location.assign("<%=request.getContextPath()%>");
+        });
+        
         //CargarModal ConsultarEstrategia
         $("#btnConsultarEstrategia").click(function (e) {
             e.preventDefault();
@@ -384,12 +389,13 @@
 <div class="div-pagina">
 
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        <%--<bean:message key="empresa.titulo" bundle="rsEmpresa" />--%>
+        Configurar Estrategia de Plan
     </div>
     <div>
         <input type="button" id="btnConsultarEstrategia" value="Consultar Estrategia" />
         <input type="button" id="btnGuardarConfiguracion" value="Guardar Configuración" />
         <input type="button" id="btnAgregarEstrategia" value="Agregar Estrategia" />
+        <input type="button" id="btnCancelar" value="Cancelar" />
     </div>
     <div id="dvData">
         <html:form styleId="frmReporte" action="ConfigurarEstrategia.do?method=busqueda" method="POST">
@@ -397,7 +403,7 @@
             <!-- INCIO PANEL-->
             <div id="div-busqueda" class="div-busqueda">
                 <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-                    Configurar Estrategia de Plan
+                    Datos del Plan
                 </div>
 
                 <div id="div-busqueda-filtros" class="div-busqueda-filtros">

@@ -37,14 +37,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
      * Create an instance of {@link Estrategia }
      * 
      */
@@ -53,27 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EstrategiaActividad }
+     * Create an instance of {@link Estado }
      * 
      */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
-    }
-
-    /**
-     * Create an instance of {@link Actividad }
-     * 
-     */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaResponse }
-     * 
-     */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**
@@ -85,11 +61,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public Model createModel() {
-        return new Model();
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
@@ -114,6 +90,30 @@ public class ObjectFactory {
      */
     public ListarEstrategia createListarEstrategia() {
         return new ListarEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
+    }
+
+    /**
+     * Create an instance of {@link EstrategiaActividad }
+     * 
+     */
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
     }
 
     /**
