@@ -256,3 +256,50 @@ CREATE TABLE tp_plan_indicador
 WITH (
   OIDS=FALSE
 );
+
+
+--Experto
+
+CREATE TABLE tp_perfil
+(
+  cod_perfil character varying(15) NOT NULL,
+  nom_perfil character varying(25) NOT NULL,
+  des_perfil character varying(250) NOT NULL,
+  
+  cod_estado character varying(15) NOT NULL, 
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT fk_tp_perfil_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE tp_alumno
+(
+  cod_alumno character varying(15) NOT NULL,
+  nommbres character varying(150) NOT NULL,
+  apellido_pat character varying(250) NOT NULL,
+  apellido_mat character varying(250) NOT NULL,
+  
+  cod_estado character varying(15) NOT NULL, 
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT fk_tp_perfil_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
