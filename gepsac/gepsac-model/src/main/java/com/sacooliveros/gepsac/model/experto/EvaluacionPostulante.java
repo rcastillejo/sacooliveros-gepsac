@@ -35,4 +35,9 @@ public class EvaluacionPostulante {
         this.perfiles = perfiles;
     }
 
+    @Override
+    public String toString() {
+        return "EvaluacionPostulante{" + "alumno=" + alumno + ", perfiles=" + perfiles + '}';
+    }
+
 }

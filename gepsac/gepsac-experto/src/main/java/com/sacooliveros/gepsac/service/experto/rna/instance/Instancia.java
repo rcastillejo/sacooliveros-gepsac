@@ -5,15 +5,21 @@
  */
 package com.sacooliveros.gepsac.service.experto.rna.instance;
 
+import java.util.List;
+import weka.classifiers.Classifier;
 import weka.core.Instances;
 
 /**
  *
  * @author Ricardo
  */
-public interface Instancia<S> {
+public interface Instancia<S,P> {
 
     Instances getTrainInstances();
     
     Instances getPredicInstances(S source);
+    
+    Classifier train(Instances dataEntrenar);
+    
+    List<P> predict(Classifier clasificador, Instances dataEntrenado, Instances dataEvaluar);
 }
