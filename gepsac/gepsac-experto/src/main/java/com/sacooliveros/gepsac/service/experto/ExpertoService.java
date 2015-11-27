@@ -5,6 +5,8 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
+import com.sacooliveros.gepsac.dao.AlumnoDAO;
+import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
@@ -27,26 +29,13 @@ public class ExpertoService implements Experto {
 
     @Override
     public EvaluacionPostulante evaluarAlumno(Alumno alumno) {
-        /*
         
-         try {
-
-         //Grabar Alumno a evaluar
-         alumnoDao.ingresar(alumno);
-         //Obtener Prediccion
-            
-         } catch (Exception e) {
-         throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
-         }
-
-         return planVigente;*/
-
         try {
-            //AlumnoDAO alumnoDao = DAOFactory.getDAOFactory().getAlumnoDAO();
+            AlumnoDAO alumnoDao = DAOFactory.getDAOFactory().getAlumnoDAO();
             Instancia instancia = InstanciaQueryFactory.create();
 
             //Grabar alumno postulante a evaluar
-            //alumnoDao.ingresar(alumno);
+            alumnoDao.grabarPostulante(alumno);
             
             //Cargar alumnos evaluados
             Instances alumnosEvaluados = instancia.getTrainInstances();
