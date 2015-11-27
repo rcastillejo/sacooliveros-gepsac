@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.rna.instance;
+package com.sacooliveros.gepsac.service.experto.rna.instance;
 
 import weka.core.Instances;
 

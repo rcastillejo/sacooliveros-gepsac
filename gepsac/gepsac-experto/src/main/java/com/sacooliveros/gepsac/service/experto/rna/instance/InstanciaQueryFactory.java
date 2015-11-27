@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.rna.instance;
+package com.sacooliveros.gepsac.service.experto.rna.instance;
+
+import com.sacooliveros.gepsac.service.experto.exception.ServiceException;
 
 /**
  *
@@ -17,7 +19,7 @@ public class InstanciaQueryFactory {
             instancia = new AlumnoInstancia();
             return instancia;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ServiceException("Error al crear la instancia", e);
         }
     }
 }

@@ -54,4 +54,9 @@ public class PerfilEvaluado {
         seleccionado = Boolean.TRUE;
     }
 
+    @Override
+    public String toString() {
+        return "PerfilEvaluado{" + "perfil=" + perfil + ", probabilidad=" + probabilidad + ", seleccionado=" + seleccionado + '}';
+    }    
+
 }

@@ -266,36 +266,61 @@ CREATE TABLE tp_perfil
   nom_perfil character varying(25) NOT NULL,
   des_perfil character varying(250) NOT NULL,
   
-  cod_estado character varying(15) NOT NULL, 
+  --cod_estado character varying(15) NOT NULL, 
   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_perfil PRIMARY KEY (cod_perfil)/*,
   CONSTRAINT fk_tp_perfil_tp_estado FOREIGN KEY (cod_estado)
       REFERENCES tp_estado (cod_estado) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION*/
 )
 WITH (
   OIDS=FALSE
 );
 
 
-CREATE TABLE tp_alumno
+CREATE TABLE tp_alumno_evaluado
 (
   cod_alumno character varying(15) NOT NULL,
-  nommbres character varying(150) NOT NULL,
-  apellido_pat character varying(250) NOT NULL,
-  apellido_mat character varying(250) NOT NULL,
+  nommbres character varying(150) NULL,
+  apellido_pat character varying(250) NULL,
+  apellido_mat character varying(250) NULL,
   
-  cod_estado character varying(15) NOT NULL, 
+  genero character varying(15) NOT NULL, -- Masculino, Femenino,
+  edad int NOT NULL,
+  contextura character varying(10) NULL, -- PEQUEÑO, MEDIANO, GRANDE
+  altura character varying(10) NOT NULL, --Alto, Medio, Bajo
+  tipo_familia character varying(50) NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
   
+  orden_nacimiento int NOT NULL DEFAULT 1, -- 1=Primero, 2=segundo,etc.
+  num_hnos int NOT NULL DEFAULT 0, --Numero de hermanos, 0 para hijo Unico
+  
+  nivel_escolar character varying(15) NOT NULL, --Primaria, Secundaria
+  grado_escolar int NOT NULL,
+  promedio_escolar numeric(4,2) NOT NULL, --Promedio escolar del momento de la evaluacion al alumno
+  
+  nro_cambio_colegio int NOT NULL DEFAULT 0, --nro. Cambios Colegios
+  religion character varying(50) NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
+  nacionalidad character varying(50) NOT NULL, --Peruano, Chileno, Venezolano, etc. 
+  distrito character varying(50) NOT NULL, --Nombre del distrito del alumno
+  provincia character varying(50) NOT NULL, --Nombre del provincia del alumno
+  departamento character varying(50) NOT NULL, --Nombre del departamento del alumno
+    
+  cod_perfil character varying(15) NULL, 
+  --cod_estado character varying(15) NOT NULL,   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
-  CONSTRAINT fk_tp_perfil_tp_estado FOREIGN KEY (cod_estado)
+  /*CONSTRAINT fk_tp_alumno_tp_estado FOREIGN KEY (cod_estado)
       REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,*/
+  CONSTRAINT pk_tp_alumno_evaluado PRIMARY KEY (cod_alumno),
+  CONSTRAINT fk_tp_alumno_evaluado_tp_perfil FOREIGN KEY (cod_perfil)
+      REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -303,3 +328,47 @@ WITH (
 );
 
 
+CREATE TABLE tp_alumno_postulante
+(
+  cod_alumno character varying(15) NOT NULL,
+  nommbres character varying(150) NULL,
+  apellido_pat character varying(250) NULL,
+  apellido_mat character varying(250) NULL,
+  
+  genero character varying(15) NOT NULL, -- Masculino, Femenino,
+  edad int NOT NULL,
+  contextura character varying(10) NULL, -- PEQUEÑO, MEDIANO, GRANDE
+  altura character varying(10) NOT NULL, --Alto, Medio, Bajo
+  tipo_familia character varying(50) NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
+  
+  orden_nacimiento int NOT NULL DEFAULT 1, -- 1=Primero, 2=segundo,etc.
+  num_hnos int NOT NULL DEFAULT 0, --Numero de hermanos, 0 para hijo Unico
+  
+  nivel_escolar character varying(15) NOT NULL, --Primaria, Secundaria
+  grado_escolar int NOT NULL,
+  promedio_escolar numeric(4,2) NOT NULL, --Promedio escolar del momento de la evaluacion al alumno
+  
+  nro_cambio_colegio int NOT NULL DEFAULT 0, --nro. Cambios Colegios
+  religion character varying(50) NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
+  nacionalidad character varying(50) NOT NULL, --Peruano, Chileno, Venezolano, etc. 
+  distrito character varying(50) NOT NULL, --Nombre del distrito del alumno
+  provincia character varying(50) NOT NULL, --Nombre del provincia del alumno
+  departamento character varying(50) NOT NULL, --Nombre del departamento del alumno
+    
+  cod_perfil character varying(15) NULL, 
+  --cod_estado character varying(15) NOT NULL,   
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_alumno_postulante_evaluado PRIMARY KEY (cod_alumno),
+  /*CONSTRAINT fk_tp_alumno_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,*/
+  CONSTRAINT fk_tp_alumno_postulante_tp_perfil FOREIGN KEY (cod_perfil)
+      REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);

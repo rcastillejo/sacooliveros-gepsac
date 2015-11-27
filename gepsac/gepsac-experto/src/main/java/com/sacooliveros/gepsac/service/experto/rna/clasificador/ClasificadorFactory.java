@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.rna.clasificador;
+package com.sacooliveros.gepsac.service.experto.rna.clasificador;
 
 import weka.classifiers.Classifier;
 import weka.core.Utils;

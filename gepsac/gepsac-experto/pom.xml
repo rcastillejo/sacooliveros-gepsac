@@ -22,5 +22,15 @@
             <artifactId>gepsac-model</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.6.13</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>gepsac-dao</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
 </project>
