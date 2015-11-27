@@ -86,6 +86,11 @@
             <artifactId>gepsac-controller-module</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.sacooliveros.gepsac.service</groupId>
+            <artifactId>gepsac-experto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

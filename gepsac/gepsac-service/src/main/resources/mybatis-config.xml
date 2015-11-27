@@ -23,5 +23,6 @@
     <mappers>
         <mapper resource="PlanMapper.xml"/>
         <mapper resource="EstrategiaMapper.xml"/>
+        <mapper resource="AlumnoMapper.xml"/>
     </mappers>
 </configuration>

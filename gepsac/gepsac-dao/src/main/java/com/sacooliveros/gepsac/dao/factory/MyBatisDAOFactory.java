@@ -5,9 +5,11 @@
  */
 package com.sacooliveros.gepsac.dao.factory;
 
+import com.sacooliveros.gepsac.dao.AlumnoDAO;
 import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.EstrategiaDAO;
 import com.sacooliveros.gepsac.dao.PlanDAO;
+import com.sacooliveros.gepsac.dao.myibatis.AlumnoMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EstrategiaMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.PlanMyIbatisDAO;
 
@@ -25,6 +27,11 @@ public class MyBatisDAOFactory extends DAOFactory {
     @Override
     public EstrategiaDAO getEstrategiaDAO() {
         return new EstrategiaMyIbatisDAO();
+    }
+
+    @Override
+    public AlumnoDAO getAlumnoDAO() {
+        return new AlumnoMyIbatisDAO();
     }
 
 }

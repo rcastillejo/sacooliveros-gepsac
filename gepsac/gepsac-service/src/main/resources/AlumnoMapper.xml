@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.AlumnoMapper" >
+  <!--
+  <resultMap id="BaseResultMap" type="com.sacooliveros.gepsac.model.Estrategia" >
+    <id column="idUsuario" property="idUsuario" jdbcType="INTEGER" />
+    <result column="usuario" property="usuario" jdbcType="VARCHAR" />
+    <result column="premium" property="premium" jdbcType="VARCHAR" />
+    <result column="ocupacion" property="ocupacion" jdbcType="VARCHAR" />
+    <result column="cinefavorito" property="cinefavorito" jdbcType="VARCHAR" />
+    <result column="precio" property="precio" jdbcType="DECIMAL" />
+    <result column="generofavorito" property="generofavorito" jdbcType="VARCHAR" />
+  </resultMap>
+  -->
+    <resultMap id="recordResultMap" type="com.sacooliveros.gepsac.model.experto.Alumno" >
+        <id column="cod_plan" property="codigo" jdbcType="VARCHAR" />
+        <result column="anio" property="anio" jdbcType="VARCHAR" />
+        <result column="fec_registro" property="fecRegistro" jdbcType="DATE" />
+        <result column="fec_inicio" property="fecInicio" jdbcType="DATE" />
+        <result column="fec_fin" property="fecFin" jdbcType="DATE" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+    </resultMap>
+      
+    <select id="query" resultMap="recordResultMap">
+        SELECT
+            cod_alumno,
+            genero,
+            edad,
+            contextura,
+            altura,
+            tipo_familia,
+            orden_nacimiento,
+            num_hnos,
+            nivel_escolar,
+            grado_escolar,
+            promedio_escolar,
+            nro_cambio_colegio,
+            religion,
+            nacionalidad,
+            distrito,
+            provincia,
+            departamento,
+            cod_perfil 
+        FROM 
+            tp_alumno_evaluado
+    </select>
+  
+    <select id="get" resultMap="recordResultMap">
+        Select 
+            cod_alumno,
+            genero,
+            edad,
+            contextura,
+            altura,
+            tipo_familia,
+            orden_nacimiento,
+            num_hnos,
+            nivel_escolar,
+            grado_escolar,
+            promedio_escolar,
+            nro_cambio_colegio,
+            religion,
+            nacionalidad,
+            distrito,
+            provincia,
+            departamento,
+            cod_perfil 
+        from 
+            tp_alumno_evaluado 
+        where
+            cod_alumno=#{codigo}
+    </select>
+  
+    <insert id="insertPostulante">
+        Insert tp_alumno_postulante 
+            (cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,
+            num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,
+            religion,nacionalidad,distrito,provincia,departamento)
+        values
+            (#{codigo},#{genero},#{edad},#{contextura},#{altura},#{tipoFamilia},#{ordenNacimiento},
+            #{numHnos},#{nivelEscolar},#{gradoEscolar},#{promedioEscolar},#{nroCambioColegio},
+            #{religion},#{nacionalidad},#{distrito},#{provincia},#{departamento})
+    </insert> 
+  
+    <update id="updatePostulante">
+        Update 
+            tp_alumno_postulante 
+        Set
+            genero = #{genero},
+            edad = #{edad},
+            contextura = #{contextura},
+            altura = #{altura},
+            tipo_familia = #{tipoFamilia},
+            orden_nacimiento = #{ordenNacimiento},
+            num_hnos = #{numHnos},
+            nivel_escolar = #{nivelEscolar},
+            grado_escolar = #{gradoEscolar},
+            promedio_escolar = #{promedioEscolar},
+            nro_cambio_colegio = #{nroCambioColegio},
+            religion = #{religion},
+            nacionalidad = #{nacionalidad},
+            distrito = #{distrito},
+            provincia = #{provincia},
+            departamento = #{departamento}
+        Where
+            cod_alumno=#{codigo}
+    </update> 
+    
+</mapper>

@@ -45,4 +45,5 @@ public abstract class DAOFactory {
     
     public abstract PlanDAO getPlanEstrategicoDAO();
     public abstract EstrategiaDAO getEstrategiaDAO();
+    public abstract AlumnoDAO getAlumnoDAO();
 }
