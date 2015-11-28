@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="db2191b2-4047-4725-ac53-d0a96f8c475e" activeEnvironment="Default" name="WebServiceAlumno" resourceRoot="" soapui-version="5.1.3" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="866d73cf-a49d-41f9-a018-2491533916df" wsaVersion="NONE" name="WebServiceAlumnoSoapBinding" type="wsdl" bindingName="{http://app.sacoliveros.pe.edu/}WebServiceAlumnoSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8180/WebServiceIntranet/WebServiceAlumno?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8180/WebServiceIntranet/WebServiceAlumno?wsdl"><con:part><con:url>http://localhost:8180/WebServiceIntranet/WebServiceAlumno?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="WebServiceAlumno" targetNamespace="http://app.sacoliveros.pe.edu/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://app.sacoliveros.pe.edu/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://app.sacoliveros.pe.edu/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="listarAlumnoPostulante" type="tns:listarAlumnoPostulante"/>
+      <xs:element name="listarAlumnoPostulanteResponse" type="tns:listarAlumnoPostulanteResponse"/>
+      <xs:element name="obtenerrAlumnoPostulante" type="tns:obtenerrAlumnoPostulante"/>
+      <xs:element name="obtenerrAlumnoPostulanteResponse" type="tns:obtenerrAlumnoPostulanteResponse"/>
+      <xs:complexType name="obtenerrAlumnoPostulante">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="obtenerrAlumnoPostulanteResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:alumno"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="alumno">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="altura" type="xs:string"/>
+              <xs:element minOccurs="0" name="contextura" type="xs:string"/>
+              <xs:element minOccurs="0" name="departamento" type="xs:string"/>
+              <xs:element minOccurs="0" name="distrito" type="xs:string"/>
+              <xs:element name="edad" type="xs:int"/>
+              <xs:element minOccurs="0" name="genero" type="xs:string"/>
+              <xs:element name="gradoEscolar" type="xs:int"/>
+              <xs:element minOccurs="0" name="nacionalidad" type="xs:string"/>
+              <xs:element minOccurs="0" name="nivelEscolar" type="xs:string"/>
+              <xs:element name="nroCambioColegio" type="xs:int"/>
+              <xs:element name="numHnos" type="xs:int"/>
+              <xs:element name="ordenNacimiento" type="xs:int"/>
+              <xs:element name="promedioEscolar" type="xs:double"/>
+              <xs:element minOccurs="0" name="provincia" type="xs:string"/>
+              <xs:element minOccurs="0" name="religion" type="xs:string"/>
+              <xs:element minOccurs="0" name="tipoFamilia" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="model">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+          <xs:element minOccurs="0" name="estado" type="tns:estado"/>
+          <xs:element minOccurs="0" name="fecCre" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecMod" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="usuCre" type="xs:string"/>
+          <xs:element minOccurs="0" name="usuMod" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="estado">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listarAlumnoPostulante">
+        <xs:sequence/>
+      </xs:complexType>
+      <xs:complexType name="listarAlumnoPostulanteResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:alumno"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="listarAlumnoPostulanteResponse">
+    <wsdl:part element="tns:listarAlumnoPostulanteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerrAlumnoPostulante">
+    <wsdl:part element="tns:obtenerrAlumnoPostulante" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="listarAlumnoPostulante">
+    <wsdl:part element="tns:listarAlumnoPostulante" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="obtenerrAlumnoPostulanteResponse">
+    <wsdl:part element="tns:obtenerrAlumnoPostulanteResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WebServiceAlumno">
+    <wsdl:operation name="obtenerrAlumnoPostulante">
+      <wsdl:input message="tns:obtenerrAlumnoPostulante" name="obtenerrAlumnoPostulante"></wsdl:input>
+      <wsdl:output message="tns:obtenerrAlumnoPostulanteResponse" name="obtenerrAlumnoPostulanteResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listarAlumnoPostulante">
+      <wsdl:input message="tns:listarAlumnoPostulante" name="listarAlumnoPostulante"></wsdl:input>
+      <wsdl:output message="tns:listarAlumnoPostulanteResponse" name="listarAlumnoPostulanteResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WebServiceAlumnoSoapBinding" type="tns:WebServiceAlumno">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="obtenerrAlumnoPostulante">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="obtenerrAlumnoPostulante">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obtenerrAlumnoPostulanteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="listarAlumnoPostulante">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="listarAlumnoPostulante">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="listarAlumnoPostulanteResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WebServiceAlumno">
+    <wsdl:port binding="tns:WebServiceAlumnoSoapBinding" name="WebServiceAlumnoPort">
+      <soap:address location="http://localhost:8180/WebServiceIntranet/WebServiceAlumno"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8180/WebServiceIntranet/WebServiceAlumno</con:endpoint></con:endpoints><con:operation id="b99e8ea6-cb5c-496a-9a7a-504d697987b4" isOneWay="false" action="" name="listarAlumnoPostulante" bindingOperationName="listarAlumnoPostulante" type="Request-Response" outputName="listarAlumnoPostulanteResponse" inputName="listarAlumnoPostulante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2c7ae504-e9c8-4df4-bca3-6b00d62adbee" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/WebServiceIntranet/WebServiceAlumno</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="http://app.sacoliveros.pe.edu/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <app:listarAlumnoPostulante/>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://app.sacoliveros.pe.edu/WebServiceAlumno/listarAlumnoPostulante"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="8e643d32-e049-4234-a94e-4b05a73a7f73" isOneWay="false" action="" name="obtenerrAlumnoPostulante" bindingOperationName="obtenerrAlumnoPostulante" type="Request-Response" outputName="obtenerrAlumnoPostulanteResponse" inputName="obtenerrAlumnoPostulante" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="3864cec0-204a-4f85-b0a4-c0b0229146fd" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/WebServiceIntranet/WebServiceAlumno</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="http://app.sacoliveros.pe.edu/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <app:obtenerrAlumnoPostulante>\r
+         <!--Optional:-->\r
+         <arg0>A20152811a8</arg0>\r
+      </app:obtenerrAlumnoPostulante>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://app.sacoliveros.pe.edu/WebServiceAlumno/obtenerrAlumnoPostulante"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

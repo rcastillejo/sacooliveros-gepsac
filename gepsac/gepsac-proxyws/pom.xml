@@ -37,6 +37,8 @@
                     <wsdlFiles>
                         <wsdlFile>PlanificacionService.xml</wsdlFile>
                         <wsdlFile>ComunService.xml</wsdlFile>
+                        <wsdlFile>ExpertoService.xml</wsdlFile>
+                        <!--<wsdlFile>WebServiceAlumno.xml</wsdlFile>-->
                     </wsdlFiles>
                     <sourceDestDir>src/main/java</sourceDestDir>
                     <extension>true</extension>

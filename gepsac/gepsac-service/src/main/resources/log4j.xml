@@ -34,19 +34,31 @@
         </layout>
     </appender>    
     
-    <!--<appender name="PERFORMANCE" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="${jboss.server.log.dir}/gepsac_service/perfomance.log"/>
-        <param name="Append" value="true"/>
-        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <appender name="EMAIL"  class="org.apache.log4j.net.SMTPAppender">
+        <param name="BufferSize" value="512" />
+        <param name="SMTPHost" value="smtp.gmail.com" />
+        <param name="SMTPPort" value="465" />
+        <param name="SMTPProtocol" value="smtps" />
+        <param name="SMTPUsername" value="ricardo.castillejo@gmail.com" />
+        <param name="SMTPPassword" value="aaaa" />
+        <param name="SMTPDebug" value="true" />
+        <param name="From" value="ricardo.castillejo@gmail.com" />
+        <param name="To" value="ricardo.castillejo@gmail.com" />
+        <param name="Subject" value="[SMTPAppender] Application message" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="[%t] %m%n"/>
+            <param name="ConversionPattern"
+                   value="[%d{ISO8601}]%n%n%-5p%n%n%c%n%n%m%n%n" />
         </layout>
-    </appender>     
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR"/>
+            <param name="LevelMax" value="FATAL"/>
+        </filter>
+    </appender>
     
-    <logger name="performance" additivity="false">
-        <level value="DEBUG" />
-        <appender-ref ref="PERFORMANCE"/>
-    </logger>-->
+    <logger name="SmtpAppenderLogger" additivity="false">
+        <level value="INFO"/>	
+        <appender-ref ref="EMAIL"/>
+    </logger>
      
     
     <logger name="com.sacooliveros.gepsac">
