@@ -5,9 +5,11 @@
  */
 package pruebaweka2;
 
+import java.util.Collections;
+import java.util.List;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Attribute;
-import weka.core.AttributeStats;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
@@ -24,17 +26,15 @@ public class NewClass {
         String mpOptions = "-L 0.3 -M 0.2 -N 500 -V 0 -S 0 -E 20 -H a";
 
         try {
-
-            //Reading training arff file
-            //DataSource ds = new DataSource(path + "iris.arff");
-            DataSource ds = new DataSource(path + "entrenamiento.arff");
-            /*FileReader trainreader = new FileReader(path + "Data Entrenamiento-bkp.csv");
-             Instances train = new Instances(trainreader);*/
-            Instances train = ds.getDataSet();
+            DataSource ds ;
+            //ds = new DataSource(path + "entrenamiento.arff");
+            //Instances train = ds.getDataSet();
+            Instances train = InstancesFromDatabase.getInstanceDataFromDatabase("select * from desertor", "desertor");
             
             train.setClassIndex(train.numAttributes() - 1);
 
-            train.deleteAttributeAt(0);
+            //train.deleteAttributeAt(0);
+            System.out.println("train:["+train+"]");
             int numClasses = train.numClasses();
 
             for (int i = 0; i < numClasses; i++) {
@@ -46,16 +46,46 @@ public class NewClass {
             mlp.setOptions(weka.core.Utils.splitOptions(mpOptions));
             mlp.buildClassifier(train);
              
-
-            //ds = new DataSource(path + "iris-unknown.arff");
-            ds = new DataSource(path + "predecir.arff");
-            /*
-             Instances datapredict = new Instances(
-             new BufferedReader(
-             new FileReader(path + "Data predecir.csv")));*/
-            Instances datapredict = ds.getDataSet();
+ 
+            /*ds = new DataSource(path + "predecir.arff"); 
+            Instances datapredict = ds.getDataSet();*/
+            Instances datapredict;// = InstancesFromDatabase.getInstanceDataFromDatabase("select * from evaluado", "desertor");
+            
+            FastVector fvWekaAttributes = new FastVector();
+            //fvWekaAttributes.addElement(new Attribute("codigo"));
+            /*int numAttrPredict = train.numAttributes();
+            for (int i = 0; i<numAttrPredict; i++) {
+                fvWekaAttributes.addElement(train.attribute(i));
+            }*/
+            List<Attribute> attrs = Collections.list(train.enumerateAttributes());
+            for (Attribute attr : attrs) {
+                fvWekaAttributes.addElement(attr);
+            }
+            fvWekaAttributes.addElement(train.classAttribute());
+            
+            datapredict = new Instances("desertor", fvWekaAttributes, 0);
+            System.out.println("datapredict1:["+datapredict+"]"); 
+            
+            Instance ins = new Instance(14);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(0),1);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(1),35);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(2),"M");
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(3),"TECNICO");
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(4),800);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(5),3);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(6),11);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(7),2800);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(8),"BLOQUEADO");
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(9),"BLOQUEADO");
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(10),0);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(11),200);
+            ins.setValue((Attribute)fvWekaAttributes.elementAt(12),6);
+            datapredict.add(ins);
+            
+            System.out.println("datapredict2:["+datapredict+"]");
             datapredict.setClassIndex(datapredict.numAttributes() - 1);
-            datapredict.deleteAttributeAt(0);
+            //datapredict.deleteAttributeAt(0);
+            
 
             for (int i = 0; i < datapredict.numClasses(); i++) {
                 System.out.println("class value [" + i + "]=" + datapredict.classAttribute().value(i) + "");

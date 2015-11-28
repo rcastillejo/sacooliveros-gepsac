@@ -16,6 +16,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.classifiers.Classifier;
+import weka.core.Attribute;
+import weka.core.FastVector;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.experiment.InstanceQuery;
@@ -28,8 +30,10 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
     private static final Logger log = LoggerFactory.getLogger(AlumnoInstancia.class);
 
-    private static final String SQL_TRAIN = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,cod_perfil from tp_alumno_evaluado";
-    private static final String SQL_PREDIC = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,cod_perfil from tp_alumno_postulante where cod_alumno='";
+    private static final String SQL_TRAIN = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,CASE WHEN cod_perfil is null THEN '' ELSE cod_perfil END from tp_alumno_evaluado";
+    /*private static final String SQL_PREDIC = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,cod_perfil from tp_alumno_postulante where cod_alumno=''{0}''";
+    private static final String SQL_TRAIN = "select * from desertor";
+    private static final String SQL_PREDIC = "select * from evaluado where pk_iddesertor=''{0}''";*/
     private static final String RELATION_NAME = "alumno";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "postgres";
@@ -49,13 +53,100 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
         for (int i = 0; i < numClasses; i++) {
             log.debug("Clasificacion obtenida [" + i + "={}]", instanciasEntrenadas.classAttribute().value(i));
         }
-        return getInstances(SQL_TRAIN);
+        return instanciasEntrenadas;
     }
 
     @Override
-    public Instances getPredicInstances(Alumno alumno) {
-        String sql = SQL_PREDIC + alumno.getCodigo() + '\'';//MessageFormat.format(SQL_PREDIC, new Object[]{alumno.getCodigo()});
-        return getInstances(sql);
+    public Instances getPredicInstances(Alumno alumno, List<Attribute> attrs, Attribute attrClass) {
+        Instances datapredict;
+        FastVector fvWekaAttributes;
+
+        fvWekaAttributes = createAttributes(attrs, attrClass);
+
+        datapredict = new Instances(RELATION_NAME, fvWekaAttributes, 0);
+        Instance ins = new Instance(fvWekaAttributes.size());
+        /*
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 35);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "TECNICO");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 800);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 3);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 11);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 2800);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "BLOQUEADO");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "BLOQUEADO");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 200);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 6);
+        
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 41);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "SECUNDARIA");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 6900);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 0);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 28);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 11500);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "ABIERTO");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "ABIERTO");
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 600);
+         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 17);*/
+        int idx = 0;
+        /*ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getCodigo());
+        idx++;*/
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getGenero());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getEdad());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getContextura());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getAltura());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getTipoFamilia());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getOrdenNacimiento());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getNumHnos());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getNivelEscolar());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getGradoEscolar());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getPromedioEscolar());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getNroCambioColegio());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getReligion());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getNacionalidad());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getDistrito());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getProvincia());
+        idx++;
+        ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getDepartamento());
+
+        datapredict.add(ins);
+        
+        datapredict.setRelationName(RELATION_NAME);
+
+        if (datapredict.classIndex() == -1) {
+            datapredict.setClassIndex(datapredict.numAttributes() - 1);
+        }
+        log.debug("Instancia obtenida [{}]", datapredict);
+        return datapredict;
+    }
+
+    private FastVector createAttributes(List<Attribute> attrs, Attribute attrClass) {
+        FastVector fvWekaAttributes = new FastVector();
+        for (Attribute attr : attrs) {
+            log.debug("Atributo [{}]", attr);
+            fvWekaAttributes.addElement(attr);
+        }
+        fvWekaAttributes.addElement(attrClass);
+        return fvWekaAttributes;
     }
 
     private Instances getInstances(String sql) {
@@ -63,15 +154,20 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
             log.debug("Obteniendo instancias sql[{}]", sql);
             query.setQuery(sql);
             Instances data = query.retrieveInstances();
-            data.setRelationName(RELATION_NAME);
-
-            if (data.classIndex() == -1) {
-                data.setClassIndex(data.numAttributes() - 1);
-            }
+            prepareInstances(data);
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void prepareInstances(Instances instances) {
+        instances.setRelationName(RELATION_NAME);
+
+        if (instances.classIndex() == -1) {
+            instances.setClassIndex(instances.numAttributes() - 1);
+        }
+        instances.deleteAttributeAt(0);
     }
 
     @Override
@@ -113,9 +209,9 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
         for (int i = 0; i < probabilidadPerfil.length; i++) {
             PerfilEvaluado perfil = new PerfilEvaluado();
             double prediccion = probabilidadPerfil[i];
-            String codigoPerfil = alumnosEvaluados.classAttribute().value((int) prediccion);
+            String codigoPerfil = alumnosEvaluados.classAttribute().value(i);
             perfil.setPerfil(codigoPerfil);
-            perfil.setProbabilidad((Math.round(prediccion * 100.0) / 100.0));//Redondeado 2 decimales
+            perfil.setProbabilidad((Math.round(prediccion * 10000.0) / 10000.0));//Redondeado 2 decimales
             if (i == predicionPerfil) {
                 perfil.seleccionar();
             }

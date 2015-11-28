@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.service.experto.rna.instance;
 
 import java.util.List;
 import weka.classifiers.Classifier;
+import weka.core.Attribute;
 import weka.core.Instances;
 
 /**
@@ -17,7 +18,7 @@ public interface Instancia<S,P> {
 
     Instances getTrainInstances();
     
-    Instances getPredicInstances(S source);
+    Instances getPredicInstances(S source, List<Attribute> attrs, Attribute attrClass);
     
     Classifier train(Instances dataEntrenar);
     

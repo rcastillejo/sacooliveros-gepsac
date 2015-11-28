@@ -5,14 +5,13 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
-import com.sacooliveros.gepsac.dao.AlumnoDAO;
-import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import com.sacooliveros.gepsac.service.experto.exception.ServiceException;
 import com.sacooliveros.gepsac.service.experto.rna.instance.Instancia;
 import com.sacooliveros.gepsac.service.experto.rna.instance.InstanciaQueryFactory;
+import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,26 +28,28 @@ public class ExpertoService implements Experto {
 
     @Override
     public EvaluacionPostulante evaluarAlumno(Alumno alumno) {
-        
+
         try {
-            AlumnoDAO alumnoDao = DAOFactory.getDAOFactory().getAlumnoDAO();
+            //AlumnoDAO alumnoDao = DAOFactory.getDAOFactory().getAlumnoDAO();
             Instancia instancia = InstanciaQueryFactory.create();
 
             //Grabar alumno postulante a evaluar
-            alumnoDao.grabarPostulante(alumno);
-            
+            //alumnoDao.grabarPostulante(alumno);
+
             //Cargar alumnos evaluados
             Instances alumnosEvaluados = instancia.getTrainInstances();
 
             //Cargar alumno a evaluar
-            Instances alumnoEvaluar = instancia.getPredicInstances(alumno);
+            Instances alumnoEvaluar = instancia.getPredicInstances(alumno, 
+                    Collections.list(alumnosEvaluados.enumerateAttributes()),
+                    alumnosEvaluados.classAttribute());
 
             //Entrenar perceptron multicapa
             Classifier clasificador = instancia.train(alumnosEvaluados);
 
             //Obtener Prediccion de cada perfil evaluado
             List<PerfilEvaluado> perfilEvaluado = instancia.predict(clasificador, alumnosEvaluados, alumnoEvaluar);
-            log.info("Perfiles evaluados [{}]", new Object[]{perfilEvaluado});
+                log.info("Perfiles evaluados [{}]", new Object[]{perfilEvaluado});
 
             EvaluacionPostulante evaluacion = new EvaluacionPostulante();
             evaluacion.setAlumno(alumno);

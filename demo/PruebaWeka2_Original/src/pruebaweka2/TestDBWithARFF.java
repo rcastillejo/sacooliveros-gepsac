@@ -52,7 +52,7 @@ public class TestDBWithARFF {
             System.out.println("attr>"+data2.attribute(i).toString());            
         }
         
-        Instances data3 = InstancesFromDatabase.getInstanceDataFromDatabase("select * from evaluado", "desertor");
+        Instances data3 = InstancesFromDatabase.getInstanceDataFromDatabase("select * from evaluado where pk_iddesertor=2", "desertor");
         
         analyse(data2, data3);
 

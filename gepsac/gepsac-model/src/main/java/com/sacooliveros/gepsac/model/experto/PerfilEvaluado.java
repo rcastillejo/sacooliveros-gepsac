@@ -26,8 +26,10 @@ public class PerfilEvaluado {
     }
 
     public void setPerfil(String codigoPerfil) {
-        perfil = new Perfil();
-        perfil.setCodigo(codigoPerfil);
+        if(codigoPerfil != null && !codigoPerfil.isEmpty()){
+            perfil = new Perfil();
+            perfil.setCodigo(codigoPerfil);
+        }
     }
 
     public Perfil getPerfil() {

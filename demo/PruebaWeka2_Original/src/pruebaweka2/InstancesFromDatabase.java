@@ -28,9 +28,9 @@ public class InstancesFromDatabase {
             Instances data = query.retrieveInstances();
             data.setRelationName(pInstanceRelationName);
 
-            if (data.classIndex() == -1) {
+            /*if (data.classIndex() == -1) {
                 data.setClassIndex(data.numAttributes() - 1);
-            }
+            }*/
             return data;
         } catch (Exception e) {
             throw new RuntimeException(e);
