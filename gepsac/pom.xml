@@ -17,7 +17,8 @@
         <module>gepsac-controller-module</module>
         <module>gepsac-dao</module>
         <module>gepsac-proxyws</module>
-        <module>gepsac-experto</module>        
-    </modules>
+        <module>gepsac-experto</module>
+    <module>AlumnoService</module>
+  </modules>
 
 </project>

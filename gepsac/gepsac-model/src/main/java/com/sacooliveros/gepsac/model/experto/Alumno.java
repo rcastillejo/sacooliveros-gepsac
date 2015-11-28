@@ -158,4 +158,9 @@ public class Alumno extends Model {
         this.departamento = departamento;
     }
 
+    @Override
+    public String toString() {
+        return "Alumno{" + "genero=" + genero + ", edad=" + edad + ", contextura=" + contextura + ", altura=" + altura + ", tipoFamilia=" + tipoFamilia + ", ordenNacimiento=" + ordenNacimiento + ", numHnos=" + numHnos + ", nivelEscolar=" + nivelEscolar + ", gradoEscolar=" + gradoEscolar + ", promedioEscolar=" + promedioEscolar + ", nroCambioColegio=" + nroCambioColegio + ", religion=" + religion + ", nacionalidad=" + nacionalidad + ", distrito=" + distrito + ", provincia=" + provincia + ", departamento=" + departamento + '}';
+    }
+
 }
