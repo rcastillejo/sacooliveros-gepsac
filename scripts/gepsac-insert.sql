@@ -31,6 +31,7 @@ INSERT INTO tp_estado VALUES ('EAI0002', 'Inactivo');
 INSERT INTO tp_estado VALUES ('PLA0001', 'Registrado');
 INSERT INTO tp_estado VALUES ('PLA0002', 'Configurado');
 INSERT INTO tp_estado VALUES ('PLA0003', 'Programado');
+INSERT INTO tp_estado VALUES ('EVP0001', 'Registrado');
 
 
 --

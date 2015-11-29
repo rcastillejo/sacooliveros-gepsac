@@ -71,13 +71,41 @@
             cod_alumno=#{codigo}
     </select>
   
+    <select id="getPostulante" resultMap="recordResultMap">
+        Select 
+            cod_alumno,
+            nombres,
+            apellido_pat,
+            apellido_mat,
+            genero,
+            edad,
+            contextura,
+            altura,
+            tipo_familia,
+            orden_nacimiento,
+            num_hnos,
+            nivel_escolar,
+            grado_escolar,
+            promedio_escolar,
+            nro_cambio_colegio,
+            religion,
+            nacionalidad,
+            distrito,
+            provincia,
+            departamento
+        from 
+            tp_alumno_postulante 
+        where
+            cod_alumno=#{codigo}
+    </select>
+    
     <insert id="insertPostulante">
-        Insert tp_alumno_postulante 
-            (cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,
+        Insert into tp_alumno_postulante 
+            (cod_alumno,nombres,apellido_pat,apellido_mat,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,
             num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,
             religion,nacionalidad,distrito,provincia,departamento)
         values
-            (#{codigo},#{genero},#{edad},#{contextura},#{altura},#{tipoFamilia},#{ordenNacimiento},
+            (#{codigo},#{nombres},#{apellidoPaterno},#{apellidoMaterno},#{genero},#{edad},#{contextura},#{altura},#{tipoFamilia},#{ordenNacimiento},
             #{numHnos},#{nivelEscolar},#{gradoEscolar},#{promedioEscolar},#{nroCambioColegio},
             #{religion},#{nacionalidad},#{distrito},#{provincia},#{departamento})
     </insert> 
@@ -86,6 +114,9 @@
         Update 
             tp_alumno_postulante 
         Set
+            nombres = #{nombres},
+            apellido_pat = #{apellidoPaterno},
+            apellido_mat = #{apellidoMaterno},
             genero = #{genero},
             edad = #{edad},
             contextura = #{contextura},

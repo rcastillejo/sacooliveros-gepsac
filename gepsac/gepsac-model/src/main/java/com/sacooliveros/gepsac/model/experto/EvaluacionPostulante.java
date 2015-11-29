@@ -5,18 +5,28 @@
  */
 package com.sacooliveros.gepsac.model.experto;
 
+import com.sacooliveros.gepsac.model.comun.Model;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author Ricardo
  */
-public class EvaluacionPostulante {
-
+public class EvaluacionPostulante extends Model {
+    private Date fechaEvaluacion;
     private Alumno alumno;
     private List<PerfilEvaluado> perfiles;
 
     public EvaluacionPostulante() {
+    }
+
+    public Date getFechaEvaluacion() {
+        return fechaEvaluacion;
+    }
+
+    public void setFechaEvaluacion(Date fechaEvaluacion) {
+        this.fechaEvaluacion = fechaEvaluacion;
     }
 
     public Alumno getAlumno() {
@@ -37,7 +47,7 @@ public class EvaluacionPostulante {
 
     @Override
     public String toString() {
-        return "EvaluacionPostulante{" + "alumno=" + alumno + ", perfiles=" + perfiles + '}';
+        return "Model{" + super.toString() + "}, EvaluacionPostulante{" + "alumno=" + alumno + ", perfiles=" + perfiles + '}';
     }
 
 }

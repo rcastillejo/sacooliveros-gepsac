@@ -7,10 +7,9 @@ package com.sacooliveros.gepsac.service.experto.rna.instance;
 
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
-import com.sacooliveros.gepsac.service.experto.exception.ServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.rna.clasificador.Clasificador;
 import com.sacooliveros.gepsac.service.experto.rna.clasificador.ClasificadorFactory;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -175,7 +174,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
         try {
             return obtenerPredicciones(clasificador, dataEntrenado, dataEvaluar);
         } catch (Exception e) {
-            throw new ServiceException("Error al predecir alumno", e);
+            throw new ExpertoServiceException("Error al predecir alumno", e);
         }
     }
 
@@ -210,6 +209,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
             PerfilEvaluado perfil = new PerfilEvaluado();
             double prediccion = probabilidadPerfil[i];
             String codigoPerfil = alumnosEvaluados.classAttribute().value(i);
+            perfil.setIndice(i);
             perfil.setPerfil(codigoPerfil);
             perfil.setProbabilidad((Math.round(prediccion * 10000.0) / 10000.0));//Redondeado 2 decimales
             if (i == predicionPerfil) {
@@ -230,7 +230,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
             clasificador.buildClassifier(dataEntrenar);
             return clasificador;
         } catch (Exception e) {
-            throw new ServiceException("Error al predecir alumno", e);
+            throw new ExpertoServiceException("Error al predecir alumno", e);
         }
     }
 

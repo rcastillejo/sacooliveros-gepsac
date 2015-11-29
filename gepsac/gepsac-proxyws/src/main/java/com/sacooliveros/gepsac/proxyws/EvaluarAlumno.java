@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://experto.service.gepsac.sacooliveros.com/}alumno" minOccurs="0"/>
+ *         &lt;element name="alumno" type="{http://service.gepsac.sacooliveros.com/}evaluacionPostulante" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,34 +27,34 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "evaluarAlumno", propOrder = {
-    "arg0"
+    "alumno"
 })
 public class EvaluarAlumno {
 
-    protected Alumno arg0;
+    protected EvaluacionPostulante alumno;
 
     /**
-     * Gets the value of the arg0 property.
+     * Gets the value of the alumno property.
      * 
      * @return
      *     possible object is
-     *     {@link Alumno }
+     *     {@link EvaluacionPostulante }
      *     
      */
-    public Alumno getArg0() {
-        return arg0;
+    public EvaluacionPostulante getAlumno() {
+        return alumno;
     }
 
     /**
-     * Sets the value of the arg0 property.
+     * Sets the value of the alumno property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Alumno }
+     *     {@link EvaluacionPostulante }
      *     
      */
-    public void setArg0(Alumno value) {
-        this.arg0 = value;
+    public void setAlumno(EvaluacionPostulante value) {
+        this.alumno = value;
     }
 
 }

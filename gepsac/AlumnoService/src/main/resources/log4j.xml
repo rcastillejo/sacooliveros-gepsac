@@ -34,7 +34,7 @@
         </layout>
     </appender>     
     
-    <logger name="edu.pe.sacoliveros.app">
+    <logger name="edu.pe.sacoliveros.app" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="TRAZADO"/>

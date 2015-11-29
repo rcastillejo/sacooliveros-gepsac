@@ -238,3 +238,5 @@ nb-configuration.xml
 /gepsac/gepsac-rna/target/
 /gepsac/gepsac-experto/target/
 /gepsac/AlumnoService/target/
+/gepsac/experto-form/target/
+/gepsac/template-form/target/

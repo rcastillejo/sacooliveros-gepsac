@@ -29,6 +29,13 @@ public class ServiceException extends RuntimeException {
         this.fault.setFaultCode(code);
     }
 
+    public ServiceException(String code, String message, Throwable cause) {
+        super(message, cause);
+        this.fault = new ServiceFault();
+        this.fault.setFaultString(message);
+        this.fault.setFaultCode(code);
+    }
+
     public ServiceException(ServiceFault fault) {
         this.fault = fault;
     }

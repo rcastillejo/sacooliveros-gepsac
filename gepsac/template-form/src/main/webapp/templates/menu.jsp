@@ -10,7 +10,7 @@
     <ul id="accordion">
 <!--     EMPRESA -->
 
-        <li>
+        <%--<li>
             <div>Planificación</div>
             <ul style="display: none;">
                 <li>
@@ -23,6 +23,16 @@
                         Programar Plan
                     </html:link>
                 <li> 
+            </ul>
+        </li>--%>
+        <li>
+            <div>Experto</div>
+            <ul style="display: none;">
+                <li>
+                    <html:link page="/EvaluarPostulante.do?method=init" >
+                        Evaluar Alumnos Nuevos
+                    </html:link>
+                </li>
             </ul>
         </li>
         

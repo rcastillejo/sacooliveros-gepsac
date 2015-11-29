@@ -5,10 +5,14 @@
  */
 package com.sacooliveros.gepsac.proxyws.util;
 
+import com.sacooliveros.gepsac.proxyws.BOService;
+import com.sacooliveros.gepsac.proxyws.BOService_Service;
 import com.sacooliveros.gepsac.proxyws.ComunService;
 import com.sacooliveros.gepsac.proxyws.ComunService_Service;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.PlanificacionService_Service;
+import com.sacooliveros.gepsac.proxyws.WebServiceAlumno;
+import com.sacooliveros.gepsac.proxyws.WebServiceAlumno_Service;
 import javax.xml.ws.BindingProvider;
 
 /**
@@ -16,16 +20,17 @@ import javax.xml.ws.BindingProvider;
  * @author Ricardo
  */
 public class ProxyUtil {
+
     private static final String PLAN_ENDPOINT = "http://localhost:8180/gepsac-service/PlanificacionService";
     private static final String COMMON_ENDPOINT = "http://localhost:8180/gepsac-service/ComunService";
+    private static final String BO_ENDPOINT = "http://localhost:8180/gepsac-service/BOService";
+    private static final String WSALUMNO_ENDPOINT = "http://localhost:8180/WebServiceIntranet/WebServiceAlumno";
 
     public static PlanificacionService getPlanificacionServicePort(long timeout) {
         PlanificacionService_Service service = new PlanificacionService_Service();
         PlanificacionService port = service.getPlanificacionServicePort();
         BindingProvider bp = (BindingProvider) port;
-        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, PLAN_ENDPOINT);
-        bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", timeout);
-        bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", timeout);
+        setTimeout(bp, PLAN_ENDPOINT, timeout);
         return port;
     }
 
@@ -33,10 +38,30 @@ public class ProxyUtil {
         ComunService_Service service = new ComunService_Service();
         ComunService port = service.getComunServicePort();
         BindingProvider bp = (BindingProvider) port;
-        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, COMMON_ENDPOINT);
+        setTimeout(bp, COMMON_ENDPOINT, timeout);
+        return port;
+    }
+
+    public static BOService getBOServicePort(long timeout) {
+        BOService_Service service = new BOService_Service();
+        BOService port = service.getBOServicePort();
+        BindingProvider bp = (BindingProvider) port;
+        setTimeout(bp, BO_ENDPOINT, timeout);
+        return port;
+    }
+
+    public static WebServiceAlumno getAlumoServicePort(long timeout) {
+        WebServiceAlumno_Service service = new WebServiceAlumno_Service();
+        WebServiceAlumno port = service.getWebServiceAlumnoPort();
+        BindingProvider bp = (BindingProvider) port;
+        setTimeout(bp, WSALUMNO_ENDPOINT, timeout);
+        return port;
+    }
+
+    private static void setTimeout(BindingProvider bp, String endpoint, long timeout) {
+        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
         bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", timeout);
         bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", timeout);
-        return port;
     }
 
 }

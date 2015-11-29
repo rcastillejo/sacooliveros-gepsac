@@ -12,7 +12,8 @@ import com.sacooliveros.gepsac.model.comun.Perfil;
  * @author Ricardo
  */
 public class PerfilEvaluado {
-
+    private String codigoEvaluacion;
+    private int indice;
     private Perfil perfil;
     private double probabilidad;
     private boolean seleccionado;
@@ -23,6 +24,22 @@ public class PerfilEvaluado {
     }
 
     public PerfilEvaluado() {
+    }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+
+    public String getCodigoEvaluacion() {
+        return codigoEvaluacion;
+    }
+
+    public void setCodigoEvaluacion(String codigoEvaluacion) {
+        this.codigoEvaluacion = codigoEvaluacion;
     }
 
     public void setPerfil(String codigoPerfil) {
@@ -50,6 +67,10 @@ public class PerfilEvaluado {
 
     public boolean isSeleccionado() {
         return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
     }
 
     public void seleccionar() {

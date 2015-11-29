@@ -70,6 +70,14 @@
             <forward name="programarPlan" path="programarPlan" redirect="true"/>
         </action>
         
+        <action path="/EvaluarPostulante" 
+                type="com.sacooliveros.gepsac.form.experto.EvaluarPostulanteAction"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="evaluarPostulante" path="evaluarPostulante" redirect="true"/>
+        </action>        
+        
         <!--       
         <action path="/TransaccionReporte" 
                 type="com.novatronic.sca.action.reporte.TransaccionReporteAction"

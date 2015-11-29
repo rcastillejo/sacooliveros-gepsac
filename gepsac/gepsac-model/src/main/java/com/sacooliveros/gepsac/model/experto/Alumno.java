@@ -13,6 +13,13 @@ import com.sacooliveros.gepsac.model.comun.Model;
  */
 public class Alumno extends Model {
 
+    //Datos generales
+    private String nombres;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String domicilio;
+
+    //Atributos a clasificar
     private String genero;
     private int edad;
     private String contextura;
@@ -29,6 +36,38 @@ public class Alumno extends Model {
     private String distrito;
     private String provincia;
     private String departamento;
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
 
     public String getGenero() {
         return genero;
@@ -160,7 +199,7 @@ public class Alumno extends Model {
 
     @Override
     public String toString() {
-        return "Alumno{" + "genero=" + genero + ", edad=" + edad + ", contextura=" + contextura + ", altura=" + altura + ", tipoFamilia=" + tipoFamilia + ", ordenNacimiento=" + ordenNacimiento + ", numHnos=" + numHnos + ", nivelEscolar=" + nivelEscolar + ", gradoEscolar=" + gradoEscolar + ", promedioEscolar=" + promedioEscolar + ", nroCambioColegio=" + nroCambioColegio + ", religion=" + religion + ", nacionalidad=" + nacionalidad + ", distrito=" + distrito + ", provincia=" + provincia + ", departamento=" + departamento + '}';
+        return "Alumno{" + "nombres=" + nombres + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", domicilio=" + domicilio + ", genero=" + genero + ", edad=" + edad + ", contextura=" + contextura + ", altura=" + altura + ", tipoFamilia=" + tipoFamilia + ", ordenNacimiento=" + ordenNacimiento + ", numHnos=" + numHnos + ", nivelEscolar=" + nivelEscolar + ", gradoEscolar=" + gradoEscolar + ", promedioEscolar=" + promedioEscolar + ", nroCambioColegio=" + nroCambioColegio + ", religion=" + religion + ", nacionalidad=" + nacionalidad + ", distrito=" + distrito + ", provincia=" + provincia + ", departamento=" + departamento + '}';
     }
 
 }

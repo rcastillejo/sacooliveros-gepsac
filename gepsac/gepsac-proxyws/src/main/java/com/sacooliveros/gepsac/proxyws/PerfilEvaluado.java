@@ -16,8 +16,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="perfil" type="{http://experto.service.gepsac.sacooliveros.com/}perfil" minOccurs="0"/>
+ *         &lt;element name="codigoEvaluacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="perfil" type="{http://service.gepsac.sacooliveros.com/}perfil" minOccurs="0"/>
  *         &lt;element name="probabilidad" type="{http://www.w3.org/2001/XMLSchema}double"/>
+ *         &lt;element name="seleccionado" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -28,13 +30,41 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "perfilEvaluado", propOrder = {
+    "codigoEvaluacion",
     "perfil",
-    "probabilidad"
+    "probabilidad",
+    "seleccionado"
 })
 public class PerfilEvaluado {
 
+    protected String codigoEvaluacion;
     protected Perfil perfil;
     protected double probabilidad;
+    protected boolean seleccionado;
+
+    /**
+     * Gets the value of the codigoEvaluacion property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCodigoEvaluacion() {
+        return codigoEvaluacion;
+    }
+
+    /**
+     * Sets the value of the codigoEvaluacion property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCodigoEvaluacion(String value) {
+        this.codigoEvaluacion = value;
+    }
 
     /**
      * Gets the value of the perfil property.
@@ -74,6 +104,22 @@ public class PerfilEvaluado {
      */
     public void setProbabilidad(double value) {
         this.probabilidad = value;
+    }
+
+    /**
+     * Gets the value of the seleccionado property.
+     * 
+     */
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    /**
+     * Sets the value of the seleccionado property.
+     * 
+     */
+    public void setSeleccionado(boolean value) {
+        this.seleccionado = value;
     }
 
 }

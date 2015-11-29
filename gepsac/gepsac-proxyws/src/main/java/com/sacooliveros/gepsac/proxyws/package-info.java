@@ -1,2 +1,2 @@
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://experto.service.gepsac.sacooliveros.com/")
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://app.sacoliveros.pe.edu/")
 package com.sacooliveros.gepsac.proxyws;

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
-import javax.xml.ws.WebServiceException;
+import javax.jws.WebParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,6 +23,9 @@ public class WebServiceAlumno {
 
     private static final Logger log = LoggerFactory.getLogger(WebServiceAlumno.class);
 
+    private static final String[] NOMBRES = {"Luis Ricardo", "Braulia Andrea", "Jose Alberto", "Jose Luis", "Braulio Sergio", "Raúl Leonardo"};
+    private static final String[] APELLIDOS = {"Castillejo", "Castillo", "Jose ", "Gálvez", "Cornejo", "Herrera", "Jimenez"};
+    private static final String[] DOMICILIOS = {"Manco Segundo 333", "Gálvez Barrenechea 515", "Univertiaria 550", "Bolivar 1510"};
     private static final String CODIGO_PREFIX = "A20152811";
     private static final String[] GENERO = {"Masculino", "Femenino"};
     private static final String[] CONTEXTURA = {"Grande", "Mediano", "Pequeño"};
@@ -35,7 +38,7 @@ public class WebServiceAlumno {
     private static final String[] PROVINCIA = {"Lima"};
     private static final String[] DEPARTAMENTO = {"Lima"};
     private static final int SIZE = 10;
-    private static List<Alumno> alumnos;
+    private static List<Alumno> alumnosPrueba;
 
     /**
      * This is a sample web service operation
@@ -44,34 +47,65 @@ public class WebServiceAlumno {
      */
     @WebMethod(operationName = "listarAlumnoPostulante")
     public List<Alumno> listarAlumnoPostulante() {
-        if (alumnos == null || alumnos.isEmpty()) {
+        if (alumnosPrueba == null || alumnosPrueba.isEmpty()) {
             createAlumnosPostulante(SIZE);
         }
-        return alumnos;
+        return alumnosPrueba;
     }
 
-    @WebMethod(operationName = "obtenerrAlumnoPostulante")
-    public Alumno obtenerrAlumnoPostulante(String codigo) {
-        listarAlumnoPostulante();
+    @WebMethod(operationName = "buscarAlumnoPostulante")
+    public List<Alumno> buscarAlumnoPostulante(
+            @WebParam(name = "codigo") String codigo,
+            @WebParam(name = "nombres") String nombres,
+            @WebParam(name = "apellidos") String apellidos) {
+
+        List<Alumno> alumnos = listarAlumnoPostulante();
+        String codigoParam = codigo == null ? "" : codigo;
+        String nombresParam = nombres == null ? "" : nombres;
+        String apellidosParam = apellidos == null ? "" : apellidos;
+
+        List<Alumno> alumnosBuscados = new ArrayList<Alumno>();
         for (Alumno alumno : alumnos) {
-            if (alumno.getCodigo().equals(codigo)) {
-                return alumno;
+            String apellidosAlumno = alumno.getApellidoPaterno() + ' ' + alumno.getApellidoMaterno();
+            if (alumno.getCodigo().contains(codigoParam)
+                    && alumno.getNombres().contains(nombresParam)
+                    && apellidosAlumno.contains(apellidosParam)) {
+                alumnosBuscados.add(alumno);
             }
         }
-        throw new WebServiceException("No se encuentra el alumno con código: " + codigo);
+        return alumnosBuscados;
+    }
+
+    @WebMethod(operationName = "obtenerAlumnoPostulante")
+    public Alumno obtenerAlumnoPostulante(
+            @WebParam(name = "codigo") String codigo) {
+        Alumno alumnoObtenido = null;
+        List<Alumno> alumnos = listarAlumnoPostulante();
+        for (Alumno alumno : alumnos) {
+            if (alumno.getCodigo().equals(codigo)) {
+                alumnoObtenido = alumno;
+                break;
+            }
+        }
+        return alumnoObtenido;
     }
 
     private void createAlumnosPostulante(int size) {
-        alumnos = new ArrayList<Alumno>();
+        alumnosPrueba = new ArrayList<Alumno>();
         for (int i = 0; i < size; i++) {
             Alumno alumno = createAlumno(i);
-            alumnos.add(alumno);
+            alumnosPrueba.add(alumno);
         }
     }
 
     private Alumno createAlumno(int index) {
         Alumno alumno = new Alumno();
         alumno.setCodigo(CODIGO_PREFIX + index);
+        alumno.setNombres(NOMBRES[getInt(0, NOMBRES.length - 1)]);
+        alumno.setApellidoPaterno(APELLIDOS[getInt(0, APELLIDOS.length - 1)]);
+        alumno.setApellidoMaterno(APELLIDOS[getInt(0, APELLIDOS.length - 1)]);
+        alumno.setDomicilio(DOMICILIOS[getInt(0, DOMICILIOS.length - 1)]);
+
         alumno.setGenero(GENERO[getInt(0, GENERO.length - 1)]);
         alumno.setEdad(getInt(11, 15));
         alumno.setContextura(CONTEXTURA[getInt(0, CONTEXTURA.length - 1)]);

@@ -34,7 +34,7 @@
         </layout>
     </appender>    
      
-    <logger name="com.sacooliveros.gepsac" additivity="false">
+    <logger name="com.sacooliveros.gepsac.service.experto" additivity="false">
         <level value="TRACE" />
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="TRAZADO"/>

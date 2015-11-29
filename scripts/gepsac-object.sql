@@ -285,7 +285,7 @@ WITH (
 CREATE TABLE tp_alumno_evaluado
 (
   cod_alumno character varying(15) NOT NULL,
-  nommbres character varying(150) NULL,
+  nombres character varying(150) NULL,
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
   
@@ -331,7 +331,7 @@ WITH (
 CREATE TABLE tp_alumno_postulante
 (
   cod_alumno character varying(15) NOT NULL,
-  nommbres character varying(150) NULL,
+  nombres character varying(150) NULL,
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
   
@@ -366,6 +366,53 @@ CREATE TABLE tp_alumno_postulante
       REFERENCES tp_estado (cod_estado) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,*/
   CONSTRAINT fk_tp_alumno_postulante_tp_perfil FOREIGN KEY (cod_perfil)
+      REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE tp_evaluacion_postulante
+(
+  cod_evaluacion character varying(15) NOT NULL,
+  fec_evaluacion timestamp without time zone NOT NULL,
+  cod_alumno character varying(15) NOT NULL,
+  
+  cod_estado character varying(15) NOT NULL,   
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_evaluacion_postulante PRIMARY KEY (cod_evaluacion),
+  CONSTRAINT fk_tp_evaluacion_postulante_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_evaluacion_postulante_tp_alumno_postulante FOREIGN KEY (cod_alumno)
+      REFERENCES tp_alumno_postulante (cod_alumno) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE tp_perfil_evaluacion
+(
+  cod_evaluacion character varying(15) NOT NULL,
+  indice int not null,
+  cod_perfil character varying(15) NULL,
+  
+  probabilidad numeric(10,2) NOT NULL,
+  seleccionado boolean NOT NULL,
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_perfil_evaluacion PRIMARY KEY (cod_evaluacion, indice),
+  CONSTRAINT fk_tp_perfil_evaluacion_tp_perfil FOREIGN KEY (cod_perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )

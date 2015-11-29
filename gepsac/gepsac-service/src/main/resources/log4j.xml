@@ -36,13 +36,13 @@
     
     <appender name="EMAIL"  class="org.apache.log4j.net.SMTPAppender">
         <param name="BufferSize" value="512" />
-        <param name="SMTPHost" value="smtp.gmail.com" />
+        <param name="SMTPHost" value="localhost" />
         <param name="SMTPPort" value="465" />
         <param name="SMTPProtocol" value="smtps" />
-        <param name="SMTPUsername" value="ricardo.castillejo@gmail.com" />
-        <param name="SMTPPassword" value="aaaa" />
+        <param name="SMTPUsername" value="gepsac.email@sacooliveros.edu.pe" />
+        <param name="SMTPPassword" value="gepsac" />
         <param name="SMTPDebug" value="true" />
-        <param name="From" value="ricardo.castillejo@gmail.com" />
+        <param name="From" value="gepsac.email@sacooliveros.edu.pe" />
         <param name="To" value="ricardo.castillejo@gmail.com" />
         <param name="Subject" value="[SMTPAppender] Application message" />
         <layout class="org.apache.log4j.PatternLayout">

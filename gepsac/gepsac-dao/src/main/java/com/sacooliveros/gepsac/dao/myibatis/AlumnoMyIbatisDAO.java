@@ -36,6 +36,8 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             List listado = mapper.query();
             log.debug("Listado tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
             return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
         } finally {
             closeConnection(session);
         }
@@ -53,6 +55,8 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             model = mapper.get(id);
             log.info("Plan obtenido [{}]", model);
             return model;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
         } finally {
             closeConnection(session);
         }
@@ -83,6 +87,8 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             model = mapper.getPostulante(id);
             log.info("Plan obtenido [{}]", model);
             return model;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
         } finally {
             closeConnection(session);
         }
@@ -107,7 +113,7 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             if (session != null) {
                 session.rollback();
             }
-            throw e;
+            throw new DAOException("Error al grabar", e);
         } finally {
             closeConnection(session);
         }
@@ -132,7 +138,7 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             if (session != null) {
                 session.rollback();
             }
-            throw e;
+            throw new DAOException("Error al grabar", e);
         } finally {
             closeConnection(session);
         }

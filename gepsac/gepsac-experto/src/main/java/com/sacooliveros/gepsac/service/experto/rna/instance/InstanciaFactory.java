@@ -5,13 +5,13 @@
  */
 package com.sacooliveros.gepsac.service.experto.rna.instance;
 
-import com.sacooliveros.gepsac.service.experto.exception.ServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 
 /**
  *
  * @author Ricardo
  */
-public class InstanciaQueryFactory {
+public class InstanciaFactory {
     
     public static Instancia create() {
         Instancia instancia;
@@ -19,7 +19,7 @@ public class InstanciaQueryFactory {
             instancia = new AlumnoInstancia();
             return instancia;
         } catch (Exception e) {
-            throw new ServiceException("Error al crear la instancia", e);
+            throw new ExpertoServiceException("Error al crear la instancia", e);
         }
     }
 }

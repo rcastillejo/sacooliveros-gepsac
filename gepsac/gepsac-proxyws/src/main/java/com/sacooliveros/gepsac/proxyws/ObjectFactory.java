@@ -24,9 +24,12 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _EvaluarAlumno_QNAME = new QName("http://experto.service.gepsac.sacooliveros.com/", "evaluarAlumno");
-    private final static QName _EvaluarAlumnoResponse_QNAME = new QName("http://experto.service.gepsac.sacooliveros.com/", "evaluarAlumnoResponse");
-    private final static QName _ServiceException_QNAME = new QName("http://experto.service.gepsac.sacooliveros.com/", "ServiceException");
+    private final static QName _BuscarAlumnoPostulante_QNAME = new QName("http://app.sacoliveros.pe.edu/", "buscarAlumnoPostulante");
+    private final static QName _ObtenerAlumnoPostulanteResponse_QNAME = new QName("http://app.sacoliveros.pe.edu/", "obtenerAlumnoPostulanteResponse");
+    private final static QName _ListarAlumnoPostulanteResponse_QNAME = new QName("http://app.sacoliveros.pe.edu/", "listarAlumnoPostulanteResponse");
+    private final static QName _BuscarAlumnoPostulanteResponse_QNAME = new QName("http://app.sacoliveros.pe.edu/", "buscarAlumnoPostulanteResponse");
+    private final static QName _ObtenerAlumnoPostulante_QNAME = new QName("http://app.sacoliveros.pe.edu/", "obtenerAlumnoPostulante");
+    private final static QName _ListarAlumnoPostulante_QNAME = new QName("http://app.sacoliveros.pe.edu/", "listarAlumnoPostulante");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sacooliveros.gepsac.proxyws
@@ -44,27 +47,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PerfilEvaluado }
+     * Create an instance of {@link ObtenerAlumnoPostulante }
      * 
      */
-    public PerfilEvaluado createPerfilEvaluado() {
-        return new PerfilEvaluado();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumnoResponse }
-     * 
-     */
-    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
-        return new EvaluarAlumnoResponse();
-    }
-
-    /**
-     * Create an instance of {@link Perfil }
-     * 
-     */
-    public Perfil createPerfil() {
-        return new Perfil();
+    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
+        return new ObtenerAlumnoPostulante();
     }
 
     /**
@@ -76,6 +63,46 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ListarAlumnoPostulanteResponse }
+     * 
+     */
+    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
+        return new ListarAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * 
+     */
+    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
+        return new BuscarAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulante }
+     * 
+     */
+    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
+        return new BuscarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulante }
+     * 
+     */
+    public ListarAlumnoPostulante createListarAlumnoPostulante() {
+        return new ListarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
+     * 
+     */
+    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
+        return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
      * Create an instance of {@link Model }
      * 
      */
@@ -84,54 +111,57 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ServiceException }
+     * Create an instance of {@link JAXBElement }{@code <}{@link BuscarAlumnoPostulante }{@code >}}
      * 
      */
-    public ServiceException createServiceException() {
-        return new ServiceException();
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "buscarAlumnoPostulante")
+    public JAXBElement<BuscarAlumnoPostulante> createBuscarAlumnoPostulante(BuscarAlumnoPostulante value) {
+        return new JAXBElement<BuscarAlumnoPostulante>(_BuscarAlumnoPostulante_QNAME, BuscarAlumnoPostulante.class, null, value);
     }
 
     /**
-     * Create an instance of {@link EvaluacionPostulante }
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenerAlumnoPostulanteResponse }{@code >}}
      * 
      */
-    public EvaluacionPostulante createEvaluacionPostulante() {
-        return new EvaluacionPostulante();
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "obtenerAlumnoPostulanteResponse")
+    public JAXBElement<ObtenerAlumnoPostulanteResponse> createObtenerAlumnoPostulanteResponse(ObtenerAlumnoPostulanteResponse value) {
+        return new JAXBElement<ObtenerAlumnoPostulanteResponse>(_ObtenerAlumnoPostulanteResponse_QNAME, ObtenerAlumnoPostulanteResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link EvaluarAlumno }
+     * Create an instance of {@link JAXBElement }{@code <}{@link ListarAlumnoPostulanteResponse }{@code >}}
      * 
      */
-    public EvaluarAlumno createEvaluarAlumno() {
-        return new EvaluarAlumno();
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "listarAlumnoPostulanteResponse")
+    public JAXBElement<ListarAlumnoPostulanteResponse> createListarAlumnoPostulanteResponse(ListarAlumnoPostulanteResponse value) {
+        return new JAXBElement<ListarAlumnoPostulanteResponse>(_ListarAlumnoPostulanteResponse_QNAME, ListarAlumnoPostulanteResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EvaluarAlumno }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link BuscarAlumnoPostulanteResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://experto.service.gepsac.sacooliveros.com/", name = "evaluarAlumno")
-    public JAXBElement<EvaluarAlumno> createEvaluarAlumno(EvaluarAlumno value) {
-        return new JAXBElement<EvaluarAlumno>(_EvaluarAlumno_QNAME, EvaluarAlumno.class, null, value);
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "buscarAlumnoPostulanteResponse")
+    public JAXBElement<BuscarAlumnoPostulanteResponse> createBuscarAlumnoPostulanteResponse(BuscarAlumnoPostulanteResponse value) {
+        return new JAXBElement<BuscarAlumnoPostulanteResponse>(_BuscarAlumnoPostulanteResponse_QNAME, BuscarAlumnoPostulanteResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link EvaluarAlumnoResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ObtenerAlumnoPostulante }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://experto.service.gepsac.sacooliveros.com/", name = "evaluarAlumnoResponse")
-    public JAXBElement<EvaluarAlumnoResponse> createEvaluarAlumnoResponse(EvaluarAlumnoResponse value) {
-        return new JAXBElement<EvaluarAlumnoResponse>(_EvaluarAlumnoResponse_QNAME, EvaluarAlumnoResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "obtenerAlumnoPostulante")
+    public JAXBElement<ObtenerAlumnoPostulante> createObtenerAlumnoPostulante(ObtenerAlumnoPostulante value) {
+        return new JAXBElement<ObtenerAlumnoPostulante>(_ObtenerAlumnoPostulante_QNAME, ObtenerAlumnoPostulante.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ServiceException }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ListarAlumnoPostulante }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://experto.service.gepsac.sacooliveros.com/", name = "ServiceException")
-    public JAXBElement<ServiceException> createServiceException(ServiceException value) {
-        return new JAXBElement<ServiceException>(_ServiceException_QNAME, ServiceException.class, null, value);
+    @XmlElementDecl(namespace = "http://app.sacoliveros.pe.edu/", name = "listarAlumnoPostulante")
+    public JAXBElement<ListarAlumnoPostulante> createListarAlumnoPostulante(ListarAlumnoPostulante value) {
+        return new JAXBElement<ListarAlumnoPostulante>(_ListarAlumnoPostulante_QNAME, ListarAlumnoPostulante.class, null, value);
     }
 
 }

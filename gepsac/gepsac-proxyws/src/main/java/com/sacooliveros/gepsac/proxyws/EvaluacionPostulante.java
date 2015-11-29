@@ -6,7 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -17,12 +19,13 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="evaluacionPostulante">
  *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *     &lt;extension base="{http://service.gepsac.sacooliveros.com/}model">
  *       &lt;sequence>
- *         &lt;element name="alumno" type="{http://experto.service.gepsac.sacooliveros.com/}alumno" minOccurs="0"/>
- *         &lt;element name="perfiles" type="{http://experto.service.gepsac.sacooliveros.com/}perfilEvaluado" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="alumno" type="{http://service.gepsac.sacooliveros.com/}alumno" minOccurs="0"/>
+ *         &lt;element name="fechaEvaluacion" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="perfiles" type="{http://service.gepsac.sacooliveros.com/}perfilEvaluado" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
- *     &lt;/restriction>
+ *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -32,11 +35,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "evaluacionPostulante", propOrder = {
     "alumno",
+    "fechaEvaluacion",
     "perfiles"
 })
-public class EvaluacionPostulante {
+public class EvaluacionPostulante
+    extends Model
+{
 
     protected Alumno alumno;
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar fechaEvaluacion;
     @XmlElement(nillable = true)
     protected List<PerfilEvaluado> perfiles;
 
@@ -62,6 +70,30 @@ public class EvaluacionPostulante {
      */
     public void setAlumno(Alumno value) {
         this.alumno = value;
+    }
+
+    /**
+     * Gets the value of the fechaEvaluacion property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getFechaEvaluacion() {
+        return fechaEvaluacion;
+    }
+
+    /**
+     * Sets the value of the fechaEvaluacion property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setFechaEvaluacion(XMLGregorianCalendar value) {
+        this.fechaEvaluacion = value;
     }
 
     /**

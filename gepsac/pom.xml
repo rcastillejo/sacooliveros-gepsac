@@ -11,6 +11,8 @@
     
     <modules>
         <module>gepsac-parent</module>
+        <module>experto-form</module>
+        <module>template-form</module>
         <module>gepsac-backoffice</module>
         <module>gepsac-model</module>
         <module>gepsac-service</module>
@@ -18,7 +20,7 @@
         <module>gepsac-dao</module>
         <module>gepsac-proxyws</module>
         <module>gepsac-experto</module>
-    <module>AlumnoService</module>
-  </modules>
+        <module>AlumnoService</module>
+    </modules>
 
 </project>
