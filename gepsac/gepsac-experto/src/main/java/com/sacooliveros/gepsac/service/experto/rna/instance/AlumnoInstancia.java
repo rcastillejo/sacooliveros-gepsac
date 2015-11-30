@@ -29,7 +29,9 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
     private static final Logger log = LoggerFactory.getLogger(AlumnoInstancia.class);
 
-    private static final String SQL_TRAIN = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,CASE WHEN cod_perfil is null THEN '' ELSE cod_perfil END from tp_alumno_evaluado";
+    private static final String SQL_TRAIN = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,"
+            + "CASE WHEN cod_perfil is null THEN '' ELSE cod_perfil END from tp_alumno_evaluado "
+            + "where cod_estado='ALU0002'";
     /*private static final String SQL_PREDIC = "Select cod_alumno,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,religion,nacionalidad,distrito,provincia,departamento,cod_perfil from tp_alumno_postulante where cod_alumno=''{0}''";
     private static final String SQL_TRAIN = "select * from desertor";
     private static final String SQL_PREDIC = "select * from evaluado where pk_iddesertor=''{0}''";*/

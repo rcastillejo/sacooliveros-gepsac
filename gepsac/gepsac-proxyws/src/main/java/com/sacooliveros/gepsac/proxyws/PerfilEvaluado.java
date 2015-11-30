@@ -17,6 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="codigoEvaluacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="indice" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="perfil" type="{http://service.gepsac.sacooliveros.com/}perfil" minOccurs="0"/>
  *         &lt;element name="probabilidad" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="seleccionado" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
@@ -31,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "perfilEvaluado", propOrder = {
     "codigoEvaluacion",
+    "indice",
     "perfil",
     "probabilidad",
     "seleccionado"
@@ -38,6 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 public class PerfilEvaluado {
 
     protected String codigoEvaluacion;
+    protected int indice;
     protected Perfil perfil;
     protected double probabilidad;
     protected boolean seleccionado;
@@ -64,6 +67,22 @@ public class PerfilEvaluado {
      */
     public void setCodigoEvaluacion(String value) {
         this.codigoEvaluacion = value;
+    }
+
+    /**
+     * Gets the value of the indice property.
+     * 
+     */
+    public int getIndice() {
+        return indice;
+    }
+
+    /**
+     * Sets the value of the indice property.
+     * 
+     */
+    public void setIndice(int value) {
+        this.indice = value;
     }
 
     /**

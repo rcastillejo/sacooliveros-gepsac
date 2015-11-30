@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,8 @@ public class EstrategiaMyIbatisDAO extends GenericMyIbatisDAO implements Estrate
     private static final Logger log = LoggerFactory.getLogger(EstrategiaMyIbatisDAO.class);
     private final List<Estrategia> planes;
 
-    public EstrategiaMyIbatisDAO() {
+    public EstrategiaMyIbatisDAO(SqlSessionFactory factory) {
+        super(factory);
         planes = new ArrayList();
     }
 

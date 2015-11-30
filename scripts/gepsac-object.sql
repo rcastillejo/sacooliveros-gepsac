@@ -310,14 +310,14 @@ CREATE TABLE tp_alumno_evaluado
   departamento character varying(50) NOT NULL, --Nombre del departamento del alumno
     
   cod_perfil character varying(15) NULL, 
-  --cod_estado character varying(15) NOT NULL,   
+  cod_estado character varying(15) NOT NULL,   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
-  /*CONSTRAINT fk_tp_alumno_tp_estado FOREIGN KEY (cod_estado)
+  CONSTRAINT fk_tp_alumno_tp_estado FOREIGN KEY (cod_estado)
       REFERENCES tp_estado (cod_estado) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,*/
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT pk_tp_alumno_evaluado PRIMARY KEY (cod_alumno),
   CONSTRAINT fk_tp_alumno_evaluado_tp_perfil FOREIGN KEY (cod_perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
@@ -419,3 +419,72 @@ CREATE TABLE tp_perfil_evaluacion
 WITH (
   OIDS=FALSE
 );
+
+
+CREATE TABLE tp_pregunta
+(
+  cod_pregunta character varying(15) NOT NULL,
+  tipo character varying(25) NOT NULL,
+  alias character varying(25) NOT NULL,
+  enunciado character varying(250) NOT NULL,
+  
+  --cod_estado character varying(15) NOT NULL, 
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_pregunta PRIMARY KEY (cod_pregunta)/*,
+  CONSTRAINT fk_tp_perfil_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION*/
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_evaluacion_acoso_escolar
+(
+  cod_evaluacion character varying(15) NOT NULL,
+  fec_evaluacion timestamp without time zone NOT NULL,
+  cod_alumno character varying(15) NOT NULL,
+  
+  cod_estado character varying(15) NOT NULL,   
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_ev_acoso_escolar PRIMARY KEY (cod_evaluacion),
+  CONSTRAINT fk_tp_ev_acoso_escolar_tp_estado FOREIGN KEY (cod_estado)
+      REFERENCES tp_estado (cod_estado) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_ev_acoso_escolar_tp_alumno_evaluado FOREIGN KEY (cod_alumno)
+      REFERENCES tp_alumno_evaluado (cod_alumno) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE tp_pregunta_evaluacion
+(
+  cod_evaluacion character varying(15) NOT NULL,
+  cod_pregunta character varying(15) NULL,
+  
+  respuesta character varying(15) NULL,
+  seleccionado boolean NOT NULL,
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_pregunta_evaluacion PRIMARY KEY (cod_evaluacion, cod_pregunta),
+  CONSTRAINT fk_tp_pregunta_evaluacion_tp_pregunta FOREIGN KEY (cod_pregunta)
+      REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+

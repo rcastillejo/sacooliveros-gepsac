@@ -25,7 +25,7 @@ public interface BOService {
 
     /**
      * 
-     * @param alumno
+     * @param evaluacionPostulante
      * @return
      *     returns com.sacooliveros.gepsac.proxyws.EvaluacionPostulante
      */
@@ -34,7 +34,7 @@ public interface BOService {
     @RequestWrapper(localName = "evaluarAlumno", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.EvaluarAlumno")
     @ResponseWrapper(localName = "evaluarAlumnoResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.proxyws.EvaluarAlumnoResponse")
     public EvaluacionPostulante evaluarAlumno(
-        @WebParam(name = "alumno", targetNamespace = "")
-        EvaluacionPostulante alumno);
+        @WebParam(name = "evaluacionPostulante", targetNamespace = "")
+        EvaluacionPostulante evaluacionPostulante);
 
 }

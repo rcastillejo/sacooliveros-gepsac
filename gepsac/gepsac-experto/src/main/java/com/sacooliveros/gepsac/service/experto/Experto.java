@@ -5,9 +5,13 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
-import com.sacooliveros.gepsac.model.experto.Alumno;
+import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.se.Engine;
+import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
+import java.util.List;
 
 /**
  *
@@ -35,12 +39,19 @@ public interface Experto {
             String GENERAL = "No se pudo realizar la  evaluación [{0}]";
             String LISTAR = "No se encuentra planes";
             String REGISTRAR = "Error al evaluar alumno postulante [{0}]";
+            String LISTAR_EV_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
+            String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
         }
     }
-    
-    interface Estado{
+
+    interface Estado {
+
         String REGISTRADO = "EVP0001";
     }
 
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionAlumno) throws ExpertoServiceException;
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException;
+    
+    EvaluacionAcosoEscolar evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
 }

@@ -8,21 +8,30 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class SessionFactory {
 
-    protected static final SqlSessionFactory FACTORY;
+    private static final String DEFAULT_RESOURCE = "mybatis-config.xml";
+    private SqlSessionFactory sessionFactory;
 
-    static {
+    public SessionFactory() {
+        this(DEFAULT_RESOURCE);
+    }
+
+    public SessionFactory(String resource) {
         try {
             Reader reader = Resources.getResourceAsReader(
-                    "mybatis-config.xml");
+                    resource);
 
-            FACTORY = new SqlSessionFactoryBuilder().build(reader);
+            sessionFactory = new SqlSessionFactoryBuilder().build(reader);
 
         } catch (Exception e) {
             throw new DAOException("Error al crear la fabrica de sesiones", e);
         }
     }
 
-    public static SqlSessionFactory getSqlSessionFactory() {
-        return FACTORY;
+    public SqlSessionFactory getSqlSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void destroy() {
+        sessionFactory = null;
     }
 }

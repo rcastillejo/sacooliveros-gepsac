@@ -6,8 +6,8 @@
 package com.sacooliveros.gepsac.controller.planificacion;
 
 import com.sacooliveros.gepsac.controller.exception.ConrollerModuleException;
-import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.PlanDAO;
+import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.PlanActividad;
 import com.sacooliveros.gepsac.model.PlanEstrategia;
@@ -61,7 +61,7 @@ public class PlanificacionController {
     public List<Plan> listar() {
         List<Plan> listado;
         try {
-            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
             listado = planDao.listar();
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
@@ -76,7 +76,7 @@ public class PlanificacionController {
     public Plan obtenerPlanVigente() {
         Plan planVigente;
         try {
-            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
             planVigente = planDao.obtenerVigente(Calendar.getInstance().get(Calendar.YEAR));
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
@@ -91,7 +91,7 @@ public class PlanificacionController {
 
     public String registrar(Plan plan) {
         try {
-            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
             plan.setEstado(Estado.PlanEstrategico.REGISTRADO);
             plan.setFecRegistro(new Date());
@@ -106,7 +106,7 @@ public class PlanificacionController {
     public String configurar(Plan plan) {
         Plan planAConfigurar;
         try {
-            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
             planAConfigurar = planDao.obtener(plan.getCodigo());
 
@@ -167,7 +167,7 @@ public class PlanificacionController {
     public Plan generarProgramacion(Plan plan) {
         Programacion programacion = new Programacion();
         try {
-            PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+            PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
             Plan planAProgramar = planDao.obtener(plan.getCodigo());
             planAProgramar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
 
@@ -186,7 +186,7 @@ public class PlanificacionController {
      public String programar(Plan plan) {
      Plan planAProgramar;
      try {
-     PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+     PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
      planAProgramar = planDao.obtener(plan.getCodigo());
 
@@ -238,7 +238,7 @@ public class PlanificacionController {
 
             try {
 
-                PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+                PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
                 List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
 
@@ -276,7 +276,7 @@ public class PlanificacionController {
 
          try {
 
-         PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+         PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
          List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
 
@@ -301,7 +301,7 @@ public class PlanificacionController {
 
             try {
 
-                PlanDAO planDao = DAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+                PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
                 List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
 

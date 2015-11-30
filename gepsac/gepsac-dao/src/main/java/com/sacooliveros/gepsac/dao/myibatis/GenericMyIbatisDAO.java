@@ -5,8 +5,8 @@
  */
 package com.sacooliveros.gepsac.dao.myibatis;
 
-import com.sacooliveros.gepsac.dao.mybatis.session.SessionFactory;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
  *
@@ -14,8 +14,14 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class GenericMyIbatisDAO {
 
+    private final SqlSessionFactory sessionFactory;
+
+    public GenericMyIbatisDAO(SqlSessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public SqlSession getConnection() {
-        return SessionFactory.getSqlSessionFactory().openSession();
+        return sessionFactory.openSession();
     }
 
     public void closeConnection(SqlSession session) {

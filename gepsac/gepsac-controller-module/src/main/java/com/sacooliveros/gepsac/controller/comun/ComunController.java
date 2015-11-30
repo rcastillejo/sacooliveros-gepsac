@@ -6,8 +6,8 @@
 package com.sacooliveros.gepsac.controller.comun;
 
 import com.sacooliveros.gepsac.controller.exception.ConrollerModuleException;
-import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.EstrategiaDAO;
+import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.model.Estrategia;
 import com.sacooliveros.gepsac.model.EstrategiaActividad;
 import java.util.List;
@@ -35,7 +35,7 @@ public class ComunController {
     public List<Estrategia> listarEstrategia() {
         List<Estrategia> listado;
         try {
-            EstrategiaDAO dao = DAOFactory.getDAOFactory().getEstrategiaDAO();
+            EstrategiaDAO dao = SingletonDAOFactory.getDAOFactory().getEstrategiaDAO();
             listado = dao.listar();
         } catch (Exception e) {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
@@ -50,7 +50,7 @@ public class ComunController {
     public List<EstrategiaActividad> listarEstrategiaActividad(String codigoEstrategia) {
         List<EstrategiaActividad> listado;
         try {
-            EstrategiaDAO dao = DAOFactory.getDAOFactory().getEstrategiaDAO();
+            EstrategiaDAO dao = SingletonDAOFactory.getDAOFactory().getEstrategiaDAO();
             listado = dao.listarActividad(codigoEstrategia);
             
             for (EstrategiaActividad actividad : listado) {
@@ -70,7 +70,7 @@ public class ComunController {
      public List<Actividad> listarActividad() {
      List<Actividad> listado;
      try {
-     ActividadDAO dao = DAOFactory.getDAOFactory().getActividadDAO();
+     ActividadDAO dao = SingletonDAOFactory.getDAOFactory().getActividadDAO();
      listado = dao.listar();
      } catch (Exception e) {
      throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);
@@ -85,7 +85,7 @@ public class ComunController {
      public List<Inidicador> listarIndicador() {
      List<Inidicador> listado;
      try {
-     IndicadorDAO dao = DAOFactory.getDAOFactory().getIndicadorDAO();
+     IndicadorDAO dao = SingletonDAOFactory.getDAOFactory().getIndicadorDAO();
      listado = dao.listar();
      } catch (Exception e) {
      throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.GENERAL, e);

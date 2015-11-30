@@ -8,10 +8,13 @@ package com.sacooliveros.gepsac.dao.factory;
 import com.sacooliveros.gepsac.dao.AlumnoDAO;
 import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.EstrategiaDAO;
+import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.PlanDAO;
+import com.sacooliveros.gepsac.dao.mybatis.session.SessionFactory;
 import com.sacooliveros.gepsac.dao.myibatis.AlumnoMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EstrategiaMyIbatisDAO;
+import com.sacooliveros.gepsac.dao.myibatis.EvaluacionAcosoEscolarMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EvaluacionPostulanteMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.PlanMyIbatisDAO;
 
@@ -19,26 +22,38 @@ import com.sacooliveros.gepsac.dao.myibatis.PlanMyIbatisDAO;
  *
  * @author rcastillejo
  */
-public class MyBatisDAOFactory extends DAOFactory {
+public class MyBatisDAOFactory extends SessionFactory implements DAOFactory {
 
+    public MyBatisDAOFactory() {
+    }
+
+    public MyBatisDAOFactory(String resource) {
+        super(resource);
+    }
+    
     @Override
     public PlanDAO getPlanEstrategicoDAO() {
-        return new PlanMyIbatisDAO();
+        return new PlanMyIbatisDAO(getSqlSessionFactory());
     }
 
     @Override
     public EstrategiaDAO getEstrategiaDAO() {
-        return new EstrategiaMyIbatisDAO();
+        return new EstrategiaMyIbatisDAO(getSqlSessionFactory());
     }
 
     @Override
     public AlumnoDAO getAlumnoDAO() {
-        return new AlumnoMyIbatisDAO();
+        return new AlumnoMyIbatisDAO(getSqlSessionFactory());
     }
 
     @Override
     public EvaluacionPostulanteDAO getEvaluacionPostulanteDAO() {
-        return new EvaluacionPostulanteMyIbatisDAO();
+        return new EvaluacionPostulanteMyIbatisDAO(getSqlSessionFactory());
     }
 
+    @Override
+    public EvaluacionAcosoEscolarDAO getEvaluacionAcosoEscolarDAO() {
+        return new EvaluacionAcosoEscolarMyIbatisDAO(getSqlSessionFactory());
+    }
+    
 }

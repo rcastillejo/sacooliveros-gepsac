@@ -14,6 +14,7 @@ import com.sacooliveros.gepsac.model.PlanEstrategia;
 import com.sacooliveros.gepsac.model.PlanIndicador;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,8 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
 
     private static final Logger log = LoggerFactory.getLogger(PlanMyIbatisDAO.class);
 
-    public PlanMyIbatisDAO() {
+    public PlanMyIbatisDAO(SqlSessionFactory factory) {
+        super(factory);
     }
 
     @Override
@@ -220,7 +222,7 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
             closeConnection(session);
         }
     }
-    
+
     @Override
     public List listarPlanEstrategia(String codigoPlan) {
         SqlSession session = null;
@@ -236,7 +238,7 @@ public class PlanMyIbatisDAO extends GenericMyIbatisDAO implements PlanDAO {
             closeConnection(session);
         }
     }
-    
+
     @Override
     public List listarPlanActividad(String codigoPlan, String codigoEstrategia) {
         SqlSession session = null;

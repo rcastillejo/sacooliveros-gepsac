@@ -13,6 +13,7 @@ import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,8 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
 
     private static final Logger log = LoggerFactory.getLogger(EvaluacionPostulanteMyIbatisDAO.class);
 
-    public EvaluacionPostulanteMyIbatisDAO() {
+    public EvaluacionPostulanteMyIbatisDAO(SqlSessionFactory factory) {
+        super(factory);
     }
 
     @Override
@@ -72,18 +74,18 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionPostulanteMapper.class);
-            
+
             model.setFechaEvaluacion(new Date());
-            
+
             log.debug("Registrando [{}] ...", model);
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
-            
-            if(model.getPerfiles() != null){
+
+            if (model.getPerfiles() != null) {
                 ingresarPerfiles(mapper, model);
-            }            
-            
+            }
+
             session.commit();
             log.info("Registrado [{}]", model);
 
@@ -97,19 +99,19 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
         }
 
     }
-    
-    public void ingresarPerfiles(EvaluacionPostulanteMapper mapper, EvaluacionPostulante model){
+
+    public void ingresarPerfiles(EvaluacionPostulanteMapper mapper, EvaluacionPostulante model) {
         List<PerfilEvaluado> perfiles;
-        
+
         perfiles = model.getPerfiles();
-        
+
         for (PerfilEvaluado perfilEvaluado : perfiles) {
             perfilEvaluado.setCodigoEvaluacion(model.getCodigo());
             if (mapper.insertPerfiles(perfilEvaluado) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
         }
-         
+
     }
 
     @Override
@@ -120,18 +122,18 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionPostulanteMapper.class);
-            
+
             model.setFechaEvaluacion(new Date());
-            
+
             log.debug("Actualizando [{}] ...", model);
             if (mapper.update(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-            
-            if(model.getPerfiles() != null){
+
+            if (model.getPerfiles() != null) {
                 actualizarPerfiles(mapper, model);
             }
-            
+
             session.commit();
             log.info("Actualizado [{}]", model);
 
@@ -145,22 +147,22 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
         }
     }
 
-    public void actualizarPerfiles(EvaluacionPostulanteMapper mapper, EvaluacionPostulante model){
+    public void actualizarPerfiles(EvaluacionPostulanteMapper mapper, EvaluacionPostulante model) {
         List<PerfilEvaluado> perfiles;
-        
-        perfiles = model.getPerfiles();        
-        
+
+        perfiles = model.getPerfiles();
+
         for (PerfilEvaluado perfilEvaluado : perfiles) {
             perfilEvaluado.setCodigoEvaluacion(model.getCodigo());
             if (mapper.updatePerfiles(perfilEvaluado) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
         }
-         
+
     }
 
     @Override
     public void eliminar(EvaluacionPostulante plan) {
     }
-  
+
 }

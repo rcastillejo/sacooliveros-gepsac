@@ -23,14 +23,21 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>gepsac-dao</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- Libreria RNA-->
+        <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
             <version>3.6.13</version>
         </dependency>
+        <!-- Libreria CLIPS-->
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>gepsac-dao</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>CLIPSJNI</groupId>
+            <artifactId>CLIPSJNI</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -13,38 +13,17 @@ import com.sacooliveros.gepsac.dao.exception.DAOException;
  *
  * @author rcastillejo
  */
-public abstract class DAOFactory {
+public interface DAOFactory {
     
-    public static final int MY_IBATIS = 1;
-    public static final int MOCK = 2;
-    
-    private static int whichFactory;
-    
-    public static void init(String whichFac) {
-        try {
-            init(Integer.parseInt(whichFac));
-        } catch (Exception e) {
-            throw new DAOException("Error al identificar el factory: " + whichFac, e);
-        }
-    }
-    
-    public static void init(int whichFac) {
-        whichFactory = whichFac;
-    }
-    
-    public static DAOFactory getDAOFactory() throws DAOException {
-        switch (whichFactory) {
-            case MY_IBATIS:
-                return new MyBatisDAOFactory();
-            case MOCK:
-                return MockDAOFactory.getInstance();
-            default:
-                throw new DAOException("Fabrica DAO invalido [" + whichFactory + "]");
-        }
-    }
-    
-    public abstract PlanDAO getPlanEstrategicoDAO();
-    public abstract EstrategiaDAO getEstrategiaDAO();
-    public abstract AlumnoDAO getAlumnoDAO();
-    public abstract EvaluacionPostulanteDAO getEvaluacionPostulanteDAO();
+    void destroy();
+
+    PlanDAO getPlanEstrategicoDAO();
+
+    EstrategiaDAO getEstrategiaDAO();
+
+    AlumnoDAO getAlumnoDAO();
+
+    EvaluacionPostulanteDAO getEvaluacionPostulanteDAO();
+
+    EvaluacionAcosoEscolarDAO getEvaluacionAcosoEscolarDAO();
 }

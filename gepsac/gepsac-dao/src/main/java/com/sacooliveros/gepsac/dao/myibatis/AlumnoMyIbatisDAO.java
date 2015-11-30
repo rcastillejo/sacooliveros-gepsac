@@ -11,6 +11,7 @@ import com.sacooliveros.gepsac.dao.mybatis.mapper.AlumnoMapper;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,8 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
 
     private static final Logger log = LoggerFactory.getLogger(AlumnoMyIbatisDAO.class);
 
-    public AlumnoMyIbatisDAO() {
+    public AlumnoMyIbatisDAO(SqlSessionFactory factory) {
+        super(factory);
     }
 
     @Override
