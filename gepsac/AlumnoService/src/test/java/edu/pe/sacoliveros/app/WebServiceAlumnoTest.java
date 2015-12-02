@@ -5,7 +5,6 @@
  */
 package edu.pe.sacoliveros.app;
 
-import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;

@@ -61,7 +61,7 @@
     </logger>
      
     
-    <logger name="com.sacooliveros.gepsac">
+    <logger name="com.sacooliveros.gepsac" additivity="false">
         <level value="DEBUG" />
         <appender-ref ref="TRAZADO"/>
     </logger>

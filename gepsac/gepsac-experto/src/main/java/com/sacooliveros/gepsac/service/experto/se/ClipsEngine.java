@@ -9,7 +9,11 @@ import CLIPSJNI.Environment;
 import CLIPSJNI.PrimitiveValue;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.service.experto.Experto;
+import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -17,13 +21,14 @@ import java.util.List;
  */
 public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferencia> {
 
+    private static final Logger log = LoggerFactory.getLogger(ClipsEngine.class);
     private final Environment clips;
 
     public ClipsEngine() {
         try {
             clips = new Environment();
         } catch (Exception e) {
-            throw new RuntimeException("No se pudo cargar el entorno", e);
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se pudo cargar el entorno", e);
         }
     }
 
@@ -32,7 +37,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         try {
             clips.load(config);
         } catch (Exception e) {
-            throw new RuntimeException("No se cargaron los reglas", e);
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No cargaron los reglas", e);
         }
     }
 
@@ -41,34 +46,36 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         boolean loaded;
         try {
             loaded = clips.loadFacts(config);
-            System.out.println("Hechos cargados [" + loaded + "]");
+            log.debug("Hechos cargados [" + loaded + "]");
         } catch (Exception e) {
-            throw new RuntimeException("No se cargaron los hechos", e);
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se cargaron los hechos", e);
         }
         if (!loaded) {
-            throw new RuntimeException("No se cargaron los hechos");
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se cargaron los hechos");
         }
     }
 
     @Override
     public ResultadoInferencia evaluate(List<PreguntaEvaluacion> preguntasResueltas) {
         ResultadoInferencia inferencia = inferir();
-
+        int orden = 0;
         while (!inferencia.finalizo()) {
-            String respuesta = obtenerRespuesta(preguntasResueltas, inferencia.getNombre());
-            System.out.println("evaluando respuesta [" + respuesta + "]");
-            clips.eval("(assert (opcion " + respuesta + "))");
+            orden++;
+            PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getNombre());
+            preguntaResuelta.setOrdenEvaluacion(orden);
+            log.debug("evaluando respuesta [" + preguntaResuelta + "]");
+            clips.eval("(assert (opcion " + preguntaResuelta.getRespuesta() + "))");
             inferencia = inferir();
         }
 
         return inferencia;
     }
 
-    private String obtenerRespuesta(List<PreguntaEvaluacion> preguntasResultas, String alias) {
+    private PreguntaEvaluacion obtenerRespuesta(List<PreguntaEvaluacion> preguntasResultas, String alias) {
         for (PreguntaEvaluacion preguntasResulta : preguntasResultas) {
             Pregunta pregunta = preguntasResulta.getPregunta();
             if (pregunta.getAlias().equals(alias)) {
-                return preguntasResulta.getRespuesta();
+                return preguntasResulta;
             }
         }
         return null;
@@ -87,7 +94,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             ResultadoInferencia resultado = new ResultadoInferencia();
             resultado.setNombre(alias);
             resultado.setTipo(tipo);
-            System.out.println("resultado inferencia[" + resultado + "]");
+            log.debug("resultado inferencia[" + resultado + "]");
 
             if (resultado.finalizo()) {
                 String respuesta = value.get(0).getFactSlot("texto").toString();

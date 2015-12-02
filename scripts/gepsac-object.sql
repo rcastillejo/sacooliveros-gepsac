@@ -260,6 +260,17 @@ WITH (
 
 --Experto
 
+CREATE TABLE tp_config
+(
+  parametro character varying(50) NOT NULL,  
+  valor character varying(50) NOT NULL,  
+  descripcion character varying(150),
+  CONSTRAINT pk_tp_config PRIMARY KEY (parametro)
+)
+WITH (
+  OIDS=FALSE
+);
+
 CREATE TABLE tp_perfil
 (
   cod_perfil character varying(15) NOT NULL,
@@ -281,6 +292,94 @@ WITH (
   OIDS=FALSE
 );
 
+CREATE TABLE tp_contextura
+(
+  cod_contextura int,
+  nom_contextura character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_contextura PRIMARY KEY (cod_contextura)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_estatura
+(
+  cod_estatura int,
+  nom_estatura character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_estatura PRIMARY KEY (cod_estatura)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_tipo_familia
+(
+  cod_familia int,
+  nom_familia character varying(50) NOT NULL,
+  des_familia character varying(150) NULL,
+  
+  CONSTRAINT pk_tipo_familia PRIMARY KEY (cod_familia)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_religion
+(
+  cod_religion int,
+  nom_religion character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_religion PRIMARY KEY (cod_religion)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_nacionalidad
+(
+  cod_nacionalidad int,
+  nom_nacionalidad character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_nacionalidad PRIMARY KEY (cod_nacionalidad)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_distrito
+(
+  cod_distrito int,
+  nom_distrito character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_distrito PRIMARY KEY (cod_distrito)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_provincia
+(
+  cod_provincia int,
+  nom_provincia character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_provincia PRIMARY KEY (cod_provincia)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_departamento
+(
+  cod_departamento int,
+  nom_departamento character varying(50) NOT NULL,
+  
+  CONSTRAINT pk_tp_departamento PRIMARY KEY (cod_departamento)
+)
+WITH (
+  OIDS=FALSE
+);
 
 CREATE TABLE tp_alumno_evaluado
 (
@@ -289,25 +388,25 @@ CREATE TABLE tp_alumno_evaluado
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
   
-  genero character varying(15) NOT NULL, -- Masculino, Femenino,
+  sexo int NOT NULL, -- Masculino, Femenino,
   edad int NOT NULL,
-  contextura character varying(10) NULL, -- PEQUEÑO, MEDIANO, GRANDE
-  altura character varying(10) NOT NULL, --Alto, Medio, Bajo
-  tipo_familia character varying(50) NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
+  cod_contextura int NULL, -- PEQUEÑO, MEDIANO, GRANDE
+  cod_estatura int NOT NULL, --Alto, Medio, Bajo
+  cod_familia int NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
   
   orden_nacimiento int NOT NULL DEFAULT 1, -- 1=Primero, 2=segundo,etc.
-  num_hnos int NOT NULL DEFAULT 0, --Numero de hermanos, 0 para hijo Unico
+  cant_hnos int NOT NULL DEFAULT 0, --Cantidad de hermanos, 0 para hijo Unico
   
-  nivel_escolar character varying(15) NOT NULL, --Primaria, Secundaria
+  nivel_escolar int NOT NULL, --1=Primaria, 2=Secundaria
   grado_escolar int NOT NULL,
   promedio_escolar numeric(4,2) NOT NULL, --Promedio escolar del momento de la evaluacion al alumno
   
-  nro_cambio_colegio int NOT NULL DEFAULT 0, --nro. Cambios Colegios
-  religion character varying(50) NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
-  nacionalidad character varying(50) NOT NULL, --Peruano, Chileno, Venezolano, etc. 
-  distrito character varying(50) NOT NULL, --Nombre del distrito del alumno
-  provincia character varying(50) NOT NULL, --Nombre del provincia del alumno
-  departamento character varying(50) NOT NULL, --Nombre del departamento del alumno
+  cant_cambio_colegio int NOT NULL DEFAULT 0, --cantidad de Cambios Colegios
+  cod_religion int NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
+  cod_nacionalidad int NOT NULL, --Peruano, Chileno, Venezolano, etc. 
+  cod_distrito int NOT NULL, --Nombre del distrito del alumno
+  cod_provincia int NOT NULL, --Nombre del provincia del alumno
+  cod_departamento int NOT NULL, --Nombre del departamento del alumno
     
   cod_perfil character varying(15) NULL, 
   cod_estado character varying(15) NOT NULL,   
@@ -321,6 +420,31 @@ CREATE TABLE tp_alumno_evaluado
   CONSTRAINT pk_tp_alumno_evaluado PRIMARY KEY (cod_alumno),
   CONSTRAINT fk_tp_alumno_evaluado_tp_perfil FOREIGN KEY (cod_perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	  
+  CONSTRAINT fk_tp_alumno_evaluado_contextura FOREIGN KEY (cod_contextura)
+      REFERENCES tp_contextura (cod_contextura) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_estatura FOREIGN KEY (cod_estatura)
+      REFERENCES tp_estatura (cod_estatura) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_tipo_familia FOREIGN KEY (cod_familia)
+      REFERENCES tp_tipo_familia (cod_familia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_religion FOREIGN KEY (cod_religion)
+      REFERENCES tp_religion (cod_religion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_nacionalidad FOREIGN KEY (cod_nacionalidad)
+      REFERENCES tp_nacionalidad (cod_nacionalidad) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_distrito FOREIGN KEY (cod_distrito)
+      REFERENCES tp_distrito (cod_distrito) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_provincia FOREIGN KEY (cod_provincia)
+      REFERENCES tp_provincia (cod_provincia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_departamento FOREIGN KEY (cod_departamento)
+      REFERENCES tp_departamento (cod_departamento) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -335,28 +459,28 @@ CREATE TABLE tp_alumno_postulante
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
   
-  genero character varying(15) NOT NULL, -- Masculino, Femenino,
+  sexo int NOT NULL, -- Masculino, Femenino,
   edad int NOT NULL,
-  contextura character varying(10) NULL, -- PEQUEÑO, MEDIANO, GRANDE
-  altura character varying(10) NOT NULL, --Alto, Medio, Bajo
-  tipo_familia character varying(50) NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
+  cod_contextura int NULL, -- PEQUEÑO, MEDIANO, GRANDE
+  cod_estatura int NOT NULL, --Alto, Medio, Bajo
+  cod_familia int NOT NULL, --Nuclear, Extensa, Monopariental, Esamblada, Homoparental
   
   orden_nacimiento int NOT NULL DEFAULT 1, -- 1=Primero, 2=segundo,etc.
-  num_hnos int NOT NULL DEFAULT 0, --Numero de hermanos, 0 para hijo Unico
+  cant_hnos int NOT NULL DEFAULT 0, --Cantidad de hermanos, 0 para hijo Unico
   
-  nivel_escolar character varying(15) NOT NULL, --Primaria, Secundaria
+  nivel_escolar int NOT NULL, --1=Primaria, 2=Secundaria
   grado_escolar int NOT NULL,
   promedio_escolar numeric(4,2) NOT NULL, --Promedio escolar del momento de la evaluacion al alumno
   
-  nro_cambio_colegio int NOT NULL DEFAULT 0, --nro. Cambios Colegios
-  religion character varying(50) NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
-  nacionalidad character varying(50) NOT NULL, --Peruano, Chileno, Venezolano, etc. 
-  distrito character varying(50) NOT NULL, --Nombre del distrito del alumno
-  provincia character varying(50) NOT NULL, --Nombre del provincia del alumno
-  departamento character varying(50) NOT NULL, --Nombre del departamento del alumno
+  cant_cambio_colegio int NOT NULL DEFAULT 0, --cantidad de Cambios Colegios
+  cod_religion int NOT NULL, --Cristiano, Catolico, Mormon, Evangelico, Judio, etc.
+  cod_nacionalidad int NOT NULL, --Peruano, Chileno, Venezolano, etc. 
+  cod_distrito int NOT NULL, --Nombre del distrito del alumno
+  cod_provincia int NOT NULL, --Nombre del provincia del alumno
+  cod_departamento int NOT NULL, --Nombre del departamento del alumno
     
   cod_perfil character varying(15) NULL, 
-  --cod_estado character varying(15) NOT NULL,   
+  --cod_estado character varying(15) NOT NULL,
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
@@ -367,6 +491,31 @@ CREATE TABLE tp_alumno_postulante
       ON UPDATE NO ACTION ON DELETE NO ACTION,*/
   CONSTRAINT fk_tp_alumno_postulante_tp_perfil FOREIGN KEY (cod_perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+	  
+  CONSTRAINT fk_tp_alumno_evaluado_contextura FOREIGN KEY (cod_contextura)
+      REFERENCES tp_contextura (cod_contextura) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_estatura FOREIGN KEY (cod_estatura)
+      REFERENCES tp_estatura (cod_estatura) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_tipo_familia FOREIGN KEY (cod_familia)
+      REFERENCES tp_tipo_familia (cod_familia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_religion FOREIGN KEY (cod_religion)
+      REFERENCES tp_religion (cod_religion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_nacionalidad FOREIGN KEY (cod_nacionalidad)
+      REFERENCES tp_nacionalidad (cod_nacionalidad) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_distrito FOREIGN KEY (cod_distrito)
+      REFERENCES tp_distrito (cod_distrito) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_provincia FOREIGN KEY (cod_provincia)
+      REFERENCES tp_provincia (cod_provincia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_alumno_evaluado_departamento FOREIGN KEY (cod_departamento)
+      REFERENCES tp_departamento (cod_departamento) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -473,13 +622,16 @@ CREATE TABLE tp_pregunta_evaluacion
   cod_pregunta character varying(15) NULL,
   
   respuesta character varying(15) NULL,
-  seleccionado boolean NOT NULL,
+  orden_evaluado int NOT NULL,
   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
   CONSTRAINT pk_tp_pregunta_evaluacion PRIMARY KEY (cod_evaluacion, cod_pregunta),
+  CONSTRAINT fk_tp_pregunta_evaluacion_tp_eva_acoso FOREIGN KEY (cod_evaluacion)
+      REFERENCES tp_evaluacion_acoso_escolar (cod_evaluacion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_pregunta_evaluacion_tp_pregunta FOREIGN KEY (cod_pregunta)
       REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION

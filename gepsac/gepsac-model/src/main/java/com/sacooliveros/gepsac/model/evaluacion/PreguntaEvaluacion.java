@@ -13,15 +13,8 @@ public class PreguntaEvaluacion {
 
     private String codigoEvaluacion;
     private Pregunta pregunta;
+    private int ordenEvaluacion;
     private String respuesta;
-    private boolean seleccionado;
-
-    public void setPerfil(String codigoPregunta) {
-        if (codigoPregunta != null && !codigoPregunta.isEmpty()) {
-            pregunta = new Pregunta();
-            pregunta.setCodigo(codigoPregunta);
-        }
-    }
 
     public String getCodigoEvaluacion() {
         return codigoEvaluacion;
@@ -33,6 +26,21 @@ public class PreguntaEvaluacion {
 
     public Pregunta getPregunta() {
         return pregunta;
+    }
+
+    public void setPregunta(String codigoPregunta) {
+        if (codigoPregunta != null && !codigoPregunta.isEmpty()) {
+            pregunta = new Pregunta();
+            pregunta.setCodigo(codigoPregunta);
+        }
+    }
+
+    public int getOrdenEvaluacion() {
+        return ordenEvaluacion;
+    }
+
+    public void setOrdenEvaluacion(int ordenEvaluacion) {
+        this.ordenEvaluacion = ordenEvaluacion;
     }
 
     public void setPregunta(Pregunta pregunta) {
@@ -48,20 +56,12 @@ public class PreguntaEvaluacion {
     }
 
     public boolean isSeleccionado() {
-        return seleccionado;
-    }
-
-    public void setSeleccionado(boolean seleccionado) {
-        this.seleccionado = seleccionado;
-    }
-
-    public void seleccionar() {
-        seleccionado = Boolean.TRUE;
+        return ordenEvaluacion > 0;
     }
 
     @Override
     public String toString() {
-        return "PreguntaEvaluacion{" + "codigoEvaluacion=" + codigoEvaluacion + ", pregunta=" + pregunta + ", respuesta=" + respuesta + ", seleccionado=" + seleccionado + '}';
+        return "PreguntaEvaluacion{" + "codigoEvaluacion=" + codigoEvaluacion + ", pregunta=" + pregunta + ", ordenEvaluacion=" + ordenEvaluacion + ", respuesta=" + respuesta + '}';
     }
 
 }

@@ -5,15 +5,14 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
+import com.sacooliveros.gepsac.model.comun.Entidad;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
-import java.text.MessageFormat;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,22 +58,22 @@ public class ExpertoServiceTest {
         
         alumno = new Alumno();
         alumno.setCodigo("A201500098");
-        alumno.setGenero("Masculino");
+        alumno.setSexo(new Entidad("Masculino"));
         alumno.setEdad(15);
-        alumno.setContextura("Pequeño");
-        alumno.setAltura("Alto");
-        alumno.setTipoFamilia("Monoparental");
+        alumno.setContextura(new Entidad("Pequeño"));
+        alumno.setEstatura(new Entidad("Alto"));
+        alumno.setTipoFamilia(new Entidad("Monoparental"));
         alumno.setOrdenNacimiento(2);
-        alumno.setNumHnos(2);
-        alumno.setNivelEscolar("Secundaria");
+        alumno.setCantHnos(2);
+        alumno.setNivelEscolar(new Entidad("Secundaria"));
         alumno.setGradoEscolar(5);
         alumno.setPromedioEscolar(11.00);
-        alumno.setNroCambioColegio(2);
-        alumno.setReligion("Católico");
-        alumno.setNacionalidad("Peruana");
-        alumno.setDistrito("Pueblo Libre");
-        alumno.setProvincia("Lima");
-        alumno.setDepartamento("Lima");
+        alumno.setCantCambioColegio(2);
+        alumno.setReligion(new Entidad("Católico"));
+        alumno.setNacionalidad(new Entidad("Peruana"));
+        alumno.setDistrito(new Entidad("Pueblo Libre"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
         
         EvaluacionPostulante evaluacion = new EvaluacionPostulante();
         evaluacion.setCodigo("EVTest");
@@ -106,22 +105,22 @@ public class ExpertoServiceTest {
         
         alumno = new Alumno();
         alumno.setCodigo("A201500098");
-        alumno.setGenero("Masculino");
+        alumno.setSexo(new Entidad("Masculino"));
         alumno.setEdad(10);
-        alumno.setContextura("Grande");
-        alumno.setAltura("Alto");
-        alumno.setTipoFamilia("Esamblada");
+        alumno.setContextura(new Entidad("Grande"));
+        alumno.setEstatura(new Entidad("Alto"));
+        alumno.setTipoFamilia(new Entidad("Esamblada"));
         alumno.setOrdenNacimiento(2);
-        alumno.setNumHnos(2);
-        alumno.setNivelEscolar("Primaria");
+        alumno.setCantHnos(2);
+        alumno.setNivelEscolar(new Entidad("Primaria"));
         alumno.setGradoEscolar(6);
         alumno.setPromedioEscolar(12.00);
-        alumno.setNroCambioColegio(1);
-        alumno.setReligion("");
-        alumno.setNacionalidad("Peruano");
-        alumno.setDistrito("Breña");
-        alumno.setProvincia("Lima");
-        alumno.setDepartamento("Lima");
+        alumno.setCantCambioColegio(1);
+        alumno.setReligion(new Entidad(""));
+        alumno.setNacionalidad(new Entidad("Peruano"));
+        alumno.setDistrito(new Entidad("Breña"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
         
         
         EvaluacionPostulante evaluacion = new EvaluacionPostulante();

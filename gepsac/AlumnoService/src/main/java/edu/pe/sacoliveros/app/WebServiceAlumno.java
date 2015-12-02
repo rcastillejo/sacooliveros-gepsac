@@ -5,7 +5,6 @@
  */
 package edu.pe.sacoliveros.app;
 
-import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
@@ -30,9 +29,9 @@ public class WebServiceAlumno {
     private static final String[] GENERO = {"Masculino", "Femenino"};
     private static final String[] CONTEXTURA = {"Grande", "Mediano", "Pequeño"};
     private static final String[] ALTURA = {"Alto", "Medio", "Bajo"};
-    private static final String[] TIPO_FAMILIA = {"Nuclear", "Monoparental", "Extensa", "Esamblada", "Extensa"};
+    private static final String[] TIPO_FAMILIA = {"Nuclear", "Monoparental", "Extensa", "Esamblada"};
     private static final String[] NIVEL_ESCOLAR = {"Secundaria", "Primaria"};
-    private static final String[] RELIGION = {"Católico", "Evangelico", "Mormón"};
+    private static final String[] RELIGION = {"Católico", "Evangélico", "Mormón"};
     private static final String[] NACIONALIDAD = {"Peruano"};
     private static final String[] DISTRITO = {"Lince", "La Victoria", "Jesus María", "Breña", "Pueblo Libre"};
     private static final String[] PROVINCIA = {"Lima"};

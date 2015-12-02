@@ -5,131 +5,68 @@
  */
 package com.sacooliveros.gepsac.model.experto;
 
-import com.sacooliveros.gepsac.model.comun.Model;
+import com.sacooliveros.gepsac.model.comun.Entidad;
+import com.sacooliveros.gepsac.model.planificacion.Participante;
+import java.util.Date;
 
 /**
  *
  * @author Ricardo
  */
-public class Alumno extends Model {
+public class Alumno extends Participante {
 
     //Datos generales
-    private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private String domicilio;
+    private String direccion;
+    private Date fechaNacimiento;
+    private String lugarNacimiento;
 
     //Atributos a clasificar
-    private String genero;
-    private int edad;
-    private String contextura;
-    private String altura;
-    private String tipoFamilia;
-    private int ordenNacimiento;
-    private int numHnos;
-    private String nivelEscolar;
+    private Entidad nivelEscolar;
     private int gradoEscolar;
     private double promedioEscolar;
-    private int nroCambioColegio;
-    private String religion;
-    private String nacionalidad;
-    private String distrito;
-    private String provincia;
-    private String departamento;
+    private Entidad sexo;
+    //private int edad;
+    private Entidad contextura;
+    private Entidad estatura;
+    private Entidad tipoFamilia;
+    private int ordenNacimiento;
+    private int cantHnos;
+    private int cantCambioColegio;
+    private Entidad religion;
+    private Entidad nacionalidad;
+    private Entidad distrito;
+    private Entidad provincia;
+    private Entidad departamento;
 
-    public String getNombres() {
-        return nombres;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
+    public String getLugarNacimiento() {
+        return lugarNacimiento;
     }
 
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
+    public void setLugarNacimiento(String lugarNacimiento) {
+        this.lugarNacimiento = lugarNacimiento;
     }
 
-    public String getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
-    }
-
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public String getContextura() {
-        return contextura;
-    }
-
-    public void setContextura(String contextura) {
-        this.contextura = contextura;
-    }
-
-    public String getAltura() {
-        return altura;
-    }
-
-    public void setAltura(String altura) {
-        this.altura = altura;
-    }
-
-    public String getTipoFamilia() {
-        return tipoFamilia;
-    }
-
-    public void setTipoFamilia(String tipoFamilia) {
-        this.tipoFamilia = tipoFamilia;
-    }
-
-    public int getOrdenNacimiento() {
-        return ordenNacimiento;
-    }
-
-    public void setOrdenNacimiento(int ordenNacimiento) {
-        this.ordenNacimiento = ordenNacimiento;
-    }
-
-    public int getNumHnos() {
-        return numHnos;
-    }
-
-    public void setNumHnos(int numHnos) {
-        this.numHnos = numHnos;
-    }
-
-    public String getNivelEscolar() {
+    public Entidad getNivelEscolar() {
         return nivelEscolar;
     }
 
-    public void setNivelEscolar(String nivelEscolar) {
+    public void setNivelEscolar(Entidad nivelEscolar) {
         this.nivelEscolar = nivelEscolar;
     }
 
@@ -149,57 +86,105 @@ public class Alumno extends Model {
         this.promedioEscolar = promedioEscolar;
     }
 
-    public int getNroCambioColegio() {
-        return nroCambioColegio;
+    public Entidad getSexo() {
+        return sexo;
     }
 
-    public void setNroCambioColegio(int nroCambioColegio) {
-        this.nroCambioColegio = nroCambioColegio;
+    public void setSexo(Entidad sexo) {
+        this.sexo = sexo;
     }
 
-    public String getReligion() {
+    public Entidad getContextura() {
+        return contextura;
+    }
+
+    public void setContextura(Entidad contextura) {
+        this.contextura = contextura;
+    }
+
+    public Entidad getEstatura() {
+        return estatura;
+    }
+
+    public void setEstatura(Entidad estatura) {
+        this.estatura = estatura;
+    }
+
+    public Entidad getTipoFamilia() {
+        return tipoFamilia;
+    }
+
+    public void setTipoFamilia(Entidad tipoFamilia) {
+        this.tipoFamilia = tipoFamilia;
+    }
+
+    public int getOrdenNacimiento() {
+        return ordenNacimiento;
+    }
+
+    public void setOrdenNacimiento(int ordenNacimiento) {
+        this.ordenNacimiento = ordenNacimiento;
+    }
+
+    public int getCantHnos() {
+        return cantHnos;
+    }
+
+    public void setCantHnos(int cantHnos) {
+        this.cantHnos = cantHnos;
+    }
+
+    public int getCantCambioColegio() {
+        return cantCambioColegio;
+    }
+
+    public void setCantCambioColegio(int cantCambioColegio) {
+        this.cantCambioColegio = cantCambioColegio;
+    }
+
+    public Entidad getReligion() {
         return religion;
     }
 
-    public void setReligion(String religion) {
+    public void setReligion(Entidad religion) {
         this.religion = religion;
     }
 
-    public String getNacionalidad() {
+    public Entidad getNacionalidad() {
         return nacionalidad;
     }
 
-    public void setNacionalidad(String nacionalidad) {
+    public void setNacionalidad(Entidad nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
 
-    public String getDistrito() {
+    public Entidad getDistrito() {
         return distrito;
     }
 
-    public void setDistrito(String distrito) {
+    public void setDistrito(Entidad distrito) {
         this.distrito = distrito;
     }
 
-    public String getProvincia() {
+    public Entidad getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(String provincia) {
+    public void setProvincia(Entidad provincia) {
         this.provincia = provincia;
     }
 
-    public String getDepartamento() {
+    public Entidad getDepartamento() {
         return departamento;
     }
 
-    public void setDepartamento(String departamento) {
+    public void setDepartamento(Entidad departamento) {
         this.departamento = departamento;
     }
 
     @Override
     public String toString() {
-        return "Alumno{" + "nombres=" + nombres + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", domicilio=" + domicilio + ", genero=" + genero + ", edad=" + edad + ", contextura=" + contextura + ", altura=" + altura + ", tipoFamilia=" + tipoFamilia + ", ordenNacimiento=" + ordenNacimiento + ", numHnos=" + numHnos + ", nivelEscolar=" + nivelEscolar + ", gradoEscolar=" + gradoEscolar + ", promedioEscolar=" + promedioEscolar + ", nroCambioColegio=" + nroCambioColegio + ", religion=" + religion + ", nacionalidad=" + nacionalidad + ", distrito=" + distrito + ", provincia=" + provincia + ", departamento=" + departamento + '}';
+        return "Alumno{" + "direccion=" + direccion + ", fechaNacimiento=" + fechaNacimiento + ", lugarNacimiento=" + lugarNacimiento + ", nivelEscolar=" + nivelEscolar + ", gradoEscolar=" + gradoEscolar + ", promedioEscolar=" + promedioEscolar + ", sexo=" + sexo + ", contextura=" + contextura + ", estatura=" + estatura + ", tipoFamilia=" + tipoFamilia + ", ordenNacimiento=" + ordenNacimiento + ", cantHnos=" + cantHnos + ", cantCambioColegio=" + cantCambioColegio + ", religion=" + religion + ", nacionalidad=" + nacionalidad + ", distrito=" + distrito + ", provincia=" + provincia + ", departamento=" + departamento + '}';
     }
 
 }
