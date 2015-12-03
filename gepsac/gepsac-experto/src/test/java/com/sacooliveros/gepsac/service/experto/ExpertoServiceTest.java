@@ -5,6 +5,10 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
+import com.sacooliveros.gepsac.dao.AlumnoDAO;
+import com.sacooliveros.gepsac.dao.DAOFactory;
+import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
+import com.sacooliveros.gepsac.dao.factory.MyBatisDAOFactory;
 import com.sacooliveros.gepsac.model.comun.Entidad;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
@@ -14,6 +18,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,26 +27,62 @@ import org.slf4j.LoggerFactory;
  * @author Ricardo
  */
 public class ExpertoServiceTest {
-    
+
     private static final Logger log = LoggerFactory.getLogger(ExpertoServiceTest.class);
-    
+
     public ExpertoServiceTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
+        SingletonDAOFactory.init(SingletonDAOFactory.MY_IBATIS);
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
+    }
+
+    @Test
+    public void testCargarAlumno() {
+        AlumnoDAO dao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
+
+        Alumno alumno = new Alumno();
+        alumno.setCodigo("A201500098");
+        alumno.setSexo(new Entidad("Masculino"));
+        alumno.setEdad(15);
+        alumno.setContextura(new Entidad("Pequeño"));
+        alumno.setEstatura(new Entidad("Alto"));
+        alumno.setTipoFamilia(new Entidad("Monoparental"));
+        alumno.setOrdenNacimiento(2);
+        alumno.setCantHnos(2);
+        alumno.setNivelEscolar(new Entidad("Secundaria"));
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(11.00);
+        alumno.setCantCambioColegio(2);
+        alumno.setReligion(new Entidad("Católico"));
+        alumno.setNacionalidad(new Entidad("Peruana"));
+        alumno.setDistrito(new Entidad("Pueblo Libre"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
+
+        dao.cargarCodificacionAlumno(alumno);
+        log.debug("alumno Sexo[{}]", alumno.getSexo());
+        log.debug("alumno Contextura[{}]", alumno.getContextura());
+        log.debug("alumno Estatura[{}]", alumno.getEstatura());
+        log.debug("alumno tipoFamilia[{}]", alumno.getTipoFamilia());
+        log.debug("alumno religion[{}]", alumno.getReligion());
+        log.debug("alumno getNivelEscolar[{}]", alumno.getNivelEscolar());
+        log.debug("alumno getDistrito[{}]", alumno.getDistrito());
+        log.debug("alumno getProvincia[{}]", alumno.getProvincia());
+        log.debug("alumno getDepartamento[{}]", alumno.getDepartamento());
     }
 
     /**
@@ -55,7 +96,7 @@ public class ExpertoServiceTest {
         String codigo = "2";
         Alumno alumno;
         ExpertoService instance = new ExpertoService();
-        
+
         alumno = new Alumno();
         alumno.setCodigo("A201500098");
         alumno.setSexo(new Entidad("Masculino"));
@@ -74,23 +115,23 @@ public class ExpertoServiceTest {
         alumno.setDistrito(new Entidad("Pueblo Libre"));
         alumno.setProvincia(new Entidad("Lima"));
         alumno.setDepartamento(new Entidad("Lima"));
-        
+
         EvaluacionPostulante evaluacion = new EvaluacionPostulante();
         evaluacion.setCodigo("EVTest");
         evaluacion.setAlumno(alumno);
-        
+
         EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
-        
+
         log.debug("resultado:" + result);
         assertNotNull(result);
-        
+
         for (PerfilEvaluado perfilEval : result.getPerfiles()) {
-            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(), 
+            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
                     perfilEval.getProbabilidad());
         }
-        
+
     }
-    
+
     /**
      * Test of evaluarAlumno method, of class ExpertoService.
      */
@@ -102,7 +143,7 @@ public class ExpertoServiceTest {
         String codigo = "2";
         Alumno alumno;
         ExpertoService instance = new ExpertoService();
-        
+
         alumno = new Alumno();
         alumno.setCodigo("A201500098");
         alumno.setSexo(new Entidad("Masculino"));
@@ -121,22 +162,21 @@ public class ExpertoServiceTest {
         alumno.setDistrito(new Entidad("Breña"));
         alumno.setProvincia(new Entidad("Lima"));
         alumno.setDepartamento(new Entidad("Lima"));
-        
-        
+
         EvaluacionPostulante evaluacion = new EvaluacionPostulante();
         evaluacion.setCodigo("EVTest");
         evaluacion.setAlumno(alumno);
-        
+
         EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
-        
+
         log.debug("resultado:" + result);
         assertNotNull(result);
-        
+
         for (PerfilEvaluado perfilEval : result.getPerfiles()) {
-            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(), 
+            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
                     perfilEval.getProbabilidad());
         }
-        
+
     }
-    
+
 }

@@ -15,4 +15,6 @@ public interface AlumnoMapper {
     public int updatePostulante(Alumno model);  
     
     public Alumno getPostulante(@Param("codigo") String codigo);
+    
+    public Alumno cargarCodificacionAlumno(Alumno model);
 }

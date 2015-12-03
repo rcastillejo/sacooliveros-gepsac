@@ -20,6 +20,7 @@ import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException
 import com.sacooliveros.gepsac.service.experto.rna.instance.Instancia;
 import com.sacooliveros.gepsac.service.experto.rna.instance.InstanciaFactory;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
+import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
 import java.util.Collections;
 import java.util.List;
@@ -46,13 +47,16 @@ public class ExpertoService implements Experto {
             EvaluacionPostulanteDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionPostulanteDAO();
             Instancia instancia = InstanciaFactory.create();
 
-            //Grabar alumno postulante a evaluar
-            alumnoDao.grabarPostulante(alumno);
-
             //Cargar alumnos evaluados
             Instances alumnosEvaluados = instancia.getTrainInstances();
 
+            if (alumnosEvaluados.numInstances() == 0) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_ALUMNO_EVALUADOS);
+            }
+
             //Cargar alumno a evaluar
+            alumnoDao.cargarCodificacionAlumno(alumno);
+            log.debug("Alumno con los datos completados [{}]", new Object[]{alumno});
             Instances alumnoEvaluar = instancia.getPredicInstances(alumno,
                     Collections.list(alumnosEvaluados.enumerateAttributes()),
                     alumnosEvaluados.classAttribute());
@@ -66,20 +70,36 @@ public class ExpertoService implements Experto {
             evaluacion.setPerfiles(perfilesEvaluado);
             evaluacion.setEstado(Estado.REGISTRADO);
 
+            //Grabar perfiles evaluados
             evaluacionDao.ingresar(evaluacion);
+
+            //Grabar alumno postulante a evaluar
+            alumnoDao.grabarPostulante(alumno);
 
             log.info("Evaluacion de Postulante, resultado [perfiles={}]", new Object[]{perfilesEvaluado});
 
             return evaluacion;
 
+        } catch (ExpertoServiceException e) {
+            throw e;
         } catch (Exception e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR, e, alumno.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR, e, alumno.getCodigo());
         }
     }
 
     @Override
+    public String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar) {
+        //Cargar las reglas y preguntas de acoso escolar para cada perfil
+        Engine engine = EngineFactory.create();
+        for (EvaluacionAcosoEscolar evaluacionAcosoEscolar : evaluacionesAcosoEscolar) {
+            evaluarRespuestaAcosoEscolar(evaluacionAcosoEscolar, engine);
+        }
+        return Mensaje.EVALUAR_ALUMNO_POSTULANTE;
+    }
+
+    @Override
     public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException {
-        ;
+
         try {
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
@@ -94,7 +114,7 @@ public class ExpertoService implements Experto {
             return evaluaciones;
 
         } catch (DAOException e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR, e, estado.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR, e, estado.getCodigo());
         }
     }
 
@@ -113,10 +133,12 @@ public class ExpertoService implements Experto {
 
             evaluacionDao.actualizar(evaluacionAcosoEscolar);
 
-            log.info("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
+            log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
+            
+            log.info(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
             return evaluacionAcosoEscolar;
         } catch (Exception e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR, e, evaluacionAcosoEscolar.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
         }
     }
 

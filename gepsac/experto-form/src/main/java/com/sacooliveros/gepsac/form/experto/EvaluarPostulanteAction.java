@@ -13,6 +13,7 @@ import com.sacooliveros.gepsac.proxyws.WebServiceAlumno;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
@@ -30,15 +31,21 @@ import org.slf4j.LoggerFactory;
  * @author rcastillejo
  */
 public class EvaluarPostulanteAction extends DispatchAction {
+
     private static final Logger logger = LoggerFactory.getLogger(EvaluarPostulanteAction.class);
     private final Gson jsonBuilder;
+
+    interface Mensaje {
+
+        String EVALUAR = "La evaluación fue realizada con éxito [{0}]";
+    }
 
     public EvaluarPostulanteAction() {
         jsonBuilder = new GsonBuilder().create();
     }
-    
+
     private String getCodigoDocumento(String codigo) {
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmmss");        
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmmss");
         return codigo + sdf.format(new Date());
     }
 
@@ -82,8 +89,10 @@ public class EvaluarPostulanteAction extends DispatchAction {
 
             EvaluacionPostulante evaluacionPostulante = service.evaluarAlumno(evaluacion);
 
+            String msg = MessageFormat.format(Mensaje.EVALUAR, new Object[]{evaluacionPostulante.getCodigo()});
+
             logger.info("Evaluacion resultado [{}]", evaluacionPostulante.getCodigo());
-            generalAction(createSuccessResult(evaluacionPostulante), response);
+            generalAction(createSuccessResult(msg), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -135,5 +144,5 @@ public class EvaluarPostulanteAction extends DispatchAction {
         }
         response.setStatus(resultado.getCodigo());
     }
-    
+
 }

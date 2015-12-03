@@ -19,9 +19,10 @@ import java.util.List;
  */
 public interface Experto {
 
-    interface Mensaje {
+    public interface Mensaje {
 
-        String REGISTRAR = "El registro fue satisfactorio [{0}]";
+        String EVALUAR_ALUMNO_POSTULANTE = "La evaluación fue realizada con éxito [{0}]";
+        String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
         String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
         String PROGRAMAR = "La programación fue satisfactoria [{0}]";
 
@@ -38,7 +39,8 @@ public interface Experto {
 
             String GENERAL = "No se pudo realizar la  evaluación [{0}]";
             String LISTAR = "No se encuentra planes";
-            String REGISTRAR = "Error al evaluar alumno postulante [{0}]";
+            String EVALUAR = "Error al evaluar alumno postulante [{0}]";
+            String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
             String LISTAR_EV_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
         }
@@ -51,6 +53,8 @@ public interface Experto {
 
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionAlumno) throws ExpertoServiceException;
 
+    String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
+    
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException;
     
     EvaluacionAcosoEscolar evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;

@@ -5,34 +5,25 @@
  */
 package com.sacooliveros.gepsac.service.experto.se;
 
-import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
-import java.util.List;
-
 /**
  *
  * @author Ricardo
  */
 public class EngineFactory {
 
-    public static Engine create(String rulesConfig, String factsConfig) {
-        Engine instancia;
-        try {
-            instancia = new ClipsEngine();
-            instancia.loadRules(rulesConfig);
-            instancia.loadFacts(factsConfig);
-            return instancia;
-        } catch (Exception e) {
-            //throw new ExpertoServiceException("Error al crear la instancia", e);
-            throw new RuntimeException(e);
-        }
+    private static final String RULES_CONFIG = "SEEE.CLP";
+    private static final String FACTS_CONFIG = "EE.dat";
+
+    public static Engine create() {
+        return create(RULES_CONFIG, FACTS_CONFIG);
     }
 
-    /*
-    public static String evaluar(List<Pregunta> preguntasResultas) {
-        Engine engine = create("SEEE.CLP", "EE.dat");
-        
-        ResultadoInferencia resultado = (ResultadoInferencia) engine.evaluate(preguntasResultas);
-        System.out.println("Resultado evaluacion:"+resultado);
-        return resultado != null ? resultado.getConclusion() : null;
-    }*/
+    public static Engine create(String rulesConfig, String factsConfig) {
+        Engine instancia;
+        instancia = new ClipsEngine();
+        instancia.loadRules(rulesConfig);
+        instancia.loadFacts(factsConfig);
+        return instancia;
+    }
+
 }

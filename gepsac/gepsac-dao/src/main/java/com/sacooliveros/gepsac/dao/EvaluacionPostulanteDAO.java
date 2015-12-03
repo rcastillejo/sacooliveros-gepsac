@@ -5,7 +5,6 @@
  */
 package com.sacooliveros.gepsac.dao;
 
-import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 
 /**

@@ -158,4 +158,35 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             actualizarPostulante(model);
         }
     }
+
+    @Override
+    public void cargarCodificacionAlumno(Alumno alumno) {
+        Alumno model;
+        SqlSession session = null;
+        AlumnoMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(AlumnoMapper.class);
+            model = mapper.cargarCodificacionAlumno(alumno);
+            log.info("Codificacion alumno obtenido [{}]", model);
+            
+            alumno.setContextura(model.getContextura());
+            alumno.setSexo(model.getSexo());
+            alumno.setDepartamento(model.getDepartamento());
+            alumno.setDistrito(model.getDistrito());
+            alumno.setEstatura(model.getEstatura());
+            alumno.setNacionalidad(model.getNacionalidad());
+            alumno.setNivelEscolar(model.getNivelEscolar());
+            alumno.setProvincia(model.getProvincia());
+            alumno.setReligion(model.getReligion());
+            alumno.setSexo(model.getSexo());
+            alumno.setTipoFamilia(model.getTipoFamilia());
+            
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
 }

@@ -21,12 +21,6 @@
         <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
     </resultMap>
     <resultMap id="recordCodificacionAlumnoMap" type="com.sacooliveros.gepsac.model.experto.Alumno" >
-        <id column="codigo" property="codigo" jdbcType="VARCHAR" />
-        <result column="sexoCodigo" property="sexo.codigo" jdbcType="NUMBER" />
-        <result column="contexturaCodigo" property="contextura.codigo" jdbcType="NUMBER" />
-        <result column="estaturaCodigo" property="estatura.codigo" jdbcType="NUMBER" />
-        <result column="nivelEscolarCodigo" property="nivelEscolar.codigo" jdbcType="NUMBER" />
-        <result column="religionCodigo" property="religion.codigo" jdbcType="NUMBER" />
     </resultMap>
       
     <select id="query" resultMap="recordResultMap">
@@ -110,18 +104,20 @@
     <select id="cargarCodificacionAlumno" resultMap="recordCodificacionAlumnoMap">
         Select 
             #{codigo} as codigo,
-            (select valor from tp_config where parametro like 'service.sexo.Masculino') as sexoCodigo,
-            #{sexo.nombre} as sexoNombre,
-            (select cod_contextura from tp_contextura where nom_contextura = #{contextura.nombre}) as contexturaCodigo,
-            #{contextura.nombre} as contexturaNombre,
-            (select cod_estatura from tp_estatura where nom_estatura = #{estatura.nombre}) as estaturaCodigo,
-            #{estatura.nombre} as estaturaNombre,
-            (select cod_familia from tp_tipo_familia where nom_familia = #{tipoFamilia.nombre}) as tipoFamiliaCodigo,
-            #{tipoFamilia.nombre} as tipoFamiliaNombre,
-            (select valor from tp_config where parametro like 'service.nivelEscolar.#{nivelEscolar.nombre}') as nivelEscolarCodigo,
-            #{nivelEscolar.nombre} as nivelEscolarNombre,
-            (select cod_religion from tp_religion where nom_religion = #{religion.nombre}) as religionCodigo,
-            #{religion.nombre} as religionNombre;
+            (select cod_contextura from tp_contextura where nom_contextura = #{contextura.nombre}) as "contextura.codigo",
+            #{contextura.nombre} as "contextura.nombre",
+            (select cod_estatura from tp_estatura where nom_estatura = #{estatura.nombre}) as "estatura.codigo",
+            #{estatura.nombre} as "estatura.nombre",
+            (select cod_familia from tp_tipo_familia where nom_familia = #{tipoFamilia.nombre}) as "tipoFamilia.codigo",
+            #{tipoFamilia.nombre} as "tipoFamilia.nombre",
+            (select cod_religion from tp_religion where nom_religion = #{religion.nombre}) as "religion.codigo",
+            #{religion.nombre} as "religion.nombre",
+            (select cod_distrito from tp_distrito where nom_distrito = #{distrito.nombre}) as "distrito.codigo",
+            #{distrito.nombre} as "distrito.nombre",
+            (select cod_departamento from tp_departamento where nom_departamento = #{departamento.nombre}) as "departamento.codigo",
+            #{departamento.nombre} as "departamento.nombre",
+            (select cod_provincia from tp_provincia where nom_provincia = #{provincia.nombre}) as "provincia.codigo",
+            #{provincia.nombre} as "provincia.nombre";
     </select>
     
     <insert id="insertPostulante">
