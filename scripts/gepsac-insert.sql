@@ -152,7 +152,7 @@ INSERT INTO tp_nacionalidad (cod_nacionalidad, nom_nacionalidad) VALUES (2, 'Chi
 INSERT INTO tp_nacionalidad (cod_nacionalidad, nom_nacionalidad) VALUES (3, 'Colombiano');
 
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (1, 'Lince');
-INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (2, 'Jesus Marìa');
+INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (2, 'Jesus María');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (3, 'La Victoria');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (4, 'Breña');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (5, 'Pueblo Libre');

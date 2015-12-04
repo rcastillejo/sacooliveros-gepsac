@@ -28,7 +28,7 @@ public class WebServiceAlumno {
     private static final String CODIGO_PREFIX = "A20152811";
     private static final String[] GENERO = {"Masculino", "Femenino"};
     private static final String[] CONTEXTURA = {"Grande", "Mediano", "Pequeño"};
-    private static final String[] ALTURA = {"Alto", "Medio", "Bajo"};
+    private static final String[] ESTATURA = {"Alto", "Medio", "Bajo"};
     private static final String[] TIPO_FAMILIA = {"Nuclear", "Monoparental", "Extensa", "Esamblada"};
     private static final String[] NIVEL_ESCOLAR = {"Secundaria", "Primaria"};
     private static final String[] RELIGION = {"Católico", "Evangélico", "Mormón"};
@@ -108,7 +108,7 @@ public class WebServiceAlumno {
         alumno.setGenero(GENERO[getInt(0, GENERO.length - 1)]);
         alumno.setEdad(getInt(11, 15));
         alumno.setContextura(CONTEXTURA[getInt(0, CONTEXTURA.length - 1)]);
-        alumno.setAltura(ALTURA[getInt(0, ALTURA.length - 1)]);
+        alumno.setAltura(ESTATURA[getInt(0, ESTATURA.length - 1)]);
         alumno.setTipoFamilia(TIPO_FAMILIA[getInt(0, TIPO_FAMILIA.length - 1)]);
         alumno.setOrdenNacimiento(getInt(1, 4));
         alumno.setNumHnos(alumno.getOrdenNacimiento() == 1 ? 0 : getInt(1, 4));

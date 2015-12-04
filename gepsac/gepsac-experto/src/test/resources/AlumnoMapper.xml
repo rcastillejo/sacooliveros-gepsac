@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.AlumnoMapper" >
-  <!--
-  <resultMap id="BaseResultMap" type="com.sacooliveros.gepsac.model.Estrategia" >
-    <id column="idUsuario" property="idUsuario" jdbcType="INTEGER" />
-    <result column="usuario" property="usuario" jdbcType="VARCHAR" />
-    <result column="premium" property="premium" jdbcType="VARCHAR" />
-    <result column="ocupacion" property="ocupacion" jdbcType="VARCHAR" />
-    <result column="cinefavorito" property="cinefavorito" jdbcType="VARCHAR" />
-    <result column="precio" property="precio" jdbcType="DECIMAL" />
-    <result column="generofavorito" property="generofavorito" jdbcType="VARCHAR" />
-  </resultMap>
-  -->
+    
     <resultMap id="recordResultMap" type="com.sacooliveros.gepsac.model.experto.Alumno" >
         <id column="cod_plan" property="codigo" jdbcType="VARCHAR" />
         <result column="anio" property="anio" jdbcType="VARCHAR" />
@@ -73,28 +63,28 @@
             cod_alumno=#{codigo}
     </select>
   
-    <select id="getPostulante" resultMap="recordResultMap">
+    <select id="getPostulante" resultMap="recordCodificacionAlumnoMap">
         Select 
             cod_alumno,
             nombres,
             apellido_pat,
             apellido_mat,
-            genero,
+            sexo as "sexo.codigo",
             edad,
-            contextura,
-            altura,
-            tipo_familia,
+            cod_contextura as "contextura.codigo",
+            cod_estatura as "estatura.codigo",
+            cod_familia as "tipoFamilia.codigo",
             orden_nacimiento,
-            num_hnos,
-            nivel_escolar,
+            cant_hnos,
+            nivel_escolar as "nivelEscolar",
             grado_escolar,
             promedio_escolar,
-            nro_cambio_colegio,
-            religion,
-            nacionalidad,
-            distrito,
-            provincia,
-            departamento
+            cant_cambio_colegio,
+            cod_religion as "religion.codigo",
+            cod_nacionalidad as "nacionalidad.codigo",
+            cod_distrito as "distrito.codigo",
+            cod_provincia as "provincia.codigo",
+            cod_departamento as "departamento.codigo"
         from 
             tp_alumno_postulante 
         where
@@ -104,6 +94,8 @@
     <select id="cargarCodificacionAlumno" resultMap="recordCodificacionAlumnoMap">
         Select 
             #{codigo} as codigo,
+            (select valor from tp_config where parametro = ('service.sexo.' || #{sexo.nombre})) as "sexo.codigo",
+            #{sexo.nombre} as "sexo.nombre",
             (select cod_contextura from tp_contextura where nom_contextura = #{contextura.nombre}) as "contextura.codigo",
             #{contextura.nombre} as "contextura.nombre",
             (select cod_estatura from tp_estatura where nom_estatura = #{estatura.nombre}) as "estatura.codigo",
@@ -112,23 +104,27 @@
             #{tipoFamilia.nombre} as "tipoFamilia.nombre",
             (select cod_religion from tp_religion where nom_religion = #{religion.nombre}) as "religion.codigo",
             #{religion.nombre} as "religion.nombre",
+            (select valor from tp_config where parametro = ('service.nivelEscolar.' || #{nivelEscolar.nombre})) as "nivelEscolar.codigo",
+            #{nivelEscolar.nombre} as "nivelEscolar.nombre",
             (select cod_distrito from tp_distrito where nom_distrito = #{distrito.nombre}) as "distrito.codigo",
             #{distrito.nombre} as "distrito.nombre",
             (select cod_departamento from tp_departamento where nom_departamento = #{departamento.nombre}) as "departamento.codigo",
             #{departamento.nombre} as "departamento.nombre",
             (select cod_provincia from tp_provincia where nom_provincia = #{provincia.nombre}) as "provincia.codigo",
-            #{provincia.nombre} as "provincia.nombre";
+            #{provincia.nombre} as "provincia.nombre",
+            (select cod_nacionalidad from tp_nacionalidad where nom_nacionalidad = #{nacionalidad.nombre}) as "nacionalidad.codigo",
+            #{nacionalidad.nombre} as "nacionalidad.nombre";
     </select>
     
     <insert id="insertPostulante">
         Insert into tp_alumno_postulante 
-            (cod_alumno,nombres,apellido_pat,apellido_mat,genero,edad,contextura,altura,tipo_familia,orden_nacimiento,
-            num_hnos,nivel_escolar,grado_escolar,promedio_escolar,nro_cambio_colegio,
-            religion,nacionalidad,distrito,provincia,departamento)
+            (cod_alumno,nombres,apellido_pat,apellido_mat,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,
+            cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,
+            cod_provincia,cod_departamento)
         values
-            (#{codigo},#{nombres},#{apellidoPaterno},#{apellidoMaterno},#{genero},#{edad},#{contextura},#{altura},#{tipoFamilia},#{ordenNacimiento},
-            #{numHnos},#{nivelEscolar},#{gradoEscolar},#{promedioEscolar},#{nroCambioColegio},
-            #{religion},#{nacionalidad},#{distrito},#{provincia},#{departamento})
+            (#{codigo},#{nombres},#{apellidoPaterno},#{apellidoMaterno},#{sexo.codigo},#{edad},#{contextura.codigo},#{estatura.codigo},#{tipoFamilia.codigo},#{ordenNacimiento},
+            #{cantHnos},#{nivelEscolar.codigo},#{gradoEscolar},#{promedioEscolar},#{cantCambioColegio},#{religion.codigo},#{nacionalidad.codigo},#{distrito.codigo},
+            #{provincia.codigo},#{departamento.codigo})
     </insert> 
   
     <update id="updatePostulante">
@@ -138,22 +134,22 @@
             nombres = #{nombres},
             apellido_pat = #{apellidoPaterno},
             apellido_mat = #{apellidoMaterno},
-            genero = #{genero},
+            sexo = #{sexo.codigo},
             edad = #{edad},
-            contextura = #{contextura},
-            altura = #{altura},
-            tipo_familia = #{tipoFamilia},
+            cod_contextura = #{contextura.codigo},
+            cod_estatura = #{estatura.codigo},
+            cod_familia = #{tipoFamilia.codigo},
             orden_nacimiento = #{ordenNacimiento},
-            num_hnos = #{numHnos},
-            nivel_escolar = #{nivelEscolar},
+            cant_hnos = #{cantHnos},
+            nivel_escolar = #{nivelEscolar.codigo},
             grado_escolar = #{gradoEscolar},
             promedio_escolar = #{promedioEscolar},
-            nro_cambio_colegio = #{nroCambioColegio},
-            religion = #{religion},
-            nacionalidad = #{nacionalidad},
-            distrito = #{distrito},
-            provincia = #{provincia},
-            departamento = #{departamento}
+            cant_cambio_colegio = #{cantCambioColegio},
+            cod_religion = #{religion.codigo},
+            cod_nacionalidad = #{nacionalidad.codigo},
+            cod_distrito = #{distrito.codigo},
+            cod_provincia = #{provincia.codigo},
+            cod_departamento = #{departamento.codigo}
         Where
             cod_alumno=#{codigo}
     </update> 

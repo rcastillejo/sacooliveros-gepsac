@@ -13,6 +13,8 @@ import com.sacooliveros.gepsac.model.comun.Entidad;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,7 +52,7 @@ public class ExpertoServiceTest {
     public void tearDown() {
     }
 
-    @Test
+    //@Test
     public void testCargarAlumno() {
         AlumnoDAO dao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
 
@@ -68,7 +70,7 @@ public class ExpertoServiceTest {
         alumno.setPromedioEscolar(11.00);
         alumno.setCantCambioColegio(2);
         alumno.setReligion(new Entidad("Católico"));
-        alumno.setNacionalidad(new Entidad("Peruana"));
+        alumno.setNacionalidad(new Entidad("Peruano"));
         alumno.setDistrito(new Entidad("Pueblo Libre"));
         alumno.setProvincia(new Entidad("Lima"));
         alumno.setDepartamento(new Entidad("Lima"));
@@ -88,7 +90,7 @@ public class ExpertoServiceTest {
     /**
      * Test of evaluarAlumno method, of class ExpertoService.
      */
-    //@Test
+    @Test
     public void testEvaluarAlumno() {
         log.debug("evaluarAlumno");
         //String codigo = "A201500099";
@@ -111,15 +113,17 @@ public class ExpertoServiceTest {
         alumno.setPromedioEscolar(11.00);
         alumno.setCantCambioColegio(2);
         alumno.setReligion(new Entidad("Católico"));
-        alumno.setNacionalidad(new Entidad("Peruana"));
+        alumno.setNacionalidad(new Entidad("Peruano"));
         alumno.setDistrito(new Entidad("Pueblo Libre"));
         alumno.setProvincia(new Entidad("Lima"));
         alumno.setDepartamento(new Entidad("Lima"));
 
         EvaluacionPostulante evaluacion = new EvaluacionPostulante();
-        evaluacion.setCodigo("EVTest");
+        evaluacion.setCodigo("EV"+new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()));
         evaluacion.setAlumno(alumno);
-
+        
+        log.debug("evaluacion:" + evaluacion);
+        
         EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
 
         log.debug("resultado:" + result);

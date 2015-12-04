@@ -383,7 +383,7 @@ WITH (
 
 CREATE TABLE tp_alumno_evaluado
 (
-  cod_alumno character varying(15) NOT NULL,
+  cod_alumno character varying(20) NOT NULL,
   nombres character varying(150) NULL,
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
@@ -454,7 +454,7 @@ WITH (
 
 CREATE TABLE tp_alumno_postulante
 (
-  cod_alumno character varying(15) NOT NULL,
+  cod_alumno character varying(20) NOT NULL,
   nombres character varying(150) NULL,
   apellido_pat character varying(250) NULL,
   apellido_mat character varying(250) NULL,
@@ -525,9 +525,9 @@ WITH (
 
 CREATE TABLE tp_evaluacion_postulante
 (
-  cod_evaluacion character varying(15) NOT NULL,
+  cod_evaluacion character varying(20) NOT NULL,
   fec_evaluacion timestamp without time zone NOT NULL,
-  cod_alumno character varying(15) NOT NULL,
+  cod_alumno character varying(20) NOT NULL,
   
   cod_estado character varying(15) NOT NULL,   
   usu_crea character varying(50), -- Usuario de creacion
@@ -549,7 +549,7 @@ WITH (
 
 CREATE TABLE tp_perfil_evaluacion
 (
-  cod_evaluacion character varying(15) NOT NULL,
+  cod_evaluacion character varying(20) NOT NULL,
   indice int not null,
   cod_perfil character varying(15) NULL,
   
@@ -572,7 +572,7 @@ WITH (
 
 CREATE TABLE tp_pregunta
 (
-  cod_pregunta character varying(15) NOT NULL,
+  cod_pregunta character varying(20) NOT NULL,
   tipo character varying(25) NOT NULL,
   alias character varying(25) NOT NULL,
   enunciado character varying(250) NOT NULL,
@@ -594,9 +594,9 @@ WITH (
 
 CREATE TABLE tp_evaluacion_acoso_escolar
 (
-  cod_evaluacion character varying(15) NOT NULL,
+  cod_evaluacion character varying(20) NOT NULL,
   fec_evaluacion timestamp without time zone NOT NULL,
-  cod_alumno character varying(15) NOT NULL,
+  cod_alumno character varying(20) NOT NULL,
   
   cod_estado character varying(15) NOT NULL,   
   usu_crea character varying(50), -- Usuario de creacion
@@ -618,7 +618,7 @@ WITH (
 
 CREATE TABLE tp_pregunta_evaluacion
 (
-  cod_evaluacion character varying(15) NOT NULL,
+  cod_evaluacion character varying(20) NOT NULL,
   cod_pregunta character varying(15) NULL,
   
   respuesta character varying(15) NULL,

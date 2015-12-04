@@ -70,19 +70,23 @@ public class ExpertoService implements Experto {
             evaluacion.setPerfiles(perfilesEvaluado);
             evaluacion.setEstado(Estado.REGISTRADO);
 
-            //Grabar perfiles evaluados
-            evaluacionDao.ingresar(evaluacion);
-
             //Grabar alumno postulante a evaluar
             alumnoDao.grabarPostulante(alumno);
+            log.debug("Alumno postulante grabado[{}]", alumno);
+
+            //Grabar perfiles evaluados
+            evaluacionDao.ingresar(evaluacion);
+            log.debug("Evaluacion grabado[{}]", alumno);
 
             log.info("Evaluacion de Postulante, resultado [perfiles={}]", new Object[]{perfilesEvaluado});
 
             return evaluacion;
 
         } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
             throw e;
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR, e, alumno.getCodigo());
         }
     }
@@ -134,7 +138,7 @@ public class ExpertoService implements Experto {
             evaluacionDao.actualizar(evaluacionAcosoEscolar);
 
             log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
-            
+
             log.info(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
             return evaluacionAcosoEscolar;
         } catch (Exception e) {
