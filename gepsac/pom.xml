@@ -22,6 +22,7 @@
         <module>gepsac-experto</module>
         <module>AlumnoService</module>
         <module>gepsac-evaluador</module>
+        <module>gepsac-evaluador-installer</module>
     </modules>
 
 </project>
