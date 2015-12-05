@@ -21,6 +21,7 @@
         <module>gepsac-proxyws</module>
         <module>gepsac-experto</module>
         <module>AlumnoService</module>
+        <module>gepsac-evaluador</module>
     </modules>
 
 </project>
