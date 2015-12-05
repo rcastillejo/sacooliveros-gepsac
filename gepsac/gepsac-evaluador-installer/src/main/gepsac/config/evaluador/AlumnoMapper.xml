@@ -154,4 +154,13 @@
             cod_alumno=#{codigo}
     </update> 
     
+    <update id="updateEstadoEvaluado">
+        Update 
+            tp_alumno_evaluado
+        Set
+            cod_perfil = #{perfil.codigo},
+            cod_estado = #{estado.codigo}
+        Where
+            cod_alumno=#{codigo}
+    </update> 
 </mapper>

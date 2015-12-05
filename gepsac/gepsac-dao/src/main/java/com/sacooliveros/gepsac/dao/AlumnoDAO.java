@@ -26,4 +26,5 @@ public interface AlumnoDAO extends BaseDao<Alumno> {
     
     void cargarCodificacionAlumno(Alumno alumno);
     
+    void actualizarEstadoAlumnoEvaluado(Alumno model);
 }

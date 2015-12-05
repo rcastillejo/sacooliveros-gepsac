@@ -17,21 +17,29 @@
     </appender>
     
     <appender name="TRAZADO" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${LOGDIR}/trazado.log" />
+        <param name="File" value="${LOGAPP}/trazado.log" />
         <param name="DatePattern" value="'.'yyyyMMdd" />
         <param name="Append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
         </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="TRACE"/>
+            <param name="LevelMax" value="INFO"/>
+        </filter>
     </appender>    
     
     <appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">       
-        <param name="File" value="${LOGDIR}/error.log" />
+        <param name="File" value="${LOGAPP}/error.log" />
         <param name="DatePattern" value="'.'yyyyMMdd" />
         <param name="Append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
         </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="ERROR"/>
+            <param name="LevelMax" value="FATAL"/>
+        </filter>
     </appender>    
     
     <!--

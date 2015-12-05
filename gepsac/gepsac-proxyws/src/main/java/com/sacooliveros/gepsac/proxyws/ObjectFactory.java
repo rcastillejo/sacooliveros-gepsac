@@ -39,35 +39,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * Create an instance of {@link Alumno }
      * 
      */
-    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
-        return new BuscarAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link BuscarAlumnoPostulante }
-     * 
-     */
-    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
-        return new BuscarAlumnoPostulante();
+    public Alumno createAlumno() {
+        return new Alumno();
     }
 
     /**
@@ -79,11 +55,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Alumno }
+     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
      * 
      */
-    public Alumno createAlumno() {
-        return new Alumno();
+    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
+        return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulante }
+     * 
+     */
+    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
+        return new BuscarAlumnoPostulante();
     }
 
     /**
@@ -95,11 +79,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
+     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
      * 
      */
-    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
-        return new ObtenerAlumnoPostulanteResponse();
+    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
+        return new BuscarAlumnoPostulanteResponse();
     }
 
     /**

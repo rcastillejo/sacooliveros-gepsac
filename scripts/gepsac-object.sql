@@ -597,6 +597,7 @@ CREATE TABLE tp_evaluacion_acoso_escolar
   cod_evaluacion character varying(20) NOT NULL,
   fec_evaluacion timestamp without time zone NOT NULL,
   cod_alumno character varying(20) NOT NULL,
+  cod_perfil character varying(15) NULL,
   
   cod_estado character varying(15) NOT NULL,   
   usu_crea character varying(50), -- Usuario de creacion
@@ -609,6 +610,9 @@ CREATE TABLE tp_evaluacion_acoso_escolar
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_ev_acoso_escolar_tp_alumno_evaluado FOREIGN KEY (cod_alumno)
       REFERENCES tp_alumno_evaluado (cod_alumno) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_ev_acoso_escolar_tp_perfil FOREIGN KEY (cod_perfil)
+      REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (

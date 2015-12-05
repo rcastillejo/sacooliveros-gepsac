@@ -11,7 +11,6 @@ import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
-import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
@@ -20,8 +19,8 @@ import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException
 import com.sacooliveros.gepsac.service.experto.rna.instance.Instancia;
 import com.sacooliveros.gepsac.service.experto.rna.instance.InstanciaFactory;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
-import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
@@ -37,6 +36,15 @@ public class ExpertoService implements Experto {
 
     private static final Logger log = LoggerFactory.getLogger(ExpertoService.class);
 
+    /**
+     * Funcionalidades del Caso Uso Evaluar Nuevos Alumnos (Postulante)
+     */
+    /**
+     * {@inheritDoc }
+     *
+     * @param evaluacion {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     @Override
     public EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacion) {
 
@@ -91,16 +99,23 @@ public class ExpertoService implements Experto {
         }
     }
 
-    @Override
-    public String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar) {
+    /*public String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar) {
         //Cargar las reglas y preguntas de acoso escolar para cada perfil
         Engine engine = EngineFactory.create();
         for (EvaluacionAcosoEscolar evaluacionAcosoEscolar : evaluacionesAcosoEscolar) {
             evaluarRespuestaAcosoEscolar(evaluacionAcosoEscolar, engine);
         }
         return Mensaje.EVALUAR_ALUMNO_POSTULANTE;
-    }
-
+    }*/
+    /**
+     * Funcionalidades del Caso Uso Evaluar Respuesta Acoso Escolar
+     */
+    /**
+     *
+     * @param estado
+     * @return
+     * @throws ExpertoServiceException
+     */
     @Override
     public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException {
 
@@ -110,7 +125,7 @@ public class ExpertoService implements Experto {
             List<EvaluacionAcosoEscolar> evaluaciones = evaluacionDao.listarEvaluacionPorEstado(estado.getCodigo());
 
             if (evaluaciones == null || evaluaciones.isEmpty()) {
-                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EV_ACOSO_ESCOLAR, estado.getCodigo());
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, estado.getCodigo());
             }
 
             log.info("Listado de evaluaciones obtenidas [estado={}, tamanio={}]", new Object[]{estado, evaluaciones.size()});
@@ -118,29 +133,56 @@ public class ExpertoService implements Experto {
             return evaluaciones;
 
         } catch (DAOException e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR, e, estado.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EVALUACIONES_ACOSO_ESCOLAR, e, estado.getCodigo());
         }
     }
 
     @Override
-    public EvaluacionAcosoEscolar evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine engine) throws ExpertoServiceException {
+    public String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine engine) throws ExpertoServiceException {
 
         try {
+            AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
+            /**
+             * 4.1.4.	El sistema carga las preguntas de la evaluación
+             */
             List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
+
+            /**
+             * 4.1.5.	El sistema evalúa las respuestas de una evaluación de
+             * acuerdo a las reglas.
+             */
             ResultadoInferencia resultado = (ResultadoInferencia) engine.evaluate(preguntas);
 
+            /**
+             * 4.1.6.	El sistema determina el perfil de acoso escolar de una
+             * evaluación.
+             */
             String perfil = resultado.getConclusion();
 
             evaluacionAcosoEscolar.setPerfil(perfil);
 
+            /**
+             * 4.1.7.	El sistema graba la evaluación con el perfil en estado
+             * Evaluado.
+             */
             evaluacionDao.actualizar(evaluacionAcosoEscolar);
+
+            /**
+             * 4.1.8.	El sistema actualiza el perfil del alumno evaluado
+             */
+            Alumno alumnoEvaluado = evaluacionAcosoEscolar.getAlumno();
+            alumnoEvaluado.setPerfil(evaluacionAcosoEscolar.getPerfil());
+            alumnoDao.actualizar(alumnoEvaluado);
 
             log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
 
-            log.info(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
-            return evaluacionAcosoEscolar;
+            /**
+             * 4.1.9.	El sistema muestra el mensaje [Evaluación realizada
+             * satisfactoriamente] en los registros del sistema.
+             */
+            return MessageFormat.format(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
         } catch (Exception e) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
         }

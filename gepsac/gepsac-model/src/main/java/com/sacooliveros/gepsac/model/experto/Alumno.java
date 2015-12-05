@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.model.experto;
 
 import com.sacooliveros.gepsac.model.comun.Entidad;
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.planificacion.Participante;
 import java.util.Date;
 
@@ -15,6 +16,7 @@ import java.util.Date;
  */
 public class Alumno extends Participante {
 
+    private Perfil perfil;
     //Datos generales
     private String direccion;
     private Date fechaNacimiento;
@@ -180,6 +182,14 @@ public class Alumno extends Participante {
 
     public void setDepartamento(Entidad departamento) {
         this.departamento = departamento;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

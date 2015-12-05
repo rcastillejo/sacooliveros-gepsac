@@ -36,7 +36,7 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             session = getConnection();
             mapper = session.getMapper(AlumnoMapper.class);
             List listado = mapper.query();
-            log.debug("Listado tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
             return listado;
         } catch (Exception e) {
             throw new DAOException("Error al consultar", e);
@@ -189,4 +189,30 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             closeConnection(session);
         }
     }
+
+    @Override
+    public void actualizarEstadoAlumnoEvaluado(Alumno model) {
+        SqlSession session = null;
+        AlumnoMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(AlumnoMapper.class);
+            log.debug("Actualizando [{}] ...", model);
+            if (mapper.updateEstadoEvaluado(model) == 0) {
+                throw new DAOException("No se pudo actualizar");
+            }
+            session.commit();
+            log.info("Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
 }

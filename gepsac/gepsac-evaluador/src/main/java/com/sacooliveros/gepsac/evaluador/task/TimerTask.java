@@ -5,7 +5,7 @@
  */
 package com.sacooliveros.gepsac.evaluador.task;
 
-import com.sacooliveros.gepsac.evaluador.bean.EvaluadorBean;
+import com.sacooliveros.gepsac.evaluador.message.Mensaje;
 import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import com.sacooliveros.gepsac.evaluador.util.Identificador;
 import com.sacooliveros.gepsac.model.comun.Estado;
@@ -13,6 +13,8 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.se.Engine;
+import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
@@ -26,11 +28,11 @@ public class TimerTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(TimerTask.class);
     private final Identificador idf;
-    private final BlockingQueue<EvaluadorBean> colaEvaluacion;
+    private final BlockingQueue<Mensaje> colaEvaluacion;
     private final Experto experto;
     private final long waitMilis;
 
-    public TimerTask(Configuration configuration, BlockingQueue<EvaluadorBean> colaEvaluacion) {
+    public TimerTask(Configuration configuration, BlockingQueue<Mensaje> colaEvaluacion) {
         this.idf = Identificador.getInstance(configuration.getBrokerName());
         this.colaEvaluacion = colaEvaluacion;
         this.experto = new ExpertoService();
@@ -39,26 +41,30 @@ public class TimerTask implements Runnable {
 
     @Override
     public void run() {
-        Estado estado = new Estado();
-        estado.setCodigo(Experto.Estado.REGISTRADO);
 
         while (Boolean.TRUE) {
 
-            log.debug("Inciando consulta de acoso escolar en estado[{}]", estado);
-
             try {
-                EvaluadorBean evaluacionModel = new EvaluadorBean();
-                evaluacionModel.setId(idf.getCode());
+                log.debug("Inciando consulta de acoso escolar en estado");
 
-                List<EvaluacionAcosoEscolar> evaluaciones = experto.listarEvaluacionAcosoEscolar(estado);
-                evaluacionModel.setEvaluaciones(evaluaciones);
+                /**
+                 * 4.1.2.	El sistema busca los registros de las evaluaciones en
+                 * estado “Registrado”.
+                 */
+                List<EvaluacionAcosoEscolar> evaluaciones = buscaEvaluacionesAcosoEscolar();
+                /**
+                 * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
+                 * perfil
+                 */
+                Engine engine = cargarReglasAcosoEscolar();
 
-                boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
-                if (insertaOk) {
-                    log.error("No se ingreso las solicitudes a evaluar [{}]", evaluaciones.size());
-                } else {
-                    log.info("Se solicita la evaluacion de solicitudes [{}]", evaluaciones.size());
+                /**
+                 * Se crea el mensaje para cada evaluacion
+                 */
+                for (EvaluacionAcosoEscolar evaluacion : evaluaciones) {
+                    enviarMensaje(evaluacion, engine);
                 }
+
             } catch (ExpertoServiceException e) {
                 log.error(e.getMessage(), e);
             } catch (Exception e) {
@@ -73,4 +79,38 @@ public class TimerTask implements Runnable {
         }
     }
 
+    /**
+     * Busca los registros de las evaluaciones en estado Registrado
+     *
+     * @return Evaluaciones en estado Registrado
+     */
+    private List<EvaluacionAcosoEscolar> buscaEvaluacionesAcosoEscolar() {
+        Estado estado = new Estado();
+        estado.setCodigo(Experto.Estado.REGISTRADO);
+
+        return experto.listarEvaluacionAcosoEscolar(estado);
+    }
+
+    /**
+     * Carga las reglas de acoso escolar de cada perfil
+     *
+     * @return Reglas de Acoso Escolar cargadas
+     */
+    private Engine cargarReglasAcosoEscolar() {
+        return EngineFactory.create();
+    }
+
+    private void enviarMensaje(EvaluacionAcosoEscolar evaluacion, Engine engine) {
+        Mensaje evaluacionModel = new Mensaje();
+        evaluacionModel.setId(idf.getCode());
+        evaluacionModel.setEvaluacion(evaluacion);
+        evaluacionModel.setEngine(engine);
+
+        boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
+        if (insertaOk) {
+            log.error("No se ingreso las solicitudes a evaluar [{}]", evaluacion.getCodigo());
+        } else {
+            log.info("Se solicita la evaluacion de solicitudes [{}]", evaluacion.getCodigo());
+        }
+    }
 }

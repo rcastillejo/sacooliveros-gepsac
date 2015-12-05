@@ -38,7 +38,7 @@ public class ResultadoInferencia {
         this.conclusion = conclusion;
     }
 
-    public boolean finalizo(){
+    public boolean esConclusion(){
         return tipo != null  && tipo.equals("respuesta");
     }
 

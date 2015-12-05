@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.evaluador.bean;
+package com.sacooliveros.gepsac.evaluador.message;
 
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
-import java.util.List;
+import com.sacooliveros.gepsac.service.experto.se.Engine;
 
 /**
  *
  * @author Ricardo
  */
-public class EvaluadorBean {
+public class Mensaje {
 
     private String id;
-    private List<EvaluacionAcosoEscolar> evaluaciones;
+    private Engine engine;
+    private EvaluacionAcosoEscolar evaluacion;
     private String response;
 
     public String getId() {
@@ -26,12 +27,12 @@ public class EvaluadorBean {
         this.id = id;
     }
 
-    public List<EvaluacionAcosoEscolar> getEvaluaciones() {
-        return evaluaciones;
+    public EvaluacionAcosoEscolar getEvaluacion() {
+        return evaluacion;
     }
 
-    public void setEvaluaciones(List<EvaluacionAcosoEscolar> evaluaciones) {
-        this.evaluaciones = evaluaciones;
+    public void setEvaluacion(EvaluacionAcosoEscolar evaluacion) {
+        this.evaluacion = evaluacion;
     }
 
     public String getResponse() {
@@ -42,9 +43,17 @@ public class EvaluadorBean {
         this.response = response;
     }
 
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+
     @Override
     public String toString() {
-        return "EvaluadorModel{" + "id=" + id + ", evaluaciones=" + evaluaciones + ", response=" + response + '}';
+        return "EvaluadorModel{" + "id=" + id + ", evaluaciones=" + evaluacion + ", response=" + response + '}';
     }
 
 }

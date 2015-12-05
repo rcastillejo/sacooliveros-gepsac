@@ -38,7 +38,7 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
             List listado = mapper.query();
-            log.debug("Listado tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
             return listado;
         } catch (Exception e) {
             throw new DAOException("Error al consultar", e);
@@ -174,7 +174,25 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
             List listado = mapper.queryEstado(codigoEstado);
-            log.debug("Listado tamanio[{}] [{}] ", listado == null ? 0 : listado.size(), listado);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            List listado = mapper.queryPregunta(codigoEvaluacion);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
             return listado;
         } catch (Exception e) {
             throw new DAOException("Error al consultar", e);
@@ -183,5 +201,38 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         }
     }
    
+    @Override
+    public void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            
+            model.setFechaEvaluacion(new Date());
+            
+            log.debug("Actualizando [{}] ...", model);
+            if (mapper.updateRespEvalAcosoEscolar(model) == 0) {
+                throw new DAOException("No se pudo actualizar");
+            }
+            
+            if(model.getPreguntas() != null){
+                actualizarPreguntas(mapper, model);
+            }
+            
+            session.commit();
+            log.info("Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
   
 }

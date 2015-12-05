@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.model.evaluacion;
 
 import com.sacooliveros.gepsac.model.comun.Model;
 import com.sacooliveros.gepsac.model.comun.Perfil;
+import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class EvaluacionAcosoEscolar extends Model {
 
     private Date fechaEvaluacion;
+    private Alumno alumno;
     private List<PreguntaEvaluacion> preguntas;
     private Perfil perfil;
 
@@ -32,6 +34,8 @@ public class EvaluacionAcosoEscolar extends Model {
         if(codigoPerfil != null && !codigoPerfil.isEmpty()){
             perfil = new Perfil();
             perfil.setCodigo(codigoPerfil);
+        }else{
+            perfil = null;
         }
     }
 
@@ -50,6 +54,15 @@ public class EvaluacionAcosoEscolar extends Model {
     public void setPreguntas(List<PreguntaEvaluacion> preguntas) {
         this.preguntas = preguntas;
     }
+
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
 
     @Override
     public String toString() {

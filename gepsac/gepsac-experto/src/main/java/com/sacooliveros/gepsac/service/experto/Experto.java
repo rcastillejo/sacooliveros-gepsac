@@ -41,7 +41,8 @@ public interface Experto {
             String LISTAR = "No se encuentra planes";
             String EVALUAR = "Error al evaluar alumno postulante [{0}]";
             String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
-            String LISTAR_EV_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
+            String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
+            String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar [{0}]";
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
         }
     }
@@ -53,9 +54,9 @@ public interface Experto {
 
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionAlumno) throws ExpertoServiceException;
 
-    String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
+    //String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
     
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException;
     
-    EvaluacionAcosoEscolar evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
+    String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
 }

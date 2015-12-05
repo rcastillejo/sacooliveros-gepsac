@@ -55,14 +55,27 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         }
     }
 
+    /**
+     *
+     * @param preguntasResueltas
+     * @return
+     */
     @Override
     public ResultadoInferencia evaluate(List<PreguntaEvaluacion> preguntasResueltas) {
         ResultadoInferencia inferencia = inferir();
         int orden = 0;
-        while (!inferencia.finalizo()) {
+        while (!inferencia.esConclusion()) {
             orden++;
+
+            /**
+             * Obtiene la respuesta a evaluar
+             */
             PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getNombre());
             preguntaResuelta.setOrdenEvaluacion(orden);
+
+            /**
+             * Evalúa la respuesta de acuerdo a las reglas.
+             */
             log.debug("evaluando respuesta [" + preguntaResuelta + "]");
             clips.eval("(assert (opcion " + preguntaResuelta.getRespuesta() + "))");
             inferencia = inferir();
@@ -81,6 +94,12 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         return null;
     }
 
+    /**
+     * Evalua una respuesta de una evaluación, para determinar una conclusion
+     *
+     * @return Resultado de la evaluacion, el tipo determina si llego a una
+     * conclusion o necesita evaluar mas preguntas.
+     */
     private ResultadoInferencia inferir() {
 
         clips.run();
@@ -96,7 +115,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             resultado.setTipo(tipo);
             log.debug("resultado inferencia[" + resultado + "]");
 
-            if (resultado.finalizo()) {
+            if (resultado.esConclusion()) {
                 String respuesta = value.get(0).getFactSlot("texto").toString();
                 resultado.setConclusion(respuesta);
             }

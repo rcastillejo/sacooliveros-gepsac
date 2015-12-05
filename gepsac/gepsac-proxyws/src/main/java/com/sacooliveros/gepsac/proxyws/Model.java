@@ -20,7 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="codigo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="estado" type="{http://app.sacoliveros.pe.edu/}estado" minOccurs="0"/>
+ *         &lt;element name="estado" type="{http://service.gepsac.sacooliveros.com/}estado" minOccurs="0"/>
  *         &lt;element name="fecCre" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="fecMod" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="usuCre" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -43,7 +43,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "usuMod"
 })
 @XmlSeeAlso({
-    Alumno.class
+    EvaluacionPostulante.class,
+    Perfil.class,
+    Participante.class
 })
 public class Model {
 

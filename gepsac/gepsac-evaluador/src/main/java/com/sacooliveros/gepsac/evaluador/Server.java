@@ -2,7 +2,7 @@ package com.sacooliveros.gepsac.evaluador;
 
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.evaluador.config.Configuration;
-import com.sacooliveros.gepsac.evaluador.bean.EvaluadorBean;
+import com.sacooliveros.gepsac.evaluador.message.Mensaje;
 import com.sacooliveros.gepsac.evaluador.task.EvaluadorTask;
 import com.sacooliveros.gepsac.evaluador.task.TimerTask;
 import com.sacooliveros.gepsac.evaluador.thread.SingletonThreadPoolFactory;
@@ -124,7 +124,7 @@ public class Server {
         log.info("Iniciando Configuracion del Pool de Evaluadores");
         SingletonThreadPoolFactory.init();
 
-        BlockingQueue<EvaluadorBean> colaEvaluaciones = new LinkedBlockingQueue<EvaluadorBean>();
+        BlockingQueue<Mensaje> colaEvaluaciones = new LinkedBlockingQueue<Mensaje>();
 
         executeTimer(configuration, colaEvaluaciones);
 
@@ -155,7 +155,7 @@ public class Server {
     }
 
     private static void executeTasks(Configuration config,
-            BlockingQueue<EvaluadorBean> colaEvaluaciones) {
+            BlockingQueue<Mensaje> colaEvaluaciones) {
 
         int numThreads = config.getNumThreads();
 
@@ -174,7 +174,7 @@ public class Server {
         }
     }
 
-    private static void executeTimer(Configuration configuration, BlockingQueue<EvaluadorBean> colaEvaluaciones) {
+    private static void executeTimer(Configuration configuration, BlockingQueue<Mensaje> colaEvaluaciones) {
         ThreadGroup threadGroup = new ThreadGroup("Timer");
         TimerTask timerTask = new TimerTask(configuration, colaEvaluaciones);
 
