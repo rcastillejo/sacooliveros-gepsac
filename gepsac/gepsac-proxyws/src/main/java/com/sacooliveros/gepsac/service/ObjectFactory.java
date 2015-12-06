@@ -35,6 +35,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
+    }
+
+    /**
      * Create an instance of {@link EvaluacionPostulante }
      * 
      */
@@ -51,11 +67,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link Participante }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
+    public Participante createParticipante() {
+        return new Participante();
     }
 
     /**
@@ -83,35 +99,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
      * Create an instance of {@link EvaluarAlumnoResponse }
      * 
      */
     public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
         return new EvaluarAlumnoResponse();
-    }
-
-    /**
-     * Create an instance of {@link Alumno }
-     * 
-     */
-    public Alumno createAlumno() {
-        return new Alumno();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link Participante }
-     * 
-     */
-    public Participante createParticipante() {
-        return new Participante();
     }
 
     /**

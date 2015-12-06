@@ -14,16 +14,18 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="alumno">
  *   &lt;complexContent>
- *     &lt;extension base="{http://app.sacoliveros.pe.edu/}model">
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="altura" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="apellidoMaterno" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="apellidoPaterno" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="codigo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="contextura" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="departamento" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="distrito" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="domicilio" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="edad" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="genero" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="gradoEscolar" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="nacionalidad" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -35,9 +37,11 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="promedioEscolar" type="{http://www.w3.org/2001/XMLSchema}double"/>
  *         &lt;element name="provincia" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="religion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="telefono" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="tipo" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="tipoFamilia" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
- *     &lt;/extension>
+ *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
@@ -49,11 +53,13 @@ import javax.xml.bind.annotation.XmlType;
     "altura",
     "apellidoMaterno",
     "apellidoPaterno",
+    "codigo",
     "contextura",
     "departamento",
     "distrito",
     "domicilio",
     "edad",
+    "email",
     "genero",
     "gradoEscolar",
     "nacionalidad",
@@ -65,20 +71,22 @@ import javax.xml.bind.annotation.XmlType;
     "promedioEscolar",
     "provincia",
     "religion",
+    "telefono",
+    "tipo",
     "tipoFamilia"
 })
-public class Alumno
-    extends Model
-{
+public class Alumno {
 
     protected String altura;
     protected String apellidoMaterno;
     protected String apellidoPaterno;
+    protected String codigo;
     protected String contextura;
     protected String departamento;
     protected String distrito;
     protected String domicilio;
     protected int edad;
+    protected String email;
     protected String genero;
     protected int gradoEscolar;
     protected String nacionalidad;
@@ -90,6 +98,8 @@ public class Alumno
     protected double promedioEscolar;
     protected String provincia;
     protected String religion;
+    protected String telefono;
+    protected String tipo;
     protected String tipoFamilia;
 
     /**
@@ -162,6 +172,30 @@ public class Alumno
      */
     public void setApellidoPaterno(String value) {
         this.apellidoPaterno = value;
+    }
+
+    /**
+     * Gets the value of the codigo property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * Sets the value of the codigo property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCodigo(String value) {
+        this.codigo = value;
     }
 
     /**
@@ -274,6 +308,30 @@ public class Alumno
      */
     public void setEdad(int value) {
         this.edad = value;
+    }
+
+    /**
+     * Gets the value of the email property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Sets the value of the email property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setEmail(String value) {
+        this.email = value;
     }
 
     /**
@@ -498,6 +556,54 @@ public class Alumno
      */
     public void setReligion(String value) {
         this.religion = value;
+    }
+
+    /**
+     * Gets the value of the telefono property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTelefono() {
+        return telefono;
+    }
+
+    /**
+     * Sets the value of the telefono property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTelefono(String value) {
+        this.telefono = value;
+    }
+
+    /**
+     * Gets the value of the tipo property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * Sets the value of the tipo property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTipo(String value) {
+        this.tipo = value;
     }
 
     /**

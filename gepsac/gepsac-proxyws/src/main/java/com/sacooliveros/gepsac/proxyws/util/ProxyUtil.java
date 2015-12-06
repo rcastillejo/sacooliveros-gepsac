@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package com.sacooliveros.gepsac.proxyws.util;
- 
+
+import com.sacooliveros.gepsac.proxyws.handler.LogHandler;
 import com.sacooliveros.gepsac.service.BOService;
 import com.sacooliveros.gepsac.service.BOService_Service;
 import com.sacooliveros.gepsac.service.comun.ComunService;
@@ -13,7 +14,11 @@ import com.sacooliveros.gepsac.service.planificacion.PlanificacionService;
 import com.sacooliveros.gepsac.service.planificacion.PlanificacionService_Service;
 import edu.pe.sacoliveros.app.WebServiceAlumno;
 import edu.pe.sacoliveros.app.WebServiceAlumno_Service;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.ws.Binding;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.handler.Handler;
 
 /**
  *
@@ -47,6 +52,7 @@ public class ProxyUtil {
         BOService port = service.getBOServicePort();
         BindingProvider bp = (BindingProvider) port;
         setTimeout(bp, BO_ENDPOINT, timeout);
+        setHandlers(bp);
         return port;
     }
 
@@ -62,6 +68,14 @@ public class ProxyUtil {
         bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endpoint);
         bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", timeout);
         bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", timeout);
+    }
+
+    private static void setHandlers(BindingProvider bp) {
+        Binding binding = bp.getBinding();
+        List<Handler> handlerChain = new ArrayList<Handler>();
+        //Add a handler to the handler chain
+        handlerChain.add(new LogHandler());
+        binding.setHandlerChain(handlerChain);
     }
 
 }

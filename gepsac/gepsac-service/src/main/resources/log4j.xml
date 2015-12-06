@@ -23,7 +23,16 @@
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
         </layout>
-    </appender>    
+    </appender>
+    
+    <appender name="TRAZADO_SOAP" class="org.apache.log4j.DailyRollingFileAppender">       
+        <param name="File" value="${jboss.server.log.dir}/gepsac_service/trazado_soap.log" />
+        <param name="DatePattern" value="'.'yyyyMMdd" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%-10t] (%c{2}) %m - [linea:%L]%n" />
+        </layout>
+    </appender>
     
     <appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">       
         <param name="File" value="${jboss.server.log.dir}/gepsac_service/error.log" />
@@ -55,9 +64,9 @@
         </filter>
     </appender>
     
-    <logger name="SmtpAppenderLogger" additivity="false">
-        <level value="INFO"/>	
-        <appender-ref ref="EMAIL"/>
+    <logger name="com.sacooliveros.gepsac.service.handler" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="TRAZADO_SOAP"/>
     </logger>
      
     

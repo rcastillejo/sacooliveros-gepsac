@@ -39,59 +39,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarAlumnoPostulante }
-     * 
-     */
-    public ListarAlumnoPostulante createListarAlumnoPostulante() {
-        return new ListarAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link BuscarAlumnoPostulante }
-     * 
-     */
-    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
-        return new BuscarAlumnoPostulante();
-    }
-
-    /**
      * Create an instance of {@link BuscarAlumnoPostulanteResponse }
      * 
      */
     public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
         return new BuscarAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
-     * 
-     */
-    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
-        return new ObtenerAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link ListarAlumnoPostulanteResponse }
-     * 
-     */
-    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
-        return new ListarAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link Alumno }
-     * 
-     */
-    public Alumno createAlumno() {
-        return new Alumno();
     }
 
     /**
@@ -103,11 +55,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
+    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
+        return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulante }
+     * 
+     */
+    public ListarAlumnoPostulante createListarAlumnoPostulante() {
+        return new ListarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulanteResponse }
+     * 
+     */
+    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
+        return new ListarAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulante }
+     * 
+     */
+    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
+        return new BuscarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
     }
 
     /**

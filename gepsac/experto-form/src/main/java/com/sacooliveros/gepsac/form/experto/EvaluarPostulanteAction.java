@@ -80,11 +80,15 @@ public class EvaluarPostulanteAction extends DispatchAction {
         logger.debug("evaluando alumno ... ");
         try {
             BOService service = ProxyUtil.getBOServicePort(Config.TIMEOUT);
-            String json = request.getParameter("evaluacion");
-            logger.debug("json [{}]", json);
-            com.sacooliveros.gepsac.service.EvaluacionPostulante evaluacion = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.service.EvaluacionPostulante.class);
+            String evaluacionSerealizable = request.getParameter("evaluacion");
+            logger.debug("evaluacionSerealizable [{}]", evaluacionSerealizable);
+            String evaluacionDecode = new String(evaluacionSerealizable.getBytes("iso-8859-1"), "UTF-8");
+            logger.debug("evaluacionDecode [{}]", evaluacionDecode);
+            com.sacooliveros.gepsac.service.EvaluacionPostulante evaluacion = jsonBuilder.fromJson(evaluacionDecode, com.sacooliveros.gepsac.service.EvaluacionPostulante.class);
 
-            logger.debug("alumno a evaluar [{}]", evaluacion);
+            logger.debug("alumno a evaluar [contextura={}]", evaluacion.getAlumno().getContextura().getNombre());
+            logger.debug("alumno a evaluar [distrito={}]", evaluacion.getAlumno().getDistrito().getNombre());
+            logger.debug("alumno a evaluar [religion={}]", evaluacion.getAlumno().getReligion().getNombre());
 
             EvaluacionPostulante evaluacionPostulante = service.evaluarAlumno(evaluacion);
 
