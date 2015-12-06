@@ -43,7 +43,7 @@
             e.preventDefault();
             location.assign("<%=request.getContextPath()%>");
         });
-        
+
         //Buscar al Alumno Nuevo
         $("#btnBuscarAlumnoNuevo").click(function (e) {
             e.preventDefault();
@@ -120,6 +120,8 @@
             console.log('evaluacion', evaluacion);
             console.log('msg', msg);
             cargarRespuestaEvaluacion(evaluacion);
+            $('#btnBuscarAlumnoNuevo').attr('disabled','disabled');
+            $('#btnEvaluar').attr('disabled','disabled');
             fn_mdl_alert(msg, function () {}, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
@@ -132,23 +134,24 @@
         //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
 
     }
-    
-    function cargarRespuestaEvaluacion(evaluacion){        
+
+    function cargarRespuestaEvaluacion(evaluacion) {
         for (var i in evaluacion.perfiles) {
             var perfilEval = evaluacion.perfiles[i];
-            var el;            
-            if(perfilEval.perfil === undefined){
+            var el;
+            if (perfilEval.perfil === undefined) {
                 el = $("#mensaje");
-            } else if(perfilEval.perfil.codigo === 'P0001'){
+            } else if (perfilEval.perfil.codigo === 'P0001') {
                 el = $("#agresor");
-            } else if(perfilEval.perfil.codigo === 'P0002'){
+            } else if (perfilEval.perfil.codigo === 'P0002') {
                 el = $("#victima");
-            } else if(perfilEval.perfil.codigo === 'P0003'){
+            } else if (perfilEval.perfil.codigo === 'P0003') {
                 el = $("#testigo");
             }
             var probabilidad = new Number(perfilEval.probabilidad);
             var porcProbabilidad = (probabilidad * 100.0);
-            console.log('Perfil Evaluado', perfilEval, '%',porcProbabilidad)
+            porcProbabilidad = porcProbabilidad.toFixed(2);
+            console.log('Perfil Evaluado', perfilEval, '%', porcProbabilidad);
             el.val(porcProbabilidad + '%');
         }
     }
@@ -189,7 +192,15 @@
     function cargarEvaluacion(objeto) {
         $("#codigoEvaluacion").val(objeto.codigo);
         var fechaEvaluacion = new Date();
-        $("#fechaEvaluacion").val($.datepicker.formatDate(formatDate, fechaEvaluacion));
+        var twoDigitMonth = fechaEvaluacion.getMonth() + 1 + "";
+        if (twoDigitMonth.length === 1)
+            twoDigitMonth = "0" + twoDigitMonth;
+        var twoDigitDate = fechaEvaluacion.getDate() + "";
+        if (twoDigitDate.length === 1)
+            twoDigitDate = "0" + twoDigitDate;
+        var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
+        console.log('fechaActual', fechaActual);
+        $("#fechaEvaluacion").val(fechaActual);
         console.log('fechaEvaluacion', fechaEvaluacion);
     }
 
@@ -200,29 +211,32 @@
     }
 
     function cargarAlumno(json) {
-            console.log('cargando...', json);
+        console.log('cargando...', json);
+        var promedioEscolar = json.promedioEscolar;
+        promedioEscolar = promedioEscolar.toFixed(2);
 
-            $("#codigoAlumno").val(json.codigo);
-            $("#nombres").val(json.nombres);
-            $("#apellidoPaterno").val(json.apellidoPaterno);
-            $("#apellidoMaterno").val(json.apellidoMaterno);
-            $("#genero").val(json.genero);
-            $("#edad").val(json.edad);
-            $("#contextura").val(json.contextura);
-            $("#estatura").val(json.altura);
-            $("#direccion").val(json.domicilio);
-            $("#distrito").val(json.distrito);
-            $("#provincia").val(json.provincia);
-            $("#departamento").val(json.departamento);
-            $("#nacionalidad").val(json.nacionalidad);
-            $("#religion").val(json.religion);
-            $("#nivelEscolar").val(json.nivelEscolar);
-            $("#gradoEscolar").val(json.gradoEscolar);
-            $("#cantCambioColegio").val(json.nroCambioColegio);
-            $("#tipoFamilia").val(json.tipoFamilia);
-            $("#ordenNacimiento").val(json.ordenNacimiento);
-            $("#cantHnos").val(json.numHnos);
-  
+        $("#codigoAlumno").val(json.codigo);
+        $("#nombres").val(json.nombres);
+        $("#apellidoPaterno").val(json.apellidoPaterno);
+        $("#apellidoMaterno").val(json.apellidoMaterno);
+        $("#genero").val(json.genero);
+        $("#edad").val(json.edad);
+        $("#contextura").val(json.contextura);
+        $("#estatura").val(json.altura);
+        $("#direccion").val(json.domicilio);
+        $("#distrito").val(json.distrito);
+        $("#provincia").val(json.provincia);
+        $("#departamento").val(json.departamento);
+        $("#nacionalidad").val(json.nacionalidad);
+        $("#religion").val(json.religion);
+        $("#nivelEscolar").val(json.nivelEscolar);
+        $("#gradoEscolar").val(json.gradoEscolar);
+        $("#promedioEscolar").val(promedioEscolar);
+        $("#cantCambioColegio").val(json.nroCambioColegio);
+        $("#tipoFamilia").val(json.tipoFamilia);
+        $("#ordenNacimiento").val(json.ordenNacimiento);
+        $("#cantHnos").val(json.numHnos);
+
     }
 
 </script>
@@ -232,146 +246,159 @@
         Evaluaci&oacute;n de Acoso Escolar del Alumno Postulante
     </div>
     <div id="dvData">
-            <div>
-                <div>
-                    Datos de la Evaluaci&oacute;n
-                </div>
-                <div>
-                    <div>
-                        C&oacute;digo: 
-                        <input id="codigoEvaluacion" type="text" disabled="true" class="inputValue" data-name="codigo">
-                    </div>
-                    <div>
-                        Fecha: 
-                        <input id="fecha" type="text" disabled="true" class="inputValue" data-name="fechaEvaluacion">
-                    </div>
-                </div>
-                <div class="no-float"></div>
-            </div>
-            <div>
-                <div>
-                    <input type="button" id="btnBuscarAlumnoNuevo" value="Buscar Alumno Nuevo" />
-                </div>
-                <div>
-                    Datos del Alumno Postulante
-                </div>
-                <div>
-                    <div>
-                        C&oacute;digo: 
-                        <input id="codigoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.codigo">
-                    </div>
-                    <div>
-                        Nombres: 
-                        <input id="nombres" type="text" disabled="true" class="inputValue" data-name="alumno.nombres">
-                    </div>
-                    <div>
-                        Apellido Paterno: 
-                        <input id="apellidoPaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoPaterno">
-                    </div>
-                    <div>
-                        Apellido Materno: 
-                        <input id="apellidoMaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoMaterno">
-                    </div>
-                    <div>
-                        G&eacute;nero 
+        <fieldset>
+            <legend>Datos de la Evaluaci&oacute;n</legend>
+            <table>
+                <tr>
+                    <td>C&oacute;digo</td><td>:</td>
+                    <td><input id="codigoEvaluacion" type="text" disabled="true" class="inputValue" data-name="codigo"></td>
+                    <td>Fecha</td><td>:</td> 
+                    <td><input id="fechaEvaluacion" type="text" disabled="true" size="10"></td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>Datos del Alumno Postulante</legend>
+            <table>
+                <tr>
+                    <td colspan="6"><input type="button" id="btnBuscarAlumnoNuevo" value="Buscar Alumno Nuevo"></td>
+                </tr>
+                <tr>
+                    <td>C&oacute;digo</td><td>:</td>
+                    <td><input id="codigoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.codigo"></td>
+                    <td>Nombres</td><td>:</td>
+                    <td><input id="nombres" type="text" disabled="true" class="inputValue" data-name="alumno.nombres"></td>
+                </tr>
+                <tr>
+                    <td>Apellido Paterno</td><td>:</td> 
+                    <td><input id="apellidoPaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoPaterno"></td>
+                    <td>Apellido Materno</td><td>:</td> 
+                    <td><input id="apellidoMaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoMaterno"></td>
+                </tr>
+                <tr>
+                    <td>G&eacute;nero</td><td>:</td> 
+                    <td>
                         <input id="genero" type="text" disabled="true" class="inputValue" data-name="alumno.sexo.nombre">
-                    </div>
-                    <div>
-                        Edad: 
-                        <input id="edad" type="text" disabled="true" class="inputValue" data-name="alumno.edad">
-                    </div>
-                    <div>
-                        Contextura Corporal: 
+                    </td>
+                    <td>Edad</td><td>:</td> 
+                    <td>
+                        <input id="edad" type="text" disabled="true" class="inputValue" data-name="alumno.edad" size="5"> a&ntilde;os
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contextura Corporal</td><td>:</td> 
+                    <td>
                         <input id="contextura" type="text" disabled="true" class="inputValue" data-name="alumno.contextura.nombre">
-                    </div>
-                    <div>
-                        Estatura: 
+                    </td>
+                    <td>Estatura</td><td>:</td> 
+                    <td>
                         <input id="estatura" type="text" disabled="true" class="inputValue" data-name="alumno.estatura.nombre">
-                    </div>
-                    <div>
-                        Direcci&oacute;n: 
-                        <input id="direccion" type="text" disabled="true" class="inputValue" data-name="alumno.direccion">
-                    </div>
-                    <div>
-                        Distrito: 
+                    </td>
+                </tr>
+                <tr>
+                    <td>Direcci&oacute;n</td><td>:</td> 
+                    <td colspan="7">
+                        <input id="direccion" type="text" disabled="true" class="inputValue" data-name="alumno.direccion" size="68">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Distrito</td><td>:</td> 
+                    <td>
                         <input id="distrito" type="text" disabled="true" class="inputValue" data-name="alumno.distrito.nombre">
-                    </div>
-                    <div>
-                        Provincia: 
+                    </td>
+                    <td>Provincia</td><td>:</td> 
+                    <td>
                         <input id="provincia" type="text" disabled="true" class="inputValue" data-name="alumno.provincia.nombre">
-                    </div>
-                    <div>
-                        Departamento: 
-                        <input id="departamento" type="text" disabled="true" class="inputValue" data-name="alumno.departamento.nombre">
-                    </div>
-                    <div>
-                        Nacionalidad: 
-                        <input id="nacionalidad" type="text" disabled="true" class="inputValue" data-name="alumno.nacionalidad.nombre">
-                    </div>
-                    <div>
-                        Religi&oacute;n: 
-                        <input id="religion" type="text" disabled="true" class="inputValue" data-name="alumno.religion.nombre">
-                    </div>
-                    <div>
-                        Nivel Escolar: 
+                    </td>
+                </tr>
+                <tr>		
+                    <td>Departamento</td><td>:</td> 
+                    <td><input id="departamento" type="text" disabled="true" class="inputValue" data-name="alumno.departamento.nombre"></td>
+                    <td>Nacionalidad</td><td>:</td> 
+                    <td><input id="nacionalidad" type="text" disabled="true" class="inputValue" data-name="alumno.nacionalidad.nombre"></td>
+                </tr>
+                <tr>	
+                    <td>Religi&oacute;n</td><td>:</td> 
+                    <td><input id="religion" type="text" disabled="true" class="inputValue" data-name="alumno.religion.nombre"></td>
+                </tr>
+                <tr>
+                    <td>
+                        Grado Escolar</td><td>:</td> 
+                    <td> 
+                        <input id="gradoEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.gradoEscolar" size="5"> °
+                    </td>
+                    <td>Nivel Escolar</td><td>:</td> 
+                    <td> 
                         <input id="nivelEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.nivelEscolar.nombre">
-                    </div>
-                    <div>
-                        Grado Escolar: 
-                        <input id="gradoEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.gradoEscolar">
-                    </div>
-                    <div>
-                        Cantidad de cambios en colegios
-                        <input id="cantCambioColegio" type="text" disabled="true" class="inputValue" data-name="alumno.cantCambioColegio">
-                    </div>
-                    <div>
-                        Tipo de Familia: 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Promedio Escolar</td><td>:</td> 
+                    <td>
+                        <input id="promedioEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.promedioEscolar">
+                    </td>
+                    <td>
+                        Cambios de colegios</td><td>:</td> 
+                    <td>
+                        <input id="cantCambioColegio" type="text" disabled="true" class="inputValue" data-name="alumno.cantCambioColegio" size="5"> veces
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tipo de Familia</td><td>:</td> 
+                    <td> 
                         <input id="tipoFamilia" type="text" disabled="true" class="inputValue" data-name="alumno.tipoFamilia.nombre">
-                    </div>
-                    <div>
-                        Orden de nacimiento: 
-                        <input id="ordenNacimiento" type="text" disabled="true" class="inputValue" data-name="alumno.ordenNacimiento">
-                    </div>
-                    <div>
-                        Cantidad de hermanos: 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Orden de nacimiento</td><td>:</td> 
+                    <td>
+                        <input id="ordenNacimiento" type="text" disabled="true" class="inputValue" data-name="alumno.ordenNacimiento" size="5"> °
+                    </td>
+                    <td>
+                        Cantidad de hermanos</td><td>:</td> 
+                    <td>
                         <input id="cantHnos" type="text" disabled="true" class="inputValue" data-name="alumno.cantHnos">
-                    </div>
-                </div>
-                <div class="no-float"></div>
-            </div>
-            <div>
-                <div>
-                    Resultados de la Evaluaci&oacute;n
-                </div>
-                <div>
-                    <div>
-                        Agresor: 
-                        <input id="agresor" type="text" disabled="true" style="text-align: right">
-                    </div>                    
-                    <div>
-                        V&iacute;ctima: 
-                        <input id="victima" type="text" disabled="true" style="text-align: right">
-                    </div>
-                    <div>
-                        Testigo: 
-                        <input id="testigo" type="text" disabled="true" style="text-align: right">
-                    </div>
-                </div>
-                <div class="no-float"></div>
-            </div>
-            <div class="mensaje" >
-                <span>
-                    <label id="mensaje" />                
-                </span>
-            </div>  
-            <div class="mensaje-error" >
-                <span>
-                    <label id="mensajeError" />
-                </span>
-            </div>  
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <fieldset>
+            <legend>Resultados de la Evaluaci&oacute;n</legend>
+            <table border="1">
+                <tr>
+                    <td>Perfil Acoso Escolar</td> 
+                    <td>Porcentaje de Similitud</td>  
+                </tr>
+                <tr>
+                    <td> Agresor</td>
+                    <td><input id="agresor" type="text" disabled="true" style="text-align: right"></td>  
+                </tr>
+                <tr>
+                    <td> V&iacute;ctima</td> 
+                    <td><input id="victima" type="text" disabled="true" style="text-align: right"></td>
+                </tr>
+                <tr>
+                    <td> Testigo</td>
+                    <td><input id="testigo" type="text" disabled="true" style="text-align: right"></td>
+                </tr>
+            </table>
+        </fieldset>
+        <div class="mensaje" >
+            <span>
+                <label id="mensaje" />                
+            </span>
+        </div>  
+        <div class="mensaje-error" >
+            <span>
+                <label id="mensajeError" />
+            </span>
+        </div>  
     </div>
-    <div>
-       <input type="button" id="btnEvaluar" value="Evaluar" />
-       <input type="button" id="btnCancelar" value="Cancelar" />
+    <div style="align-content: center; text-align: center">
+        <input type="button" id="btnEvaluar" value="Evaluar" />
+        <input type="button" id="btnCancelar" value="Cancelar" />
     </div>
 </div>
