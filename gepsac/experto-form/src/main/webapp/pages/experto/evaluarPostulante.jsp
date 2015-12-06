@@ -36,118 +36,48 @@
     var dialog;
 
     $(document).ready(function () {
-        obtenerPlanRegistrado();
+        initEvaluarAlumno();
 
+        //Cancelar la Evaluacion del Alumno Nuevo
         $("#btnCancelar").click(function (e) {
             e.preventDefault();
             location.assign("<%=request.getContextPath()%>");
         });
         
-        //CargarModal ConsultarEstrategia
-        $("#btnConsultarEstrategia").click(function (e) {
+        //Buscar al Alumno Nuevo
+        $("#btnBuscarAlumnoNuevo").click(function (e) {
             e.preventDefault();
             fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/common/consultarEstrategia.jsp',
+                    "<%=request.getContextPath()%>" + '/pages/experto/buscarAlumnoNuevo.jsp',
                     900, 500, null);
         });
 
-        //CargarModal ConsultarEstrategia
-        $("#btnGuardarConfiguracion").click(function (e) {
+        //Evaluar al Alumno Nuevo
+        $("#btnEvaluar").click(function (e) {
             e.preventDefault();
 
-            var sError = validarConfiguracion();
+            var sError = validarEvaluacion();
 
             if (sError === "") {
-                fn_mdl_confirma("¿Está seguro que desea guardar la configuracion del Plan?",
-                        function () {
-                            guardarConfiguracion();
-                        },
-                        null,
-                        null,
-                        "CONFIRMACIÓN"
-                        );
+                evaluarAlumnoNuevo();
             } else {
                 fn_mdl_alert(sError, null, "VALIDACIONES");
             }
         });
-
-
-        //$('.tooltip').tooltip();
-
     });
 
-    function validarConfiguracion() {
+    function validarEvaluacion() {
         var sError = "";
-
-        var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
-
-        if (elEstrategias.length === 0) {
-            sError = sError + "   - Debe agregar al menos una estrategia. <br/>";
-        } else {
-            elEstrategias.map(function (index, elem) {
-                var actividades = 0;
-                console.log('index', index, 'elem', elem);
-
-                var codEstrategia = $(this).find('#lblCodigo').text();
-
-                var elActividad = $(this).find('.actividad');
-                var codActividad = elActividad.find('#lblCodigoActividad').text();
-
-                console.log('elActividad', elActividad, 'lblActividad', codActividad);
-
-                actividades += elActividad.length;
-
-                if (actividades === 0) {
-                    sError = sError + "   - Debe agregar al menos una actividad para la estrategia " + codEstrategia + " <br/>";
-                }
-            });
+        var codigoAlumno = $("#codigoAlumno").val();
+        if (codigoAlumno.length === 0) {
+            sError = sError + "   - Debe seleccionar un alumno. <br/>";
         }
         return sError;
     }
 
-    function serializeConfiguracionPlan() {
+    function serializeEvaluacionAlumnoNuevo() {
         var dataSerialize = {};
-        var listadoVal = [];
-
-        var elEstrategias = $("#tblDetalle div[id^='tblDetalleEstrategia']");
-
-
-        elEstrategias.map(function (index, elem) {
-            var estrategia = {};
-            var actividades = [];
-
-            var elEstrategia = $(this).find('#tblEstrategia');
-            var elActividades = $(this).find('#tblDetalleActividad');
-
-
-            estrategia = getData(elEstrategia);
-
-            elActividades.find("tbody tr").each(function () {
-                var actividad = getData($(this));
-                var lstIndicadores = [];
-                var indicadores = actividad.indicadoresSeleccionados.split(',');
-
-                for (var i in indicadores) {
-                    lstIndicadores.push({'codigo': indicadores[i]});
-                }
-
-                actividad['indicadoresSeleccionados'] = lstIndicadores;
-                actividades.push(actividad);
-            });
-
-
-            var str = elActividades.serialize();
-            console.log('serialize', str);
-
-            estrategia['actividadesSeleccionadas'] = actividades;
-
-            listadoVal.push(estrategia);
-            console.log('listDetalle', listadoVal);
-        });
-
-        dataSerialize = getData($("#div-busqueda-filtros"));
-        dataSerialize["estrategiasSeleccionadas"] = listadoVal;
-
+        dataSerialize = getData($("#dvData"));
         console.log("dataSerialize", dataSerialize);
         return dataSerialize;
     }
@@ -161,31 +91,36 @@
                 var ks = k.split(".");
                 if (ks.length === 1) {
                     data[ks[0]] = v;
-                } else {
+                } else if (ks.length === 2) {
                     var d = data[ks[0]] || {};
                     d[ks[1]] = v;
                     data[ks[0]] = d;
+                } else {//3
+                    var d = data[ks[0]] || {};
+                    var d1 = d[ks[1]] || {};
+                    d1[ks[2]] = v;
+                    d[ks[1]] = d1;
+                    data[ks[0]] = d;
                 }
             }
-
+            console.log('data', data);
         });
-
-
         return data;
     }
 
-    function guardarConfiguracion() {
-        var data = serializeConfiguracionPlan();
+    function evaluarAlumnoNuevo() {
+        var data = serializeEvaluacionAlumnoNuevo();
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=guardarConfiguracionPlan&configuracionPlan=' + JSON.stringify(data)
-        }).done(function (msg) {
+            url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
+        }).done(function (result) {
+            var evaluacion = result[0];
+            var msg = result[1];
+            console.log('evaluacion', evaluacion);
             console.log('msg', msg);
-            //cargarPlan(plan);
-            fn_mdl_alert(msg, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "CONFIRMACION");
+            cargarRespuestaEvaluacion(evaluacion);
+            fn_mdl_alert(msg, function () {}, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
@@ -197,24 +132,36 @@
         //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
 
     }
+    
+    function cargarRespuestaEvaluacion(evaluacion){        
+        for (var i in evaluacion.perfiles) {
+            var perfilEval = evaluacion.perfiles[i];
+            var el;            
+            if(perfilEval.perfil === undefined){
+                el = $("#mensaje");
+            } else if(perfilEval.perfil.codigo === 'P0001'){
+                el = $("#agresor");
+            } else if(perfilEval.perfil.codigo === 'P0002'){
+                el = $("#victima");
+            } else if(perfilEval.perfil.codigo === 'P0003'){
+                el = $("#testigo");
+            }
+            var probabilidad = new Number(perfilEval.probabilidad);
+            var porcProbabilidad = (probabilidad * 100.0);
+            console.log('Perfil Evaluado', perfilEval, '%',porcProbabilidad)
+            el.val(porcProbabilidad + '%');
+        }
+    }
 
-    function obtenerPlanRegistrado() {
+    function initEvaluarAlumno() {
         $("#mensajeError").empty();
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=obtenerPlanRegistrado'
-        }).done(function (plan) {
-            console.log('plan', plan);
-            if (plan.estado.codigo === 'PLA0001') {//Registrado
-                cargarPlan(plan);
-            } else if (plan.estado.codigo === 'PLA0002') {//Configurado
-                cargarPlanEstrategia(plan);
-            } else {
-                fn_mdl_alert('El plan ya fue configurado', function () {
-                    location.assign("<%=request.getContextPath()%>");
-                }, "VALIDACIONES");
-            }
+            url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
+        }).done(function (objeto) {
+            console.log('objeto', objeto);
+            cargarEvaluacion(objeto);
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
@@ -239,278 +186,179 @@
         }
     }
 
-    function cargarPlan(plan) {
-        $("#codigo").val(plan.codigo);
-        var dateIni = new Date(plan.fecInicio.year, plan.fecInicio.month - 1, plan.fecInicio.day);
-        $("#fecInicio").val($.datepicker.formatDate(formatDate, dateIni));
-        var dateFin = new Date(plan.fecFin.year, plan.fecFin.month - 1, plan.fecFin.day);
-        $("#fecFin").val($.datepicker.formatDate(formatDate, dateFin));
-        console.log('dateIni', dateIni, 'dateFin', dateFin);
+    function cargarEvaluacion(objeto) {
+        $("#codigoEvaluacion").val(objeto.codigo);
+        var fechaEvaluacion = new Date();
+        $("#fechaEvaluacion").val($.datepicker.formatDate(formatDate, fechaEvaluacion));
+        console.log('fechaEvaluacion', fechaEvaluacion);
     }
 
-    function validarItemDuplicado(name, value) {
-        var isValid = true;
-        $("#tblDetalle #tblDetalleEstrategia-" + value + " tbody tr").map(function (index, elem) {
-            if (isValid) {
-                $('.inputValue', this).each(function () {
-                    var k = $(this).data("name");
-                    var v = $(this).val() || $(this).text();
-                    if (isValid && k === name && v === value) {
-                        isValid = false;
-                    }
-                });
-            }
-        });
-        return isValid;
-    }
-
-    function validarItemActividadDuplicado(name, value, estrategia) {
-        var isValid = true;
-        $("#tblDetalleEstrategia-" + estrategia + " #tblDetalleActividad tbody tr").map(function (index, elem) {
-            if (isValid) {
-                $('.inputValue', this).each(function () {
-                    var k = $(this).data("name");
-                    var v = $(this).val() || $(this).text();
-                    if (isValid && k === name && v === value) {
-                        isValid = false;
-                    }
-                });
-            }
-        });
-        return isValid;
-    }
-
-    function cargarEstrategia(json) {
-
-        if (json.estado.codigo === "EST0002") {
-
-            var valid = validarItemDuplicado('codigo', json.codigo);
-            if (!valid) {
-                fn_mdl_alert("La estrategia ya se encuetra agregada", null, "VALIDACIONES");
-            } else {
-                console.log('cargando estrategia...', json);
-
-                var table = $("#tblDetalle");
-                var detalle = $("#tblDetalleEstrategia").clone();
-
-                detalle.attr('id', 'tblDetalleEstrategia-' + json.codigo);
-                detalle.show();
-
-                detalle.find("#lblCodigo").append(json.codigo);
-                detalle.find("#lblNombre").append(json.nombre);
-
-                table.append(detalle);
-
-                /*detalle.find("#chkId").click(function () {
-                 fn_checkListaItemDetalle($(this).get(0), json);
-                 });*/
-                detalle.find("#lnkEliminar").click(function () {
-                    fn_mdl_confirma("¿Está seguro que desea eliminar la estrategia?",
-                            function () {
-                                detalle.remove();
-                            },
-                            null,
-                            null,
-                            "CONFIRMACIÓN"
-                            );
-                });
-                detalle.find("#btnConsultarActividad").click(function () {
-                    fn_util_AbreModal("",
-                            "<%=request.getContextPath()%>" + '/pages/common/consultarActividad.jsp?codigoEstrategia=' + json.codigo,
-                            900, 500, null);
-                });
-            }
-
-        } else {
-            fn_mdl_alert("No puede se puede agregar la estrategia ya que no está configurado", null, "VALIDACIONES");
-        }
-
+    function cargarAlumnoNuevo(json) {
+        cargarAlumno(json);
         fn_util_CierraModal();
 
     }
 
-    function cargarActividad(json) {
-        cargarActividadIndicadores(json, json.indicadores);
-        fn_util_CierraModal();
-
-    }
-
-    function cargarActividadIndicadores(json, indicadores) {
-        var valid = validarItemActividadDuplicado('actividad.codigo', json.actividad.codigo, json.codigoEstrategia);
-        if (!valid) {
-            fn_mdl_alert("La actividad ya se encuentra agregada en la estrategia " + json.codigoEstrategia, null, "VALIDACIONES");
-        } else {
-
+    function cargarAlumno(json) {
             console.log('cargando...', json);
 
-            var table = $("#tblDetalleEstrategia-" + json.codigoEstrategia + " #tblDetalleActividad");
-
-            var detalle = $("#rowDetalleActividad").find("tbody tr").clone();
-            detalle.attr('id', json.actividad.codigo);
-            detalle.attr('class', 'actividad');
-            detalle.find("#lblCodigoActividad").append(json.actividad.codigo);
-            detalle.find("#lblNombreActividad").append(json.actividad.nombre);
-
-            //var indicadores = json.indicadores;
-            for (var i in indicadores) {
-                var indicador = indicadores[i];
-                detalle.find("#hdnIndicadores").append(indicador.codigo);
-                detalle.find("#lblIndicadores").append(indicador.nombre);
-
-                if (indicadores.length - 1 > i) {
-                    detalle.find("#hdnIndicadores").append(',');
-                    detalle.find("#lblIndicadores").append('<br/>');
-                }
-
-            }
-
-            table.find("tbody").append(detalle);
-
-            detalle.find("#lnkEliminarActividad").click(function () {
-                fn_mdl_confirma("¿Está seguro que desea eliminar la actividad?",
-                        function () {
-                            detalle.remove();
-                        },
-                        null,
-                        null,
-                        "CONFIRMACIÓN"
-                        );
-                //fn_checkListaItemActividad($(this).get(0), detalle);
-            });
-        }
-        //objItemSeleccionado === null;
-        //objItemActividadSeleccionado === null;
-        //fn_util_CierraModal();
-
+            $("#codigoAlumno").val(json.codigo);
+            $("#nombres").val(json.nombres);
+            $("#apellidoPaterno").val(json.apellidoPaterno);
+            $("#apellidoMaterno").val(json.apellidoMaterno);
+            $("#genero").val(json.genero);
+            $("#edad").val(json.edad);
+            $("#contextura").val(json.contextura);
+            $("#estatura").val(json.altura);
+            $("#direccion").val(json.domicilio);
+            $("#distrito").val(json.distrito);
+            $("#provincia").val(json.provincia);
+            $("#departamento").val(json.departamento);
+            $("#nacionalidad").val(json.nacionalidad);
+            $("#religion").val(json.religion);
+            $("#nivelEscolar").val(json.nivelEscolar);
+            $("#gradoEscolar").val(json.gradoEscolar);
+            $("#cantCambioColegio").val(json.nroCambioColegio);
+            $("#tipoFamilia").val(json.tipoFamilia);
+            $("#ordenNacimiento").val(json.ordenNacimiento);
+            $("#cantHnos").val(json.numHnos);
+  
     }
 
 </script>
 
 <div class="div-pagina">
-
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Configurar Estrategia de Plan
-    </div>
-    <div>
-        <input type="button" id="btnConsultarEstrategia" value="Consultar Estrategia" />
-        <input type="button" id="btnGuardarConfiguracion" value="Guardar Configuración" />
-        <input type="button" id="btnAgregarEstrategia" value="Agregar Estrategia" />
-        <input type="button" id="btnCancelar" value="Cancelar" />
+        Evaluaci&oacute;n de Acoso Escolar del Alumno Postulante
     </div>
     <div id="dvData">
-        <html:form styleId="frmReporte" action="ConfigurarEstrategia.do?method=busqueda" method="POST">
-            <input id="hdnBuscast" type="submit" style="display: none;" />
-            <!-- INCIO PANEL-->
-            <div id="div-busqueda" class="div-busqueda">
-                <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-                    Datos del Plan
+            <div>
+                <div>
+                    Datos de la Evaluaci&oacute;n
                 </div>
-
-                <div id="div-busqueda-filtros" class="div-busqueda-filtros">
-                    <div class="div-busqueda-filtro">
-                        Codigo: 
-                        <input id="codigo" type="text" disabled="true" class="inputValue" data-name="codigo">
+                <div>
+                    <div>
+                        C&oacute;digo: 
+                        <input id="codigoEvaluacion" type="text" disabled="true" class="inputValue" data-name="codigo">
                     </div>
-                    <div class="div-busqueda-filtro">
-                        Fecha Inicio: 
-                        <input id="fecInicio" type="text" disabled="true">
+                    <div>
+                        Fecha: 
+                        <input id="fecha" type="text" disabled="true" class="inputValue" data-name="fechaEvaluacion">
                     </div>
-                    <div class="div-busqueda-filtro">
-                        Fecha Fin: 
-                        <input id="fecFin" type="text" disabled="true">
-                    </div>
-
                 </div>
-
                 <div class="no-float"></div>
-
             </div>
-            <!-- FIN PANEL-->
-
-            <div id="div-resultado">
-
-                <div id="rowDetalleActividad" style="display:none;">   
-                    <table>    
-                        <tr>
-                            <td>
-                                <label id="lblCodigoActividad" class="inputValue" data-name="actividad.codigo" name="actividad.codigo"></label>
-                            </td>
-                            <td>
-                                <label id="lblNombreActividad"></label>
-                            </td>
-                            <td>
-                                <label id="hdnIndicadores" class="inputValue" data-name="indicadoresSeleccionados" name="indicadoresSeleccionados" style="display: none"></label>
-                                <label id="lblIndicadores" ></label>
-                            </td>
-                            <td>
-                                <button id="lnkEliminarActividad" type="button" value="Eliminar">
-                                    <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
-                                </button>
-                            </td>
-                        </tr>
-                    </table>
+            <div>
+                <div>
+                    <input type="button" id="btnBuscarAlumnoNuevo" value="Buscar Alumno Nuevo" />
                 </div>
-
-
-                <div id="tblDetalleEstrategia" style="display: none;">
-
-                    <div id="tblEstrategia" class="div-busqueda">
-                        <div class="div-busqueda-titulo">
-                            Datos de la Estrategia
-                        </div>
-                        <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                            <thead>
-                                <tr>
-                                    <th>N°</th>
-                                    <th>Estrategia</th>
-                                </tr>	
-                            </thead>                        
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <label id="lblCodigo" class="inputValue" data-name="codigo" name="codigo"></label>
-                                    </td>
-                                    <td>
-                                        <label id="lblNombre"></label>
-                                    </td>
-                                    <td>
-                                        <input type="button" id="btnConsultarActividad" value="Consultar Actividad">
-                                    </td>
-                                    <td>
-                                        <button id="lnkEliminar" type="button" value="Eliminar">
-                                            <img src="<%=request.getContextPath()%>/resources/images/delete-icon.gif" border="0" />                                        
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="no-float"></div>
-
-                        <div id="tblDetalleActividad" class="div-busqueda">
-                            <div class="div-busqueda-titulo">
-                                Relacion de Actividades
-                            </div>      
-                            <table border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>Actividad</th>
-                                        <th>Indicadores</th>
-                                    </tr>	
-                                </thead>
-                                <tbody></tbody>
-                            </table>   
-                            <div class="no-float"></div>               
-                        </div>
+                <div>
+                    Datos del Alumno Postulante
+                </div>
+                <div>
+                    <div>
+                        C&oacute;digo: 
+                        <input id="codigoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.codigo">
+                    </div>
+                    <div>
+                        Nombres: 
+                        <input id="nombres" type="text" disabled="true" class="inputValue" data-name="alumno.nombres">
+                    </div>
+                    <div>
+                        Apellido Paterno: 
+                        <input id="apellidoPaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoPaterno">
+                    </div>
+                    <div>
+                        Apellido Materno: 
+                        <input id="apellidoMaterno" type="text" disabled="true" class="inputValue" data-name="alumno.apellidoMaterno">
+                    </div>
+                    <div>
+                        G&eacute;nero 
+                        <input id="genero" type="text" disabled="true" class="inputValue" data-name="alumno.sexo.nombre">
+                    </div>
+                    <div>
+                        Edad: 
+                        <input id="edad" type="text" disabled="true" class="inputValue" data-name="alumno.edad">
+                    </div>
+                    <div>
+                        Contextura Corporal: 
+                        <input id="contextura" type="text" disabled="true" class="inputValue" data-name="alumno.contextura.nombre">
+                    </div>
+                    <div>
+                        Estatura: 
+                        <input id="estatura" type="text" disabled="true" class="inputValue" data-name="alumno.estatura.nombre">
+                    </div>
+                    <div>
+                        Direcci&oacute;n: 
+                        <input id="direccion" type="text" disabled="true" class="inputValue" data-name="alumno.direccion">
+                    </div>
+                    <div>
+                        Distrito: 
+                        <input id="distrito" type="text" disabled="true" class="inputValue" data-name="alumno.distrito.nombre">
+                    </div>
+                    <div>
+                        Provincia: 
+                        <input id="provincia" type="text" disabled="true" class="inputValue" data-name="alumno.provincia.nombre">
+                    </div>
+                    <div>
+                        Departamento: 
+                        <input id="departamento" type="text" disabled="true" class="inputValue" data-name="alumno.departamento.nombre">
+                    </div>
+                    <div>
+                        Nacionalidad: 
+                        <input id="nacionalidad" type="text" disabled="true" class="inputValue" data-name="alumno.nacionalidad.nombre">
+                    </div>
+                    <div>
+                        Religi&oacute;n: 
+                        <input id="religion" type="text" disabled="true" class="inputValue" data-name="alumno.religion.nombre">
+                    </div>
+                    <div>
+                        Nivel Escolar: 
+                        <input id="nivelEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.nivelEscolar.nombre">
+                    </div>
+                    <div>
+                        Grado Escolar: 
+                        <input id="gradoEscolar" type="text" disabled="true" class="inputValue" data-name="alumno.gradoEscolar">
+                    </div>
+                    <div>
+                        Cantidad de cambios en colegios
+                        <input id="cantCambioColegio" type="text" disabled="true" class="inputValue" data-name="alumno.cantCambioColegio">
+                    </div>
+                    <div>
+                        Tipo de Familia: 
+                        <input id="tipoFamilia" type="text" disabled="true" class="inputValue" data-name="alumno.tipoFamilia.nombre">
+                    </div>
+                    <div>
+                        Orden de nacimiento: 
+                        <input id="ordenNacimiento" type="text" disabled="true" class="inputValue" data-name="alumno.ordenNacimiento">
+                    </div>
+                    <div>
+                        Cantidad de hermanos: 
+                        <input id="cantHnos" type="text" disabled="true" class="inputValue" data-name="alumno.cantHnos">
                     </div>
                 </div>
-
-                <div id="tblDetalle">
-
-                </div>
+                <div class="no-float"></div>
             </div>
-
+            <div>
+                <div>
+                    Resultados de la Evaluaci&oacute;n
+                </div>
+                <div>
+                    <div>
+                        Agresor: 
+                        <input id="agresor" type="text" disabled="true" style="text-align: right">
+                    </div>                    
+                    <div>
+                        V&iacute;ctima: 
+                        <input id="victima" type="text" disabled="true" style="text-align: right">
+                    </div>
+                    <div>
+                        Testigo: 
+                        <input id="testigo" type="text" disabled="true" style="text-align: right">
+                    </div>
+                </div>
+                <div class="no-float"></div>
+            </div>
             <div class="mensaje" >
                 <span>
                     <label id="mensaje" />                
@@ -521,8 +369,9 @@
                     <label id="mensajeError" />
                 </span>
             </div>  
-
-        </html:form>
     </div>
-
+    <div>
+       <input type="button" id="btnEvaluar" value="Evaluar" />
+       <input type="button" id="btnCancelar" value="Cancelar" />
+    </div>
 </div>

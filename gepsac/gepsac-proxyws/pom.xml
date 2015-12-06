@@ -28,8 +28,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <!--<wsdlDirectory>${basedir}/src/main/resource/wsdl</wsdlDirectory>-->
-                    <packageName>com.sacooliveros.gepsac.proxyws</packageName>
+                    <!--<wsdlDirectory>${basedir}/src/main/resource/wsdl</wsdlDirectory>
+                    <packageName>com.sacooliveros.gepsac.proxyws</packageName>-->
                     <wsdlUrls>
                         <wsdlUrl>http://localhost:8180/gepsac-service/PlanificacionService?wsdl</wsdlUrl>
                         <wsdlUrl>http://localhost:8180/gepsac-service/ComunService?wsdl</wsdlUrl>

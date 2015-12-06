@@ -113,7 +113,7 @@ public class WebServiceAlumno {
         alumno.setOrdenNacimiento(getInt(1, 4));
         alumno.setNumHnos(alumno.getOrdenNacimiento() == 1 ? 0 : getInt(1, 4));
         alumno.setNivelEscolar(NIVEL_ESCOLAR[getInt(0, NIVEL_ESCOLAR.length - 1)]);
-        alumno.setGradoEscolar(getInt(0, 5));
+        alumno.setGradoEscolar(alumno.getNivelEscolar().equals(NIVEL_ESCOLAR[0]) ? getInt(1, 5) : getInt(1, 6));
         alumno.setPromedioEscolar(getInt(10, 18));
         alumno.setNroCambioColegio(getInt(0, 5));
         alumno.setReligion(RELIGION[getInt(0, RELIGION.length - 1)]);

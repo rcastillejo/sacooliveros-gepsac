@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 package com.sacooliveros.gepsac.proxyws.util;
-
-import com.sacooliveros.gepsac.proxyws.BOService;
-import com.sacooliveros.gepsac.proxyws.BOService_Service;
-import com.sacooliveros.gepsac.proxyws.ComunService;
-import com.sacooliveros.gepsac.proxyws.ComunService_Service;
-import com.sacooliveros.gepsac.proxyws.PlanificacionService;
-import com.sacooliveros.gepsac.proxyws.PlanificacionService_Service;
-import com.sacooliveros.gepsac.proxyws.WebServiceAlumno;
-import com.sacooliveros.gepsac.proxyws.WebServiceAlumno_Service;
+ 
+import com.sacooliveros.gepsac.service.BOService;
+import com.sacooliveros.gepsac.service.BOService_Service;
+import com.sacooliveros.gepsac.service.comun.ComunService;
+import com.sacooliveros.gepsac.service.comun.ComunService_Service;
+import com.sacooliveros.gepsac.service.planificacion.PlanificacionService;
+import com.sacooliveros.gepsac.service.planificacion.PlanificacionService_Service;
+import edu.pe.sacoliveros.app.WebServiceAlumno;
+import edu.pe.sacoliveros.app.WebServiceAlumno_Service;
 import javax.xml.ws.BindingProvider;
 
 /**

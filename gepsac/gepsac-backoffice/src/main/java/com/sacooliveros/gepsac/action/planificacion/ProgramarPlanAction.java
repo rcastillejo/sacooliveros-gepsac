@@ -11,8 +11,8 @@ import com.sacooliveros.gepsac.exception.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
-import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
+import com.sacooliveros.gepsac.service.planificacion.PlanificacionService;
 import java.io.IOException;
 import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
@@ -78,10 +78,10 @@ public class ProgramarPlanAction extends DispatchAction {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
             String json = request.getParameter("plan");
             logger.debug("json [{}]", json);
-            com.sacooliveros.gepsac.proxyws.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.Plan.class);
+            com.sacooliveros.gepsac.service.planificacion.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.service.planificacion.Plan.class);
 
             logger.debug("plan [{}]", plan);
-            com.sacooliveros.gepsac.proxyws.Plan planProgramado = service.generarProgramacion(plan);
+            com.sacooliveros.gepsac.service.planificacion.Plan planProgramado = service.generarProgramacion(plan);
 
             logger.info("Prgoramacion plan generado [{}]", planProgramado);
             generalAction(createSuccessResult(planProgramado), response);
@@ -100,7 +100,7 @@ public class ProgramarPlanAction extends DispatchAction {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
             String json = request.getParameter("plan");
             logger.debug("json [{}]", json);
-            com.sacooliveros.gepsac.proxyws.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.Plan.class);
+            com.sacooliveros.gepsac.service.planificacion.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.service.planificacion.Plan.class);
 
             logger.debug("plan [{}]", plan);
             String msg = service.configurar(plan);

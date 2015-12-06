@@ -11,9 +11,9 @@ import com.sacooliveros.gepsac.exception.LoggerUtil;
 import com.novatronic.sca.util.ActionUtil;
 import com.novatronic.sca.util.Config;
 import com.novatronic.sca.util.Resultado;
-import com.sacooliveros.gepsac.proxyws.ComunService;
-import com.sacooliveros.gepsac.proxyws.PlanificacionService;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
+import com.sacooliveros.gepsac.service.comun.ComunService;
+import com.sacooliveros.gepsac.service.planificacion.PlanificacionService;
 import java.io.IOException;
 import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
@@ -79,7 +79,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
             PlanificacionService service = ProxyUtil.getPlanificacionServicePort(Config.TIMEOUT);
             String json = request.getParameter("configuracionPlan");
             logger.debug("json [{}]", json);
-            com.sacooliveros.gepsac.proxyws.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.Plan.class);
+            com.sacooliveros.gepsac.service.planificacion.Plan plan = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.service.planificacion.Plan.class);
 
             logger.debug("plan [{}]", plan);
             String msg = service.configurar(plan);

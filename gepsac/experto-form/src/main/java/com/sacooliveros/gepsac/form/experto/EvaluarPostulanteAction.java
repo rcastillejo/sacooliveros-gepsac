@@ -7,10 +7,10 @@ package com.sacooliveros.gepsac.form.experto;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sacooliveros.gepsac.proxyws.BOService;
-import com.sacooliveros.gepsac.proxyws.EvaluacionPostulante;
-import com.sacooliveros.gepsac.proxyws.WebServiceAlumno;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
+import com.sacooliveros.gepsac.service.BOService;
+import com.sacooliveros.gepsac.service.EvaluacionPostulante;
+import edu.pe.sacoliveros.app.WebServiceAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
@@ -62,17 +62,16 @@ public class EvaluarPostulanteAction extends DispatchAction {
         }
     }
 
-    public void initBuscarAlumno(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+    public void initBuscarAlumnoNuevo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
-            //String codigoEstrategia = request.getParameter("codigoEstrategia");
-            logger.debug("Consultando Alumnos al Servicio Saco Oliveros");
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
 
             Resultado resultado = createSuccessResult(service.listarAlumnoPostulante());
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            LoggerUtil.error(logger, "initBuscarAlumno", "experto", request, e);
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -83,7 +82,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
             BOService service = ProxyUtil.getBOServicePort(Config.TIMEOUT);
             String json = request.getParameter("evaluacion");
             logger.debug("json [{}]", json);
-            com.sacooliveros.gepsac.proxyws.EvaluacionPostulante evaluacion = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.proxyws.EvaluacionPostulante.class);
+            com.sacooliveros.gepsac.service.EvaluacionPostulante evaluacion = jsonBuilder.fromJson(json, com.sacooliveros.gepsac.service.EvaluacionPostulante.class);
 
             logger.debug("alumno a evaluar [{}]", evaluacion);
 
@@ -92,7 +91,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
             String msg = MessageFormat.format(Mensaje.EVALUAR, new Object[]{evaluacionPostulante.getCodigo()});
 
             logger.info("Evaluacion resultado [{}]", evaluacionPostulante.getCodigo());
-            generalAction(createSuccessResult(msg), response);
+            generalAction(createSuccessResult(new Object[]{evaluacionPostulante, msg}), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
