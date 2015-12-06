@@ -20,6 +20,9 @@ public class ClipsEngine implements Engine<Pregunta, ResultadoInferencia> {
     public ClipsEngine() {
         try {
             clips = new Environment();
+            System.out.println("VERSION CLIPS JNDI  ["+Environment.getCLIPSJNIVersion()+"]");
+            System.out.println("VERSION CLIPS       ["+Environment.getCLIPSVersion()+"]");
+            System.out.println("VERSION             ["+Environment.getVersion()+"]");
         } catch (Exception e) {
             throw new RuntimeException("No se pudo cargar el entorno", e);
         }

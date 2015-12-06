@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
+import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.experto.Alumno;
@@ -76,7 +77,7 @@ public class ExpertoService implements Experto {
             List<PerfilEvaluado> perfilesEvaluado = instancia.predict(clasificador, alumnosEvaluados, alumnoEvaluar);
 
             evaluacion.setPerfiles(perfilesEvaluado);
-            evaluacion.setEstado(Estado.REGISTRADO);
+            evaluacion.setEstado(Estado.EvaluacionPostulante.REGISTRADO);
 
             //Grabar alumno postulante a evaluar
             alumnoDao.grabarPostulante(alumno);
@@ -107,33 +108,36 @@ public class ExpertoService implements Experto {
         }
         return Mensaje.EVALUAR_ALUMNO_POSTULANTE;
     }*/
+    
+    
+    
     /**
      * Funcionalidades del Caso Uso Evaluar Respuesta Acoso Escolar
      */
     /**
      *
-     * @param estado
+     * @param codigoEstado
      * @return
      * @throws ExpertoServiceException
      */
     @Override
-    public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException {
+    public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(String codigoEstado) throws ExpertoServiceException {
 
         try {
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
-            List<EvaluacionAcosoEscolar> evaluaciones = evaluacionDao.listarEvaluacionPorEstado(estado.getCodigo());
+            List<EvaluacionAcosoEscolar> evaluaciones = evaluacionDao.listarEvaluacionPorEstado(codigoEstado);
 
             if (evaluaciones == null || evaluaciones.isEmpty()) {
-                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, estado.getCodigo());
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, codigoEstado);
             }
 
-            log.info("Listado de evaluaciones obtenidas [estado={}, tamanio={}]", new Object[]{estado, evaluaciones.size()});
+            log.info("Listado de evaluaciones obtenidas [estado={}, tamanio={}]", new Object[]{codigoEstado, evaluaciones.size()});
 
             return evaluaciones;
 
         } catch (DAOException e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EVALUACIONES_ACOSO_ESCOLAR, e, estado.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EVALUACIONES_ACOSO_ESCOLAR, e, codigoEstado);
         }
     }
 

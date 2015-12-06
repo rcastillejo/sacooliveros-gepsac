@@ -5,16 +5,18 @@
  */
 package com.sacooliveros.gepsac.model.comun;
 
+import com.sacooliveros.gepsac.model.util.State;
 import java.io.Serializable;
 
 /**
  *
  * @author Ricardo
  */
-public class Estado implements Serializable {
+public class Estado implements State, Serializable {
 
     private String codigo;
     private String nombre;
+    private String descripcion;
 
     public Estado() {
     }
@@ -35,9 +37,17 @@ public class Estado implements Serializable {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     @Override
     public String toString() {
-        return "Estado{" + "codigo=" + codigo + ", nombre=" + nombre + '}';
+        return "Estado{" + "codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion + '}';
     }
 
 }

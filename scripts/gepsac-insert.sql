@@ -21,19 +21,20 @@ SET search_path = public, pg_catalog;
 -- Data for Name: tp_estado; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO tp_estado VALUES ('IND0001', 'Activo');
-INSERT INTO tp_estado VALUES ('IND0002', 'Inactivo');
-INSERT INTO tp_estado VALUES ('ACT0001', 'Registrado');
-INSERT INTO tp_estado VALUES ('EST0001', 'Registrado');
-INSERT INTO tp_estado VALUES ('EST0002', 'Configurado');
-INSERT INTO tp_estado VALUES ('EAI0001', 'Activo');
-INSERT INTO tp_estado VALUES ('EAI0002', 'Inactivo');
-INSERT INTO tp_estado VALUES ('PLA0001', 'Registrado');
-INSERT INTO tp_estado VALUES ('PLA0002', 'Configurado');
-INSERT INTO tp_estado VALUES ('PLA0003', 'Programado');
-INSERT INTO tp_estado VALUES ('EVP0001', 'Registrado');
-INSERT INTO tp_estado VALUES ('ALU0001', 'Registrado');
-INSERT INTO tp_estado VALUES ('ALU0002', 'Evaluado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('IND0001', 'Activo'		, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('IND0002', 'Inactivo'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ACT0001', 'Registrado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EST0001', 'Registrado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EST0002', 'Configurado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EAI0001', 'Activo'		, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EAI0002', 'Inactivo'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0001', 'Registrado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0002', 'Configurado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0003', 'Programado'	, null);
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVP0001', 'Registrado'	, 'Evaluacion de Postulante Registrado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0001', 'Registrado'	, 'Evaluacion de Acoso Escolar Registrado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0001', 'Registrado'	, 'Alumno Registrado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0002', 'Evaluado'	, 'Alumno Evaluado');
 
 
 --
@@ -180,3 +181,16 @@ insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500015', '1', '13', '1', '1', '2', '1', '0', '2', '3', '12.5', '1', '2', '1', '2', '1', '1', 'P0002','ALU0002');
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500016', '1', '12', '2', '1', '2', '2', '3', '2', '2', '13', '2', '0', '1', '4', '1', '1', 'P0002','ALU0002');
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500017', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', 'P0002','ALU0002');
+
+--ALU0001 - Registrado
+
+--P0001 Agresor
+insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500099', '1', '13', '2', '3', '3', '3', '3', '2', '4', '11', '2', '1', '1', '1', '1', '1', null,'ALU0001');
+--P0002 Victima
+insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500098', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
+--P0003 Testigo
+
+--A201500099 | P0001
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203901', now(), 'A201500099', null,'EVA0001');
+--A201500098 | P0002
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203902', now(), 'A201500098', null,'EVA0001');

@@ -12,13 +12,13 @@ import com.sacooliveros.gepsac.model.Plan;
 import com.sacooliveros.gepsac.model.PlanActividad;
 import com.sacooliveros.gepsac.model.PlanEstrategia;
 import com.sacooliveros.gepsac.model.PlanIndicador;
-import com.sacooliveros.gepsac.model.util.Estado;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.sacooliveros.gepsac.model.util.State;
 
 /**
  *
@@ -93,7 +93,7 @@ public class PlanificacionController {
         try {
             PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
-            plan.setEstado(Estado.PlanEstrategico.REGISTRADO);
+            plan.setEstado(State.PlanEstrategico.REGISTRADO);
             plan.setFecRegistro(new Date());
 
             planDao.ingresar(plan);
@@ -111,7 +111,7 @@ public class PlanificacionController {
             planAConfigurar = planDao.obtener(plan.getCodigo());
 
             planAConfigurar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
-            planAConfigurar.setEstado(Estado.PlanEstrategico.CONFIGURADO);
+            planAConfigurar.setEstado(State.PlanEstrategico.CONFIGURADO);
             planAConfigurar.setFecConfiguracion(new Date());
 
             planDao.actualizar(planAConfigurar);
@@ -191,7 +191,7 @@ public class PlanificacionController {
      planAProgramar = planDao.obtener(plan.getCodigo());
 
      planAProgramar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
-     planAProgramar.setEstado(Estado.PlanEstrategico.PROGRAMADO);
+     planAProgramar.setEstado(State.PlanEstrategico.PROGRAMADO);
      planAProgramar.setFecConfiguracion(new Date());
 
      planDao.actualizar(planAProgramar);
@@ -234,7 +234,7 @@ public class PlanificacionController {
 
         planVigente = obtenerPlanVigente();
 
-        if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
+        if (planVigente.getEstado().getCodigo().equals(State.PlanEstrategico.CONFIGURADO)) {
 
             try {
 
@@ -259,7 +259,7 @@ public class PlanificacionController {
             } catch (Exception e) {
                 throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
             }
-        } else if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.REGISTRADO)) {
+        } else if (planVigente.getEstado().getCodigo().equals(State.PlanEstrategico.REGISTRADO)) {
             return planVigente;
         } else {
             throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_PARA_CONFIGURAR);
@@ -272,7 +272,7 @@ public class PlanificacionController {
 
         planVigente = obtenerPlanVigente();
 
-        /*if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.PROGRAMADO)) {
+        /*if (planVigente.getEstado().getCodigo().equals(State.PlanEstrategico.PROGRAMADO)) {
 
          try {
 
@@ -296,8 +296,32 @@ public class PlanificacionController {
          return planVigente;
          } catch (Exception e) {
          throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+         }/*if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.PROGRAMADO)) {
+
+         try {
+
+         PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
+
+         List<PlanEstrategia> estrategiasSeleccionadas = planDao.listarPlanEstrategia(planVigente.getCodigo());
+
+         for (PlanEstrategia estrategia : estrategiasSeleccionadas) {
+         List<PlanActividad> actividadesSeleccionadas = planDao.listarPlanActividad(planVigente.getCodigo(), estrategia.getCodigo());
+         estrategia.setActividadesSeleccionadas(actividadesSeleccionadas);
+                    
+         for (PlanActividad actividad : actividadesSeleccionadas) {
+         List<PlanIndicador> indicadoresSeleccionados = planDao.listarPlanIndicador(
+         planVigente.getCodigo(), estrategia.getCodigo(), actividad.getActividad().getCodigo());
+         actividad.setIndicadoresSeleccionados(indicadoresSeleccionados);
          }
-         } else*/ if (planVigente.getEstado().getCodigo().equals(Estado.PlanEstrategico.CONFIGURADO)) {
+
+         }
+
+         planVigente.setEstrategiasSeleccionadas(estrategiasSeleccionadas);
+         return planVigente;
+         } catch (Exception e) {
+         throw new ConrollerModuleException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_CONFIGURADO, e);
+         }
+         } else*/ if (planVigente.getEstado().getCodigo().equals(State.PlanEstrategico.CONFIGURADO)) {
 
             try {
 

@@ -22,7 +22,7 @@ public class EngineFactory {
         Engine instancia;
         instancia = new ClipsEngine();
         instancia.loadRules(rulesConfig);
-        instancia.loadFacts(factsConfig);
+        //instancia.loadFacts(factsConfig);
         return instancia;
     }
 

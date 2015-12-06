@@ -2,6 +2,7 @@
 (
   cod_estado character varying(15) NOT NULL NOT NULL,
   nom_estado character varying(100) NOT NULL,
+  des_estado character varying(250) NULL,
   CONSTRAINT pk_tp_estado PRIMARY KEY (cod_estado)
 )
 WITH (

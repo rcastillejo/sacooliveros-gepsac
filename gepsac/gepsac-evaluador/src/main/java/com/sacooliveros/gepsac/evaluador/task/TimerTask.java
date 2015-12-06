@@ -45,17 +45,18 @@ public class TimerTask implements Runnable {
         while (Boolean.TRUE) {
 
             try {
-                log.debug("Inciando consulta de acoso escolar en estado");
 
                 /**
                  * 4.1.2.	El sistema busca los registros de las evaluaciones en
                  * estado “Registrado”.
                  */
+                log.info("El sistema busca los registros de las evaliaciones en estado 'Registrado'");
                 List<EvaluacionAcosoEscolar> evaluaciones = buscaEvaluacionesAcosoEscolar();
                 /**
                  * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
                  * perfil
                  */
+                log.info("El sistema carga las reglas de acoso escolar de cada perfil");
                 Engine engine = cargarReglasAcosoEscolar();
 
                 /**
@@ -85,10 +86,7 @@ public class TimerTask implements Runnable {
      * @return Evaluaciones en estado Registrado
      */
     private List<EvaluacionAcosoEscolar> buscaEvaluacionesAcosoEscolar() {
-        Estado estado = new Estado();
-        estado.setCodigo(Experto.Estado.REGISTRADO);
-
-        return experto.listarEvaluacionAcosoEscolar(estado);
+        return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.REGISTRADO);
     }
 
     /**

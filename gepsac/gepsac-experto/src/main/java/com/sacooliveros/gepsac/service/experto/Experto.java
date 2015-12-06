@@ -47,16 +47,12 @@ public interface Experto {
         }
     }
 
-    interface Estado {
-
-        String REGISTRADO = "EVP0001";
-    }
 
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionAlumno) throws ExpertoServiceException;
 
     //String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
     
-    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(com.sacooliveros.gepsac.model.comun.Estado estado) throws ExpertoServiceException;
+    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(String codigoEstado) throws ExpertoServiceException;
     
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
 }
