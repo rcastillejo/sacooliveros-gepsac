@@ -45,7 +45,7 @@
         }).fail(function (error) {
             console.log('error', error);
             //$("#mensajeError").append(error);
-            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "CONSULTAS");
+            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "MENSAJE");
         });
     }
 
@@ -64,8 +64,9 @@
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
         detalle.find("#lblCodigo").append(json.codigo);
-        detalle.find("#lblNombresApellidos").append(json.nombres+' '+json.apellidoPaterno+' '+json.apellidoMaterno);
-        detalle.find("#lblEdad").append(json.edad);
+        detalle.find("#lblNombres").append(json.nombres);
+        detalle.find("#lblApellidos").append(json.apellidoPaterno+' '+json.apellidoMaterno);
+        detalle.find("#lblEdad").append(json.edad + ' años');
         detalle.find("#lblDistrito").append(json.distrito);
         detalle.find("#lblDomicilio").append(json.domicilio);
 
@@ -87,11 +88,27 @@
             console.log("itemSeleccionado", item);
             parent.cargarAlumnoNuevo(item);
         } else {
-            fn_mdl_alert("Debe seleccionar una actividad", null, "VALIDACIONES");
+            fn_mdl_alert("Debe seleccionar un alumno", null, "MENSAJE");
         }
     }
 
-
+    function fn_buscar() {
+        var codigo = $("#codigo").val();
+        var nombres = $("#nombres").val();
+        var apellidos = $("#apellidos").val();
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+        }).done(function (listado) {
+            console.log('listado', listado);
+            $("#tblDetalle tbody").empty();
+            cargarListado(listado);
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
+        });        
+    }
 
 </script>
 
@@ -99,24 +116,29 @@
     <!-- INCIO PANEL-->
     <div id="div-busqueda" class="div-busqueda">
         <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-            Consulta de Actividades
+            Buscar Alumno Nuevo
         </div>
-
         <div id="div-busqueda-filtros" class="div-busqueda-filtros">
-            <div class="div-busqueda-filtro">
-                <a href="javascript:fn_seleccionar();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
-                    Aceptar
-                </a>
-            </div>
-            <div class="div-busqueda-filtro">
-                <a href="javascript:parent.fn_util_CierraModal();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
-                    Cerrar
-                </a>
-            </div>
+            <fieldset>
+                <legend>Criterios de B&uacute;squeda</legend>
+                <table>
+                    <tr>
+                        <td>C&oacute;digo</td><td>:</td>
+                        <td><input id="codigo" type="text"></td>
+                        <td>Nombres</td><td>:</td>
+                        <td><input id="nombres" type="text"></td>
+                        <td>Apellidos</td><td>:</td> 
+                        <td><input id="apellidos" type="text"></td>
+                        <td>
+                            <a href="javascript:fn_buscar();">
+                                <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_buscar.jpg" border="0"/><br />
+                                Buscar
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
         </div>
-        <div class="no-float"></div>
     </div>
 
     <div id="div-resultado">
@@ -130,16 +152,19 @@
                         <label id="lblCodigo" class="inputValue"></label>
                     </td>
                     <td>
-                        <label id="lblNombresApellidos" class="inputValue"></label>
+                        <label id="lblNombres" class="inputValue"></label>
+                    </td>
+                    <td>
+                        <label id="lblApellidos" class="inputValue"></label>
                     </td>
                     <td>
                         <label id="lblEdad" class="inputValue"></label>
                     </td>
                     <td>
-                        <label id="lblDistrito" class="inputValue"></label>
+                        <label id="lblDomicilio" class="inputValue"></label>
                     </td>
                     <td>
-                        <label id="lblDomicilio" class="inputValue"></label>
+                        <label id="lblDistrito" class="inputValue"></label>
                     </td>
                 </tr>
             </table>
@@ -150,7 +175,8 @@
                 <tr>
                     <th>_</th>
                     <th>Código</th>	
-                    <th>Nombres y Apellidos</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
                     <th>Edad</th>
                     <th>Distrito</th>	
                     <th>Domicilio</th>
@@ -160,7 +186,22 @@
         </table>
 
     </div>
-    <!-- FIN PANEL-->            
+    <div align="center">
+        <table style="align-content: center; text-align: center">
+            <tr>
+                <td><a href="javascript:fn_seleccionar();">
+                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
+                    Aceptar
+                    </a>
+                </td>
+                <td><a href="javascript:parent.fn_util_CierraModal();">
+                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
+                    Cancelar
+                    </a>
+                </td>
+            </tr>
+        </table>    
+    </div>  
     <div class="mensaje" >
         <span>
             <label id="mensaje" />                

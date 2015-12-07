@@ -8,6 +8,7 @@ package com.sacooliveros.gepsac.form.experto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
+import com.sacooliveros.gepsac.service.Alumno;
 import com.sacooliveros.gepsac.service.BOService;
 import com.sacooliveros.gepsac.service.EvaluacionPostulante;
 import edu.pe.sacoliveros.app.WebServiceAlumno;
@@ -16,6 +17,7 @@ import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -69,6 +71,27 @@ public class EvaluarPostulanteAction extends DispatchAction {
 
             Resultado resultado = createSuccessResult(service.listarAlumnoPostulante());
 
+            generalAction(resultado, response);
+        } catch (Exception e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+    
+    public void buscarAlumnoNuevo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
+            String codigo = request.getParameter("codigo");
+            String nombres = request.getParameter("nombres");
+            String apellidos = request.getParameter("apellidos");
+            
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno= service.buscarAlumnoPostulante(codigo, nombres, apellidos);
+            if(listaAlumno.isEmpty()){
+                throw new Exception("No existe información que coincida con lo ingresado");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
             generalAction(resultado, response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);

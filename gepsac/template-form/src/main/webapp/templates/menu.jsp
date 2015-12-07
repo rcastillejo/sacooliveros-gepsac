@@ -30,7 +30,7 @@
             <ul style="display: none;">
                 <li>
                     <html:link page="/EvaluarPostulante.do?method=init" >
-                        Evaluar Alumnos Nuevos
+                        Evaluar Nuevos Alumnos
                     </html:link>
                 </li>
             </ul>

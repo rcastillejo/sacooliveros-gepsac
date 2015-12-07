@@ -49,19 +49,17 @@
             e.preventDefault();
             fn_util_AbreModal("",
                     "<%=request.getContextPath()%>" + '/pages/experto/buscarAlumnoNuevo.jsp',
-                    900, 500, null);
+                    900, 600, null);
         });
 
         //Evaluar al Alumno Nuevo
         $("#btnEvaluar").click(function (e) {
             e.preventDefault();
-
             var sError = validarEvaluacion();
-
             if (sError === "") {
                 evaluarAlumnoNuevo();
             } else {
-                fn_mdl_alert(sError, null, "VALIDACIONES");
+                fn_mdl_alert(sError, null, "MENSAJE");
             }
         });
     });
@@ -127,7 +125,7 @@
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
                 location.assign("<%=request.getContextPath()%>");
-            }, "CONFIRMACION");
+            }, "MENSAJE");
         });
 
         //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
@@ -169,7 +167,7 @@
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
                 location.assign("<%=request.getContextPath()%>");
-            }, "VALIDACIONES");
+            }, "MENSAJE");
         });
     }
 
@@ -243,7 +241,7 @@
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Evaluaci&oacute;n de Acoso Escolar del Alumno Postulante
+        Evaluar Nuevos Alumnos
     </div>
     <div id="dvData">
         <fieldset>
@@ -252,13 +250,13 @@
                 <tr>
                     <td>C&oacute;digo</td><td>:</td>
                     <td><input id="codigoEvaluacion" type="text" disabled="true" class="inputValue" data-name="codigo"></td>
-                    <td>Fecha</td><td>:</td> 
+                    <td>Fecha Evaluaci&oacute;n</td><td>:</td> 
                     <td><input id="fechaEvaluacion" type="text" disabled="true" size="10"></td>
                 </tr>
             </table>
         </fieldset>
         <fieldset>
-            <legend>Datos del Alumno Postulante</legend>
+            <legend>Datos del Alumno</legend>
             <table>
                 <tr>
                     <td colspan="6"><input type="button" id="btnBuscarAlumnoNuevo" value="Buscar Alumno Nuevo"></td>
@@ -366,11 +364,11 @@
             </table>
         </fieldset>
         <fieldset>
-            <legend>Resultados de la Evaluaci&oacute;n</legend>
+            <legend>Resultado de la Evaluaci&oacute;n</legend>
             <table border="1">
                 <tr>
-                    <td>Perfil Acoso Escolar</td> 
-                    <td>Porcentaje de Similitud</td>  
+                    <td>Perfil</td> 
+                    <td>Grado Similitud (%)</td>  
                 </tr>
                 <tr>
                     <td> Agresor</td>

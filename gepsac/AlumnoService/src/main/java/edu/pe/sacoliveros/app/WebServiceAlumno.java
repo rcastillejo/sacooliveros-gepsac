@@ -66,9 +66,9 @@ public class WebServiceAlumno {
         List<Alumno> alumnosBuscados = new ArrayList<Alumno>();
         for (Alumno alumno : alumnos) {
             String apellidosAlumno = alumno.getApellidoPaterno() + ' ' + alumno.getApellidoMaterno();
-            if (alumno.getCodigo().contains(codigoParam)
-                    && alumno.getNombres().contains(nombresParam)
-                    && apellidosAlumno.contains(apellidosParam)) {
+            if (alumno.getCodigo().toUpperCase().contains(codigoParam.toUpperCase())
+                    && alumno.getNombres().toUpperCase().contains(nombresParam.toUpperCase())
+                    && apellidosAlumno.toUpperCase().contains(apellidosParam.toUpperCase())) {
                 alumnosBuscados.add(alumno);
             }
         }
