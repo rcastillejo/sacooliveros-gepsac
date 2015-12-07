@@ -69,7 +69,12 @@ public class EvaluarPostulanteAction extends DispatchAction {
             WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
             logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
 
-            Resultado resultado = createSuccessResult(service.listarAlumnoPostulante());
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno = service.listarAlumnoPostulante();
+            if(listaAlumno.isEmpty()){
+                throw new Exception("No existe información que coincida con lo ingresado");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
 
             generalAction(resultado, response);
         } catch (Exception e) {
