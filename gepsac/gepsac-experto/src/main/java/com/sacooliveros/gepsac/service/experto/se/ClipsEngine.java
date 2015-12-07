@@ -50,10 +50,10 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             loaded = clips.loadFacts(config);
             log.debug("Hechos cargados [" + loaded + "]");
         } catch (Exception e) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se cargaron los hechos", e);
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No cargaron los reglas", e);
         }
         if (!loaded) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se cargaron los hechos");
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No cargaron los reglas");
         }
     }
 

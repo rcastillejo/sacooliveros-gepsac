@@ -158,12 +158,14 @@ public class ExpertoService implements Experto {
             /**
              * 4.1.4.	El sistema carga las preguntas de la evaluación
              */
+            log.info("El sistema carga las preguntas de la evaluacion");
             List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
 
             /**
              * 4.1.5.	El sistema evalúa las respuestas de una evaluación de
              * acuerdo a las reglas.
              */
+            log.info("El sistema determina el perfil de acoso escolar de una evaluacion");
             ResultadoInferencia resultado = (ResultadoInferencia) engine.evaluate(preguntas);
 
             /**
@@ -172,7 +174,13 @@ public class ExpertoService implements Experto {
              */
             String perfilResultado = resultado.getConclusion();
             Perfil perfil = new Perfil();
-            perfil.setCodigo(perfilResultado);
+            
+            if(perfilResultado != null){
+                perfil.setCodigo(perfilResultado);
+                log.info("El sistema concluyo el perfil '"+perfilResultado+"'");
+            }else{
+                log.info("El sistema no encontro perfil");
+            }
             evaluacionAcosoEscolar.setPerfil(perfil);
 
             /**
@@ -181,6 +189,7 @@ public class ExpertoService implements Experto {
              */
             evaluacionAcosoEscolar.setEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
             
+            log.info("El sistema graba la evaluación con el perfil en estado 'Evaluado'");
             evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
             /**
@@ -189,6 +198,8 @@ public class ExpertoService implements Experto {
             Alumno alumnoEvaluado = evaluacionAcosoEscolar.getAlumno();
             alumnoEvaluado.setPerfil(evaluacionAcosoEscolar.getPerfil());
             alumnoEvaluado.setEstado(Estado.Alumno.EVALUADO);
+            
+            log.info("El sistema actualiza el perfil del alumno evaluado");
             alumnoDao.actualizarEstadoAlumnoEvaluado(alumnoEvaluado);
 
             log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});

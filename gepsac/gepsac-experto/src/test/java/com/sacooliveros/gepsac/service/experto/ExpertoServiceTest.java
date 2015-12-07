@@ -90,7 +90,7 @@ public class ExpertoServiceTest {
     /**
      * Test of evaluarAlumno method, of class ExpertoService.
      */
-    @Test
+    //@Test
     public void testEvaluarAlumno() {
         log.debug("evaluarAlumno");
         //String codigo = "A201500099";

@@ -40,14 +40,14 @@ public class EvaluadorTask implements Runnable {
     @Override
     public void run() {
 
-        log.info("Iniciando el thread[" + workerId + "] de atencion");
+        log.debug("Iniciando el thread[" + workerId + "] de atencion");
 
         while (Boolean.TRUE) {
             Mensaje mensaje = obtenerDatosCola();
             procesarMensaje(mensaje);
         }
 
-        log.info("Finalizando hilo de atencion [" + workerId + "]");
+        log.debug("Finalizando hilo de atencion [" + workerId + "]");
 
     }
 
@@ -59,13 +59,14 @@ public class EvaluadorTask implements Runnable {
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info("El sistema carga las reglas de acoso escolar de cada perfil");
+            log.info(/*id + "\t" +*/ "El sistema carga las reglas de acoso escolar de cada perfil");
             Engine engine = EngineFactory.create();
-            
+
             EvaluacionAcosoEscolar evaluacion = mensaje.getEvaluacion();
-            
+
             String msg = service.evaluarRespuestaAcosoEscolar(evaluacion, engine);
-            log.info(id + "\t" + msg);
+
+            log.info(/*id + "\t" + */msg );
         } catch (ExpertoServiceException e) {
             log.error(id + "\t" + e.getMessage(), e);
         } catch (Exception e) {

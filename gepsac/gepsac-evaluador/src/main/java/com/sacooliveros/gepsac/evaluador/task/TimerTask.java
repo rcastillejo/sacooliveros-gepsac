@@ -44,6 +44,8 @@ public class TimerTask implements Runnable {
 
         while (Boolean.TRUE) {
 
+            log.info("Inicia la evaluación de las respuestas de la evaluación de acoso escolar");
+
             try {
 
                 /**
@@ -90,9 +92,9 @@ public class TimerTask implements Runnable {
 
         boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
         if (insertaOk) {
-            log.error("No se ingreso las solicitudes a evaluar [{}]", evaluacion.getCodigo());
+            log.debug("Se ingreso la evaluacion a revisar [{}]", evaluacion.getCodigo());
         } else {
-            log.info("Se solicita la evaluacion de solicitudes [{}]", evaluacion.getCodigo());
+            log.debug("No Se ingreso las evaluaciones para la revision [{}]", evaluacion.getCodigo());
         }
     }
 }

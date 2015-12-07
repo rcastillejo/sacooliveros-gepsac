@@ -16,7 +16,6 @@ import java.util.Date;
  */
 public class Alumno extends Participante {
 
-    private Perfil perfil;
     //Datos generales
     private String direccion;
     private Date fechaNacimiento;
@@ -27,7 +26,6 @@ public class Alumno extends Participante {
     private int gradoEscolar;
     private double promedioEscolar;
     private Entidad sexo;
-    //private int edad;
     private Entidad contextura;
     private Entidad estatura;
     private Entidad tipoFamilia;
@@ -184,6 +182,7 @@ public class Alumno extends Participante {
         this.departamento = departamento;
     }
 
+    private Perfil perfil;
     public Perfil getPerfil() {
         return perfil;
     }

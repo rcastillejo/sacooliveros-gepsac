@@ -12,10 +12,12 @@ import com.sacooliveros.gepsac.model.comun.Perfil;
  * @author Ricardo
  */
 public class PerfilEvaluado {
-    private String codigoEvaluacion;
-    private int indice;
-    private Perfil perfil;
+    
     private double probabilidad;
+    private Perfil perfil;
+    
+    private int indice;
+    private String codigoEvaluacion;
     private boolean seleccionado;
 
     public PerfilEvaluado(Perfil perfil, double probabilidad) {
