@@ -11,8 +11,8 @@ import com.sacooliveros.gepsac.model.comun.Model;
  *
  * @author Ricardo
  */
-public class Pregunta extends Model{
-    
+public class Pregunta extends Model {
+
     private String alias;
     private String enunciado;
     private String tipo;
@@ -43,7 +43,7 @@ public class Pregunta extends Model{
 
     @Override
     public String toString() {
-        return "Pregunta{" + "alias=" + alias + ", enunciado=" + enunciado + ", tipo=" + tipo + '}';
+        return super.toString() + ", Pregunta{" + "alias=" + alias + ", enunciado=" + enunciado + ", tipo=" + tipo + '}';
     }
- 
+
 }

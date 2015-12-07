@@ -73,7 +73,7 @@
 	(not (nodo-actual ?))
 =>
 	(load-facts "EE.dat")
-	(assert (nodo-actual raiz))
+	(assert (nodo-actual nodo1))
 	(assert (estado pregunta))
 	(assert (pregunta-respuesta))
 )

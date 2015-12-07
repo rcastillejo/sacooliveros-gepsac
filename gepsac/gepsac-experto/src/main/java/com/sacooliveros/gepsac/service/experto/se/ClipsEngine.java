@@ -27,6 +27,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
     public ClipsEngine() {
         try {
             clips = new Environment();
+            log.debug("Enviroment cargado [{}]", clips);
         } catch (Exception e) {
             throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se pudo cargar el entorno", e);
         }
@@ -36,6 +37,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
     public void loadRules(String config) {
         try {
             clips.load(config);
+            log.debug("Reglas Cargadas [{}]");
         } catch (Exception e) {
             throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No cargaron los reglas", e);
         }
@@ -70,28 +72,33 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             /**
              * Obtiene la respuesta a evaluar
              */
-            PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getNombre());
+            log.debug("obteniendo respuesta [" + inferencia.getPregunta() + "] preguntas[" + preguntasResueltas + "]");
+            PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getPregunta());
+            log.debug("respuesta obtenida [" + preguntaResuelta + "]");
             preguntaResuelta.setOrdenEvaluacion(orden);
 
             /**
              * Evalúa la respuesta de acuerdo a las reglas.
              */
             log.debug("evaluando respuesta [" + preguntaResuelta + "]");
-            clips.eval("(assert (opcion " + preguntaResuelta.getRespuesta() + "))");
+            clips.eval("(assert (opcion " + preguntaResuelta.getRespuesta().toLowerCase() + "))");
             inferencia = inferir();
         }
 
         return inferencia;
     }
 
-    private PreguntaEvaluacion obtenerRespuesta(List<PreguntaEvaluacion> preguntasResultas, String alias) {
+    private PreguntaEvaluacion obtenerRespuesta(List<PreguntaEvaluacion> preguntasResultas, String codigo) {
+        PreguntaEvaluacion preguntaEncontrada = null;
         for (PreguntaEvaluacion preguntasResulta : preguntasResultas) {
+            log.trace("Evaluando codigo[{}] con preguntasResulta [{}] ", preguntaEncontrada);
             Pregunta pregunta = preguntasResulta.getPregunta();
-            if (pregunta.getAlias().equals(alias)) {
-                return preguntasResulta;
+            if (pregunta.getCodigo().equals(codigo)) {
+                preguntaEncontrada = preguntasResulta;
+                break;
             }
         }
-        return null;
+        return preguntaEncontrada;
     }
 
     /**
@@ -107,18 +114,25 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         String evaluar = "(find-all-facts ((?x pregunta-respuesta )) TRUE)";
         PrimitiveValue value = clips.eval(evaluar);
         try {
-            String alias = value.get(0).getFactSlot("nombre").toString();
+            log.debug("Resultado find-all-facts [nombre={}]", value.get(0).getFactSlot("nombre"));
+            log.debug("Resultado find-all-facts [tipo={}]", value.get(0).getFactSlot("tipo"));
+            log.debug("Resultado find-all-facts [texto={}]", value.get(0).getFactSlot("texto"));
+            String nombre = value.get(0).getFactSlot("nombre").toString();
             String tipo = value.get(0).getFactSlot("tipo").toString();
+            String texto = value.get(0).getFactSlot("texto").toString();
 
             ResultadoInferencia resultado = new ResultadoInferencia();
-            resultado.setNombre(alias);
+            resultado.setNombre(nombre);
             resultado.setTipo(tipo);
-            log.debug("resultado inferencia[" + resultado + "]");
 
             if (resultado.esConclusion()) {
-                String respuesta = value.get(0).getFactSlot("texto").toString();
-                resultado.setConclusion(respuesta);
+                if(!texto.equals("nil")){
+                    resultado.setConclusion(texto);                    
+                }
+            } else {
+                resultado.setPregunta(texto);
             }
+            log.debug("resultado inferencia[" + resultado + "]");
             return resultado;
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener el primer enunciado", e);

@@ -11,6 +11,7 @@ import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.model.comun.Estado;
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.experto.Alumno;
@@ -131,6 +132,12 @@ public class ExpertoService implements Experto {
             if (evaluaciones == null || evaluaciones.isEmpty()) {
                 throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, codigoEstado);
             }
+            
+            for (EvaluacionAcosoEscolar evaluacion : evaluaciones) {
+                List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacion.getCodigo());
+                evaluacion.setPreguntas(preguntas);
+                log.trace("Preguntas resueltas [codigo={}, preguntas={}]", new Object[]{evaluacion.getCodigo(), preguntas});
+            }
 
             log.info("Listado de evaluaciones obtenidas [estado={}, tamanio={}]", new Object[]{codigoEstado, evaluaciones.size()});
 
@@ -163,22 +170,26 @@ public class ExpertoService implements Experto {
              * 4.1.6.	El sistema determina el perfil de acoso escolar de una
              * evaluación.
              */
-            String perfil = resultado.getConclusion();
-
+            String perfilResultado = resultado.getConclusion();
+            Perfil perfil = new Perfil();
+            perfil.setCodigo(perfilResultado);
             evaluacionAcosoEscolar.setPerfil(perfil);
 
             /**
              * 4.1.7.	El sistema graba la evaluación con el perfil en estado
              * Evaluado.
              */
-            evaluacionDao.actualizar(evaluacionAcosoEscolar);
+            evaluacionAcosoEscolar.setEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
+            
+            evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
             /**
              * 4.1.8.	El sistema actualiza el perfil del alumno evaluado
              */
             Alumno alumnoEvaluado = evaluacionAcosoEscolar.getAlumno();
             alumnoEvaluado.setPerfil(evaluacionAcosoEscolar.getPerfil());
-            alumnoDao.actualizar(alumnoEvaluado);
+            alumnoEvaluado.setEstado(Estado.Alumno.EVALUADO);
+            alumnoDao.actualizarEstadoAlumnoEvaluado(alumnoEvaluado);
 
             log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
 
@@ -187,6 +198,8 @@ public class ExpertoService implements Experto {
              * satisfactoriamente] en los registros del sistema.
              */
             return MessageFormat.format(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
+        } catch (ExpertoServiceException e) {
+            throw e;
         } catch (Exception e) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
         }

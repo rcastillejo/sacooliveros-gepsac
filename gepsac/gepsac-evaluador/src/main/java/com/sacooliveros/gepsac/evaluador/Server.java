@@ -85,7 +85,7 @@ public class Server {
      * @param args Array con los parametros de entrada
      */
     public static void main(String[] args) {
-
+        
         //  Se leen las propiedades del Broker (broker.properties) y las propiedades de los endpoints ()
         Configuration configuration = new Configuration("broker.properties");
 

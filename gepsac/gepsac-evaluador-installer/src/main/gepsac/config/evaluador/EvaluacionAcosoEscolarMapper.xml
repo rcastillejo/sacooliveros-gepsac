@@ -68,15 +68,15 @@
     <select id="queryPregunta" resultMap="recordPreguntaEvaluacion">
         SELECT
             cod_evaluacion,
-            a.cod_pregunta,
-            a.tipo,
-            a.alias,
-            a.enunciado,
+            b.cod_pregunta,
+            b.tipo,
+            b.alias,
+            b.enunciado,
             respuesta
         FROM 
             tp_pregunta_evaluacion a
         INNER JOIN
-            tp_pregunta b b ON a.cod_pregunta = b.cod_pregunta
+            tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
         where
             cod_evaluacion=#{codigoEvaluacion}
     </select>

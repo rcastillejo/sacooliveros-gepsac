@@ -35,38 +35,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link Alumno }
-     * 
-     */
-    public Alumno createAlumno() {
-        return new Alumno();
-    }
-
-    /**
-     * Create an instance of {@link EvaluacionPostulante }
-     * 
-     */
-    public EvaluacionPostulante createEvaluacionPostulante() {
-        return new EvaluacionPostulante();
-    }
-
-    /**
-     * Create an instance of {@link Perfil }
-     * 
-     */
-    public Perfil createPerfil() {
-        return new Perfil();
-    }
-
-    /**
      * Create an instance of {@link Participante }
      * 
      */
@@ -75,19 +43,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Entidad }
+     * Create an instance of {@link EvaluacionPostulante }
      * 
      */
-    public Entidad createEntidad() {
-        return new Entidad();
-    }
-
-    /**
-     * Create an instance of {@link PerfilEvaluado }
-     * 
-     */
-    public PerfilEvaluado createPerfilEvaluado() {
-        return new PerfilEvaluado();
+    public EvaluacionPostulante createEvaluacionPostulante() {
+        return new EvaluacionPostulante();
     }
 
     /**
@@ -107,11 +67,51 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Perfil }
+     * 
+     */
+    public Perfil createPerfil() {
+        return new Perfil();
+    }
+
+    /**
+     * Create an instance of {@link Entidad }
+     * 
+     */
+    public Entidad createEntidad() {
+        return new Entidad();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
+    }
+
+    /**
      * Create an instance of {@link EvaluarAlumnoResponse }
      * 
      */
     public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
         return new EvaluarAlumnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link PerfilEvaluado }
+     * 
+     */
+    public PerfilEvaluado createPerfilEvaluado() {
+        return new PerfilEvaluado();
     }
 
     /**

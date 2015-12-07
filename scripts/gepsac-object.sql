@@ -573,8 +573,8 @@ WITH (
 
 CREATE TABLE tp_pregunta
 (
-  cod_pregunta character varying(20) NOT NULL,
-  tipo character varying(25) NOT NULL,
+  cod_pregunta character varying(15) NOT NULL,
+  tipo character varying(25) NOT NULL, 
   alias character varying(25) NOT NULL,
   enunciado character varying(250) NOT NULL,
   

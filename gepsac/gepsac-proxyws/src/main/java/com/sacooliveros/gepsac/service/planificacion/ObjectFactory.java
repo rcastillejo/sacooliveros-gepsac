@@ -50,11 +50,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
+     * Create an instance of {@link ObtenerConfigurarPlanResponse }
      * 
      */
-    public Model createModel() {
-        return new Model();
+    public ObtenerConfigurarPlanResponse createObtenerConfigurarPlanResponse() {
+        return new ObtenerConfigurarPlanResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerConfigurarPlan }
+     * 
+     */
+    public ObtenerConfigurarPlan createObtenerConfigurarPlan() {
+        return new ObtenerConfigurarPlan();
+    }
+
+    /**
+     * Create an instance of {@link ConfigurarResponse }
+     * 
+     */
+    public ConfigurarResponse createConfigurarResponse() {
+        return new ConfigurarResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerProgramarPlan }
+     * 
+     */
+    public ObtenerProgramarPlan createObtenerProgramarPlan() {
+        return new ObtenerProgramarPlan();
+    }
+
+    /**
+     * Create an instance of {@link RegistrarResponse }
+     * 
+     */
+    public RegistrarResponse createRegistrarResponse() {
+        return new RegistrarResponse();
+    }
+
+    /**
+     * Create an instance of {@link Indicador }
+     * 
+     */
+    public Indicador createIndicador() {
+        return new Indicador();
+    }
+
+    /**
+     * Create an instance of {@link Estrategia }
+     * 
+     */
+    public Estrategia createEstrategia() {
+        return new Estrategia();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerVigente }
+     * 
+     */
+    public ObtenerVigente createObtenerVigente() {
+        return new ObtenerVigente();
+    }
+
+    /**
+     * Create an instance of {@link PlanEstrategia }
+     * 
+     */
+    public PlanEstrategia createPlanEstrategia() {
+        return new PlanEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link Programar }
+     * 
+     */
+    public Programar createProgramar() {
+        return new Programar();
     }
 
     /**
@@ -63,6 +135,62 @@ public class ObjectFactory {
      */
     public Registrar createRegistrar() {
         return new Registrar();
+    }
+
+    /**
+     * Create an instance of {@link EstrategiaActividad }
+     * 
+     */
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link Configurar }
+     * 
+     */
+    public Configurar createConfigurar() {
+        return new Configurar();
+    }
+
+    /**
+     * Create an instance of {@link Plan }
+     * 
+     */
+    public Plan createPlan() {
+        return new Plan();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link PlanIndicador }
+     * 
+     */
+    public PlanIndicador createPlanIndicador() {
+        return new PlanIndicador();
+    }
+
+    /**
+     * Create an instance of {@link Listar }
+     * 
+     */
+    public Listar createListar() {
+        return new Listar();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerProgramarPlanResponse }
+     * 
+     */
+    public ObtenerProgramarPlanResponse createObtenerProgramarPlanResponse() {
+        return new ObtenerProgramarPlanResponse();
     }
 
     /**
@@ -82,99 +210,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Configurar }
+     * Create an instance of {@link Model }
      * 
      */
-    public Configurar createConfigurar() {
-        return new Configurar();
-    }
-
-    /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link ProgramarResponse }
-     * 
-     */
-    public ProgramarResponse createProgramarResponse() {
-        return new ProgramarResponse();
-    }
-
-    /**
-     * Create an instance of {@link Listar }
-     * 
-     */
-    public Listar createListar() {
-        return new Listar();
-    }
-
-    /**
-     * Create an instance of {@link ServiceException }
-     * 
-     */
-    public ServiceException createServiceException() {
-        return new ServiceException();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerConfigurarPlan }
-     * 
-     */
-    public ObtenerConfigurarPlan createObtenerConfigurarPlan() {
-        return new ObtenerConfigurarPlan();
-    }
-
-    /**
-     * Create an instance of {@link PlanActividad }
-     * 
-     */
-    public PlanActividad createPlanActividad() {
-        return new PlanActividad();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerVigenteResponse }
-     * 
-     */
-    public ObtenerVigenteResponse createObtenerVigenteResponse() {
-        return new ObtenerVigenteResponse();
-    }
-
-    /**
-     * Create an instance of {@link ConfigurarResponse }
-     * 
-     */
-    public ConfigurarResponse createConfigurarResponse() {
-        return new ConfigurarResponse();
-    }
-
-    /**
-     * Create an instance of {@link Actividad }
-     * 
-     */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerConfigurarPlanResponse }
-     * 
-     */
-    public ObtenerConfigurarPlanResponse createObtenerConfigurarPlanResponse() {
-        return new ObtenerConfigurarPlanResponse();
+    public Model createModel() {
+        return new Model();
     }
 
     /**
@@ -186,51 +226,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RegistrarResponse }
+     * Create an instance of {@link ProgramarResponse }
      * 
      */
-    public RegistrarResponse createRegistrarResponse() {
-        return new RegistrarResponse();
+    public ProgramarResponse createProgramarResponse() {
+        return new ProgramarResponse();
     }
 
     /**
-     * Create an instance of {@link Plan }
+     * Create an instance of {@link ServiceException }
      * 
      */
-    public Plan createPlan() {
-        return new Plan();
+    public ServiceException createServiceException() {
+        return new ServiceException();
     }
 
     /**
-     * Create an instance of {@link EstrategiaActividad }
+     * Create an instance of {@link ObtenerVigenteResponse }
      * 
      */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    public ObtenerVigenteResponse createObtenerVigenteResponse() {
+        return new ObtenerVigenteResponse();
     }
 
     /**
-     * Create an instance of {@link Programar }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public Programar createProgramar() {
-        return new Programar();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerProgramarPlan }
-     * 
-     */
-    public ObtenerProgramarPlan createObtenerProgramarPlan() {
-        return new ObtenerProgramarPlan();
-    }
-
-    /**
-     * Create an instance of {@link Indicador }
-     * 
-     */
-    public Indicador createIndicador() {
-        return new Indicador();
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
@@ -242,35 +266,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ObtenerProgramarPlanResponse }
+     * Create an instance of {@link PlanActividad }
      * 
      */
-    public ObtenerProgramarPlanResponse createObtenerProgramarPlanResponse() {
-        return new ObtenerProgramarPlanResponse();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerVigente }
-     * 
-     */
-    public ObtenerVigente createObtenerVigente() {
-        return new ObtenerVigente();
-    }
-
-    /**
-     * Create an instance of {@link PlanIndicador }
-     * 
-     */
-    public PlanIndicador createPlanIndicador() {
-        return new PlanIndicador();
-    }
-
-    /**
-     * Create an instance of {@link PlanEstrategia }
-     * 
-     */
-    public PlanEstrategia createPlanEstrategia() {
-        return new PlanEstrategia();
+    public PlanActividad createPlanActividad() {
+        return new PlanActividad();
     }
 
     /**

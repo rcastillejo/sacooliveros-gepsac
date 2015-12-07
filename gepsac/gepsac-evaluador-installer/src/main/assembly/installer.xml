@@ -15,6 +15,14 @@
     
     <fileSets>
         <fileSet>
+            <directory>src/main/gepsac/clips</directory>
+            <outputDirectory>/gepsac</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+        
+        <fileSet>
             <directory>src/main/gepsac/libs/evaluador</directory>
             <outputDirectory>/gepsac/libs/evaluador</outputDirectory>
             <includes>

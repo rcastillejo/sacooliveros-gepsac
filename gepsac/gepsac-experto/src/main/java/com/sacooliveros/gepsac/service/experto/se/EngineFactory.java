@@ -5,6 +5,9 @@
  */
 package com.sacooliveros.gepsac.service.experto.se;
 
+import com.sacooliveros.gepsac.service.experto.Experto;
+import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+
 /**
  *
  * @author Ricardo
@@ -20,10 +23,14 @@ public class EngineFactory {
 
     public static Engine create(String rulesConfig, String factsConfig) {
         Engine instancia;
-        instancia = new ClipsEngine();
-        instancia.loadRules(rulesConfig);
-        //instancia.loadFacts(factsConfig);
-        return instancia;
+        try {
+            instancia = new ClipsEngine();
+            instancia.loadRules(rulesConfig);
+            instancia.loadFacts(factsConfig);
+            return instancia;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, Experto.Error.Mensaje.CARGAR_REGLAS_ACOSO_ESCOLAR, e);
+        }
     }
 
 }

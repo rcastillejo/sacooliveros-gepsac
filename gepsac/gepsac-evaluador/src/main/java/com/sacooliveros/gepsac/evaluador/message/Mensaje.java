@@ -15,7 +15,6 @@ import com.sacooliveros.gepsac.service.experto.se.Engine;
 public class Mensaje {
 
     private String id;
-    private Engine engine;
     private EvaluacionAcosoEscolar evaluacion;
     private String response;
 
@@ -41,14 +40,6 @@ public class Mensaje {
 
     public void setResponse(String response) {
         this.response = response;
-    }
-
-    public Engine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
     }
 
     @Override

@@ -10,16 +10,18 @@ package com.sacooliveros.gepsac.service.experto.se;
  * @author Ricardo
  */
 public class ResultadoInferencia {
-    private String aliasPregunta;
+
+    private String nombre;
+    private String pregunta;
     private String tipo;
     private String conclusion;
 
     public String getNombre() {
-        return aliasPregunta;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.aliasPregunta = nombre;
+        this.nombre = nombre;
     }
 
     public String getTipo() {
@@ -38,13 +40,21 @@ public class ResultadoInferencia {
         this.conclusion = conclusion;
     }
 
-    public boolean esConclusion(){
-        return tipo != null  && tipo.equals("respuesta");
+    public boolean esConclusion() {
+        return tipo != null && tipo.equals("respuesta");
+    }
+
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(String pregunta) {
+        this.pregunta = pregunta;
     }
 
     @Override
     public String toString() {
-        return "ResultadoInferencia{" + "aliasPregunta=" + aliasPregunta + ", tipo=" + tipo + ", conclusion=" + conclusion + '}';
+        return "ResultadoInferencia{" + "nombre=" + nombre + ", pregunta=" + pregunta + ", tipo=" + tipo + ", conclusion=" + conclusion + '}';
     }
-    
+
 }

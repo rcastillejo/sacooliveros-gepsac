@@ -52,24 +52,18 @@ public class TimerTask implements Runnable {
                  */
                 log.info("El sistema busca los registros de las evaliaciones en estado 'Registrado'");
                 List<EvaluacionAcosoEscolar> evaluaciones = buscaEvaluacionesAcosoEscolar();
-                /**
-                 * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
-                 * perfil
-                 */
-                log.info("El sistema carga las reglas de acoso escolar de cada perfil");
-                Engine engine = cargarReglasAcosoEscolar();
 
                 /**
                  * Se crea el mensaje para cada evaluacion
                  */
                 for (EvaluacionAcosoEscolar evaluacion : evaluaciones) {
-                    enviarMensaje(evaluacion, engine);
+                    enviarMensaje(evaluacion);
                 }
 
             } catch (ExpertoServiceException e) {
                 log.error(e.getMessage(), e);
             } catch (Exception e) {
-                log.error("No existen evaluaciones de acoso escolar", e);
+                log.error("Error desconocido en el sistema", e);
             } finally {
                 try {
                     log.debug("Esperando a consultar [" + waitMilis + "] ...");
@@ -89,20 +83,10 @@ public class TimerTask implements Runnable {
         return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.REGISTRADO);
     }
 
-    /**
-     * Carga las reglas de acoso escolar de cada perfil
-     *
-     * @return Reglas de Acoso Escolar cargadas
-     */
-    private Engine cargarReglasAcosoEscolar() {
-        return EngineFactory.create();
-    }
-
-    private void enviarMensaje(EvaluacionAcosoEscolar evaluacion, Engine engine) {
+    private void enviarMensaje(EvaluacionAcosoEscolar evaluacion) {
         Mensaje evaluacionModel = new Mensaje();
         evaluacionModel.setId(idf.getCode());
         evaluacionModel.setEvaluacion(evaluacion);
-        evaluacionModel.setEngine(engine);
 
         boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
         if (insertaOk) {

@@ -26,5 +26,12 @@ public interface State {
     interface EvaluacionAcosoEscolar {
 
         String REGISTRADO = "EVA0001";
+        String EVALUADO = "EVA0002";
+    }
+
+    interface Alumno {
+
+        String REGISTRADO = "ALU0001";
+        String EVALUADO = "ALU0002";
     }
 }
