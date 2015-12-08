@@ -39,19 +39,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
-     * 
-     */
-    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
-        return new ObtenerAlumnoPostulanteResponse();
-    }
-
-    /**
      * Create an instance of {@link BuscarAlumnoPostulante }
      * 
      */
     public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
         return new BuscarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulante }
+     * 
+     */
+    public ListarAlumnoPostulante createListarAlumnoPostulante() {
+        return new ListarAlumnoPostulante();
     }
 
     /**
@@ -71,19 +71,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
+     * 
+     */
+    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
+        return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
      * Create an instance of {@link ObtenerAlumnoPostulante }
      * 
      */
     public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
         return new ObtenerAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link ListarAlumnoPostulante }
-     * 
-     */
-    public ListarAlumnoPostulante createListarAlumnoPostulante() {
-        return new ListarAlumnoPostulante();
     }
 
     /**

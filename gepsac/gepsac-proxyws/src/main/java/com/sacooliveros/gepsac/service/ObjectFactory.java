@@ -35,11 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Participante }
+     * Create an instance of {@link Estado }
      * 
      */
-    public Participante createParticipante() {
-        return new Participante();
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**
@@ -51,35 +51,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EvaluarAlumno }
+     * Create an instance of {@link EvaluarAlumnoResponse }
      * 
      */
-    public EvaluarAlumno createEvaluarAlumno() {
-        return new EvaluarAlumno();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
-     * Create an instance of {@link Perfil }
-     * 
-     */
-    public Perfil createPerfil() {
-        return new Perfil();
-    }
-
-    /**
-     * Create an instance of {@link Entidad }
-     * 
-     */
-    public Entidad createEntidad() {
-        return new Entidad();
+    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
+        return new EvaluarAlumnoResponse();
     }
 
     /**
@@ -91,6 +67,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EvaluarAlumno }
+     * 
+     */
+    public EvaluarAlumno createEvaluarAlumno() {
+        return new EvaluarAlumno();
+    }
+
+    /**
+     * Create an instance of {@link Participante }
+     * 
+     */
+    public Participante createParticipante() {
+        return new Participante();
+    }
+
+    /**
      * Create an instance of {@link Alumno }
      * 
      */
@@ -99,11 +91,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EvaluarAlumnoResponse }
+     * Create an instance of {@link Entidad }
      * 
      */
-    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
-        return new EvaluarAlumnoResponse();
+    public Entidad createEntidad() {
+        return new Entidad();
+    }
+
+    /**
+     * Create an instance of {@link Perfil }
+     * 
+     */
+    public Perfil createPerfil() {
+        return new Perfil();
     }
 
     /**
