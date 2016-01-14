@@ -87,8 +87,8 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sacooliveros.gepsac.service</groupId>
-            <artifactId>gepsac-experto</artifactId>
+            <groupId>com.sacooliveros.gepsac</groupId>
+            <artifactId>gepsac-service-rs</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!--Para envio de mensaje smtp-->
