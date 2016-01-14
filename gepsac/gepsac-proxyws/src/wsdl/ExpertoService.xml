@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="ExpertoService" targetNamespace="http://experto.service.gepsac.sacooliveros.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://experto.service.gepsac.sacooliveros.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://experto.service.gepsac.sacooliveros.com/" xmlns:tns="http://experto.service.gepsac.sacooliveros.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="evaluarAlumno" type="tns:evaluarAlumno"/>
+  <xs:element name="evaluarAlumnoResponse" type="tns:evaluarAlumnoResponse"/>
+  <xs:complexType name="evaluarAlumno">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:alumno"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="alumno">
+    <xs:complexContent>
+      <xs:extension base="tns:model">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="model">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="estado" type="tns:estado"/>
+      <xs:element minOccurs="0" name="fecCre" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="fecMod" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="usuCre" type="xs:string"/>
+      <xs:element minOccurs="0" name="usuMod" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="estado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="evaluarAlumnoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:evaluacionPostulante"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="evaluacionPostulante">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alumno" type="tns:alumno"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="perfiles" nillable="true" type="tns:perfilEvaluado"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="perfilEvaluado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="perfil" type="tns:perfil"/>
+      <xs:element name="probabilidad" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="perfil">
+    <xs:complexContent>
+      <xs:extension base="tns:model">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ServiceException" type="tns:ServiceException"/>
+  <xs:complexType name="ServiceException">
+    <xs:sequence/>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="evaluarAlumnoResponse">
+    <wsdl:part element="tns:evaluarAlumnoResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="evaluarAlumno">
+    <wsdl:part element="tns:evaluarAlumno" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ServiceException">
+    <wsdl:part element="tns:ServiceException" name="ServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ExpertoWebService">
+    <wsdl:operation name="evaluarAlumno">
+      <wsdl:input message="tns:evaluarAlumno" name="evaluarAlumno">
+    </wsdl:input>
+      <wsdl:output message="tns:evaluarAlumnoResponse" name="evaluarAlumnoResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:ServiceException" name="ServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ExpertoServiceSoapBinding" type="tns:ExpertoWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="evaluarAlumno">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="evaluarAlumno">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="evaluarAlumnoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ServiceException">
+        <soap:fault name="ServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExpertoService">
+    <wsdl:port binding="tns:ExpertoServiceSoapBinding" name="ExpertoWebServicePort">
+      <soap:address location="http://localhost:8180/gepsac-service/ExpertoService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
