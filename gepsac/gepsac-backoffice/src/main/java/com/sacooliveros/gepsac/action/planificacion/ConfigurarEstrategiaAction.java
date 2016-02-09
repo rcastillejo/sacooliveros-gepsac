@@ -8,9 +8,9 @@ package com.sacooliveros.gepsac.action.planificacion;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sacooliveros.gepsac.exception.LoggerUtil;
-import com.novatronic.sca.util.ActionUtil;
-import com.novatronic.sca.util.Config;
-import com.novatronic.sca.util.Resultado;
+import com.sacooliveros.gepsac.util.ActionUtil;
+import com.sacooliveros.gepsac.util.Config;
+import com.sacooliveros.gepsac.util.Resultado;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
 import com.sacooliveros.gepsac.service.comun.ComunService;
 import com.sacooliveros.gepsac.service.planificacion.PlanificacionService;
@@ -48,7 +48,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
             generalAction(resultado, response);
         } catch (Exception e) {
             //logger.error("Error al obtener plan", e);
-            LoggerUtil.error(logger, "consultarEstrategia", "planificación",
+            LoggerUtil.error(logger, "consultarEstrategia", "planificaciï¿½n",
                     Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
                     e.getMessage(), e);
             generalAction(createErrorResult(e), response);
@@ -66,7 +66,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
             generalAction(resultado, response);
         } catch (Exception e) {
             //logger.error("Error al obtener plan", e);
-            LoggerUtil.error(logger, "consultarActividad", "planificación",
+            LoggerUtil.error(logger, "consultarActividad", "planificaciï¿½n",
                     Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
                     e.getMessage(), e);
             generalAction(createErrorResult(e), response);
@@ -88,7 +88,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
             generalAction(createSuccessResult(msg), response);
         } catch (Exception e) {
             //logger.error("Error al guardar la configuracion del plan", e);
-            LoggerUtil.error(logger, "guardarConfiguracionPlan", "planificación",
+            LoggerUtil.error(logger, "guardarConfiguracionPlan", "planificaciï¿½n",
                     Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
                     e.getMessage(), e);
             generalAction(createErrorResult(e), response);
@@ -104,7 +104,7 @@ public class ConfigurarEstrategiaAction extends DispatchAction {
 
             generalAction(resultado, response);
         } catch (Exception e) {
-            LoggerUtil.error(logger, "obtenerPlanVigente", "planificación",
+            LoggerUtil.error(logger, "obtenerPlanVigente", "planificaciï¿½n",
                     Calendar.getInstance(), ActionUtil.obtenerNombreUsuarioLogeado(request),
                     e.getMessage(), e);
             generalAction(createErrorResult(e), response);

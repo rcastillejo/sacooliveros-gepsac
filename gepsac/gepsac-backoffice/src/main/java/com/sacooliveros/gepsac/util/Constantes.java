@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.novatronic.sca.util;
+package com.sacooliveros.gepsac.util;
 
 /**
  *
@@ -116,7 +116,7 @@ public class Constantes {
     public static final String TEMPLATE_OLVIDE_CLAVE = "olvide-clave.vm";
     public static final String TEMPLATE_NUEVO_USUARIO = "usuario-nuevo.vm";
     public static final String TEMPLATE_RESETEO_USUARIO = "reseteo-clave.vm";
-    public static final String ASUNTO_CAMBIO_CLAVE = "Cambio de Contraseña";
+    public static final String ASUNTO_CAMBIO_CLAVE = "Cambio de Contraseï¿½a";
     public static final String ASUNTO_NUEVO_USUARIO = "Novatronic - Usuario";
     public static final String ASUNTO_RESETEO_USUARIO = "Novatronic - Reseteo";
     public static final String USUARIO_SESSION = "usuario";
