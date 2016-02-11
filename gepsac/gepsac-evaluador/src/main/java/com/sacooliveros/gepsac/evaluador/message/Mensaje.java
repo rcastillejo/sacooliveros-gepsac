@@ -6,7 +6,6 @@
 package com.sacooliveros.gepsac.evaluador.message;
 
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
-import com.sacooliveros.gepsac.service.experto.se.Engine;
 
 /**
  *
@@ -15,7 +14,7 @@ import com.sacooliveros.gepsac.service.experto.se.Engine;
 public class Mensaje {
 
     private String id;
-    private EvaluacionAcosoEscolar evaluacion;
+    private Object request;
     private String response;
 
     public String getId() {
@@ -26,12 +25,12 @@ public class Mensaje {
         this.id = id;
     }
 
-    public EvaluacionAcosoEscolar getEvaluacion() {
-        return evaluacion;
+    public Object getRequest() {
+        return request;
     }
 
-    public void setEvaluacion(EvaluacionAcosoEscolar evaluacion) {
-        this.evaluacion = evaluacion;
+    public void setRequest(Object request) {
+        this.request = request;
     }
 
     public String getResponse() {
@@ -44,7 +43,7 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "EvaluadorModel{" + "id=" + id + ", evaluaciones=" + evaluacion + ", response=" + response + '}';
+        return "EvaluadorModel{" + "id=" + id + ", evaluaciones=" + request + ", response=" + response + '}';
     }
 
 }

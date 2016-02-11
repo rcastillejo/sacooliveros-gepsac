@@ -25,15 +25,13 @@ public class EvaluadorTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(EvaluadorTask.class);
 
-    //private boolean continuaServerThread;
-    private final int workerId;
-    private final BlockingQueue<Mensaje> colaEvaluacion;
-    private final Experto service;
-
-    public EvaluadorTask(int workerId, BlockingQueue<Mensaje> colaEvaluacion) {
+    protected int workerId;
+    protected BlockingQueue<Mensaje> colaEvaluacion;
+    protected Experto service;
+    
+    public void configure(int workerId, BlockingQueue<Mensaje> colaEvaluacion){
         this.workerId = workerId;
         this.colaEvaluacion = colaEvaluacion;
-        //this.continuaServerThread = Boolean.TRUE;
         this.service = new ExpertoService();
     }
 
@@ -59,14 +57,14 @@ public class EvaluadorTask implements Runnable {
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info(/*id + "\t" +*/ "El sistema carga las reglas de acoso escolar de cada perfil");
+            log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
             Engine engine = EngineFactory.create();
 
-            EvaluacionAcosoEscolar evaluacion = mensaje.getEvaluacion();
+            EvaluacionAcosoEscolar evaluacion = (EvaluacionAcosoEscolar) mensaje.getRequest();
 
             String msg = service.evaluarRespuestaAcosoEscolar(evaluacion, engine);
 
-            log.info(/*id + "\t" + */msg );
+            log.info(/*id + "\t" + */msg);
         } catch (ExpertoServiceException e) {
             log.error(id + "\t" + e.getMessage(), e);
         } catch (Exception e) {
@@ -103,4 +101,16 @@ public class EvaluadorTask implements Runnable {
     public void stop() {
         continuaServerThread = Boolean.FALSE;
     }*/
+    public int getWorkerId() {
+        return workerId;
+    }
+
+    public BlockingQueue<Mensaje> getColaEvaluacion() {
+        return colaEvaluacion;
+    }
+
+    public Experto getService() {
+        return service;
+    }
+
 }

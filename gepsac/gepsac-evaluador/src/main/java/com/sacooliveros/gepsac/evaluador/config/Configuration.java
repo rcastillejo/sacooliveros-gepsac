@@ -5,7 +5,9 @@
  */
 package com.sacooliveros.gepsac.evaluador.config;
 
+import com.sacooliveros.gepsac.evaluador.task.Type;
 import com.sacooliveros.gepsac.evaluador.util.ResourceHelper;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -14,24 +16,41 @@ import java.util.Properties;
  */
 public class Configuration {
 
-    private final String brokerName;
-    private final int timeForThreads;
-    private final int brokerInterval;
+    protected final String brokerName;
+    protected final int timeForThreads;
+    protected final int brokerInterval;
 
-    private final int numThreads;
-    private final String serverName;
+    protected final int numThreads;
+    protected final String serverName;
+    protected final long timeout;
+
+    protected List<Type> types;
 
     public Configuration(String configname) {
         this(ResourceHelper.loadConfig(configname));
     }
 
     public Configuration(Properties config) {
-        brokerName = (String) config.getProperty("BrokerName");
-        timeForThreads = Integer.parseInt((String) config.getProperty("BrokerTimeToBusyThreads"));
-        brokerInterval = Integer.parseInt((String) config.getProperty("BrokerInterval"));
+        brokerName = config.getProperty("BrokerName");
+        timeForThreads = Integer.parseInt(config.getProperty("BrokerTimeToBusyThreads"));
+        brokerInterval = Integer.parseInt(config.getProperty("BrokerInterval"));
 
-        numThreads = Integer.parseInt((String) config.getProperty("ControllerThreads"));
-        serverName = (String) config.getProperty("SIXServer");
+        numThreads = Integer.parseInt(config.getProperty("ControllerThreads"));
+        serverName = config.getProperty("SIXServer");
+        
+        timeout = Long.parseLong(config.getProperty("proxy.timeout"));
+
+        configType(config.getProperty("BrokerTypes"));
+    }
+
+    private void configType(String typeConfig) {
+        String[] typesSplit;
+
+        typesSplit = typeConfig.split(",");
+
+        for (String string : typesSplit) {
+            types.add(Type.valueOf(string));
+        }
     }
 
     public String getBrokerName() {
@@ -52,6 +71,14 @@ public class Configuration {
 
     public String getServerName() {
         return serverName;
+    }
+
+    public List<Type> getTypes() {
+        return types;
+    }
+
+    public long getTimeout() {
+        return timeout;
     }
 
     @Override

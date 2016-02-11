@@ -7,7 +7,6 @@ package com.sacooliveros.gepsac.evaluador.thread;
 
 import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import java.util.Enumeration;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadFactory;
