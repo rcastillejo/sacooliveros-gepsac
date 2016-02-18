@@ -245,3 +245,4 @@ nb-configuration.xml
 /gepsac/scjrec-installer/target/
 /gepsac/gepsac-evaluador-installer/target/
 /gepsac/gepsac-service-rs/target/
+/gepsac/gepsac-service-ws/target/
