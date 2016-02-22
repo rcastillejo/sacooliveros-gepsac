@@ -33,6 +33,11 @@
                         Evaluar Nuevos Alumnos
                     </html:link>
                 </li>
+                <li>
+                    <html:link page="/GenerarExplicacion.do?method=init" >
+                        Generar Explicacion Resultado
+                    </html:link>
+                </li>
             </ul>
         </li>
         

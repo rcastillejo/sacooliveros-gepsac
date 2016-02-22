@@ -37,11 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaActividad }
+     * Create an instance of {@link EstrategiaActividad }
      * 
      */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
     }
 
     /**
@@ -53,30 +53,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link EstrategiaActividad }
-     * 
-     */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
-    }
-
-    /**
      * Create an instance of {@link Indicador }
      * 
      */
@@ -85,19 +61,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategia }
+     * Create an instance of {@link Estrategia }
      * 
      */
-    public ListarEstrategia createListarEstrategia() {
-        return new ListarEstrategia();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaResponse }
-     * 
-     */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
+    public Estrategia createEstrategia() {
+        return new Estrategia();
     }
 
     /**
@@ -109,11 +77,43 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ListarEstrategia }
+     * 
+     */
+    public ListarEstrategia createListarEstrategia() {
+        return new ListarEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
+    }
+
+    /**
      * Create an instance of {@link Estado }
      * 
      */
     public Estado createEstado() {
         return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaActividad }
+     * 
+     */
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
     }
 
     /**

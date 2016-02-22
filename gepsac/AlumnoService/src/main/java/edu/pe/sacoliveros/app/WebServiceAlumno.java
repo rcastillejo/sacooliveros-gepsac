@@ -25,7 +25,7 @@ public class WebServiceAlumno {
     private static final String[] NOMBRES = {"Luis Ricardo", "Braulia Andrea", "Jose Alberto", "Jose Luis", "Braulio Sergio", "Raúl Leonardo"};
     private static final String[] APELLIDOS = {"Castillejo", "Castillo", "Jose ", "Gálvez", "Cornejo", "Herrera", "Jimenez"};
     private static final String[] DOMICILIOS = {"Manco Segundo 333", "Gálvez Barrenechea 515", "Univertiaria 550", "Bolivar 1510"};
-    private static final String CODIGO_PREFIX = "A20152811";
+    private static final String CODIGO_PREFIX = "A20150000";
     private static final String[] GENERO = {"Masculino", "Femenino"};
     private static final String[] CONTEXTURA = {"Grande", "Mediano", "Pequeño"};
     private static final String[] ESTATURA = {"Alto", "Medio", "Bajo"};

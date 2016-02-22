@@ -78,6 +78,15 @@
             <forward name="evaluarPostulante" path="evaluarPostulante" redirect="true"/>
         </action>        
         
+        <action path="/GenerarExplicacion" 
+                type="com.sacooliveros.gepsac.form.experto.GenerarExplicacionAction"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="listarAcosoEscolar" path="listarAcosoEscolar" redirect="true"/>
+            <forward name="explicacionAcosoEscolar" path="explicacionAcosoEscolar" redirect="true"/>
+        </action>        
+        
         <!--       
         <action path="/TransaccionReporte" 
                 type="com.novatronic.sca.action.reporte.TransaccionReporteAction"

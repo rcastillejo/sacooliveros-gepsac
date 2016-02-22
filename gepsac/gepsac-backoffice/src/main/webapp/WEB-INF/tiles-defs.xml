@@ -45,4 +45,11 @@
     <definition name="evaluarPostulante" extends="principal">
         <put name="content" value="/pages/experto/evaluarPostulante.jsp" type="page"/>
     </definition>
+    
+    <definition name="listarAcosoEscolar" extends="principal">
+        <put name="content" value="/pages/experto/listarAcosoEscolar.jsp" type="page"/>
+    </definition>
+    <definition name="explicacionAcosoEscolar" extends="principal">
+        <put name="content" value="/pages/experto/explicacionAcosoEscolar.jsp" type="page"/>
+    </definition>
 </tiles-definitions>

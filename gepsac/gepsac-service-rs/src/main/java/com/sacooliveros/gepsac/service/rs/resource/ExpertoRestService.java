@@ -60,9 +60,9 @@ public class ExpertoRestService implements ExpertoResource {
     }
 
     @Override
-    public ExplicacionResultado generarExplicacion(EvaluacionAcosoEscolar evaluacionAcosoEscolar) {        
+    public ExplicacionResultado generarExplicacion(String codigoEvaluacionAcosoEscolar) {        
         try {
-            return service.generarExplicacionResultado(evaluacionAcosoEscolar);
+            return service.generarExplicacionResultado(codigoEvaluacionAcosoEscolar);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
             throw new WebApplicationException(

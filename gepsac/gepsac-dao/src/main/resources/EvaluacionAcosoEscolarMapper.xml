@@ -6,8 +6,13 @@
         <id column="cod_evaluacion" property="codigo" jdbcType="VARCHAR" />
         <result column="fec_evaluacion" property="fechaEvaluacion" jdbcType="DATE" />
         <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />
+        <result column="apellido_pat" property="alumno.apellidoPaterno" jdbcType="VARCHAR" />
+        <result column="apellido_mat" property="alumno.apellidoMaterno" jdbcType="VARCHAR" />
         <result column="cod_perfil" property="perfil.codigo" jdbcType="VARCHAR" />
+        <result column="nom_perfil" property="perfil.nombre" jdbcType="VARCHAR" />
         <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="nom_estado" property="estado.nombre" jdbcType="VARCHAR" />
     </resultMap>
     
     <resultMap id="recordPreguntaEvaluacion" type="com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion" >
@@ -37,11 +42,22 @@
         SELECT
             cod_evaluacion,
             fec_evaluacion,
-            cod_alumno,
-            cod_perfil,
-            cod_estado
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
         FROM 
-            tp_evaluacion_acoso_escolar
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
         where
             cod_evaluacion=#{codigo}
     </select>
@@ -55,12 +71,18 @@
             b.nombres,
             b.apellido_pat,
             b.apellido_mat,
-            b.cod_perfil,
-            a.cod_estado
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
         FROM 
             tp_evaluacion_acoso_escolar a
         INNER JOIN
             tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
         where
             a.cod_estado=#{codigoEstado}
     </select>

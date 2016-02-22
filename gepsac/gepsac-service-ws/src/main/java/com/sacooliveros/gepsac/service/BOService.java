@@ -45,7 +45,7 @@ public class BOService {
     }
 
     @WebMethod(operationName = "explicacion")
-    public ExplicacionResultado generarExplicacion(@WebParam(name = "evaluacionAcosoEscolar") EvaluacionAcosoEscolar evaluacion) {
+    public ExplicacionResultado generarExplicacion(@WebParam(name = "codigoEvaluacionAcosoEscolar") String evaluacion) {
         try {
             return service.generarExplicacionResultado(evaluacion);
         } catch (ExpertoServiceException e) {

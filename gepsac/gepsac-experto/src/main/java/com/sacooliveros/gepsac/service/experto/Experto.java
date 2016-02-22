@@ -59,5 +59,5 @@ public interface Experto {
     
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
     
-    ExplicacionResultado generarExplicacionResultado(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException;
+    ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException;
 }
