@@ -24,6 +24,7 @@
         <module>gepsac-evaluador</module>
         <module>gepsac-evaluador-installer</module>
         <module>gepsac-service-rs</module>
+        <module>gepsac-service-ws</module>
     </modules>
 
 </project>
