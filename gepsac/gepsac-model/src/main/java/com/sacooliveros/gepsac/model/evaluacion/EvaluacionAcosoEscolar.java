@@ -30,7 +30,7 @@ public class EvaluacionAcosoEscolar extends Model {
         this.fechaEvaluacion = fechaEvaluacion;
     }
     
-    public void setPerfil(String codigoPerfil) {
+    public void setCodigoPerfil(String codigoPerfil) {
         if(codigoPerfil != null && !codigoPerfil.isEmpty()){
             perfil = new Perfil();
             perfil.setCodigo(codigoPerfil);

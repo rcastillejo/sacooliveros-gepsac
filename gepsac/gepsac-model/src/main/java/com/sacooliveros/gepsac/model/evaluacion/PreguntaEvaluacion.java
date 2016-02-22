@@ -15,6 +15,8 @@ public class PreguntaEvaluacion {
     private Pregunta pregunta;
     private int ordenEvaluacion;
     private String respuesta;
+    //@TODO: La regla debe ser redirigida a su propia clase
+    private String regla;
 
     public String getCodigoEvaluacion() {
         return codigoEvaluacion;
@@ -28,7 +30,7 @@ public class PreguntaEvaluacion {
         return pregunta;
     }
 
-    public void setPregunta(String codigoPregunta) {
+    public void setCodigoPregunta(String codigoPregunta) {
         if (codigoPregunta != null && !codigoPregunta.isEmpty()) {
             pregunta = new Pregunta();
             pregunta.setCodigo(codigoPregunta);
@@ -57,6 +59,14 @@ public class PreguntaEvaluacion {
 
     public boolean isSeleccionado() {
         return ordenEvaluacion > 0;
+    }
+
+    public String getRegla() {
+        return regla;
+    }
+
+    public void setRegla(String regla) {
+        this.regla = regla;
     }
 
     @Override

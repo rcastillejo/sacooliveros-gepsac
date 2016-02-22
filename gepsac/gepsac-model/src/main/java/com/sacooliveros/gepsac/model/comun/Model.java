@@ -68,12 +68,12 @@ public class Model implements Serializable{
         return estado;
     }
     
-    public void setEstado(String estado) {
+    public void setCodigoEstado(String estado) {
         Estado est = new Estado();
         est.setCodigo(estado);
         this.estado = est;
     }
-    
+
     public void setEstado(Estado estado) {
         this.estado = estado;
     }

@@ -629,6 +629,8 @@ CREATE TABLE tp_pregunta_evaluacion
   respuesta character varying(15) NULL,
   orden_evaluado int NOT NULL,
   
+  regla character varying(50) NULL,
+  
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
