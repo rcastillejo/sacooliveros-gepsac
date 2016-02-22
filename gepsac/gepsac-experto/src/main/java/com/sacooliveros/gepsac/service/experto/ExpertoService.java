@@ -16,6 +16,7 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
+import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.rna.instance.Instancia;
@@ -78,7 +79,7 @@ public class ExpertoService implements Experto {
             List<PerfilEvaluado> perfilesEvaluado = instancia.predict(clasificador, alumnosEvaluados, alumnoEvaluar);
 
             evaluacion.setPerfiles(perfilesEvaluado);
-            evaluacion.setEstado(Estado.EvaluacionPostulante.REGISTRADO);
+            evaluacion.setCodigoEstado(Estado.EvaluacionPostulante.REGISTRADO);
 
             //Grabar alumno postulante a evaluar
             alumnoDao.grabarPostulante(alumno);
@@ -109,9 +110,6 @@ public class ExpertoService implements Experto {
         }
         return Mensaje.EVALUAR_ALUMNO_POSTULANTE;
     }*/
-    
-    
-    
     /**
      * Funcionalidades del Caso Uso Evaluar Respuesta Acoso Escolar
      */
@@ -132,7 +130,7 @@ public class ExpertoService implements Experto {
             if (evaluaciones == null || evaluaciones.isEmpty()) {
                 throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, codigoEstado);
             }
-            
+
             for (EvaluacionAcosoEscolar evaluacion : evaluaciones) {
                 List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacion.getCodigo());
                 evaluacion.setPreguntas(preguntas);
@@ -174,11 +172,11 @@ public class ExpertoService implements Experto {
              */
             String perfilResultado = resultado.getConclusion();
             Perfil perfil = new Perfil();
-            
-            if(perfilResultado != null){
+
+            if (perfilResultado != null) {
                 perfil.setCodigo(perfilResultado);
-                log.info("El sistema concluyo el perfil '"+perfilResultado+"'");
-            }else{
+                log.info("El sistema concluyo el perfil '" + perfilResultado + "'");
+            } else {
                 log.info("El sistema no encontro perfil");
             }
             evaluacionAcosoEscolar.setPerfil(perfil);
@@ -187,8 +185,8 @@ public class ExpertoService implements Experto {
              * 4.1.7.	El sistema graba la evaluación con el perfil en estado
              * Evaluado.
              */
-            evaluacionAcosoEscolar.setEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
-            
+            evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
+
             log.info("El sistema graba la evaluación con el perfil en estado 'Evaluado'");
             evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
@@ -197,8 +195,8 @@ public class ExpertoService implements Experto {
              */
             Alumno alumnoEvaluado = evaluacionAcosoEscolar.getAlumno();
             alumnoEvaluado.setPerfil(evaluacionAcosoEscolar.getPerfil());
-            alumnoEvaluado.setEstado(Estado.Alumno.EVALUADO);
-            
+            alumnoEvaluado.setCodigoEstado(Estado.Alumno.EVALUADO);
+
             log.info("El sistema actualiza el perfil del alumno evaluado");
             alumnoDao.actualizarEstadoAlumnoEvaluado(alumnoEvaluado);
 
@@ -213,6 +211,28 @@ public class ExpertoService implements Experto {
             throw e;
         } catch (Exception e) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
+        }
+    }
+
+    @Override
+    public ExplicacionResultado generarExplicacionResultado(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException {
+        ExplicacionResultado resultado;
+
+        try {
+            AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
+            EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+
+            List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaAfirmativa(evaluacionAcosoEscolar.getCodigo());
+
+            resultado = new ExplicacionResultado();
+            resultado.setAlumno(evaluacionAcosoEscolar.getAlumno());
+            resultado.setPreguntas(preguntas);
+
+            return resultado;
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.GENERAR_EXPLICACION_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
         }
     }
 

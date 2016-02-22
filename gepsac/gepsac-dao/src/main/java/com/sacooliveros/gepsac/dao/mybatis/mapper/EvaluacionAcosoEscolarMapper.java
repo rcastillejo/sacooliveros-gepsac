@@ -29,4 +29,6 @@ public interface EvaluacionAcosoEscolarMapper {
     public List<EvaluacionAcosoEscolar> queryEstado(@Param("codigoEstado") String codigoEstado);
     
     public List<PreguntaEvaluacion> queryPregunta(@Param("codigoEvaluacion") String codigoEvaluacion);
+    
+    public List<PreguntaEvaluacion> queryPreguntaAfirmativa(@Param("codigoEvaluacion") String codigoEvaluacion);
 }

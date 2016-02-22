@@ -8,6 +8,7 @@ package com.sacooliveros.gepsac.service.experto;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
+import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
@@ -44,6 +45,7 @@ public interface Experto {
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar [{0}]";
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
+            String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
         }
     }
@@ -56,4 +58,6 @@ public interface Experto {
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(String codigoEstado) throws ExpertoServiceException;
     
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
+    
+    ExplicacionResultado generarExplicacionResultado(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException;
 }

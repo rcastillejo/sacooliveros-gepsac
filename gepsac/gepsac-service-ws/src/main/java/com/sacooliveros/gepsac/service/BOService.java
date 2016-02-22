@@ -5,7 +5,9 @@
  */
 package com.sacooliveros.gepsac.service;
 
+import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
+import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import com.sacooliveros.gepsac.service.exception.ServiceException;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.Experto;
@@ -26,12 +28,26 @@ import org.slf4j.LoggerFactory;
 public class BOService {
     
     private static final Logger log = LoggerFactory.getLogger(BOService.class);
+    private final Experto service;
 
+    public BOService() {
+        this.service = new ExpertoService();
+    }
+    
     @WebMethod(operationName = "evaluarAlumno")
     public EvaluacionPostulante evaluarAlumno(@WebParam(name = "evaluacionPostulante") EvaluacionPostulante evaluacion) {
         try {
-            Experto service = new ExpertoService();
             return service.evaluarAlumno(evaluacion);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new ServiceException(e.getCode(), e.getMessage(), e);
+        }
+    }
+
+    @WebMethod(operationName = "explicacion")
+    public ExplicacionResultado generarExplicacion(@WebParam(name = "evaluacionAcosoEscolar") EvaluacionAcosoEscolar evaluacion) {
+        try {
+            return service.generarExplicacionResultado(evaluacion);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
             throw new ServiceException(e.getCode(), e.getMessage(), e);

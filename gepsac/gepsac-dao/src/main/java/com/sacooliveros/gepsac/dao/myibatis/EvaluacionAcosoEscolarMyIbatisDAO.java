@@ -200,6 +200,24 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             closeConnection(session);
         }
     }
+
+    @Override
+    public List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            List listado = mapper.queryPreguntaAfirmativa(codigoEvaluacion);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
    
     @Override
     public void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {

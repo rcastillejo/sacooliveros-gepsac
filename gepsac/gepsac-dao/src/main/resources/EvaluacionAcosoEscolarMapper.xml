@@ -95,10 +95,12 @@
             tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
         where
             respuesta = 'SI'
+        and 
+            a.orden_evaluado > 0
         and
             cod_evaluacion=#{codigoEvaluacion}
         order by 
-            orden_evaluacion asc
+            a.orden_evaluado asc
     </select>
   
     <insert id="insert">

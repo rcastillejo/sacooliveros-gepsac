@@ -32,5 +32,6 @@
         <mapper resource="EstrategiaMapper.xml"/>
         <mapper resource="AlumnoMapper.xml"/>
         <mapper resource="EvaluacionPostulanteMapper.xml"/>
+        <mapper resource="EvaluacionAcosoEscolarMapper.xml"/>
     </mappers>
 </configuration>

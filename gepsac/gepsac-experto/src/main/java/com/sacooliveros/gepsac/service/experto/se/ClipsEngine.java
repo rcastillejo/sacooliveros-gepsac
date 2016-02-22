@@ -76,6 +76,7 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getPregunta());
             log.debug("respuesta obtenida [" + preguntaResuelta + "]");
             preguntaResuelta.setOrdenEvaluacion(orden);
+            preguntaResuelta.setRegla(inferencia.getNombre());
 
             /**
              * Evalúa la respuesta de acuerdo a las reglas.
