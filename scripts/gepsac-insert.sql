@@ -194,18 +194,18 @@ insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0005', ''
 
 --Agresor
 
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0006', '', '','No dejo participar, excluyo');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0007', '', '','Rompo sus cosas a propósito');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0008', '', '','Robo sus cosas');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0009', '', '','Me insultan');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0010', '', '','Digo chismes falsos sobre él o ella');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0011', '', '','Trato de hacer que otros les desprecien');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0012', '', '','Digo nombres ofensivos, comentarios o gestos con contenido sexual');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0006', '', 'Excluyo','No dejo participar, excluyo');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0007', '', 'Rompo','Rompo sus cosas a propósito');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0008', '', 'Robo','Robo sus cosas');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0009', '', 'Insulto','Insulto a mis compañeros');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0010', '', 'Difamo','Digo chismes falsos sobre él o ella');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0011', '', 'Manipulo','Trato de hacer que otros les desprecien');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0012', '', 'Agredo Verbal','Digo nombres ofensivos, comentarios o gestos con contenido sexual');
 
 --Testigo
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0013', '', '','Colaboras en una situación de maltrato');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0014', '', '','Parcipas en las burlas');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0015', '', '','Grabas o tomas fotos de las agresiones');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0013', '', 'Colaboro Maltrato','Colaboras en una situación de maltrato');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0014', '', 'Participo Burla','Participas en las burlas');
+insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0015', '', 'Grabo Agresión','Grabas o tomas fotos de las agresiones');
 
 
 --P0001 Agresor

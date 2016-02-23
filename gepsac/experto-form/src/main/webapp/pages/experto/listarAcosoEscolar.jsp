@@ -1,25 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://struts.apache.org/tags-bean"  prefix="bean" %>
-<%@ taglib uri="http://struts.apache.org/tags-html"  prefix="html" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"  %>
-
-<script src="<%=request.getContextPath()%>/resources/js/jquery-1.8.3.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/jquery-ui-1.9.2.css" />
-<script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.9.2.js"></script>
-
-<!--<link href="<%=request.getContextPath()%>/resources/css/skinSCA.css" rel="stylesheet" type="text/css" />-->
-<link href="<%=request.getContextPath()%>/resources/css/jquery-combobox.css" rel="stylesheet" type="text/css" />
-<link href="<%=request.getContextPath()%>/resources/css/sca-template.css" rel="stylesheet" type="text/css" />
-<link href="<%=request.getContextPath()%>/resources/css/jquery-override.css" rel="stylesheet" type="text/css" />
-<link href="<%=request.getContextPath()%>/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-
-<script src="<%=request.getContextPath()%>/resources/js/jquery.iframe-transport.js"></script>
-
-<script src="<%=request.getContextPath()%>/resources/js/jquery.fileupload.js"></script>       
-<script src="<%=request.getContextPath()%>/resources/js/jquery.dataTables.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/util.js"></script>
 
 <script type='text/javascript'>
     var serviceUrl = "http://localhost:8180/gepsac-service/experto";
@@ -59,7 +37,7 @@
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
         detalle.find("#lblCodigo").append(json.codigo);
-        detalle.find("#lblAlumno").append(json.nombres + ' ' + json.apellidoPaterno+' '+json.apellidoMaterno);
+        detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno+' '+json.alumno.apellidoMaterno);
         if(json.perfil){
             detalle.find("#lblPerfil").append(json.perfil.nombre);
         }

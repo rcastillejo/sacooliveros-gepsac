@@ -5,6 +5,7 @@
  */
 package com.sacooliveros.gepsac.model.experto;
 
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class ExplicacionResultado {
 
     private Alumno alumno;
+    private Perfil perfil;
     //@TODO: Listado de Reglas de Perfiles (Regla = Perfil y Pregunta)
     private List<PreguntaEvaluacion> preguntas;
 
@@ -34,10 +36,17 @@ public class ExplicacionResultado {
         this.preguntas = preguntas;
     }
 
-    @Override
-    public String toString() {
-        return "ExplicacionResultado{" + "alumno=" + alumno + ", preguntas=" + preguntas + '}';
+    public Perfil getPerfil() {
+        return perfil;
     }
 
-    
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    @Override
+    public String toString() {
+        return "ExplicacionResultado{" + "alumno=" + alumno + ", perfil=" + perfil + ", preguntas=" + preguntas + '}';
+    }
+
 }

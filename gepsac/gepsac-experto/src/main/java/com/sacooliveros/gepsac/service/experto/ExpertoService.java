@@ -228,6 +228,7 @@ public class ExpertoService implements Experto {
 
             resultado = new ExplicacionResultado();
             resultado.setAlumno(evaluacionAcosoEscolar.getAlumno());
+            resultado.setPerfil(evaluacionAcosoEscolar.getPerfil());
             resultado.setPreguntas(preguntas);
 
             return resultado;
