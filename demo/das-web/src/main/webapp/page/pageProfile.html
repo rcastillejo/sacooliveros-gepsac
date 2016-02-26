@@ -1,0 +1,132 @@
+<div class="container" style="width: 100%">
+	<div>
+		<form class="form-group" name="formulario">
+
+			<div class="panel panel-primary" style="width: 1000px">
+
+				<div class="panel-heading">
+					<div class="row" >
+						<div class="col-md-8">
+				    		<h3 class="panel-title">{{profileTexto.titulo | uppercase}}</h3>
+				    	</div>
+				    	<div class="col-md-4"></div>
+				    </div>
+				</div>
+
+				<div class="panel-body">
+					
+					<div class="row" >
+						<div class="col-md-12">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.profileId.$error.required">*</span>
+							<label>{{profileTexto.profileId}}</label> 
+							<input type="text" 
+									class="form-control input-sm" 
+									style="width: 180px" 
+									name="profileId" 
+								 	ng-model="selectProfile.profileId" 
+								 	placeholder="Codigo ..."
+								 	allow-pattern="(\d|[a-z])"
+									my-maxlength="16"
+								 	required/>
+						</div> 
+						<div class="col-md-12">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.profileDesc.$error.required">*</span>
+							<label>{{profileTexto.profileDesc}}</label>
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 300px" 
+									name="profileDesc" 
+								 	ng-model="selectProfile.profileDesc" 
+								 	allow-pattern="(\s|\d|[a-z])"
+									my-maxlength="30"
+								 	required/> 
+						</div>
+						<div class="col-md-12">
+			                <label>{{profileTexto.driverIds}}</label>
+			                <div class="checkbox">
+			                	<label style="width: 180px"
+			                			ng-repeat="myDriver in listDriver" 
+			                			ng-model="selectProfile.profileDrivers.driverIds" >
+							  	<input 
+								    type="checkbox"
+								    name="driver"
+								    value="{{myDriver.driverId}}"
+								    ng-checked="selectionDriver.indexOf(myDriver.driverId) > -1"
+								    ng-click="getSelectionDriver(myDriver.driverId)"> {{myDriver.driverId}}
+								</label>
+			                </div>
+			            </div>
+			            <div class="col-md-12">
+			                <label>{{profileTexto.serviceIds}}</label>
+			                <div class="checkbox">
+			                	<label style="width: 180px"
+			                			ng-repeat="myService in listService" 
+			                			ng-model="selectProfile.authServices.serviceIds" >
+							  	<input 
+								    type="checkbox"
+								    name="service"
+								    value="{{myService.serviceId}}"
+								    ng-checked="selectionService.indexOf(myService.serviceId) > -1"
+								    ng-click="getSelectionService(myService.serviceId)"> {{myService.serviceId}}
+								</label>
+			                </div>
+	                	</div>
+	                	<div class="col-md-12">
+	                		<br />
+							<button class="btn btn-primary glyphicon glyphicon-file" 
+									ng-click="nuevo()">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-floppy-disk" 
+									ng-click="grabar(selectProfile)" 
+									ng-disabled="!formulario.$valid">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-refresh" 
+									ng-click="refrescar()">
+							</button>
+						</div>
+					</div>
+				
+					<br />
+
+					<div class="row" ng-hide="hideAlert">
+						<div class="col-md-12">
+							<div class="alert alert-{{responseRestTag}}">
+							  <strong>Respuesta :</strong> {{responseRest}}
+							</div>
+						</div>
+					</div>
+
+					<div class"table-responsive">
+						<table class="table table-striped table-bordered table-hover table-condensed" >
+						    <thead>
+						     	<tr class="success">
+						     		<th align="right" style="width: 30px">Num</th>
+							        <th style="width: 150px">{{profileTexto.profileIdTbl}}</th>
+							        <th style="width: 320px">{{profileTexto.profileDescTbl}}</th>
+							        <th style="width: 100px">{{profileTexto.opcionActionTbl}}</th>
+						      	</tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="valueRow in profileGeneral">
+						      		<td>{{$index + 1}}</td>
+							        <td>{{valueRow.profileId}}</td>
+							        <td>{{valueRow.profileDesc}}</td>
+							        <td >
+							        	<button class="btn btn-success btn-xs glyphicon glyphicon-pencil" 
+							        			ng-click="editar(valueRow)"></button>
+							        	<button class="btn btn-danger btn-xs glyphicon glyphicon-trash" 
+							        			ng-click="quitar(valueRow.profileId)"></button>
+							        </td>
+						      	</tr>
+						    </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

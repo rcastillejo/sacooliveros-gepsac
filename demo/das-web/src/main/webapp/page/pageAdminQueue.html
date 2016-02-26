@@ -1,0 +1,185 @@
+<div class="container" style="width: 100%">
+	<div>
+		<form class="form-group" name="formulario">
+
+			<div class="panel panel-primary" style="width: 1000px">
+
+				<div class="panel-heading">
+					<div class="row" >
+						<div class="col-md-8">
+				    		<h3 class="panel-title">{{queueTxt.titulo | uppercase}}</h3>
+				    	</div>
+				    	<div class="col-md-4"></div>
+				    </div>
+				</div>
+
+				<div class="panel-body">
+					
+					<div class="row">
+						
+						<div class="col-md-4">
+							<label>{{queueTxt.queueLocation}}</label> 
+							<input type="text" style="width: 180px" 
+									id="queueLocation" 
+									class="form-control input-sm" 
+								 	ng-model="adminQueueGeneral.queueLocation" 
+								 	disabled/> 
+						</div>
+
+						<div class="col-md-4">
+							<label>{{queueTxt.sleepTime}}</label> 
+							<input type="text" style="width: 120px" 
+									id="sleepTime" 
+									class="form-control input-sm"
+								 	ng-model="adminQueueGeneral.sleepTime" 
+								 	disabled/> 
+						</div>
+
+						<div class="col-md-4">
+							<label>{{queueTxt.refreshTime}}</label>
+							<input type="text" style="width: 120px" 
+									id="refreshTime" 
+									class="form-control input-sm"
+								 	ng-model="adminQueueGeneral.refreshTime" 
+								 	disabled/> 
+						</div>
+						
+
+						<div class="col-md-4">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.adminQueueId.$error.required">*</span>
+							<label>{{queueTxt.adminQueueId}}</label> 
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 180px" 
+									name="adminQueueId" 
+									placeholder="Codigo ..."
+								 	ng-model="selectQueue.adminQueueId" 
+								 	allow-pattern="(\d|[a-z])"
+									my-maxlength="16"
+								 	required/> 
+						</div>
+
+						<div class="col-md-4">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.workerThreadsCount.$error.required">*</span>
+							<label>{{queueTxt.workerThreadsCount}}</label>
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 120px" 
+									name="workerThreadsCount" 
+								 	ng-model="selectQueue.workerThreadsCount" 
+								 	allow-pattern="\d"
+									my-maxlength="3"
+								 	required/> 
+						</div>
+						<div class="col-md-4"></div>
+
+						
+						<div class="col-md-4">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.messageTypeId.$error.required">*</span>
+							<label>{{queueTxt.messageTypeId}}</label>
+							<input type="text" 
+									class="form-control input-sm"  
+									style="width: 180px" 
+									name="messageTypeId" 
+									ng-model="selectQueue.messageType.messageTypeId" 
+									allow-pattern="(\d|[a-z])"
+									my-maxlength="16"
+									required/> 
+						</div>
+
+						<div class="col-md-8">
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.messageTypeDesc.$error.required">*</span>		
+							<label>{{queueTxt.messageTypeDesc}}</label>
+							<input type="text" 
+									class="form-control input-sm"  
+									style="width: 400px" 
+									name="messageTypeDesc" 
+									ng-model="selectQueue.messageType.messageTypeDesc" 
+									allow-pattern="(\s|\d|[a-z])"
+									my-maxlength="50"
+									required/>
+						</div>
+
+						<!--Lista de los formatos soportados para las colas-->
+						<div class="col-md-12">
+			                <label>{{queueTxt.supportedMessageFormats}}</label>
+			                <div class="checkbox">
+			                	<label ng-repeat="myMessage in listMessageFormat" style="width: 150px"
+			                			ng-model="selectQueue.messageType.supportedMessageFormats.messageFormatId" >
+							  	<input 
+								    type="checkbox"
+								    name="message"
+								    value="{{myMessage.messageFormatId}}"
+								    ng-checked="selectionMessage.indexOf(myMessage.messageFormatId) > -1"
+								    ng-click="getSelectionMessage(myMessage.messageFormatId)"> {{myMessage.messageFormatId}}
+								</label>
+			                </div>
+		                </div>
+		                
+						<div class="col-md-12">
+							<br/>
+							<button class="btn btn-primary glyphicon glyphicon-file" ng-click="nuevo()">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-floppy-disk" 
+									ng-click="grabar(selectQueue)" ng-disabled="!formulario.$valid">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-refresh" ng-click="refrescar()">
+							</button>
+						</div>
+
+					</div>
+
+					<br/>
+				
+					<div class="row" ng-hide="hideAlert">
+						<div class="col-md-12">
+							<div class="alert alert-{{responseRestTag}}">
+							  <strong>Respuesta :</strong> {{responseRest}}
+							</div>
+						</div>
+					</div>
+				
+					<div class"table-responsive">
+						<table class="table table-striped table-bordered table-hover table-condensed" >
+						    <thead>
+						     	<tr class="success">
+						     		<th align="right" style="width: 30px">Num</th>
+							        <th style="width: 120px">{{queueTxt.adminQueueIdTbl}}</th>
+							        <th style="width: 70px">{{queueTxt.workerThreadsCountTbl}}</th>
+							        <th style="width: 120px">{{queueTxt.messageTypeIdTbl}}</th>
+							        <th style="width: 260px">{{queueTxt.messageTypeDescTbl}}</th>
+							        <th style="width: 90px">{{queueTxt.opcionActionTbl}}</th>
+						      	</tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="valueRow in adminQueueGeneral.adminQueues">
+						      		<td>{{$index + 1}}</td>
+							        <td>{{valueRow.adminQueueId}}</td>
+							        <td>{{valueRow.workerThreadsCount}}</td>
+							        <td>{{valueRow.messageType.messageTypeId}}</td>
+							        <td>{{valueRow.messageType.messageTypeDesc}}</td>
+							        <td >
+							        	<button class="btn btn-success btn-xs glyphicon glyphicon-pencil" 
+							        			ng-click="editar(valueRow)"></button>
+							        	<button class="btn btn-danger btn-xs glyphicon glyphicon-trash" 
+							        			ng-click="quitar(valueRow.adminQueueId)"></button>
+							        </td>
+						      	</tr>
+						    </tbody>
+						</table>
+					</div>
+
+				</div>
+				
+			</div>
+		</form>
+	</div>
+</div>

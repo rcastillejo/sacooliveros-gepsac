@@ -1,0 +1,124 @@
+<div class="container" style="width: 100%">
+	<div>
+		<form class="form-group" name="formulario">
+
+			<div class="panel panel-primary" style="width: 1000px">
+
+				<div class="panel-heading">
+					<div class="row" >
+						<div class="col-md-8">
+				    		<h3 class="panel-title">{{balancerTexto.titulo | uppercase}}</h3>
+				    	</div>
+				    	<div class="col-md-4"></div>
+				    </div>
+				</div>
+
+				<div class="panel-body">
+
+					<div class="row" >
+						<div class="col-md-12"> 
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.id.$error.required">*</span>
+							<label>{{balancerTexto.id}}</label> 
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 180px" 
+									name="id" 
+									ng-model="selectBalancer.id" 
+									placeholder="Codigo ..."
+									allow-pattern="(\d|[a-z])"
+									my-maxlength="20"
+									required />
+						</div>
+
+						<div class="col-md-12"> 
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.algorithm.$error.required">*</span>
+							<label>{{balancerTexto.algorithm}}</label>
+							<input type="text" 
+									class="form-control input-sm" 
+									style="width: 300px" 
+									name="algorithm" 
+									ng-model="selectBalancer.algorithm" 
+									allow-pattern="(\d|[a-z])"
+									my-maxlength="30"
+									required />
+						</div>
+
+						<div class="col-md-12"> 
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.workerThreadsCount.$error.required">*</span>
+							<label>{{balancerTexto.workerThreadsCount}}</label>
+							<input type="text" 
+									class="form-control input-sm" 
+									style="width: 120px" 
+									name="workerThreadsCount" 
+									ng-model="selectBalancer.workerThreadsCount" 
+									allow-pattern="\d"
+									my-maxlength="3"
+									required />
+						</div>
+
+						<div class="col-md-12"> 
+							<br/>
+							<button class="btn btn-primary glyphicon glyphicon-file" 
+									ng-click="nuevo()">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-floppy-disk" 
+									ng-click="grabar(selectBalancer)" 
+									ng-disabled="!formulario.$valid">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-refresh" 
+									ng-click="refrescar()">
+							</button>
+						</div>
+						
+					</div>
+
+					<br/>
+					
+					<div class="row" ng-hide="hideAlert">
+						<div class="col-md-12">
+							<div class="alert alert-{{responseRestTag}}">
+							  <strong>Respuesta :</strong> {{responseRest}}
+							</div>
+						</div>
+					</div>
+					
+					<div class"table-responsive">
+						<table class="table table-striped table-bordered table-hover table-condensed" >
+						    <thead>
+						     	<tr class="success">
+						     		<th align="right" style="width: 30px">Num</th>
+							        <th style="width: 180px">{{balancerTexto.idTbl}}</th>
+							        <th style="width: 190px">{{balancerTexto.algorithmTbl}}</th>
+							        <th style="width: 100px">{{balancerTexto.workerThreadsCountTbl}}</th>
+							        <th style="width: 100px">{{balancerTexto.opcionActionTbl}}</th>
+						      	</tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="valueRow in listBalancer">
+						      		<td>{{$index + 1}}</td>
+							        <td>{{valueRow.id}}</td>
+							        <td>{{valueRow.algorithm}}</td>
+							        <td>{{valueRow.workerThreadsCount}}</td>
+							        <td >
+							        	<button class="btn btn-success btn-xs glyphicon glyphicon-pencil" 
+							        			ng-click="editar(valueRow)"></button>
+							        	<button class="btn btn-danger btn-xs glyphicon glyphicon-trash" 
+							        			ng-click="quitar(valueRow.id)"></button>
+							        </td>
+						      	</tr>
+						    </tbody>
+						</table>
+					</div>
+
+				</div>
+				
+			</div>
+		</form>
+	</div>
+</div>
