@@ -9,7 +9,7 @@ header {
 
 #menu {
 	background-color: #f5f5f5;
-	width: 145px;
+	width: 280px;
 	float: left;
 	height: 100%;
 	margin: 0px 0px 0px 0px;
@@ -25,7 +25,7 @@ header {
 
 #centro {
 	display: inline-block;
-	min-width: 600px;
+            min-width: 450px;
 	height: 500px;
 	margin: 2px 2px 2px 2px;
 }

@@ -85,80 +85,55 @@
 
 </script>
 
-<div class="div-pagina">
-    <!-- INCIO PANEL-->
-    <div id="div-busqueda" class="div-busqueda">
-        <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-            Evaluaciones Acoso Escolar Evaluadas
+<uib-alert template-url="alert.html" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >{{alert.msg}}</uib-alert>
+
+<div  class="container" style="width: 100%">
+
+
+    <div class="panel panel-primary">
+
+
+        <!-- INCIO PANEL-->
+        <div class="panel-heading">
+            <div class="row" >
+                <div class="col-md-8">
+                    <h3 class="panel-title">Evaluaciones Acoso Escolar Evaluadas</h3>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
         </div>
-        <!--div id="div-busqueda-filtros" class="div-busqueda-filtros">
-            <fieldset>
-                <legend>Criterios de B&uacute;squeda</legend>
-                <table>
-                    <tr>
-                        <td>C&oacute;digo</td><td>:</td>
-                        <td><input id="codigo" type="text"></td>
-                        <td>Nombres</td><td>:</td>
-                        <td><input id="nombres" type="text"></td>
-                        <td>Apellidos</td><td>:</td> 
-                        <td><input id="apellidos" type="text"></td>
-                        <td>
-                            <a href="javascript:fn_buscar();">
-                                <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_buscar.jpg" border="0"/><br />
-                                Buscar
-                            </a>
-                        </td>
-                    </tr>
+
+
+        <div class="panel-body">
+            <!--
+            <div id="div-resultado"> 
+
+                <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                    <thead>
+                        <tr>
+                            <th>Código Evaluación</th>	
+                            <th>Alumno</th>
+                            <th>Perfil</th>
+                            <th>Estado</th>	
+                            <th>Explicacion</th>
+                        </tr>	
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td>{{ user.codigo}}</td>
+                            <td>{{ user.alumno.nombres + ' ' + user.alumno.apellidoPaterno + ' ' + user.alumno.apellidoMaterno}}</td>
+                            <td></td>
+                            <td>{{ user.estado.nombre}}</td>
+                            <td><a ng-click="generateExplication(user.id)" class="btn btn-small btn-primary">Generar Explicacion</a></td>                    
+                        </tr>
+                    </tbody>
                 </table>
-            </fieldset>
-        </div-->
+
+            </div> 
+            -->
+        </div>
+
     </div>
 
-    <div id="div-resultado">
-        <div id="rowDetalle" style="display:none;">   
-            <table>
-                <tr>
-                    <td>
-                        <label id="lblCodigo" class="inputValue"></label>
-                    </td>
-                    <td>
-                        <label id="lblAlumno" class="inputValue"></label>
-                    </td>
-                    <td>
-                        <label id="lblPerfil" class="inputValue"></label>
-                    </td>
-                    <td>
-                        <label id="lblEstado" class="inputValue"></label>
-                    </td>
-                    <td>
-                        <a id="chkId" href="<%=request.getContextPath()%>" >
-                            Generar Explicacion
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </div>
 
-        <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-            <thead>
-                <tr>
-                    <th>Código Evaluación</th>	
-                    <th>Alumno</th>
-                    <th>Perfil</th>
-                    <th>Estado</th>	
-                    <th>Explicacion</th>
-                </tr>	
-            </thead>
-            <tbody>
-                <tr ng-repeat="user in users">
-                    <td>{{ user.codigo}}</td>
-                    <td>{{ user.alumno.nombres + ' ' + user.alumno.apellidoPaterno + ' ' + user.alumno.apellidoMaterno}}</td>
-                    <td></td>
-                    <td>{{ user.estado.nombre}}</td>
-                    <td><a ng-click="generateExplication(user.id)" class="btn btn-small btn-primary">Generar Explicacion</a></td>                    
-                </tr>
-            </tbody>
-        </table>
-
-    </div> 
 </div>

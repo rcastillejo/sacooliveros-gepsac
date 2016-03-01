@@ -48,9 +48,14 @@ app.controller('AcosoEscolarListCtrl', ['$scope', 'AcosoEscolarEvaluadosFactory'
         };
 
         $scope.users = AcosoEscolarEvaluadosFactory.query(function (data) {}, function (error) {
-            console.log('error del servicio', error);
-            $scope.alerts.push({type: 'warning', msg: error});
+            var msg = error instanceof String ? error : 'error desconocido';
+            console.log('error del servicio', msg);
+            $scope.addAlert({type: 'danger', msg: msg});
         });
+
+        $scope.addAlert = function (type, msg) {
+            $scope.alerts.push({type: type, msg: msg});
+        };
 
         $scope.closeAlert = function (index) {
             $scope.alerts.splice(index, 1);
