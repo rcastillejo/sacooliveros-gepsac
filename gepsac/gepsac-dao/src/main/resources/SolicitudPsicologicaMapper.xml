@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.SolicitudPsicologicaMapper" >
+    
+    <resultMap id="recordSolicitudPsicologica" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica" >
+        <id column="cod_solicitud" property="codigo" jdbcType="VARCHAR" />
+        <result column="fec_solicitud" property="fechaSolicitud" jdbcType="DATE" />
+        <result column="fec_atencion" property="fechaAtencion" jdbcType="DATE" />        
+        <result column="solicitante" property="solicitante" jdbcType="VARCHAR" />
+        <result column="motivo" property="motivo" jdbcType="VARCHAR" />
+        <result column="descripcion" property="descripcion" jdbcType="VARCHAR" />
+        <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="usu_crea" property="usuCre" jdbcType="VARCHAR" />
+        <result column="fec_crea" property="fecCre" jdbcType="DATE" />
+        <result column="usu_modif" property="usuMod" jdbcType="VARCHAR" />
+        <result column="fec_modif" property="fecMod" jdbcType="DATE" />
+    </resultMap>
+       
+    <select id="query" resultMap="recordSolicitudPsicologica">
+        SELECT
+            cod_solicitud,
+            solicitante,
+            motivo,
+            fec_solicitud,
+            fec_atencion,
+            cod_estado
+        FROM 
+            tp_solicitud_psicologica
+    </select>
+  
+    <select id="get" resultMap="recordSolicitudPsicologica">
+        SELECT
+            cod_solicitud,
+            fec_solicitud,
+            fec_atencion,
+            solicitante,
+            motivo,
+            descripcion,
+            cod_alumno,
+            cod_estado
+        FROM 
+            tp_solicitud_psicologica
+      <!--  where
+            cod_solicitud=#{codigo}
+        and
+            solicitante=#{solicitante}
+        and
+            motivo=#{motivo}
+        and
+            (fec_solicitud between #{fechaInicio} and #{fechaFin}
+        and 
+            cod_estado=#{estado} -->
+        
+    </select>
+    
+    <insert id="insert">
+        Insert into tp_solicitud_psicologica 
+            (cod_solicitud, fec_solicitud, fec_atencion, solicitante, motivo, 
+            descripcion, cod_alumno, cod_estado, usu_crea, fec_crea)
+        values
+            (#{codigo}, #{fechaSolicitud}, #{fechaAtencion}, #{solicitante}, #{motivo}, 
+            #{descripcion}, #{alumno.codigo}, #{estado.codigo}, #{fecCre}, #{usuCre})
+    </insert>
+  
+  
+    <update id="update">
+        Update 
+            tp_solicitud_psicologica 
+        Set
+            fec_evaluacion = #{fechaEvaluacion},
+            motivo = #{motivo}, 
+            descripcion = #{descripcion}, 
+            usu_modif = #{usuMod},
+            fec_modif = #{fecMod}
+        Where
+            cod_solicitud=#{codigo}
+    </update> 
+    
+    <delete id="delete">
+        Delete from 
+                    tp_solicitud_psicologica
+        Where
+                    cod_solicitud=#{codigo}
+    </delete>
+    
+    
+    
+</mapper>

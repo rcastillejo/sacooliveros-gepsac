@@ -33,5 +33,6 @@
         <mapper resource="AlumnoMapper.xml"/>
         <mapper resource="EvaluacionPostulanteMapper.xml"/>
         <mapper resource="EvaluacionAcosoEscolarMapper.xml"/>
+        <mapper resource="SolicitudPsicologicaMapper.xml"/>
     </mappers>
 </configuration>

@@ -26,4 +26,6 @@ public interface DAOFactory {
     EvaluacionPostulanteDAO getEvaluacionPostulanteDAO();
 
     EvaluacionAcosoEscolarDAO getEvaluacionAcosoEscolarDAO();
+    
+    SolicitudPsicologicaDAO getSolicitudPsicologicaDAO();
 }

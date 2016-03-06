@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application{
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(com.sacooliveros.gepsac.service.rs.resource.ExpertoRestService.class); 
+        resources.add(com.sacooliveros.gepsac.service.rs.resource.EvaluacionRestService.class); 
         resources.add(com.sacooliveros.gepsac.service.rs.filter.ResponseCorsFilter.class);
         resources.add(com.sacooliveros.gepsac.service.rs.filter.LoggingFilter.class);
         resources.add(com.sacooliveros.gepsac.service.rs.interceptor.LoggingInterceptor.class);
