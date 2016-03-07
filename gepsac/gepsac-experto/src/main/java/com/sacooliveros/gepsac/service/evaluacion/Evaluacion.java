@@ -46,5 +46,5 @@ public interface Evaluacion {
     }
 
     List<SolicitudPsicologica> listarSolicitudPsicologica() throws ExpertoServiceException;
-    
+    String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException;
 }

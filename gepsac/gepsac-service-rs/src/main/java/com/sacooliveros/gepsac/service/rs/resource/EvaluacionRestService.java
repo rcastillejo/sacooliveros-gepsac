@@ -5,18 +5,11 @@
  */
 package com.sacooliveros.gepsac.service.rs.resource;
 
-import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
-import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
-import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
-import com.sacooliveros.gepsac.model.util.State;
 import com.sacooliveros.gepsac.service.evaluacion.Evaluacion;
 import com.sacooliveros.gepsac.service.evaluacion.EvaluacionService;
-import com.sacooliveros.gepsac.service.experto.Experto;
-import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.rs.EvaluacionResource;
-import com.sacooliveros.gepsac.service.rs.ExpertoResource;
 import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -55,15 +48,14 @@ public class EvaluacionRestService implements EvaluacionResource {
     }
 
     @Override
-    public SolicitudPsicologica registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
-        /*try {
-            return service.generarExplicacionResultado(evaluacionAcosoEscolar);
+    public String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
+        try {
+            return service.registrarSolicitudPsicologica(solicitudPsicologica);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
             throw new WebApplicationException(
                     Response.status(500).entity(e.getMessage()).build());
-        }*/
-        return null;
+        }
     }
     
 }

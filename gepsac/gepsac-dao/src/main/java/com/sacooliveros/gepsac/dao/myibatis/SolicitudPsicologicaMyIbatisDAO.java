@@ -200,5 +200,10 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
         }
     }
 
+    @Override
+    public int cantidadSolicitudPsicologicaAlumnoInvolucrado(String alumnoInvolucradoCodigo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

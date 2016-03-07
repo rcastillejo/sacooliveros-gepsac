@@ -22,7 +22,7 @@ public class SolicitudPsicologica extends Model {
     private String motivo; 
     private String descripcion; 
     private Alumno alumno; 
-    private List<PreguntaEvaluacion> preguntas;
+    private List<Alumno> alumnoInvolucrado;
     
     /*public void setPerfil(String codigoPerfil) {
         if(codigoPerfil != null && !codigoPerfil.isEmpty()){
@@ -73,12 +73,12 @@ public class SolicitudPsicologica extends Model {
         this.descripcion = descripcion;
     }
 
-    public List<PreguntaEvaluacion> getPreguntas() {
-        return preguntas;
+    public List<Alumno> getAlumnoInvolucrado() {
+        return alumnoInvolucrado;
     }
 
-    public void setPreguntas(List<PreguntaEvaluacion> preguntas) {
-        this.preguntas = preguntas;
+    public void setAlumnoInvolucrado(List<Alumno> alumnoInvolucrado) {
+        this.alumnoInvolucrado = alumnoInvolucrado;
     }
 
     public Alumno getAlumno() {

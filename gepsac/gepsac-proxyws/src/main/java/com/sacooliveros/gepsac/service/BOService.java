@@ -39,7 +39,7 @@ public interface BOService {
 
     /**
      * 
-     * @param codigoEvaluacionAcosoEscolar
+     * @param evaluacionAcosoEscolar
      * @return
      *     returns com.sacooliveros.gepsac.service.ExplicacionResultado
      */
@@ -48,7 +48,7 @@ public interface BOService {
     @RequestWrapper(localName = "explicacion", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.service.Explicacion")
     @ResponseWrapper(localName = "explicacionResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.service.ExplicacionResponse")
     public ExplicacionResultado explicacion(
-        @WebParam(name = "codigoEvaluacionAcosoEscolar", targetNamespace = "")
-        String codigoEvaluacionAcosoEscolar);
+        @WebParam(name = "evaluacionAcosoEscolar", targetNamespace = "")
+        EvaluacionAcosoEscolar evaluacionAcosoEscolar);
 
 }

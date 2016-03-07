@@ -19,6 +19,11 @@ public class ExpertoServiceException extends RuntimeException{
         this.code = code;
     }
 
+    public ExpertoServiceException(String code, String message) {
+        super(message);
+        this.code = code;
+    }
+    
     public ExpertoServiceException(String code, String message, Object... args) {
         super(MessageFormat.format(message, args));
         this.code = code;

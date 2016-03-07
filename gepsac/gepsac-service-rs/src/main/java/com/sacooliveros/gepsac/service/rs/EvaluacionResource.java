@@ -44,6 +44,6 @@ public interface EvaluacionResource {
     
     @POST
     @Path("/solicitudPsicologica")
-    SolicitudPsicologica registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
+    String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
     
 }

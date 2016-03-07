@@ -19,6 +19,7 @@ public interface SolicitudPsicologicaDAO extends BaseDao<SolicitudPsicologica> {
     
     void grabarSolicitudPsicologica(SolicitudPsicologica model);
 
+    int cantidadSolicitudPsicologicaAlumnoInvolucrado(String alumnoInvolucradoCodigo);
     //SolicitudPsicologica obtenerSolicitudPsicologica(String id);
     
     //void eliminarSolicitudPsicologica(SolicitudPsicologica model);
