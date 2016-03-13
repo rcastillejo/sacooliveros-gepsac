@@ -647,3 +647,46 @@ WITH (
   OIDS=FALSE
 );
 
+
+CREATE TABLE tp_regla
+(
+  cod_regla character varying(15) NULL,
+  
+  tipo character varying(2) NOT NULL, -- Decision (D), Respuesta (R)
+  
+  regla character varying(15) NULL, -- Codigo Regla
+  perfil character varying(15) NULL, -- Codigo Perfil Acoso Escolar
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_regla PRIMARY KEY (cod_regla),
+  CONSTRAINT fk_tp_regla_tp_perfil FOREIGN KEY (perfil)
+      REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_regla_tp_pregunta FOREIGN KEY (regla)
+      REFERENCES tp_regla (cod_regla) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+
+
+CREATE TABLE tp_regla_detalle
+(
+  cod_regla character varying(15) NOT NULL,
+  cod_pregunta character varying(15) NOT NULL,
+  
+  CONSTRAINT pk_tp_regla_detalle PRIMARY KEY (cod_regla, cod_pregunta),
+  CONSTRAINT fk_tp_regla_detalle_tp_regla FOREIGN KEY (cod_regla)
+      REFERENCES tp_regla (cod_regla) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_regla_detalle_tp_pregunta FOREIGN KEY (cod_pregunta)
+      REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);

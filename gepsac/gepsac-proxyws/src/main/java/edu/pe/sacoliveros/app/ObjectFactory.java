@@ -47,27 +47,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ObtenerAlumnoPostulante }
-     * 
-     */
-    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
-        return new ObtenerAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
-     * 
-     */
-    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
-        return new BuscarAlumnoPostulanteResponse();
-    }
-
-    /**
      * Create an instance of {@link Alumno }
      * 
      */
     public Alumno createAlumno() {
         return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulanteResponse }
+     * 
+     */
+    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
+        return new ListarAlumnoPostulanteResponse();
     }
 
     /**
@@ -79,19 +71,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * 
+     */
+    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
+        return new BuscarAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoPostulante }
+     * 
+     */
+    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
+        return new ObtenerAlumnoPostulante();
+    }
+
+    /**
      * Create an instance of {@link BuscarAlumnoPostulante }
      * 
      */
     public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
         return new BuscarAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link ListarAlumnoPostulanteResponse }
-     * 
-     */
-    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
-        return new ListarAlumnoPostulanteResponse();
     }
 
     /**

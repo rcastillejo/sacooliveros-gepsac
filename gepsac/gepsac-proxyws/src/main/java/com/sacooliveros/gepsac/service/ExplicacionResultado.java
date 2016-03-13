@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="alumno" type="{http://service.gepsac.sacooliveros.com/}alumno" minOccurs="0"/>
+ *         &lt;element name="perfil" type="{http://service.gepsac.sacooliveros.com/}perfil" minOccurs="0"/>
  *         &lt;element name="preguntas" type="{http://service.gepsac.sacooliveros.com/}preguntaEvaluacion" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -32,11 +33,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "explicacionResultado", propOrder = {
     "alumno",
+    "perfil",
     "preguntas"
 })
 public class ExplicacionResultado {
 
     protected Alumno alumno;
+    protected Perfil perfil;
     @XmlElement(nillable = true)
     protected List<PreguntaEvaluacion> preguntas;
 
@@ -62,6 +65,30 @@ public class ExplicacionResultado {
      */
     public void setAlumno(Alumno value) {
         this.alumno = value;
+    }
+
+    /**
+     * Gets the value of the perfil property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Perfil }
+     *     
+     */
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    /**
+     * Sets the value of the perfil property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Perfil }
+     *     
+     */
+    public void setPerfil(Perfil value) {
+        this.perfil = value;
     }
 
     /**

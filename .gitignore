@@ -247,3 +247,5 @@ nb-configuration.xml
 /gepsac/gepsac-evaluador-installer/target/
 /gepsac/gepsac-service-rs/target/
 /gepsac/gepsac-service-ws/target/
+/demo/das-web/target/
+/demo/angulardemorestful-step4-angularjs-crud/target/

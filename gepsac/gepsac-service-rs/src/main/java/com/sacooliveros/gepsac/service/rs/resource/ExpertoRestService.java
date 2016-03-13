@@ -81,5 +81,16 @@ public class ExpertoRestService implements ExpertoResource {
                     Response.status(500).entity(e.getMessage()).build());
         }
     }
+
+    @Override
+    public EvaluacionAcosoEscolar consultarEvaluacionAcosoEscolarEvaluado(String codigoEvaluacion) {    
+        try {
+            return service.consultarResultadoAcosoEscolar(codigoEvaluacion);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(500).entity(e.getMessage()).build());
+        }
+    }
     
 }

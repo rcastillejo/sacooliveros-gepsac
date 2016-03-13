@@ -239,4 +239,26 @@ public class ExpertoService implements Experto {
         }
     }
 
+    @Override
+    public EvaluacionAcosoEscolar consultarResultadoAcosoEscolar(String codigoEvaluacion) throws ExpertoServiceException {
+        EvaluacionAcosoEscolar resultado;
+
+        try {
+            AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
+            EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+
+            EvaluacionAcosoEscolar evaluacionAcosoEscolar = evaluacionDao.obtener(codigoEvaluacion);
+            
+            List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacionAcosoEscolar.getCodigo());
+ 
+            evaluacionAcosoEscolar.setPreguntas(preguntas);
+
+            return evaluacionAcosoEscolar;
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.GENERAR_EXPLICACION_ACOSO_ESCOLAR, e, codigoEvaluacion);
+        }
+    }
+
 }

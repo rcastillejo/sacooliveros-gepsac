@@ -44,4 +44,8 @@ public interface ExpertoResource {
     @Path("/explicacion/{codigoEvaluacion}")
     ExplicacionResultado generarExplicacion(@PathParam("codigoEvaluacion") String codigoEvaluacion);
     
+    @GET
+    @Path("/acosoEscolar/evaluado/{codigoEvaluacion}")
+    EvaluacionAcosoEscolar consultarEvaluacionAcosoEscolarEvaluado(@PathParam("codigoEvaluacion") String codigoEvaluacion);
+    
 }

@@ -89,9 +89,9 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
         return inferencia;
     }
 
-    private PreguntaEvaluacion obtenerRespuesta(List<PreguntaEvaluacion> preguntasResultas, String codigo) {
+    private PreguntaEvaluacion obtenerRespuesta(List<PreguntaEvaluacion> preguntasResueltas, String codigo) {
         PreguntaEvaluacion preguntaEncontrada = null;
-        for (PreguntaEvaluacion preguntasResulta : preguntasResultas) {
+        for (PreguntaEvaluacion preguntasResulta : preguntasResueltas) {
             log.trace("Evaluando codigo[{}] con preguntasResulta [{}] ", preguntaEncontrada);
             Pregunta pregunta = preguntasResulta.getPregunta();
             if (pregunta.getCodigo().equals(codigo)) {

@@ -17,7 +17,7 @@
 
         (nodo 	(nombre nodo1)
 		(tipo decision)
-		(pregunta PR0001)
+		(pregunta PR0001) 
 		(nodo-si nodo12)
 		(nodo-no nodo2)
 	)

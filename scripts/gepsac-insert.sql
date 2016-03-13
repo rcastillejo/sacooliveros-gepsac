@@ -306,3 +306,7 @@ insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, ord
 insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0013', 'NO', 0);
 insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0014', 'NO', 0);
 insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0015', 'NO', 0);
+
+
+
+-- Reglas

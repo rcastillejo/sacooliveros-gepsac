@@ -4,13 +4,22 @@
     var fromUrl;
     var serviceUrl = "http://localhost:8180/gepsac-service/experto";
     var action = '/GenerarExplicacion.do';
+    var codigoEvaluacion;
+    var profile;
+    
     $(document).ready(function () {
+        fromUrl = decodeURIComponent(getRequestParameter("fromUrl"));
+        
+        codigoEvaluacion = getRequestParameter("codigo");
+        
+        profile = getRequestParameter("profile");
+        
         init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
         $("#btnCancelar").click(function (e) {
             e.preventDefault();
-            location.assign(fromUrl);
+            location.assign(fromUrl + "&profile=" + profile);
         });
     });
 
@@ -22,8 +31,6 @@
      
     function init() {
         
-        fromUrl = getRequestParameter("fromUrl");
-        var codigoEvaluacion = getRequestParameter("codigo");
         console.log("fromUrl", fromUrl);
         $.ajax({
             type: "GET",

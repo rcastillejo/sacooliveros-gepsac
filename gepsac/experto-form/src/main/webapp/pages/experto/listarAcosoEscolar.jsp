@@ -2,13 +2,21 @@
 <script type='text/javascript'>
     var serviceUrl = "http://localhost:8180/gepsac-service/experto";
     var action = '/GenerarExplicacion.do';
+    var actionConsultar = '/ConsultarExplicacion.do';
     var item;
+    var profile;
 
-    $(document).ready(function () {
+    $(document).ready(function () {        
+        profile = getRequestParameter('profile');
         init();
     });
     
-    function init() {
+    function getRequestParameter(name){
+        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+           return decodeURIComponent(name[1]);
+     }
+    
+    function init() {        
         $.ajax({
             type: "GET",
             dataType: 'json',
@@ -45,9 +53,32 @@
         
         table.find("tbody").append(detalle);
         var chkId = detalle.find("#chkId");
-        var link = chkId.attr('href') + action + '?method=initExplicacion&codigo=' + json.codigo;
-        link += "&fromUrl="+window.location.href;
-        chkId.attr("href", link);
+        var lnkConsultar = detalle.find("#lnkConsultar");
+        
+        var fromUrl =  "&fromUrl="+window.location.href;
+        
+        console.log('fromUrl', fromUrl);
+        if( profile === 'E' ){
+            /**
+             * 
+             * Link Generar Explicacion Acoso Escolar
+             */
+            var link = chkId.attr('href') + action + '?method=initExplicacion&codigo=' + json.codigo;
+            chkId.attr("href", link + fromUrl);
+            
+            //Ocultar Link Generar Explicacion
+            lnkConsultar.hide();
+        } else if( profile === 'P' ){
+            /**
+             * 
+             * Link Consultar Acoso Escolar
+             */
+            var linkConsultar = lnkConsultar.attr('href') + actionConsultar + '?method=init&codigo=' + json.codigo;
+            lnkConsultar.attr("href", linkConsultar + fromUrl);
+            
+            //Ocultar Link Generar Explicacion
+            chkId.hide();
+        }
     }
 
     function fn_checkListadoItem(objCheck, json) {
@@ -133,6 +164,9 @@
                     <td>
                         <a id="chkId" href="<%=request.getContextPath()%>" >
                             Generar Explicacion
+                        </a>
+                        <a id="lnkConsultar" href="<%=request.getContextPath()%>" >
+                            Consultar
                         </a>
                     </td>
                 </tr>

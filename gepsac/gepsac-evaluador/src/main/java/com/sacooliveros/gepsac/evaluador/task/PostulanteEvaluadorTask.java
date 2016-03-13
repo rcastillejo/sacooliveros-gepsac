@@ -35,11 +35,7 @@ public class PostulanteEvaluadorTask extends EvaluadorTask {
         String id = mensaje.getId();
 
         try {
-            /**
-             * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
-             * perfil
-             */
-            log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
+            log.info(/*id + "\t" +*/"El sistema evalua al alumno postulante");
 
             Alumno alumno = (Alumno) mensaje.getRequest();
             EvaluacionPostulante evaluacion = new EvaluacionPostulante();
@@ -47,7 +43,7 @@ public class PostulanteEvaluadorTask extends EvaluadorTask {
 
             evaluacion = service.evaluarAlumno(evaluacion);
 
-            String msg = MessageFormat.format(Experto.Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacion.getCodigo()});
+            String msg = MessageFormat.format(Experto.Mensaje.EVALUAR_ALUMNO_POSTULANTE, new Object[]{evaluacion.getCodigo()});
             log.info(/*id + "\t" + */msg);
         } catch (ExpertoServiceException e) {
             log.error(id + "\t" + e.getMessage(), e);

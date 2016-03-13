@@ -47,6 +47,7 @@ public interface Experto {
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
             String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
+            String CONSULTAR_RESULTADO_ACOSO_ESCOLAR = "Error al consultar resultado de la evaluacion de de acoso escolar [{0}]";
         }
     }
 
@@ -60,4 +61,6 @@ public interface Experto {
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
     
     ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException;
+    
+    EvaluacionAcosoEscolar consultarResultadoAcosoEscolar(String codigoEvaluacion) throws ExpertoServiceException;
 }
