@@ -20,7 +20,7 @@ import java.util.List;
  */
 public interface Experto {
 
-    public interface Mensaje {
+    interface Mensaje {
 
         String EVALUAR_ALUMNO_POSTULANTE = "La evaluación fue realizada con éxito [{0}]";
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";

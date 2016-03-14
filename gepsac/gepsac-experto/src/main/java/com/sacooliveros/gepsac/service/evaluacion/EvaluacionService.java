@@ -5,16 +5,18 @@
  */
 package com.sacooliveros.gepsac.service.evaluacion;
 
+import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
+import com.sacooliveros.gepsac.model.comun.Estado;
+import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
-import java.util.Calendar;
+import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +69,7 @@ public class EvaluacionService implements Evaluacion {
             throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
         }
     }
 
@@ -90,22 +92,41 @@ public class EvaluacionService implements Evaluacion {
 
     private void validarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
         if (solicitudPsicologica.getSolicitante() == null || solicitudPsicologica.getSolicitante().isEmpty()) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
         }
         if (solicitudPsicologica.getMotivo() == null || solicitudPsicologica.getMotivo().isEmpty()) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar el motivo de la solicitud psicologica");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar el motivo de la solicitud psicologica");
         }
         if (solicitudPsicologica.getDescripcion() == null || solicitudPsicologica.getDescripcion().isEmpty()) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar la descripcion de la solicitud psicologica");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar la descripcion de la solicitud psicologica");
         }
         if (solicitudPsicologica.getAlumno() == null || solicitudPsicologica.getAlumno().getCodigo() == null) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar un alumno");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar un alumno");
         }
         if (solicitudPsicologica.getAlumnoInvolucrado().isEmpty()) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar al menos un alumno involucrado");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar al menos un alumno involucrado");
         }
         if (solicitudPsicologica.getFechaSolicitud() == null) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
+        }
+    }
+
+    @Override
+    public String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException {
+
+        try {
+            EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+
+            evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.RESUELTO);
+
+            evaluacionDao.registrarRespuestaEvaluacion(evaluacionAcosoEscolar);
+
+            log.info("El sistema graba la evaluación en estado 'Resuelta'");
+            return MessageFormat.format(Mensaje.RESOLVER_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
         }
     }
 

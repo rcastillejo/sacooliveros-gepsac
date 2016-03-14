@@ -251,6 +251,52 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             closeConnection(session);
         }
     }
+   
+    
+    public void actualizarRespuestaPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model){
+        List<PreguntaEvaluacion> preguntas;
+        
+        preguntas = model.getPreguntas();  
+        
+        for (PreguntaEvaluacion pregunta : preguntas) {
+            pregunta.setCodigoEvaluacion(model.getCodigo());
+            if (mapper.updateRespuestaPreguntas(pregunta) == 0) {
+                throw new DAOException("No se pudo registrar");
+            }
+        }
+         
+    }
+    
+    @Override
+    public void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            
+            log.debug("Actualizando [{}] ...", model);
+            if (mapper.updateResueltoEvalAcosoEscolar(model) == 0) {
+                throw new DAOException("No se pudo actualizar");
+            }
+            
+            if(model.getPreguntas() != null){
+                actualizarRespuestaPreguntas(mapper, model);
+            }
+            
+            session.commit();
+            log.info("Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
 
   
 }

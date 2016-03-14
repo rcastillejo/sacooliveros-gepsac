@@ -45,7 +45,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlSeeAlso({
     EvaluacionPostulante.class,
     Pregunta.class,
-    EvaluacionAcosoEscolar.class,
     Perfil.class,
     Participante.class
 })

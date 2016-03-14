@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class EvaluacionAcosoEscolar extends Model {
 
+    private Date fechaRegistro;
+    private Date fechaResuelto;
     private Date fechaEvaluacion;
     private Alumno alumno;
     private List<PreguntaEvaluacion> preguntas;
@@ -62,6 +64,23 @@ public class EvaluacionAcosoEscolar extends Model {
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaResuelto() {
+        return fechaResuelto;
+    }
+
+    public void setFechaResuelto(Date fechaResuelto) {
+        this.fechaResuelto = fechaResuelto;
+    }
+    
 
 
     @Override

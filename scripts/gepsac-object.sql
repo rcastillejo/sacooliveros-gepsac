@@ -596,7 +596,8 @@ WITH (
 CREATE TABLE tp_evaluacion_acoso_escolar
 (
   cod_evaluacion character varying(20) NOT NULL,
-  fec_evaluacion timestamp without time zone NOT NULL,
+  fec_resuelto timestamp without time zone NULL,
+  fec_evaluacion timestamp without time zone NULL,
   cod_alumno character varying(20) NOT NULL,
   cod_perfil character varying(15) NULL,
   

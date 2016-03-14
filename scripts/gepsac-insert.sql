@@ -32,8 +32,9 @@ INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0001', 'R
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0002', 'Configurado'	, null);
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0003', 'Programado'	, null);
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVP0001', 'Registrado'	, 'Evaluacion de Postulante Registrado');
-INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0001', 'Registrado'	, 'Evaluacion de Acoso Escolar Registrado');
-INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0002', 'Evaluado'	, 'Evaluacion de Acoso Escolar Evaluado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0000', 'Por Resolver', 'Evaluacion de Acoso Escolar Pendiente de Resolver por el Alumno');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0001', 'Resuelto'	, 'Evaluacion de Acoso Escolar Resuelto por el Alumno');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0002', 'Evaluado'	, 'Evaluacion de Acoso Escolar Evaluado por el Sistema');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0001', 'Registrado'	, 'Alumno Registrado');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0002', 'Evaluado'	, 'Alumno Evaluado');
 

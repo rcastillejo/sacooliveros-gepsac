@@ -83,7 +83,7 @@ public class TimerTask implements Runnable {
      * @return Evaluaciones en estado Registrado
      */
     private List<EvaluacionAcosoEscolar> buscaEvaluacionesAcosoEscolar() {
-        return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.REGISTRADO);
+        return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.RESUELTO);
     }
 
     private void enviarMensaje(EvaluacionAcosoEscolar evaluacion) {

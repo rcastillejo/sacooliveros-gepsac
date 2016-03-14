@@ -5,6 +5,7 @@
  */
 package com.sacooliveros.gepsac.service.evaluacion;
 
+import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import java.util.List;
@@ -15,12 +16,11 @@ import java.util.List;
  */
 public interface Evaluacion {
 
-    public interface Mensaje {
+    interface Mensaje {
 
         String EVALUAR_ALUMNO_POSTULANTE = "La evaluación fue realizada con éxito [{0}]";
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
-        String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
-        String PROGRAMAR = "La programación fue satisfactoria [{0}]";
+        String RESOLVER_ACOSO_ESCOLAR = "Las respuestas se registraron satisfactoriamente [{0}]";
 
     }
 
@@ -42,9 +42,13 @@ public interface Evaluacion {
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
             String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
+            String RESOLVER_ACOSO_ESCOLAR = "No se pudo registrar las respuestas";
         }
     }
 
     List<SolicitudPsicologica> listarSolicitudPsicologica() throws ExpertoServiceException;
     String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException;
+
+    String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException;
+    
 }

@@ -26,6 +26,16 @@ public interface EvaluacionAcosoEscolarMapper {
 
     public int updatePreguntas(PreguntaEvaluacion model);      
     
+    /**
+     * Resolver Evaluacion Acoso Escolar
+     */
+    public int updateResueltoEvalAcosoEscolar(EvaluacionAcosoEscolar model);
+
+    /**
+     * Resolver Evaluacion Acoso Escolar
+     */
+    public int updateRespuestaPreguntas(PreguntaEvaluacion model);
+    
     public List<EvaluacionAcosoEscolar> queryEstado(@Param("codigoEstado") String codigoEstado);
     
     public List<PreguntaEvaluacion> queryPregunta(@Param("codigoEvaluacion") String codigoEvaluacion);

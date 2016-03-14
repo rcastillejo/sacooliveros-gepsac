@@ -146,6 +146,26 @@
     </update> 
     
     
+    <!-- Actualizar Acoso Escolar a Resuelto-->
+    <update id="updateResueltoEvalAcosoEscolar">
+        Update 
+            tp_evaluacion_acoso_escolar 
+        Set
+            fec_resuelto = #{fechaResuelto},
+            cod_estado = #{estado.codigo}
+        Where
+            cod_evaluacion=#{codigo}
+    </update>
+    
+    <insert id="updateRespuestaPreguntas">
+        Update 
+            tp_pregunta_evaluacion 
+        Set
+            respuesta = #{respuesta}
+        Where
+            cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+    </insert>
+    
     <update id="updateRespEvalAcosoEscolar">
         Update 
             tp_evaluacion_acoso_escolar 

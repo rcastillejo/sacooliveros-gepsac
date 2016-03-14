@@ -7,15 +7,12 @@ package com.sacooliveros.gepsac.service.rs;
 
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
-import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
-import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
@@ -45,5 +42,17 @@ public interface EvaluacionResource {
     @POST
     @Path("/solicitudPsicologica")
     String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
+        
+    @GET
+    @Path("/acosoEscolar/resuelto")
+    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarResuelto();
+        
+    @GET
+    @Path("/acosoEscolar/{codigoEvaluacion}")
+    EvaluacionAcosoEscolar obtenerEvaluacionAcosoEscolar(@PathParam("codigoEvaluacion") String codigoEvaluacion);
+    
+    @POST
+    @Path("/acosoEscolar/resolver")
+    String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion);
     
 }

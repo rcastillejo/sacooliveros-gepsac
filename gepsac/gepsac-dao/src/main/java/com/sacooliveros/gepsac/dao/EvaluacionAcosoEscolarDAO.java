@@ -32,4 +32,6 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
      List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion);
      
      void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+     
+     void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
 }

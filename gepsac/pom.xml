@@ -11,6 +11,7 @@
     
     <modules>
         <module>gepsac-parent</module>
+        <module>evaluacion-form</module>
         <module>experto-form</module>
         <module>template-form</module>
         <module>gepsac-backoffice</module>

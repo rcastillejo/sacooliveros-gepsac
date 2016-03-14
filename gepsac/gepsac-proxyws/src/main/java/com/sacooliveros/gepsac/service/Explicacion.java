@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="evaluacionAcosoEscolar" type="{http://service.gepsac.sacooliveros.com/}evaluacionAcosoEscolar" minOccurs="0"/>
+ *         &lt;element name="codigoEvaluacionAcosoEscolar" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,34 +27,34 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "explicacion", propOrder = {
-    "evaluacionAcosoEscolar"
+    "codigoEvaluacionAcosoEscolar"
 })
 public class Explicacion {
 
-    protected EvaluacionAcosoEscolar evaluacionAcosoEscolar;
+    protected String codigoEvaluacionAcosoEscolar;
 
     /**
-     * Gets the value of the evaluacionAcosoEscolar property.
+     * Gets the value of the codigoEvaluacionAcosoEscolar property.
      * 
      * @return
      *     possible object is
-     *     {@link EvaluacionAcosoEscolar }
+     *     {@link String }
      *     
      */
-    public EvaluacionAcosoEscolar getEvaluacionAcosoEscolar() {
-        return evaluacionAcosoEscolar;
+    public String getCodigoEvaluacionAcosoEscolar() {
+        return codigoEvaluacionAcosoEscolar;
     }
 
     /**
-     * Sets the value of the evaluacionAcosoEscolar property.
+     * Sets the value of the codigoEvaluacionAcosoEscolar property.
      * 
      * @param value
      *     allowed object is
-     *     {@link EvaluacionAcosoEscolar }
+     *     {@link String }
      *     
      */
-    public void setEvaluacionAcosoEscolar(EvaluacionAcosoEscolar value) {
-        this.evaluacionAcosoEscolar = value;
+    public void setCodigoEvaluacionAcosoEscolar(String value) {
+        this.codigoEvaluacionAcosoEscolar = value;
     }
 
 }
