@@ -11,11 +11,14 @@ import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -117,16 +120,30 @@ public class EvaluacionService implements Evaluacion {
         try {
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
+            validateRespuestaAcosoEscolar(evaluacionAcosoEscolar);
+
+            evaluacionAcosoEscolar.setFechaResuelto(new Date());
             evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.RESUELTO);
 
             evaluacionDao.registrarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
             log.info("El sistema graba la evaluación en estado 'Resuelta'");
             return MessageFormat.format(Mensaje.RESOLVER_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
+        } catch (ValidatorException e) {
+            throw e;
         } catch (ExpertoServiceException e) {
             throw e;
         } catch (Exception e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.RESOLVER_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
+        }
+    }
+
+    private void validateRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar) {
+        List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
+        for (PreguntaEvaluacion pregunta : preguntas) {
+            if (pregunta.getRespuesta() == null || pregunta.getRespuesta().isEmpty()) {
+                throw new ValidatorException(Error.Mensaje.RESOLVER_PREGUNTA_ACOSO_ESCOLAR);
+            }
         }
     }
 

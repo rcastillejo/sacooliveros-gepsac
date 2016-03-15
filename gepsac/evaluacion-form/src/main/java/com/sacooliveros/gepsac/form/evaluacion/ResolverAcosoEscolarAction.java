@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sacooliveros.gepsac.form.experto;
+package com.sacooliveros.gepsac.form.evaluacion;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +16,14 @@ import org.apache.struts.actions.DispatchAction;
  *
  * @author rcastillejo
  */
-public class ConsultarExplicacionAction extends DispatchAction {
+public class ResolverAcosoEscolarAction extends DispatchAction {
 
     public ActionForward init(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("consultarAcosoEscolar");
+        return mapping.findForward("listarResolverAcosoEscolar");
+    }
+
+    public ActionForward initResolver(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward("resolverAcosoEscolar");
     }
 
 }

@@ -38,4 +38,11 @@
     <definition name="consultarAcosoEscolar" extends="principal">
         <put name="content" value="/pages/experto/consultarAcosoEscolar.jsp" type="page"/>
     </definition>
+    
+    <definition name="listarResolverAcosoEscolar" extends="principal" >
+        <put name="content" value="/pages/evaluacion/listarAcosoEscolar.jsp" type="page"/>
+    </definition>
+    <definition name="resolverAcosoEscolar" extends="principal" >
+        <put name="content" value="/pages/evaluacion/resolverAcosoEscolar.jsp" type="page"/>
+    </definition>
 </tiles-definitions>

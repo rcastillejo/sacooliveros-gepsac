@@ -13,6 +13,7 @@ import com.sacooliveros.gepsac.service.evaluacion.EvaluacionService;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.rs.EvaluacionResource;
 import java.util.List;
 import javax.ws.rs.WebApplicationException;
@@ -90,10 +91,14 @@ public class EvaluacionRestService implements EvaluacionResource {
     public String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion) {                   
         try {
             return service.resolverAcosoEscolar(evaluacion);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
             throw new WebApplicationException(
-                    Response.status(500).entity(e.getMessage()).build());
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
     

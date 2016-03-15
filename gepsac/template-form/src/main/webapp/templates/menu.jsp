@@ -28,6 +28,16 @@
                 </li>
             </ul>
         </li>
+        <li>
+            <div>Evaluacion</div>
+            <ul style="display: none;">
+                <li>
+                    <html:link page="/ResolverAcosoEscolar.do?method=init" >
+                        Resolver Evaluacion
+                    </html:link>
+                </li>
+            </ul>
+        </li>
         
     </ul>
 

@@ -43,6 +43,7 @@ public interface Evaluacion {
             String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
             String RESOLVER_ACOSO_ESCOLAR = "No se pudo registrar las respuestas";
+            String RESOLVER_PREGUNTA_ACOSO_ESCOLAR = "Debe seleccionar una respuesta";
         }
     }
 
