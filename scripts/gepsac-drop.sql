@@ -29,8 +29,12 @@ drop table tp_distrito;
 drop table tp_provincia;
 drop table tp_departamento;
 
+
+drop table tp_estado;
+
+drop table tp_pregunta_regla;
+drop table tp_regla;
+
 drop table tp_perfil;
 
 drop table tp_pregunta;
-
-drop table tp_estado;
