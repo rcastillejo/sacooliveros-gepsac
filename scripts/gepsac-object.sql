@@ -664,9 +664,6 @@ CREATE TABLE tp_regla
   CONSTRAINT pk_tp_regla PRIMARY KEY (cod_regla),
   CONSTRAINT fk_tp_regla_tp_perfil FOREIGN KEY (perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tp_regla_tp_pregunta FOREIGN KEY (regla)
-      REFERENCES tp_regla (cod_regla) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
