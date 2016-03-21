@@ -51,6 +51,10 @@ public interface EvaluacionResource {
     @Path("/acosoEscolar/{codigoEvaluacion}")
     EvaluacionAcosoEscolar obtenerEvaluacionAcosoEscolar(@PathParam("codigoEvaluacion") String codigoEvaluacion);
     
+    @GET
+    @Path("/acosoEscolar/porResolver")
+    List<EvaluacionAcosoEscolar> listarEvaluacionAEPorResolver();
+    
     @POST
     @Path("/acosoEscolar/resolver")
     String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion);

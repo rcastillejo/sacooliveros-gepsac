@@ -88,6 +88,17 @@ public class EvaluacionRestService implements EvaluacionResource {
     }
 
     @Override
+    public List<EvaluacionAcosoEscolar> listarEvaluacionAEPorResolver() {        
+        try {
+            return serviceExperto.listarEvaluacionAcosoEscolar(State.EvaluacionAcosoEscolar.POR_RESOLVER);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(500).entity(e.getMessage()).build());
+        }
+    }
+    
+    @Override
     public String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion) {                   
         try {
             return service.resolverAcosoEscolar(evaluacion);

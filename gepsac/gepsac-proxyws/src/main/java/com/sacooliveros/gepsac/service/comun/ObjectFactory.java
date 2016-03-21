@@ -37,35 +37,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaResponse }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
-     * Create an instance of {@link Estrategia }
+     * Create an instance of {@link ListarEstrategiaActividad }
      * 
      */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
     }
 
     /**
@@ -77,11 +61,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaActividad }
+     * Create an instance of {@link Model }
      * 
      */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
+    public Model createModel() {
+        return new Model();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link Estrategia }
+     * 
+     */
+    public Estrategia createEstrategia() {
+        return new Estrategia();
+    }
+
+    /**
+     * Create an instance of {@link Indicador }
+     * 
+     */
+    public Indicador createIndicador() {
+        return new Indicador();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
     }
 
     /**
@@ -98,22 +114,6 @@ public class ObjectFactory {
      */
     public ListarEstrategia createListarEstrategia() {
         return new ListarEstrategia();
-    }
-
-    /**
-     * Create an instance of {@link Indicador }
-     * 
-     */
-    public Indicador createIndicador() {
-        return new Indicador();
-    }
-
-    /**
-     * Create an instance of {@link Actividad }
-     * 
-     */
-    public Actividad createActividad() {
-        return new Actividad();
     }
 
     /**

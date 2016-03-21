@@ -5,10 +5,12 @@
  */
 package com.sacooliveros.gepsac.service.experto;
 
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
@@ -26,6 +28,9 @@ public interface Experto {
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
         String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
         String PROGRAMAR = "La programación fue satisfactoria [{0}]";
+        String AGREGAR_REGLA = "El registro se realizó con éxito";
+        String MODIFICAR_REGLA = "La modificación se realizó con éxito";
+        String ELIMINAR_REGLA = "La eliminación se realizó con éxito";
 
     }
 
@@ -44,24 +49,44 @@ public interface Experto {
             String REGISTRAR_SOLICITUD_PSICOLOGICA = "Error al registrar la solicitud psicologica [{0}]";
             String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
-            String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar [{0}]";
+            String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar";
+            String LISTAR_REGLAS_ACOSO_ESCOLAR = "Error al consultar reglas de acoso escolar";
+            String LISTAR_PREGUNTAS = "Error al consultar preguntas";
+            String LISTAR_PERFILES = "Error al consultar perfiles";
             String EVALUAR_RESPUESTA_ACOSO_ESCOLAR = "Error al evaluar las respuesta de acoso escolar [{0}]";
             String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
             String CONSULTAR_RESULTADO_ACOSO_ESCOLAR = "Error al consultar resultado de la evaluacion de de acoso escolar [{0}]";
+            
+            String NO_EXISTE_REGLAS_ACOSO_ESCOLAR = "No existen reglas de acoso escolar";
+            String PREGUNTAS_REPETIDAS_REGLA = "Preguntas repetidas en una condicion";
+            String REGLA_REPETIDA = "Regla coincide con una existente";
+            String MANTENIMIENTO_REGLA = "Error al realizar la operación";
+            String NO_EXISTE_PREGUNTA = "No existen preguntas";
+            String NO_EXISTE_PERFIL = "No existen perfiles";
         }
     }
-
 
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionAlumno) throws ExpertoServiceException;
 
     //String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
-    
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(String codigoEstado) throws ExpertoServiceException;
-    
+
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
-    
+
     ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException;
-    
+
     EvaluacionAcosoEscolar consultarResultadoAcosoEscolar(String codigoEvaluacion) throws ExpertoServiceException;
+
+    List<Perfil> listarPerfil() throws ExpertoServiceException;
+
+    List<Regla> listarRegla() throws ExpertoServiceException;
+
+    String agregarRegla(Regla regla) throws ExpertoServiceException;
+
+    String actualizarRegla(Regla regla) throws ExpertoServiceException;
+
+    String eliminarRegla(String codigoRegla) throws ExpertoServiceException;
+    
+    List<Pregunta> listarPregunta() throws ExpertoServiceException;
 }

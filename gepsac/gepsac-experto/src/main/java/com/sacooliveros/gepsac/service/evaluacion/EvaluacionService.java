@@ -127,7 +127,7 @@ public class EvaluacionService implements Evaluacion {
 
             evaluacionDao.registrarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
-            log.info("El sistema graba la evaluación en estado 'Resuelta'");
+            log.info("El sistema graba la evaluación en estado 'Resuelto'");
             return MessageFormat.format(Mensaje.RESOLVER_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
         } catch (ValidatorException e) {
             throw e;
@@ -140,9 +140,10 @@ public class EvaluacionService implements Evaluacion {
 
     private void validateRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar) {
         List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
-        for (PreguntaEvaluacion pregunta : preguntas) {
+        for (int i = 0; i < preguntas.size(); i++) {
+            PreguntaEvaluacion pregunta = preguntas.get(i);
             if (pregunta.getRespuesta() == null || pregunta.getRespuesta().isEmpty()) {
-                throw new ValidatorException(Error.Mensaje.RESOLVER_PREGUNTA_ACOSO_ESCOLAR);
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.RESOLVER_PREGUNTA_ACOSO_ESCOLAR, i + 1);
             }
         }
     }

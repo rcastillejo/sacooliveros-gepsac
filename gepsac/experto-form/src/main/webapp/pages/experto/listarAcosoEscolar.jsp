@@ -1,22 +1,23 @@
 
 <script type='text/javascript'>
-    var serviceUrl = "http://localhost:8180/gepsac-service/experto";
+    var serviceIP = "192.168.1.38";
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/experto";
     var action = '/GenerarExplicacion.do';
     var actionConsultar = '/ConsultarExplicacion.do';
     var item;
     var profile;
 
-    $(document).ready(function () {        
+    $(document).ready(function () {
         profile = getRequestParameter('profile');
         init();
     });
-    
-    function getRequestParameter(name){
-        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-           return decodeURIComponent(name[1]);
-     }
-    
-    function init() {        
+
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
+    function init() {
         $.ajax({
             type: "GET",
             dataType: 'json',
@@ -26,7 +27,9 @@
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, "MENSAJE");
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "MENSAJE");
         });
     }
 
@@ -45,27 +48,27 @@
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
         detalle.find("#lblCodigo").append(json.codigo);
-        detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno+' '+json.alumno.apellidoMaterno);
-        if(json.perfil){
+        detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno + ' ' + json.alumno.apellidoMaterno);
+        if (json.perfil) {
             detalle.find("#lblPerfil").append(json.perfil.nombre);
         }
         detalle.find("#lblEstado").append(json.estado.nombre);
-        
+
         table.find("tbody").append(detalle);
         var chkId = detalle.find("#chkId");
         var lnkConsultar = detalle.find("#lnkConsultar");
-        
-        var fromUrl =  "&fromUrl="+window.location.href;
-        
+
+        var fromUrl = "&fromUrl=" + window.location.href;
+
         console.log('fromUrl', fromUrl);
-        if( profile === 'E' ){
+        if (profile === 'E') {
             /**
              * 
              * Link Generar Explicacion Acoso Escolar
              */
             var link = chkId.attr('href') + action + '?method=initExplicacion&codigo=' + json.codigo;
             chkId.attr("href", link + fromUrl);
-            
+
             //Ocultar Link Generar Explicacion
             lnkConsultar.hide();
         } else if( profile === 'P' ){
@@ -75,7 +78,7 @@
              */
             var linkConsultar = lnkConsultar.attr('href') + actionConsultar + '?method=init&codigo=' + json.codigo;
             lnkConsultar.attr("href", linkConsultar + fromUrl);
-            
+
             //Ocultar Link Generar Explicacion
             chkId.hide();
         }
@@ -103,15 +106,15 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
         }).done(function (listado) {
             console.log('listado', listado);
             $("#tblDetalle tbody").empty();
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+            fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+        });
     }
 
 </script>
@@ -179,8 +182,8 @@
                     <th>Código Evaluación</th>	
                     <th>Alumno</th>
                     <th>Perfil</th>
-                    <th>Estado</th>	
-                    <th>Explicacion</th>
+                    <th>Estado</th>
+                    <th>Opción</th>
                 </tr>	
             </thead>
             <tbody></tbody>

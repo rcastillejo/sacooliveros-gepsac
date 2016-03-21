@@ -45,4 +45,8 @@
     <definition name="resolverAcosoEscolar" extends="principal" >
         <put name="content" value="/pages/evaluacion/resolverAcosoEscolar.jsp" type="page"/>
     </definition>
+    
+    <definition name="mantenerRegla" extends="principal" >
+        <put name="content" value="/pages/experto/mantenerRegla.jsp" type="page"/>
+    </definition>
 </tiles-definitions>

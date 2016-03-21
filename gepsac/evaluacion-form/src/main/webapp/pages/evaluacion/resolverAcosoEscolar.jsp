@@ -1,8 +1,9 @@
 
 
 <script type = "text/javascript" >
+    var serviceIP = "192.168.1.38";
     var fromUrl;
-    var serviceUrl = "http://localhost:8180/gepsac-service/evaluacion";
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
     var action = '/ResolverAcosoEscolar.do';
     var codigoEvaluacion;
 
@@ -173,11 +174,11 @@
 
     function cargarListado(listado) {
         for (var i in listado) {
-            cargarItem(listado[i]);
+            cargarItem(listado[i], i);
         }
     }
 
-    function cargarItem(json) {
+    function cargarItem(json, i) {
         console.log('cargando...', json);
 
         var table = $("#tblDetalle");
@@ -187,6 +188,7 @@
         detalle.attr('id', 'tblPregunta-' + json.pregunta.codigo);
         detalle.find("#hdnPreguntaId").val(json.pregunta.codigo);
 
+        detalle.find("#lblNroPregunta").append(parseInt(i) + 1);
         detalle.find("#lblPregunta").append(json.pregunta.enunciado);
         var respuesta = detalle.find("[name='respuesta']");
         respuesta.attr('name', 'respuesta-' + json.pregunta.codigo);
@@ -206,36 +208,13 @@
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Consulta de Evaluacion Acoso Escolar
+        Resolver Evaluacion Acoso Escolar
     </div>
     <div id="dvData">
         <fieldset>
             <legend>
-                <label>Datos del Alunno</label>
-            </legend>
-
-            <table>
-                <tr>
-                    <td>
-                        <label>Apellidos</label>
-                    </td>
-                    <td>
-                        <input id="txtApellido" type="text" disabled="true" style="text-align: left">                  
-                    </td>
-                    <td>
-                        <label>Nombres</label>                    
-                    </td>
-                    <td>
-                        <input id="txtNombre" type="text" disabled="true" style="text-align: left">                       
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-
-        <fieldset>
-            <legend>
-                <label>Resultado de la Evaluacion</label>
-            </legend>
+                <label>Datos de la Evaluacion</label>
+            </legend> 
 
             <table>
                 <tr>
@@ -252,6 +231,20 @@
                         <input id="txtFecRes" type="text" disabled="true" style="text-align: left">                 
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <label>Apellidos</label>
+                    </td>
+                    <td>
+                        <input id="txtApellido" type="text" disabled="true" style="text-align: left">                  
+                    </td>
+                    <td>
+                        <label>Nombres</label>                    
+                    </td>
+                    <td>
+                        <input id="txtNombre" type="text" disabled="true" style="text-align: left">                       
+                    </td>
+                </tr>
             </table>
 
             <div class="separator"></div>
@@ -262,6 +255,9 @@
                     <tr>
                         <td>
                             <input id="hdnPreguntaId" type="hidden" class="inputValue" data-name="pregunta.codigo">
+                            <label id="lblNroPregunta"></label>
+                        </td>
+                        <td>
                             <label id="lblPregunta"></label>
                         </td>
                         <td>
@@ -282,6 +278,7 @@
                 <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
 
                     <thead>
+                    <th>N°</th>
                     <th>Pregunta</th>
                     <th>SI</th>
                     <th>NO</th>

@@ -8,23 +8,30 @@ package com.sacooliveros.gepsac.service.experto;
 import com.sacooliveros.gepsac.dao.AlumnoDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
+import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
+import com.sacooliveros.gepsac.model.experto.PreguntaRegla;
+import com.sacooliveros.gepsac.model.experto.Regla;
+import com.sacooliveros.gepsac.model.util.StateUtil;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.experto.rna.instance.Instancia;
 import com.sacooliveros.gepsac.service.experto.rna.instance.InstanciaFactory;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
 import java.text.MessageFormat;
 import java.util.Collections;
+import java.util.TreeSet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +135,7 @@ public class ExpertoService implements Experto {
             List<EvaluacionAcosoEscolar> evaluaciones = evaluacionDao.listarEvaluacionPorEstado(codigoEstado);
 
             if (evaluaciones == null || evaluaciones.isEmpty()) {
-                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, codigoEstado);
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR, StateUtil.getDescription(codigoEstado));
             }
 
             for (EvaluacionAcosoEscolar evaluacion : evaluaciones) {
@@ -223,7 +230,7 @@ public class ExpertoService implements Experto {
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
             EvaluacionAcosoEscolar evaluacionAcosoEscolar = evaluacionDao.obtener(codigoEvaluacion);
-            
+
             List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaAfirmativa(evaluacionAcosoEscolar.getCodigo());
 
             resultado = new ExplicacionResultado();
@@ -248,9 +255,9 @@ public class ExpertoService implements Experto {
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
 
             EvaluacionAcosoEscolar evaluacionAcosoEscolar = evaluacionDao.obtener(codigoEvaluacion);
-            
+
             List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacionAcosoEscolar.getCodigo());
- 
+
             evaluacionAcosoEscolar.setPreguntas(preguntas);
 
             return evaluacionAcosoEscolar;
@@ -258,6 +265,219 @@ public class ExpertoService implements Experto {
             throw e;
         } catch (Exception e) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.GENERAR_EXPLICACION_ACOSO_ESCOLAR, e, codigoEvaluacion);
+        }
+    }
+
+    @Override
+    public List<Regla> listarRegla() throws ExpertoServiceException {
+
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            List<Regla> listado = reglaDao.listar();
+
+            if (listado == null || listado.isEmpty()) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_REGLAS_ACOSO_ESCOLAR);
+            }
+
+            for (Regla regla : listado) {
+                List<PreguntaRegla> preguntas = reglaDao.listarPreguntaRegla(regla.getCodigo());
+                regla.setPreguntas(preguntas);
+                log.trace("Preguntas [codigo={}, preguntas={}]", new Object[]{regla.getCodigo(), preguntas});
+            }
+
+            log.info("Listado de evaluaciones obtenidas [tamanio={}]", new Object[]{listado.size()});
+
+            return listado;
+
+        } catch (DAOException e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_REGLAS_ACOSO_ESCOLAR, e);
+        }
+    }
+
+    private boolean perfilRepetido(Perfil perfil, Perfil perfilAComparar) {
+        return perfilAComparar.getCodigo().equals(perfil.getCodigo());
+    }
+
+    private boolean condicionRepetida(TreeSet<String> preguntasRegla, TreeSet<String> preguntasReglaAComparar) {
+        return preguntasRegla.containsAll(preguntasReglaAComparar);
+    }
+
+    private void validarPreguntaRepetida(Regla regla) {
+        log.info("El sistema valida la definición de la regla");
+        List<PreguntaRegla> preguntasRegla = regla.getPreguntas();
+
+        for (PreguntaRegla pregunta : preguntasRegla) {
+            for (PreguntaRegla preguntaAComparar : preguntasRegla) {
+                if (pregunta.getPregunta().getCodigo().equals(preguntaAComparar.getPregunta().getCodigo())) {
+                    /**
+                     * 4.3.1.	Preguntas repetidas en una Regla
+                     */
+                    throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.PREGUNTAS_REPETIDAS_REGLA);
+                }
+            }
+        }
+    }
+
+    private void validarReglaRepetida(Regla reglaVerificar, Regla regla) {
+        /**
+         * Valida si el perfil coincide
+         */
+        boolean perfilRepetido = perfilRepetido(reglaVerificar.getPerfil(), regla.getPerfil());
+        /**
+         * Valida si la condicion coincide
+         */
+        boolean condicionRepetida = condicionRepetida(reglaVerificar.getSetCodigoPreguntas(), regla.getSetCodigoPreguntas());
+
+        if (perfilRepetido && condicionRepetida) {
+            throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.REGLA_REPETIDA);
+        }
+    }
+
+    @Override
+    public String agregarRegla(Regla regla) throws ExpertoServiceException {
+
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            /**
+             * 4.2.1.4.	El sistema valida la definición de la regla
+             */
+            validarPreguntaRepetida(regla);
+
+            /**
+             * 4.3.2.	Regla repetida
+             */
+            List<Regla> reglas = reglaDao.listar();
+            for (Regla reglaVerificar : reglas) {
+                validarReglaRepetida(reglaVerificar, regla);
+            }
+            /**
+             * 4.2.1.5.	El sistema graba las reglas
+             */
+            reglaDao.ingresar(regla);
+            log.info("El sistema grabo las reglas");
+
+            /**
+             * 4.2.1.6.	El sistema muestra mensaje “La regla se agregó
+             * satisfactoriamente” con el listado de reglas actualizado.
+             */
+            return MessageFormat.format(Mensaje.AGREGAR_REGLA, new Object[]{regla.getCodigo()});
+        } catch (ValidatorException e) {
+            throw e;
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.MANTENIMIENTO_REGLA, e, regla.getCodigo());
+        }
+    }
+
+    @Override
+    public String actualizarRegla(Regla regla) throws ExpertoServiceException {
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            /**
+             * 4.2.1.4.	El sistema valida la definición de la regla
+             */
+            validarPreguntaRepetida(regla);
+
+            /**
+             * 4.3.2.	Regla repetida
+             */
+            List<Regla> reglas = reglaDao.listar();
+
+            for (Regla reglaVerificar : reglas) {
+                if (!reglaVerificar.getCodigo().equals(regla.getCodigo())) {
+                    validarReglaRepetida(reglaVerificar, regla);
+                }
+            }
+            /**
+             * 4.2.2.8.	El sistema graba los cambios de la regla
+             */
+            reglaDao.actualizar(regla);
+            log.info("El sistema grabo los cambios de la regla");
+
+            /**
+             * 4.2.1.6.	El sistema muestra mensaje “La Regla se actualizó
+             * satisfactoriamente” con el listado de reglas actualizado.
+             */
+            return MessageFormat.format(Mensaje.MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
+        } catch (ValidatorException e) {
+            throw e;
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.MANTENIMIENTO_REGLA, e, regla.getCodigo());
+        }
+    }
+
+    @Override
+    public String eliminarRegla(String codigoRegla) throws ExpertoServiceException {
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            /**
+             * 4.2.3.4.	El sistema elimina el registro de la regla
+             */
+            Regla regla = reglaDao.obtener(codigoRegla);
+            
+            if(regla == null){
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.MANTENIMIENTO_REGLA);
+            }
+            
+            reglaDao.eliminar(regla);
+            log.info("El sistema grabo los cambios de la regla");
+
+            /**
+             * 4.2.1.6.	El sistema muestra mensaje “La Regla se actualizó
+             * satisfactoriamente” con el listado de reglas actualizado.
+             */
+            return MessageFormat.format(Mensaje.MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
+        } catch (ValidatorException e) {
+            throw e;
+        } catch (ExpertoServiceException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.MANTENIMIENTO_REGLA, e, codigoRegla);
+        }
+    }
+
+    @Override
+    public List<Pregunta> listarPregunta() throws ExpertoServiceException {
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            List<Pregunta> listado = reglaDao.listarPregunta();
+
+            if (listado == null || listado.isEmpty()) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_PREGUNTA);
+            }
+            log.info("Listado  obtenidas [tamanio={}]", new Object[]{listado.size()});
+
+            return listado;
+
+        } catch (DAOException e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_PREGUNTAS, e);
+        }
+    }
+
+    @Override
+    public List<Perfil> listarPerfil() throws ExpertoServiceException {
+        try {
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+
+            List<Perfil> listado = reglaDao.listarPerfil();
+
+            if (listado == null || listado.isEmpty()) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_PERFIL);
+            }
+            log.info("Listado  obtenidas [tamanio={}]", new Object[]{listado.size()});
+
+            return listado;
+
+        } catch (DAOException e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_PERFILES, e);
         }
     }
 

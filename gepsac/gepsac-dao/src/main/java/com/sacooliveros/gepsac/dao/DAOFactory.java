@@ -5,10 +5,6 @@
  */
 package com.sacooliveros.gepsac.dao;
 
-import com.sacooliveros.gepsac.dao.factory.MyBatisDAOFactory;
-import com.sacooliveros.gepsac.dao.factory.MockDAOFactory;
-import com.sacooliveros.gepsac.dao.exception.DAOException;
-
 /**
  *
  * @author rcastillejo
@@ -28,4 +24,6 @@ public interface DAOFactory {
     EvaluacionAcosoEscolarDAO getEvaluacionAcosoEscolarDAO();
     
     SolicitudPsicologicaDAO getSolicitudPsicologicaDAO();
+    
+    ReglaDAO getReglaDAO();
 }

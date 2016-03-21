@@ -5,14 +5,19 @@
  */
 package com.sacooliveros.gepsac.service.rs.resource;
 
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import com.sacooliveros.gepsac.model.util.State;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.rs.ExpertoResource;
+import com.sacooliveros.gepsac.service.rs.exception.RestServiceException;
 import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -90,6 +95,75 @@ public class ExpertoRestService implements ExpertoResource {
             log.error(e.getMessage(), e);
             throw new WebApplicationException(
                     Response.status(500).entity(e.getMessage()).build());
+        }
+    }
+
+    @Override
+    public List<Perfil> listarPerfil() { 
+        try {
+            return service.listarPerfil();
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Pregunta> listarPregunta() { 
+        try {
+            return service.listarPregunta();
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    @Override
+    public List<Regla> listarRegla() { 
+        try {
+            return service.listarRegla();
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    @Override
+    public String agregarRegla(Regla regla) {
+        try {
+            return service.agregarRegla(regla);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    //@Override
+    public String modificarRegla(Regla regla) {
+        try {
+            return service.actualizarRegla(regla);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    @Override
+    public String eliminarRegla(String codigoRegla) {
+        try {
+            return service.eliminarRegla(codigoRegla);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
         }
     }
     

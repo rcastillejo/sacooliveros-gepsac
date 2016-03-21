@@ -26,6 +26,11 @@
                         Consultar Resultado Evaluacion Acoso Escolar
                     </html:link>
                 </li>
+                <li>
+                    <html:link page="/MantenerRegla.do?method=init" >
+                        Actualizar Reglas de Acoso Escolar
+                    </html:link>
+                </li>
             </ul>
         </li>
         <li>

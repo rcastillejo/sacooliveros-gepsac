@@ -5,13 +5,18 @@
  */
 package com.sacooliveros.gepsac.service.rs;
 
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -47,5 +52,29 @@ public interface ExpertoResource {
     @GET
     @Path("/acosoEscolar/evaluado/{codigoEvaluacion}")
     EvaluacionAcosoEscolar consultarEvaluacionAcosoEscolarEvaluado(@PathParam("codigoEvaluacion") String codigoEvaluacion);
+    
+    @GET
+    @Path("/perfil")
+    List<Perfil> listarPerfil();
+    
+    @GET
+    @Path("/pregunta")
+    List<Pregunta> listarPregunta();
+    
+    @GET
+    @Path("/regla")
+    List<Regla> listarRegla();
+
+    @POST
+    @Path("/regla")
+    String agregarRegla(Regla regla);
+
+    /*@PUT
+    @Path("/regla")
+    String modificarRegla(Regla regla);*/
+    
+    @DELETE
+    @Path("/regla/{codigoRegla}")
+    String eliminarRegla(@PathParam("codigoRegla") String codigoRegla);
     
 }

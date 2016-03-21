@@ -1,29 +1,32 @@
 
 <script type='text/javascript'>
-    var serviceUrl = "http://localhost:8180/gepsac-service/evaluacion";
+    var serviceIP = "192.168.1.38";
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
     var action = '/ResolverAcosoEscolar.do';
     var item;
 
     $(document).ready(function () {
         init();
     });
-    
-    function getRequestParameter(name){
-        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-           return decodeURIComponent(name[1]);
-     }
-    
-    function init() {        
+
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
+    function init() {
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: serviceUrl + "/acosoEscolar/resuelto"
+            url: serviceUrl + "/acosoEscolar/porResolver"
         }).done(function (listado) {
             console.log('listado', listado);
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, "MENSAJE");
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "MENSAJE");
         });
     }
 
@@ -42,19 +45,19 @@
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
         detalle.find("#lblCodigo").append(json.codigo);
-        detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno+' '+json.alumno.apellidoMaterno);
-        if(json.perfil){
+        detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno + ' ' + json.alumno.apellidoMaterno);
+        if (json.perfil) {
             detalle.find("#lblPerfil").append(json.perfil.nombre);
         }
         detalle.find("#lblEstado").append(json.estado.nombre);
-        
+
         table.find("tbody").append(detalle);
         var chkId = detalle.find("#chkId");
-        
-        var fromUrl =  "&fromUrl="+window.location.href;
-        
+
+        var fromUrl = "&fromUrl=" + window.location.href;
+
         console.log('fromUrl', fromUrl);
-        
+
         var link = chkId.attr('href') + action + '?method=initResolver&codigo=' + json.codigo;
         chkId.attr("href", link + fromUrl);
     }
@@ -81,15 +84,15 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
         }).done(function (listado) {
             console.log('listado', listado);
             $("#tblDetalle tbody").empty();
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+            fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+        });
     }
 
 </script>
@@ -98,7 +101,7 @@
     <!-- INCIO PANEL-->
     <div id="div-busqueda" class="div-busqueda">
         <div id="div-busqueda-titulo" class="div-busqueda-titulo">
-            Evaluaciones Acoso Escolar Evaluadas
+            Evaluaciones Acoso Escolar Por Resolver
         </div>
         <!--div id="div-busqueda-filtros" class="div-busqueda-filtros">
             <fieldset>
@@ -134,9 +137,6 @@
                         <label id="lblAlumno" class="inputValue"></label>
                     </td>
                     <td>
-                        <label id="lblPerfil" class="inputValue"></label>
-                    </td>
-                    <td>
                         <label id="lblEstado" class="inputValue"></label>
                     </td>
                     <td>
@@ -153,9 +153,8 @@
                 <tr>
                     <th>Código Evaluación</th>	
                     <th>Alumno</th>
-                    <th>Perfil</th>
                     <th>Estado</th>	
-                    <th>Explicacion</th>
+                    <th>Opción</th>
                 </tr>	
             </thead>
             <tbody></tbody>

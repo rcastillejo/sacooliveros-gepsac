@@ -126,7 +126,7 @@ INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.sexo.Feme
 INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.nivelEscolar.Primaria', '1', NULL);
 INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.nivelEscolar.Secundaria', '2', NULL);
 
-
+INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0000', 'No Aplica', 'No tiene perfil asignado', NULL, '2015-11-26 21:10:26.977', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0001', 'Agresor', 'Agresor', NULL, '2015-11-26 21:10:26.977', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0002', 'Victima', 'Victima', NULL, '2015-11-26 21:10:46.65', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0003', 'Testigo', 'Testigo', NULL, '2015-11-26 21:10:58.444', NULL, NULL);

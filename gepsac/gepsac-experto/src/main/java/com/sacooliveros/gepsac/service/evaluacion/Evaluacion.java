@@ -20,7 +20,7 @@ public interface Evaluacion {
 
         String EVALUAR_ALUMNO_POSTULANTE = "La evaluación fue realizada con éxito [{0}]";
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
-        String RESOLVER_ACOSO_ESCOLAR = "Las respuestas se registraron satisfactoriamente [{0}]";
+        String RESOLVER_ACOSO_ESCOLAR = "Evaluación fue finalizada con éxito [{0}]";
 
     }
 
@@ -43,7 +43,7 @@ public interface Evaluacion {
             String GENERAR_EXPLICACION_ACOSO_ESCOLAR = "Error al generar explicacion de las respuesta de acoso escolar [{0}]";
             String CARGAR_REGLAS_ACOSO_ESCOLAR = "No se pudo cargar las reglas de acoso escolar";
             String RESOLVER_ACOSO_ESCOLAR = "No se pudo registrar las respuestas";
-            String RESOLVER_PREGUNTA_ACOSO_ESCOLAR = "Debe seleccionar una respuesta";
+            String RESOLVER_PREGUNTA_ACOSO_ESCOLAR = "Debe seleccionar una respuesta a la pregunta Nro {0}";
         }
     }
 

@@ -78,6 +78,14 @@
             <forward name="listarResolverAcosoEscolar" path="listarResolverAcosoEscolar" redirect="true"/>
             <forward name="resolverAcosoEscolar" path="resolverAcosoEscolar" redirect="true"/>
         </action>
+        
+        <action path="/MantenerRegla" 
+                type="com.sacooliveros.gepsac.form.experto.MantenerReglaAction"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="mantenerRegla" path="mantenerRegla" redirect="true"/>
+        </action>
     </action-mappings>
     
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

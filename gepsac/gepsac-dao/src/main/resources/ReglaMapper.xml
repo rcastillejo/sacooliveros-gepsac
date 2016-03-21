@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.ReglaMapper" >
+    
+    <resultMap id="recordRegla" type="com.sacooliveros.gepsac.model.experto.Regla" >
+        <id column="cod_regla" property="codigo" jdbcType="VARCHAR" />
+        <result column="tipo" property="tipo" jdbcType="VARCHAR" />
+        <result column="cod_perfil" property="perfil.codigo" jdbcType="VARCHAR" />
+        <result column="nom_perfil" property="perfil.nombre" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="recordPreguntaRegla" type="com.sacooliveros.gepsac.model.experto.PreguntaRegla" >
+        <id column="cod_pregunta" property="pregunta.codigo" jdbcType="VARCHAR" />
+        <result column="cod_regla" property="codigoRegla" jdbcType="VARCHAR" />
+        
+        <result column="tipo" property="pregunta.tipo" jdbcType="VARCHAR" />
+        <result column="alias" property="pregunta.alias" jdbcType="VARCHAR" />
+        <result column="enunciado" property="pregunta.enunciado" jdbcType="VARCHAR" />
+        
+    </resultMap>
+    
+    <resultMap id="recordPregunta" type="com.sacooliveros.gepsac.model.evaluacion.Pregunta" >
+        <id column="cod_pregunta" property="codigo" jdbcType="VARCHAR" />
+        
+        <result column="tipo" property="tipo" jdbcType="VARCHAR" />
+        <result column="alias" property="alias" jdbcType="VARCHAR" />
+        <result column="enunciado" property="enunciado" jdbcType="VARCHAR" />
+        
+    </resultMap>
+    
+    <resultMap id="recordPerfil" type="com.sacooliveros.gepsac.model.comun.Perfil" >
+        <id column="cod_perfil" property="codigo" jdbcType="VARCHAR" />
+        
+        <result column="nom_perfil" property="nombre" jdbcType="VARCHAR" />
+        <result column="des_perfil" property="descripcion" jdbcType="VARCHAR" />
+        
+    </resultMap>
+       
+    <select id="query" resultMap="recordRegla">
+        SELECT
+            a.cod_regla,
+            a.tipo,
+            d.cod_perfil,
+            d.nom_perfil
+        FROM 
+            tp_regla a
+        INNER JOIN
+            tp_perfil d ON a.perfil = d.cod_perfil
+    </select>
+  
+    <select id="get" resultMap="recordRegla">
+        SELECT
+            a.cod_regla,
+            a.tipo,
+            d.cod_perfil,
+            d.nom_perfil
+        FROM 
+            tp_regla a
+        INNER JOIN
+            tp_perfil d ON a.perfil = d.cod_perfil
+        where
+            cod_regla=#{codigo}
+    </select>
+  
+  
+    <select id="queryPregunta" resultMap="recordPregunta">
+        SELECT
+            a.cod_pregunta,
+            a.tipo,
+            a.alias,
+            a.enunciado
+        FROM 
+            tp_pregunta a
+    </select>
+  
+    <select id="queryPerfil" resultMap="recordPerfil">
+        SELECT
+            a.cod_perfil,
+            a.nom_perfil,
+            a.des_perfil
+        FROM 
+            tp_perfil a
+    </select>
+  
+    
+  
+    <insert id="insert">
+        Insert into tp_regla 
+            (cod_regla, tipo)
+        values
+            (#{codigo},#{tipo})
+    </insert>
+  
+    <insert id="insertPregunta">
+        Insert into tp_pregunta_regla 
+            (cod_regla, cod_pregunta)
+        values
+            (#{codigo},#{cod_pregunta})
+    </insert>
+  
+  
+    <update id="update">
+        Update 
+            tp_regla 
+        Set
+            tipo = #{tipo}
+        Where
+            cod_regla=#{codigo}
+    </update> 
+    
+    
+    
+    <!--<update id="updatePreguntas">
+        Update 
+            tp_pregunta_regla
+        Set
+            orden_evaluado = #{ordenEvaluacion},
+            regla = #{regla}
+        Where
+            cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+    </update>-->
+  
+    <delete id="delete">
+        Delete from 
+            tp_regla 
+        Where
+            cod_regla=#{codigo}
+    </delete> 
+    
+    
+    
+    <delete id="deletePregunta">
+        Delte from
+            tp_pregunta_regla
+        Where
+            cod_regla = #{codigo} and cod_pregunta = #{pregunta.codigo}
+    </delete>
+    
+</mapper>
