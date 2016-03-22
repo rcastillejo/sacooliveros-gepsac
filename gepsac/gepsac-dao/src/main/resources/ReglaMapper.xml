@@ -46,6 +46,8 @@
             tp_regla a
         INNER JOIN
             tp_perfil d ON a.perfil = d.cod_perfil
+        Order by 
+            a.cod_regla;
     </select>
   
     <select id="get" resultMap="recordRegla">
@@ -71,6 +73,8 @@
             a.enunciado
         FROM 
             tp_pregunta a
+        Order by 
+            a.cod_pregunta;
     </select>
   
     <select id="getPreguntas" resultMap="recordPreguntaRegla">
@@ -84,6 +88,8 @@
             tp_pregunta b ON b.cod_pregunta = a.cod_pregunta
         WHERE
             a.cod_regla = #{codigo}
+        Order by 
+            a.cod_pregunta;
     </select>
   
     <select id="queryPerfil" resultMap="recordPerfil">
@@ -93,6 +99,8 @@
             a.des_perfil
         FROM 
             tp_perfil a
+        Order by 
+            a.cod_perfil;
     </select>
   
     <select id="getCodigo" resultType="string">
@@ -120,7 +128,7 @@
             tp_regla 
         Set
             tipo = #{tipo},
-            perfil = #{perfil.codigo},
+            perfil = #{perfil.codigo}
         Where
             cod_regla=#{codigo}
     </update> 
@@ -146,11 +154,11 @@
     
     
     
-    <delete id="deletePregunta">
-        Delte from
+    <delete id="deletePreguntas">
+        Delete from
             tp_pregunta_regla
         Where
-            cod_regla = #{codigoRegla} and cod_pregunta = #{pregunta.codigo}
+            cod_regla = #{codigo}
     </delete>
     
 </mapper>

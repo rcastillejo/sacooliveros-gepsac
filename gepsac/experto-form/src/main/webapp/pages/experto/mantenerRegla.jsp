@@ -1,6 +1,6 @@
 
 <script type='text/javascript'>
-    var serviceIP = "192.168.1.38";
+    var serviceIP = "<%=request.getLocalAddr()%>";
     var servicePath = "/regla";
     var servicePathPregunta = "/pregunta";
     var servicePathPerfil = "/perfil";
@@ -15,6 +15,7 @@
         init();
 
 
+        //Agregar Regla
         $("#btnAgregar").click(function (e) {
             e.preventDefault();
             var data = getData($("#editarRegla"));
@@ -22,7 +23,22 @@
             agregar(data);
         });
 
+        //Modificacion Regla
+        $("#btnModificar").click(function (e) {
+            e.preventDefault();
+            var data = getData($("#editarRegla"));
+            data.preguntas = obtenerPreguntas();
+            editar(data);
+        });
+
+        //Cancelar Modificacion
         $("#btnCancelar").click(function (e) {
+            e.preventDefault();
+            reset();
+        });
+
+        //Cerrar Mantenimiento
+        $("#btnCerrar").click(function (e) {
             e.preventDefault();
             location.assign("<%=request.getContextPath()%>");
         });
@@ -36,8 +52,8 @@
         elPreguntas.map(function (index, elem) {
 
             var preguntaRegla = {
-                pregunta : {
-                    codigo : $(this).val()
+                pregunta: {
+                    codigo: $(this).val()
                 }
             };
 
@@ -163,7 +179,7 @@
 
             var preguntaRegla = json.preguntas[i];
             formula += preguntaRegla.pregunta.enunciado;
-            if (i < (json.preguntas.length-1)) {
+            if (i < (json.preguntas.length - 1)) {
                 formula += " y ";
             }
         }
@@ -173,12 +189,15 @@
 
 
         table.find("tbody").append(detalle);
-        var lnkEditar = detalle.find("#chkEditar");
+        var lnkEditar = detalle.find("#lnkEditar");
         var lnkEliminar = detalle.find("#lnkEliminar");
 
         lnkEditar.click(function (e) {
             e.preventDefault();
+            $("#opcAgregar").hide();
+            $("#opcModificar").show();
             initEditar(json.codigo);
+            return false;
         });
 
         lnkEliminar.click(function (e) {
@@ -187,20 +206,22 @@
                     function () {
                         eliminar(json.codigo);
                     }, null, null, "Confirmacion");
+            return false;
         });
     }
 
     function initEditar(codigo) {
+        console.log('initEditar', codigo);
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: serviceUrl + codigo
+            url: serviceUrl + '/' + codigo
         }).done(function (objeto) {
             console.log('objeto', objeto);
             cargar(objeto);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+            fn_mdl_alert(error.responseText, null, "MENSAJE");
         });
     }
 
@@ -208,32 +229,50 @@
         console.log('agregar', data);
         $.ajax({
             type: "POST",
-            dataType: 'text json',
             data: JSON.stringify(data),
             contentType: "application/json",
             url: serviceUrl
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, init, "CONFIRMACION");
+            fn_mdl_alert(result, function () {
+                init();
+                reset();
+            }, "CONFIRMACION");
         }).fail(function (error) {
-            if (error && error.status === 200) {
-                console.log('result', error);
-                fn_mdl_alert(error.responseText, init, "CONFIRMACION");
-            }else{
-                console.log('error', error);
-                fn_mdl_alert(error.responseText, null, "MENSAJE");
-            }
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, null, "MENSAJE");
+        });
+    }
+
+    function editar(data) {
+        console.log('editar', data);
+        $.ajax({
+            type: "PUT",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            url: serviceUrl
+        }).done(function (result) {
+            console.log('result', result);
+            fn_mdl_alert(result, function () {
+                init();
+                reset();
+            }, "CONFIRMACION");
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, null, "MENSAJE");
         });
     }
 
     function eliminar(codigo) {
         $.ajax({
             type: "DELETE",
-            dataType: 'json',
-            url: serviceUrl + codigo
+            url: serviceUrl + '/' + codigo
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, null, "CONFIRMACION");
+            fn_mdl_alert(result, function () {
+                init();
+                reset();
+            }, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, null, "MENSAJE");
@@ -242,17 +281,26 @@
 
 
     function cargar(objeto) {
-
         $("#hdnCodigo").val(objeto.codigo);
-
-        $("#perfiles").find("[id='rdPerfil']").removeAttr("checked");
-        $("#perfiles").find("[id='rdPerfil']").find("[value='" + objeto.perfil.codigo + "']").attr("checked");
-
+        //Seleccionando preguntas
         for (var i in objeto.preguntas) {
-            var pregunta = objeto.preguntas[i];
-            $("[id='cboPregunta" + i + "']").find("option[value='" + pregunta.codigo + "']").select();
+            var preguntaRegla = objeto.preguntas[i];
+            $("[id='cboPregunta" + i + "']").val(preguntaRegla.pregunta.codigo);
         }
+        //Seleccionando el perfil
+        $("#perfiles input[name='codigoPerfil'][value='" + objeto.perfil.codigo + "']").prop('checked', true);
+    }
 
+    function reset() {        
+        //Habilitar Opciones
+        $("#opcAgregar").show();
+        $("#opcModificar").hide();
+
+        $("#hdnCodigo").val('');
+        //Seleccionando preguntas
+        $("[id^='cboPregunta']").val('-');
+        //Seleccionando el perfil
+        $("#perfiles input[name='codigoPerfil']").prop('checked', false);
     }
 
     function fn_buscar() {
@@ -342,14 +390,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td style="width: 120px">
                             <label>Entonces</label>
                         </td>
                         <td id="perfiles">
                         </td>
-                        <td>
-                            <button id="btnAgregar">Agregar</button>
-                            <button id="btnModificar" style="display: none;">Modificar</button>
+                        <td style="width: 180px">
+                            <div id="opcAgregar" style=" text-align: right;">
+                                <button id="btnAgregar">Agregar</button>
+                            </div>
+                            <div id="opcModificar" style="display: none; text-align: right;">
+                                <button id="btnModificar" >Modificar</button>
+                                <button id="btnCancelar" >Cancelar</button>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -405,8 +458,8 @@
             </fieldset>
         </div>
 
-        <div id="opciones">
-            <button id="btnCancelar">Cancelar</button>
+        <div id="opciones" style="text-align: center">
+            <button id="btnCerrar">Cerrar</button>
         </div>
     </div>
     <div class="mensaje" >

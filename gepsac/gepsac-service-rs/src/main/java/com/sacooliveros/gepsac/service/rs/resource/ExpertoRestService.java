@@ -129,6 +129,16 @@ public class ExpertoRestService implements ExpertoResource {
     }
 
     @Override
+    public Regla obtenerRegla(String codigoRegla) { 
+        try {
+            return service.obtenerRegla(codigoRegla);
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
+        }
+    }
+
+    @Override
     public String agregarRegla(Regla regla) {
         try {
             return service.agregarRegla(regla);
@@ -141,7 +151,7 @@ public class ExpertoRestService implements ExpertoResource {
         }
     }
 
-    //@Override
+    @Override
     public String modificarRegla(Regla regla) {
         try {
             return service.actualizarRegla(regla);

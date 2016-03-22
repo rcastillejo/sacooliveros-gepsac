@@ -27,7 +27,7 @@ public interface ReglaMapper {
 
     public int delete(Regla model);
 
-    public int deletePregunta(PreguntaRegla model);
+    public int deletePreguntas(Regla model);
     
     public List<Pregunta> queryPregunta();
     

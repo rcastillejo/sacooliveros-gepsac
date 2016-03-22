@@ -1,6 +1,6 @@
 
 <script type='text/javascript'>
-    var serviceIP = "192.168.1.38";
+    var serviceIP = "<%=request.getLocalAddr()%>";
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
     var action = '/ResolverAcosoEscolar.do';
     var item;

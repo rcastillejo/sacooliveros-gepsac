@@ -50,6 +50,7 @@ public interface Experto {
             String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar";
+            String OBTENER_REGLA_ACOSO_ESCOLAR = "Error al consultar regla de acoso escolar";
             String LISTAR_REGLAS_ACOSO_ESCOLAR = "Error al consultar reglas de acoso escolar";
             String LISTAR_PREGUNTAS = "Error al consultar preguntas";
             String LISTAR_PERFILES = "Error al consultar perfiles";
@@ -59,6 +60,7 @@ public interface Experto {
             String CONSULTAR_RESULTADO_ACOSO_ESCOLAR = "Error al consultar resultado de la evaluacion de de acoso escolar [{0}]";
             
             String NO_EXISTE_REGLAS_ACOSO_ESCOLAR = "No existen reglas de acoso escolar";
+            String NO_EXISTE_REGLA_ACOSO_ESCOLAR = "No existen regla de acoso escolar";
             String PREGUNTAS_REPETIDAS_REGLA = "Preguntas repetidas en una condicion";
             String REGLA_REPETIDA = "Regla coincide con una existente";
             String PERFIL_REQUERIDO = "Debe seleccionar un perfil";
@@ -83,6 +85,8 @@ public interface Experto {
     List<Perfil> listarPerfil() throws ExpertoServiceException;
 
     List<Regla> listarRegla() throws ExpertoServiceException;
+
+    Regla obtenerRegla(String codigoRegla) throws ExpertoServiceException;
 
     String agregarRegla(Regla regla) throws ExpertoServiceException;
 

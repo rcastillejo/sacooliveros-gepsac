@@ -1,6 +1,6 @@
 
 <script type='text/javascript'>
-    var serviceIP = "192.168.1.38";
+    var serviceIP = "<%=request.getLocalAddr()%>";
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/experto";
     var action = '/GenerarExplicacion.do';
     var actionConsultar = '/ConsultarExplicacion.do';
@@ -59,7 +59,7 @@
         var lnkConsultar = detalle.find("#lnkConsultar");
 
         var fromUrl = "&fromUrl=" + window.location.href;
-
+        var title = $("#div-busqueda-titulo");
         console.log('fromUrl', fromUrl);
         if (profile === 'E') {
             /**
@@ -71,6 +71,9 @@
 
             //Ocultar Link Generar Explicacion
             lnkConsultar.hide();
+            //Titulo
+            title.empty();
+            title.append("Evaluaciones Acoso Escolar Evaluadas");
         } else if( profile === 'P' ){
             /**
              * 
@@ -81,6 +84,9 @@
 
             //Ocultar Link Generar Explicacion
             chkId.hide();
+            //Titulo
+            title.empty();
+            title.append("Evaluaciones Acoso Escolar");
         }
     }
 

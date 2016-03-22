@@ -1,7 +1,7 @@
 
 
 <script type = "text/javascript" >
-    var serviceIP = "192.168.1.38";
+    var serviceIP = "<%=request.getLocalAddr()%>";
     var fromUrl;
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/experto";
     var action = '/ConsultarExplicacion.do';

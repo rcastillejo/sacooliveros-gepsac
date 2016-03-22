@@ -26,7 +26,7 @@ import javax.xml.ws.handler.Handler;
  */
 public class ProxyUtil {
 
-    private static final String SERVICE_IP = "192.168.1.38";
+    private static final String SERVICE_IP = "localhost";
     private static final String PLAN_ENDPOINT = "http://" + SERVICE_IP + ":8180/gepsac-service/PlanificacionService";
     private static final String COMMON_ENDPOINT = "http://" + SERVICE_IP + ":8180/gepsac-service/ComunService";
     private static final String BO_ENDPOINT = "http://" + SERVICE_IP + ":8180/gepsac-service/BOService";
