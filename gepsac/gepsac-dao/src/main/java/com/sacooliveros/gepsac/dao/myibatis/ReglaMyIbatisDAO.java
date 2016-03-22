@@ -76,6 +76,14 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
             session = getConnection();
             mapper = session.getMapper(ReglaMapper.class);
 
+            log.debug("Obteniendo codigo [{}] ...", model);
+            String codigo = mapper.getCodigo(model);
+            if (codigo == null) {
+                throw new DAOException("No se pudo obtener codigo");
+            }
+
+            model.setCodigo(codigo);
+
             log.debug("Registrando [{}] ...", model);
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
@@ -158,7 +166,6 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
         }
 
     }*/
-
     @Override
     public void eliminar(Regla model) {
         SqlSession session = null;
@@ -169,15 +176,14 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
             mapper = session.getMapper(ReglaMapper.class);
 
             log.debug("Actualizando [{}] ...", model);
-            
+
             if (model.getPreguntas() != null) {
                 eliminarPreguntas(mapper, model);
             }
-            
+
             if (mapper.delete(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-
 
             session.commit();
             log.info("Actualizado [{}]", model);

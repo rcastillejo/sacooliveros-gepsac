@@ -14,7 +14,11 @@
 
         init();
 
-        //Cancelar la Evaluacion del Alumno Nuevo
+        $("#btnCancelar").click(function (e) {
+            e.preventDefault();
+            location.assign("<%=request.getContextPath()%>");
+        }
+        
         $("#btnFinalizar").click(function (e) {
             e.preventDefault();
             /*var sError = validarResolver();
@@ -294,5 +298,6 @@
     </div>
     <div style="align-content: center; text-align: center">
         <input type="button" id="btnFinalizar" value="Finalizar" />
+        <input type="button" id="btnCancelar" value="Cancelar" />
     </div>
 </div>

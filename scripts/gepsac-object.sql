@@ -653,7 +653,7 @@ CREATE TABLE tp_regla
 (
   cod_regla character varying(15) NULL,
   
-  tipo character varying(2) NOT NULL, -- Decision (D), Respuesta (R)
+  tipo character varying(2) NULL, -- Decision (D), Respuesta (R)
   
   perfil character varying(15) NULL, -- Codigo Perfil Acoso Escolar
   
@@ -687,3 +687,5 @@ CREATE TABLE tp_pregunta_regla
 WITH (
   OIDS=FALSE
 );
+
+CREATE SEQUENCE SEQ_REGLA START 1;

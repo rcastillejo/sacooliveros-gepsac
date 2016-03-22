@@ -28,9 +28,9 @@ public interface Experto {
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
         String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
         String PROGRAMAR = "La programación fue satisfactoria [{0}]";
-        String AGREGAR_REGLA = "El registro se realizó con éxito";
-        String MODIFICAR_REGLA = "La modificación se realizó con éxito";
-        String ELIMINAR_REGLA = "La eliminación se realizó con éxito";
+        String AGREGAR_REGLA = "El registro se realizo con exito";
+        String MODIFICAR_REGLA = "La modificacion se realizo con exito";
+        String ELIMINAR_REGLA = "La eliminacion se realizo con exito";
 
     }
 
@@ -61,6 +61,8 @@ public interface Experto {
             String NO_EXISTE_REGLAS_ACOSO_ESCOLAR = "No existen reglas de acoso escolar";
             String PREGUNTAS_REPETIDAS_REGLA = "Preguntas repetidas en una condicion";
             String REGLA_REPETIDA = "Regla coincide con una existente";
+            String PERFIL_REQUERIDO = "Debe seleccionar un perfil";
+            String PREGUNTA_REQUERIDO = "Debe seleccionar al menos una pregunta";
             String MANTENIMIENTO_REGLA = "Error al realizar la operación";
             String NO_EXISTE_PREGUNTA = "No existen preguntas";
             String NO_EXISTE_PERFIL = "No existen perfiles";

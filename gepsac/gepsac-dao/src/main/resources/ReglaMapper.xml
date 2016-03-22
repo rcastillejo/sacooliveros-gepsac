@@ -73,6 +73,19 @@
             tp_pregunta a
     </select>
   
+    <select id="getPreguntas" resultMap="recordPreguntaRegla">
+        SELECT
+            a.cod_pregunta,
+            a.cod_regla,
+            b.enunciado
+        FROM 
+            tp_pregunta_regla a
+        INNER JOIN
+            tp_pregunta b ON b.cod_pregunta = a.cod_pregunta
+        WHERE
+            a.cod_regla = #{codigo}
+    </select>
+  
     <select id="queryPerfil" resultMap="recordPerfil">
         SELECT
             a.cod_perfil,
@@ -82,20 +95,23 @@
             tp_perfil a
     </select>
   
+    <select id="getCodigo" resultType="string">
+        SELECT concat('R', nextval('SEQ_REGLA'));
+    </select>
     
   
     <insert id="insert">
         Insert into tp_regla 
-            (cod_regla, tipo)
+            (cod_regla, tipo, perfil)
         values
-            (#{codigo},#{tipo})
+            (#{codigo},#{tipo},#{perfil.codigo})
     </insert>
   
     <insert id="insertPregunta">
         Insert into tp_pregunta_regla 
             (cod_regla, cod_pregunta)
         values
-            (#{codigo},#{cod_pregunta})
+            (#{codigoRegla},#{pregunta.codigo})
     </insert>
   
   
@@ -103,7 +119,8 @@
         Update 
             tp_regla 
         Set
-            tipo = #{tipo}
+            tipo = #{tipo},
+            perfil = #{perfil.codigo},
         Where
             cod_regla=#{codigo}
     </update> 
@@ -133,7 +150,7 @@
         Delte from
             tp_pregunta_regla
         Where
-            cod_regla = #{codigo} and cod_pregunta = #{pregunta.codigo}
+            cod_regla = #{codigoRegla} and cod_pregunta = #{pregunta.codigo}
     </delete>
     
 </mapper>

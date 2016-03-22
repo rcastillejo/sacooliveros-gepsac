@@ -15,6 +15,8 @@ public interface ReglaMapper {
 
     public List<PreguntaRegla> getPreguntas(@Param("codigo") String codigo);
 
+    public String getCodigo(Regla model);
+    
     public int insert(Regla model);
 
     public int insertPregunta(PreguntaRegla model);

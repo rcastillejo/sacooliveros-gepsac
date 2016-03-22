@@ -128,6 +128,7 @@
     }
 
     function init() {
+        $("#tblDetalle").find("tbody").empty();
         $.ajax({
             type: "GET",
             dataType: 'json',
@@ -160,9 +161,9 @@
         var formula = "Si ";
         for (var i in json.preguntas) {
 
-            var pregunta = json.preguntas[i];
-            formula += pregunta;
-            if (i !== json.preguntas.length - 1) {
+            var preguntaRegla = json.preguntas[i];
+            formula += preguntaRegla.pregunta.enunciado;
+            if (i < (json.preguntas.length-1)) {
                 formula += " y ";
             }
         }
@@ -207,16 +208,21 @@
         console.log('agregar', data);
         $.ajax({
             type: "POST",
-            dataType: 'json',
+            dataType: 'text json',
             data: JSON.stringify(data),
             contentType: "application/json",
             url: serviceUrl
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, null, "CONFIRMACION");
+            fn_mdl_alert(result, init, "CONFIRMACION");
         }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, null, "MENSAJE");
+            if (error && error.status === 200) {
+                console.log('result', error);
+                fn_mdl_alert(error.responseText, init, "CONFIRMACION");
+            }else{
+                console.log('error', error);
+                fn_mdl_alert(error.responseText, null, "MENSAJE");
+            }
         });
     }
 
