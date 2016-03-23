@@ -353,16 +353,10 @@ public class ExpertoService implements Experto {
 
     private void validarReglaRepetida(Regla reglaVerificar, Regla regla) {
         /**
-         * Valida si el perfil coincide
-         */
-        boolean perfilRepetido = perfilRepetido(reglaVerificar.getPerfil(), regla.getPerfil());
-        /**
          * Valida si la condicion coincide
          */
-        boolean condicionRepetida = condicionRepetida(reglaVerificar.getSetCodigoPreguntas(), regla.getSetCodigoPreguntas());
-
-        if (perfilRepetido && condicionRepetida) {
-            throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.REGLA_REPETIDA);
+        if (condicionRepetida(reglaVerificar.getSetCodigoPreguntas(), regla.getSetCodigoPreguntas())) {
+            throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.REGLA_REPETIDA, reglaVerificar.getCodigo());
         }
     }
     

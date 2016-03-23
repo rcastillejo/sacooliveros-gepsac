@@ -63,37 +63,8 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
         datapredict = new Instances(RELATION_NAME, fvWekaAttributes, 0);
         Instance ins = new Instance(fvWekaAttributes.size());
-        /*
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 35);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "TECNICO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 800);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 3);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 11);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 2800);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "BLOQUEADO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "BLOQUEADO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 200);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 6);
         
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 41);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "SECUNDARIA");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 6900);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 28);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 11500);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "ABIERTO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "ABIERTO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 600);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 17);*/
         int idx = 0;
-        /*ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getCodigo());
-        idx++;*/
         ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getSexo().getCodigo());
         idx++;
         ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getEdad());

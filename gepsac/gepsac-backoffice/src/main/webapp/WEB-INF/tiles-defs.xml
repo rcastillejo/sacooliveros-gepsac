@@ -49,4 +49,11 @@
     <definition name="mantenerRegla" extends="principal" >
         <put name="content" value="/pages/experto/mantenerRegla.jsp" type="page"/>
     </definition>
+    
+    <definition name="listarSolicitudPsicologica" extends="principal" >
+        <put name="content" value="/pages/evaluacion/listarSolicitudPsicologica.jsp" type="page"/>
+    </definition>
+    <definition name="registrarSolicitudPsicologica" extends="principal" >
+        <put name="content" value="/pages/evaluacion/registrarSolicitudPsicologica.jsp" type="page"/>
+    </definition>
 </tiles-definitions>

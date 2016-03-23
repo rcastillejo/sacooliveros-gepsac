@@ -38,3 +38,5 @@ drop table tp_regla;
 drop table tp_perfil;
 
 drop table tp_pregunta;
+
+drop SEQUENCE SEQ_REGLA;

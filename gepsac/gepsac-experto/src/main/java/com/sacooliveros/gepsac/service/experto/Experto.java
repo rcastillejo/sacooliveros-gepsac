@@ -62,7 +62,7 @@ public interface Experto {
             String NO_EXISTE_REGLAS_ACOSO_ESCOLAR = "No existen reglas de acoso escolar";
             String NO_EXISTE_REGLA_ACOSO_ESCOLAR = "No existen regla de acoso escolar";
             String PREGUNTAS_REPETIDAS_REGLA = "Preguntas repetidas en una condicion";
-            String REGLA_REPETIDA = "Regla coincide con una existente";
+            String REGLA_REPETIDA = "La Regla coincide con Nro {0}";
             String PERFIL_REQUERIDO = "Debe seleccionar un perfil";
             String PREGUNTA_REQUERIDO = "Debe seleccionar al menos una pregunta";
             String MANTENIMIENTO_REGLA = "Error al realizar la operación";

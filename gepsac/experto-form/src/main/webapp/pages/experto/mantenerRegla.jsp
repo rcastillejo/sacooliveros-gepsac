@@ -46,7 +46,7 @@
 
     function obtenerPreguntas() {
         var listadoVal = [];
-        var elPreguntas = $("select[id^='cboPregunta']");
+        var elPreguntas = $("select[id^='cboPregunta'][value!='']");
 
         console.log('elPreguntas', elPreguntas.length);
         elPreguntas.map(function (index, elem) {
@@ -272,7 +272,7 @@
             fn_mdl_alert(result, function () {
                 init();
                 reset();
-            }, "CONFIRMACION");
+            } ,"CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, null, "MENSAJE");

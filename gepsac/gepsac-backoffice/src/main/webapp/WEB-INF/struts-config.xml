@@ -86,6 +86,15 @@
                 validate="false">
             <forward name="mantenerRegla" path="mantenerRegla" redirect="true"/>
         </action>
+        
+        <action path="/RegistrarSolicitudPsicologica" 
+                type="com.sacooliveros.gepsac.form.evaluacion.RegistrarSolicitudPsicologicaAction"
+                scope="request"
+                parameter="method" 
+                validate="false">
+            <forward name="listarSolicitudPsicologica" path="listarSolicitudPsicologica" redirect="true"/>
+            <forward name="registrarSolicitudPsicologica" path="registrarSolicitudPsicologica" redirect="true"/>
+        </action>
     </action-mappings>
     
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

@@ -37,6 +37,11 @@
             <div>Evaluacion</div>
             <ul style="display: none;">
                 <li>
+                    <html:link page="/RegistrarSolicitudPsicologica.do?method=init" >
+                        Registrar Solicitud Psicologica
+                    </html:link>
+                </li>
+                <li>
                     <html:link page="/ResolverAcosoEscolar.do?method=init" >
                         Resolver Evaluacion
                     </html:link>

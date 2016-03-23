@@ -562,6 +562,9 @@ CREATE TABLE tp_perfil_evaluacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
   CONSTRAINT pk_tp_perfil_evaluacion PRIMARY KEY (cod_evaluacion, indice),
+  CONSTRAINT pk_tp_perfil_evaluacion_postulante FOREIGN KEY (cod_evaluacion)
+      REFERENCES tp_evaluacion_postulante (cod_evaluacion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_perfil_evaluacion_tp_perfil FOREIGN KEY (cod_perfil)
       REFERENCES tp_perfil (cod_perfil) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -677,11 +680,11 @@ CREATE TABLE tp_pregunta_regla
   cod_pregunta character varying(15) NOT NULL,
   
   CONSTRAINT pk_tp_regla_pregunta PRIMARY KEY (cod_regla, cod_pregunta),
-  CONSTRAINT fk_tp_regla_pregunta_tp_regla FOREIGN KEY (cod_regla)
-      REFERENCES tp_regla (cod_regla) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_regla_pregunta_tp_pregunta FOREIGN KEY (cod_pregunta)
       REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_regla_pregunta_tp_regla FOREIGN KEY (cod_regla)
+      REFERENCES tp_regla (cod_regla) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
