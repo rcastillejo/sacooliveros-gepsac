@@ -12,9 +12,9 @@ import weka.core.Utils;
  *
  * @author Ricardo
  */
-public class ClasificadorFactory {
+public class Classifiers {
 
-    public static Classifier create(Clasificador tipo) {
+    public static Classifier create(ClassifierType tipo) {
         String[] options;
         Classifier clasificador;
 

@@ -6,7 +6,7 @@ import com.sacooliveros.gepsac.evaluador.message.Mensaje;
 import com.sacooliveros.gepsac.evaluador.task.EvaluadorTask;
 import com.sacooliveros.gepsac.evaluador.task.TimerTask;
 import com.sacooliveros.gepsac.evaluador.task.Type;
-import com.sacooliveros.gepsac.evaluador.thread.SingletonThreadPoolFactory;
+import com.sacooliveros.gepsac.evaluador.thread.ThreadPoolBuilder;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -123,7 +123,7 @@ public class Server {
          * validar ya que puede haber cambiado para mejor 
          */
         log.info("Iniciando Configuracion del Pool de Evaluadores");
-        SingletonThreadPoolFactory.init();
+        ThreadPoolBuilder.init();
 
         executeTypes(configuration);
 
@@ -145,7 +145,7 @@ public class Server {
 
         int numThreads = config.getNumThreads();
 
-        ThreadPoolExecutor threadPool = SingletonThreadPoolFactory.createThreadFactory(config);
+        ThreadPoolExecutor threadPool = ThreadPoolBuilder.createThreadFactory(config);
 
         log.debug("Fabrica para procesos asicronos creado:" + threadPool.getCorePoolSize());
         for (int workerId = 0; workerId < numThreads; workerId++) {

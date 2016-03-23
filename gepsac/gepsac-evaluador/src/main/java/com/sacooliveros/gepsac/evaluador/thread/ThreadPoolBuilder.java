@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Ricardo
  */
-public class SingletonThreadPoolFactory {
+public class ThreadPoolBuilder {
 
     private static ConcurrentHashMap<String, ThreadPoolExecutor> pools;
     private static AtomicInteger poolNumber;

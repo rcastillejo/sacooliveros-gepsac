@@ -9,7 +9,7 @@ package com.sacooliveros.gepsac.service.experto.rna.clasificador;
  *
  * @author Ricardo
  */
-public enum Clasificador {
+public enum ClassifierType {
 
     /**
      *
@@ -19,7 +19,7 @@ public enum Clasificador {
     private final String classname;
     private final String options;
 
-    Clasificador(String classname, String options) {
+    ClassifierType(String classname, String options) {
         this.classname = classname;
         this.options = options;
     }

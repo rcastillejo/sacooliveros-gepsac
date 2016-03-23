@@ -12,7 +12,7 @@ import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException
  *
  * @author Ricardo
  */
-public class EngineFactory {
+public class Engines {
 
     private static final String RULES_CONFIG = "SEEE.CLP";
     private static final String FACTS_CONFIG = "EE.dat";

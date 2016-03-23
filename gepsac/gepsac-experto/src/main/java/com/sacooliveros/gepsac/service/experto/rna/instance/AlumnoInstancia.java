@@ -8,8 +8,8 @@ package com.sacooliveros.gepsac.service.experto.rna.instance;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
-import com.sacooliveros.gepsac.service.experto.rna.clasificador.Clasificador;
-import com.sacooliveros.gepsac.service.experto.rna.clasificador.ClasificadorFactory;
+import com.sacooliveros.gepsac.service.experto.rna.clasificador.ClassifierType;
+import com.sacooliveros.gepsac.service.experto.rna.clasificador.Classifiers;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -196,7 +196,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
     @Override
     public Classifier train(Instances dataEntrenar) {
         try {
-            Classifier clasificador = ClasificadorFactory.create(Clasificador.MLP);
+            Classifier clasificador = Classifiers.create(ClassifierType.MLP);
             clasificador.buildClassifier(dataEntrenar);
             return clasificador;
         } catch (Exception e) {

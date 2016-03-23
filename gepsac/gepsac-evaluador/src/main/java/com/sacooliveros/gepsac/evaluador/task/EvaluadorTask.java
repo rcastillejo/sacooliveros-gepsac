@@ -11,7 +11,7 @@ import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
-import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
+import com.sacooliveros.gepsac.service.experto.se.Engines;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -58,7 +58,7 @@ public class EvaluadorTask implements Runnable {
              * perfil
              */
             log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
-            Engine engine = EngineFactory.create();
+            Engine engine = Engines.create();
 
             EvaluacionAcosoEscolar evaluacion = (EvaluacionAcosoEscolar) mensaje.getRequest();
 
