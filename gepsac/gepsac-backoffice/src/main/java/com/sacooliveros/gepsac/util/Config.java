@@ -19,6 +19,7 @@ public interface Config {
     String TIME_FORMAT = "HH:mm:s";
     
     String USERNAME_SESSION = "username";
+    String USER_SESSION = "user";
     
     String USERNAME_DEMO = "gepsac-user";
 }

@@ -94,7 +94,8 @@ public class EvaluacionService implements Evaluacion {
     }
 
     private void validarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
-        if (solicitudPsicologica.getSolicitante() == null || solicitudPsicologica.getSolicitante().isEmpty()) {
+        if (solicitudPsicologica.getSolicitante() == null || 
+                solicitudPsicologica.getSolicitante().getCodigo() == null || solicitudPsicologica.getSolicitante().getCodigo().isEmpty()) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
         }
         if (solicitudPsicologica.getMotivo() == null || solicitudPsicologica.getMotivo().isEmpty()) {

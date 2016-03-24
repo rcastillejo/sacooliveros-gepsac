@@ -203,5 +203,10 @@
             <artifactId>gepsac-proxyws</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gepsac-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

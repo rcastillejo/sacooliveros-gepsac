@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.model.evaluacion;
 
 import com.sacooliveros.gepsac.model.comun.Model;
+import com.sacooliveros.gepsac.model.comun.Usuario;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public class SolicitudPsicologica extends Model {
 
     private Date fechaSolicitud;
     private Date fechaAtencion;
-    private String solicitante;
+    private Usuario solicitante;
     private String motivo; 
     private String descripcion; 
     private Alumno alumno; 
@@ -49,11 +50,11 @@ public class SolicitudPsicologica extends Model {
         this.fechaAtencion = fechaAtencion;
     }
 
-    public String getSolicitante() {
+    public Usuario getSolicitante() {
         return solicitante;
     }
 
-    public void setSolicitante(String solicitante) {
+    public void setSolicitante(Usuario solicitante) {
         this.solicitante = solicitante;
     }
 
