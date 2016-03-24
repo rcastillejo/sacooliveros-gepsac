@@ -37,99 +37,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Perfil }
+     * Create an instance of {@link ExplicacionResponse }
      * 
      */
-    public Perfil createPerfil() {
-        return new Perfil();
+    public ExplicacionResponse createExplicacionResponse() {
+        return new ExplicacionResponse();
     }
 
     /**
-     * Create an instance of {@link ExplicacionResultado }
+     * Create an instance of {@link EvaluacionAcosoEscolar }
      * 
      */
-    public ExplicacionResultado createExplicacionResultado() {
-        return new ExplicacionResultado();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumno }
-     * 
-     */
-    public EvaluarAlumno createEvaluarAlumno() {
-        return new EvaluarAlumno();
-    }
-
-    /**
-     * Create an instance of {@link Pregunta }
-     * 
-     */
-    public Pregunta createPregunta() {
-        return new Pregunta();
-    }
-
-    /**
-     * Create an instance of {@link PerfilEvaluado }
-     * 
-     */
-    public PerfilEvaluado createPerfilEvaluado() {
-        return new PerfilEvaluado();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumnoResponse }
-     * 
-     */
-    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
-        return new EvaluarAlumnoResponse();
-    }
-
-    /**
-     * Create an instance of {@link PreguntaEvaluacion }
-     * 
-     */
-    public PreguntaEvaluacion createPreguntaEvaluacion() {
-        return new PreguntaEvaluacion();
-    }
-
-    /**
-     * Create an instance of {@link EvaluacionPostulante }
-     * 
-     */
-    public EvaluacionPostulante createEvaluacionPostulante() {
-        return new EvaluacionPostulante();
-    }
-
-    /**
-     * Create an instance of {@link Alumno }
-     * 
-     */
-    public Alumno createAlumno() {
-        return new Alumno();
-    }
-
-    /**
-     * Create an instance of {@link Participante }
-     * 
-     */
-    public Participante createParticipante() {
-        return new Participante();
-    }
-
-    /**
-     * Create an instance of {@link Explicacion }
-     * 
-     */
-    public Explicacion createExplicacion() {
-        return new Explicacion();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
+    public EvaluacionAcosoEscolar createEvaluacionAcosoEscolar() {
+        return new EvaluacionAcosoEscolar();
     }
 
     /**
@@ -141,11 +61,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ExplicacionResponse }
+     * Create an instance of {@link Participante }
      * 
      */
-    public ExplicacionResponse createExplicacionResponse() {
-        return new ExplicacionResponse();
+    public Participante createParticipante() {
+        return new Participante();
+    }
+
+    /**
+     * Create an instance of {@link Perfil }
+     * 
+     */
+    public Perfil createPerfil() {
+        return new Perfil();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link Pregunta }
+     * 
+     */
+    public Pregunta createPregunta() {
+        return new Pregunta();
+    }
+
+    /**
+     * Create an instance of {@link ExplicacionResultado }
+     * 
+     */
+    public ExplicacionResultado createExplicacionResultado() {
+        return new ExplicacionResultado();
+    }
+
+    /**
+     * Create an instance of {@link Explicacion }
+     * 
+     */
+    public Explicacion createExplicacion() {
+        return new Explicacion();
+    }
+
+    /**
+     * Create an instance of {@link PerfilEvaluado }
+     * 
+     */
+    public PerfilEvaluado createPerfilEvaluado() {
+        return new PerfilEvaluado();
     }
 
     /**
@@ -154,6 +122,46 @@ public class ObjectFactory {
      */
     public Model createModel() {
         return new Model();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link EvaluacionPostulante }
+     * 
+     */
+    public EvaluacionPostulante createEvaluacionPostulante() {
+        return new EvaluacionPostulante();
+    }
+
+    /**
+     * Create an instance of {@link PreguntaEvaluacion }
+     * 
+     */
+    public PreguntaEvaluacion createPreguntaEvaluacion() {
+        return new PreguntaEvaluacion();
+    }
+
+    /**
+     * Create an instance of {@link EvaluarAlumnoResponse }
+     * 
+     */
+    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
+        return new EvaluarAlumnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link EvaluarAlumno }
+     * 
+     */
+    public EvaluarAlumno createEvaluarAlumno() {
+        return new EvaluarAlumno();
     }
 
     /**

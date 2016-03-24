@@ -56,4 +56,10 @@
     <definition name="registrarSolicitudPsicologica" extends="principal" >
         <put name="content" value="/pages/evaluacion/registrarSolicitudPsicologica.jsp" type="page"/>
     </definition>
+    <definition name="consultarSolicitudPsicologica" extends="principal" >
+        <put name="content" value="/pages/evaluacion/consultarSolicitudPsicologica.jsp" type="page"/>
+    </definition>
+    <definition name="editarSolicitudPsicologica" extends="principal" >
+        <put name="content" value="/pages/evaluacion/editarSolicitudPsicologica.jsp" type="page"/>
+    </definition>
 </tiles-definitions>

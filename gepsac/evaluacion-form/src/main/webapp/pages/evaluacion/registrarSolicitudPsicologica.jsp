@@ -1,39 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://struts.apache.org/tags-bean"  prefix="bean" %>
-<%@ taglib uri="http://struts.apache.org/tags-html"  prefix="html" %>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://displaytag.sf.net" prefix="display"  %>
 
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/ZeroClipboard.js"></script>
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath()%>/resources/js/TableTools.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/resources/config.js"></script>
-
+<%@page import="com.sacooliveros.gepsac.model.comun.Usuario"%>
 <script type = "text/javascript" >
     //alert('COLORRRR' + gOptions.color);
     var formatDate = 'dd/mm/yy';
     var table = '#div-resultado';
-    var action = '/EvaluarPostulante.do';
+    var action = '/SolicitudPsicologica.do';
 
-
-    var combo = '#div-combo';
-    var comboprocesador = '#div-procesador';
-    var comboadquiriente = '#div-adquiriente';
-    var comboautorizador = '#div-autorizador';
-    var comboreporte = '#div-reporte';
-
-    var tipo_procesador = '2';
-    var tipo_adquiriente = '1';
-    var tipo_autorizador = '3';
-    var cod_autorizador = '421410';
-    var codadquiriente;
-    var codautorizador;
-    var codprocesador;
-    var codprpt;
-    //var codReporte = 'rpt_general';
-    var lista_descripcion = [];
-    var myColumnsReq = [];
-    var dialog;
+    var serviceIP = "<%=request.getLocalAddr()%>";
+    var fromUrl;
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
+    var codigoEvaluacion;
 
     $(document).ready(function () {
         initEvaluarAlumno();
@@ -52,17 +28,51 @@
                     900, 600, null);
         });
 
-        //Evaluar al Alumno Nuevo
-        $("#btnEvaluar").click(function (e) {
+        $("#btnCancelar").click(function (e) {
             e.preventDefault();
-            var sError = validarEvaluacion();
-            if (sError === "") {
-                evaluarAlumnoNuevo();
-            } else {
-                fn_mdl_alert(sError, null, "MENSAJE");
-            }
-        });
+            location.assign("<%=request.getContextPath()%>");
+        }
+
+        $("#btnRegistrar").click(function (e) {
+        e.preventDefault();
+        /*var sError = validarResolver();
+         if (sError === "") {
+         resolverAcosoEscolar();
+         } else {
+         fn_mdl_alert(sError, null, "MENSAJE");
+         }*/
+        registrarSolictudPsicologica();
     });
+    });
+            function registrarSolictudPsicologica() {
+
+                var data = getData($("#evaluacion"));
+                data.alumnoInvolucrado = obtenerAlumnoInvolucrados();
+
+                console.log('grabando', data);
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    url: serviceUrl + '/solicitudPsicologica'
+                }).done(function (result) {
+                    console.log('result', result);
+                    fn_mdl_alert(result, function () {}, "CONFIRMACION");
+                }).fail(function (error, status, a) {
+                    console.log('error', error, 'status', status, 'a', a);
+                    if (error && error.status === 400) {
+                        fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+                    } else {
+                        fn_mdl_alert(error.responseText, function () {
+                            location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+                        }, "MENSAJE");
+                    }
+                });
+            }
+
+    //obtenerAlumnoInvolucrados
 
     function validarEvaluacion() {
         var sError = "";
@@ -118,8 +128,8 @@
             console.log('evaluacion', evaluacion);
             console.log('msg', msg);
             cargarRespuestaEvaluacion(evaluacion);
-            $('#btnBuscarAlumnoNuevo').attr('disabled','disabled');
-            $('#btnEvaluar').attr('disabled','disabled');
+            $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
+            $('#btnEvaluar').attr('disabled', 'disabled');
             fn_mdl_alert(msg, function () {}, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
@@ -237,6 +247,91 @@
 
     }
 
+    //Buscar al Alumno Nuevo
+    $("#btnBuscarAlumno").click(function (e) {
+        e.preventDefault();
+        fn_util_AbreModal("",
+                "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumno.jsp',
+                900, 600, null);
+    });
+
+    $("#btnBuscarAlumnoInvolucrado").click(function (e) {
+        e.preventDefault();
+        fn_util_AbreModal("",
+                "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumnoInvolucrado.jsp',
+                900, 600, null);
+    });
+
+    function cargarAlumno(json) {
+        cargarAlumno(json);
+        fn_util_CierraModal();
+
+    }
+
+    function cargarAlumno(json) {
+        console.log('cargando...', json);
+        var promedioEscolar = json.promedioEscolar;
+        promedioEscolar = promedioEscolar.toFixed(2);
+
+        $("#codigoAlumno").val(json.codigo);
+        $("#nombres").val(json.nombres);
+        $("#apellidoPaterno").val(json.apellidoPaterno);
+        $("#apellidoMaterno").val(json.apellidoMaterno);
+        $("#genero").val(json.genero);
+        $("#edad").val(json.edad);
+        $("#contextura").val(json.contextura);
+        $("#estatura").val(json.altura);
+        $("#direccion").val(json.domicilio);
+        $("#distrito").val(json.distrito);
+        $("#provincia").val(json.provincia);
+        $("#departamento").val(json.departamento);
+        $("#nacionalidad").val(json.nacionalidad);
+        $("#religion").val(json.religion);
+        $("#nivelEscolar").val(json.nivelEscolar);
+        $("#gradoEscolar").val(json.gradoEscolar);
+        $("#promedioEscolar").val(promedioEscolar);
+        $("#cantCambioColegio").val(json.nroCambioColegio);
+        $("#tipoFamilia").val(json.tipoFamilia);
+        $("#ordenNacimiento").val(json.ordenNacimiento);
+        $("#cantHnos").val(json.numHnos);
+
+    }
+
+    function cargarAlumnoInvolucrado(json) {
+        cargarAlumnoInvolucrado(json);
+        fn_util_CierraModal();
+
+    }
+
+    function cargarAlumnoInvolucrado(json) {
+        console.log('cargando...', json);
+        var promedioEscolar = json.promedioEscolar;
+        promedioEscolar = promedioEscolar.toFixed(2);
+
+        $("#codigoAlumno").val(json.codigo);
+        $("#nombres").val(json.nombres);
+        $("#apellidoPaterno").val(json.apellidoPaterno);
+        $("#apellidoMaterno").val(json.apellidoMaterno);
+        $("#genero").val(json.genero);
+        $("#edad").val(json.edad);
+        $("#contextura").val(json.contextura);
+        $("#estatura").val(json.altura);
+        $("#direccion").val(json.domicilio);
+        $("#distrito").val(json.distrito);
+        $("#provincia").val(json.provincia);
+        $("#departamento").val(json.departamento);
+        $("#nacionalidad").val(json.nacionalidad);
+        $("#religion").val(json.religion);
+        $("#nivelEscolar").val(json.nivelEscolar);
+        $("#gradoEscolar").val(json.gradoEscolar);
+        $("#promedioEscolar").val(promedioEscolar);
+        $("#cantCambioColegio").val(json.nroCambioColegio);
+        $("#tipoFamilia").val(json.tipoFamilia);
+        $("#ordenNacimiento").val(json.ordenNacimiento);
+        $("#cantHnos").val(json.numHnos);
+
+    }
+
 </script>
 
 <div class="div-pagina">
@@ -248,27 +343,35 @@
             <legend>Datos de la Solicitud</legend>
             <table>
                 <tr>
-                    <td>C&oacute;digo</td><td>:</td>
-                    <td><input id="codigoSolicitud" type="text" disabled="true" class="inputValue"></td>
                     <td>Fecha Registro</td><td>:</td> 
-                    <td><input id="fechaRegistro" type="text" disabled="true" size="10"></td>
+                    <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
                 </tr>
                 <tr>
                     <td>Solicitante</td><td>:</td>
-                    <td><input id="solicitanteSolicitud" type="text" disabled="true" class="inputValue" data-name="solicitante"></td>
+                    <%
+                        Usuario usuario = (Usuario) session.getAttribute("session");
+                    %>
+                    <td>
+                        <input id="solicitante" type="hidden" value="<%= usuario.getCodigo()%>" 
+                               class="inputValue" data-name="solicitante.codigo">
+
+
+                        <input id="solicitanteSolicitud" type="text" disabled="true" class="inputValue" 
+                               value="<%= usuario.getNombres() + ' ' + usuario.getApellidos()%>">
+                    </td>
                 </tr>
                 <tr>
                     <td>Motivo</td><td>:</td>
-                    <td><select id="motivoSolicitud" data-name="motivo">
-                        <option value="" selected="selected">-- Seleccionar --</option>    
-                        <option value="AE">Agresi&oacute;n</option>
-                        <option value="BR">Bajo Rendimiento</option>
-                        <option value="CS">Comportamiento Sospechoso</option>
-                      </select></td>
+                    <td><select id="motivoSolicitud" class="inputValue" data-name="motivo">
+                            <option value="0" selected="selected">-- Seleccionar --</option>    
+                            <option value="1">Agresi&oacute;n</option>
+                            <option value="2">Bajo Rendimiento</option>
+                            <option value="3">Comportamiento Sospechoso</option>
+                        </select></td>
                 </tr>
                 <tr>
                     <td>Descripci&oacute;n</td><td>:</td>
-                    <td><textarea id="descripcionSolicitud" data-name="descripcion" rows="4" cols="50"></textarea></td>                   
+                    <td><textarea id="descripcionSolicitud" class="inputValue" data-name="descripcion" rows="4" cols="50"></textarea></td>                   
                 </tr>
             </table>
         </fieldset>
@@ -276,54 +379,61 @@
             <legend>Datos del Alumno</legend>
             <table>
                 <tr>
-                    <td colspan="6"><input type="button" id="btnBuscarAlumnoNuevo" value="Buscar Alumno Nuevo"></td>
-                </tr>
-                <tr>
                     <td>C&oacute;digo</td><td>:</td>
                     <td><input id="codigoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.codigo"></td>
                     <td colspan="2"><input type="button" id="btnBuscarAlumno" value="Buscar Alumno" /></td>
                 </tr>
                 <tr>
                     <td>Alumno</td><td>:</td> 
-                    <td><input id="nombrecompletoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.nombrecompleto"></td>
+                    <td><input id="nombrecompletoAlumno" type="text" disabled="true" data-name="alumno.nombrecompleto"></td>
                     <td>Edad</td><td>:</td> 
-                    <td><input id="edadAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.edad"></td>
+                    <td><input id="edadAlumno" type="text" disabled="true" data-name="alumno.edad"></td>
                 </tr>
                 <tr>
                     <td>Direcci&eacute;n</td><td>:</td> 
                     <td>
-                        <input id="direccionAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.direccion">
+                        <input id="direccionAlumno" type="text" disabled="true" data-name="alumno.direccion">
                     </td>
                     <td>Distrito</td><td>:</td> 
                     <td>
-                        <input id="distritoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.distrito">
+                        <input id="distritoAlumno" type="text" disabled="true" data-name="alumno.distrito">
                     </td>
                 </tr>
             </table>
         </fieldset>
-        <fieldset>
+        <fieldset id="alumnosInvolucrados" hidden="true">
             <legend>Datos de Alumnos Involucrados</legend>
-            <table>
-                <tr>
-                    <td><input type="button" id="btnBuscarAlumnoInvolucrado" value="Agregar Alumno Involucrado"></td>
-                </tr>
-                <tr>
-                    <td><table>
-                        <tr>
-                            <td>Nro</td> 
-                            <td>Alumno</td> 
-                            <td>Grado</td> 
-                            <td>Opci&oacute;n</td> 
-                        </tr>
-                        <tr>
-                            <td></td> 
-                            <td></td> 
-                            <td></td> 
-                            <td><a href="#">Quitar</a></td> 
-                        </tr>
-                    </table></td>
-                </tr>
+            <div id="rowDetalle" style="display:none;">   
+                <table>
+                    <tr>
+                        <td>
+                            <label id="lblNro" class="inputValue"></label>
+                        </td>
+                        <td>
+                            <label id="lblAlumno" class="inputValue"></label>
+                        </td>
+                        <td>
+                            <label id="lblGrado" class="inputValue"></label>
+                        </td>
+                        <td>
+                            <a id="chkIdQuitar" href="<%=request.getContextPath()%>" >
+                                Quitar
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <input type="button" id="btnBuscarAlumnoInvolucrado" value="Agregar Alumno Involucrado">
+            <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
+                <thead>    <tr>
+                        <td>Nro</td> 
+                        <td>Alumno</td> 
+                        <td>Grado</td> 
+                        <td>Opci&oacute;n</td> 
+                    </tr> </thead>
+                <tbody></tbody>
             </table>
+
         </fieldset>
         <div class="mensaje" >
             <span>

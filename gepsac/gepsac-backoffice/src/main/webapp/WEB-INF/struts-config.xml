@@ -94,6 +94,8 @@
                 validate="false">
             <forward name="listarSolicitudPsicologica" path="listarSolicitudPsicologica" redirect="true"/>
             <forward name="registrarSolicitudPsicologica" path="registrarSolicitudPsicologica" redirect="true"/>
+            <forward name="consultarSolicitudPsicologica" path="consultarSolicitudPsicologica" redirect="true"/>
+            <forward name="editarSolicitudPsicologica" path="editarSolicitudPsicologica" redirect="true"/>
         </action>
     </action-mappings>
     
