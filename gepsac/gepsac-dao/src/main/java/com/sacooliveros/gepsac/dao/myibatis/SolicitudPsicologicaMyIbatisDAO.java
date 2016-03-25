@@ -46,7 +46,44 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             closeConnection(session);
         }
     }
-/*
+
+    @Override
+    public List<SolicitudPsicologica> listarPorEstado(String codigoEstado) {
+        SqlSession session = null;
+        SolicitudPsicologicaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(SolicitudPsicologicaMapper.class);
+            List listado = mapper.queryEstado(codigoEstado);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<SolicitudPsicologica> listarPendiente(int maxMinutosPendiente) {
+        SqlSession session = null;
+        SolicitudPsicologicaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(SolicitudPsicologicaMapper.class);
+            List listado = mapper.queryPendiente(maxMinutosPendiente);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    /*
     @Override
     public Alumno obtener(String id) {
         Alumno model;
@@ -91,10 +128,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
     
 
     
-*/
-
-    
-
+     */
     @Override
     public void ingresar(SolicitudPsicologica model) {
         SqlSession session = null;
@@ -107,12 +141,12 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
-            
+
             for (SolicitudAlumno object : model.getAlumnoInvolucrado()) {
                 object.setCodigoSolicitud(model.getCodigo());
                 mapper.insertAlumnos(object);
             }
-            
+
             session.commit();
             log.info("Registrado [{}]", model);
 
@@ -123,7 +157,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             throw new DAOException("Error al grabar", e);
         } finally {
             closeConnection(session);
-        }    
+        }
     }
 
     @Override
@@ -150,7 +184,32 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             closeConnection(session);
         }
     }
-    
+
+    @Override
+    public void actualizarEstado(SolicitudPsicologica model) {
+        SqlSession session = null;
+        SolicitudPsicologicaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(SolicitudPsicologicaMapper.class);
+            log.debug("Actualizando Estado SolicitudPsicologica [{}] ...", model);
+            if (mapper.updateEstado(model) == 0) {
+                throw new DAOException("No se pudo actualizar");
+            }
+            session.commit();
+            log.info("Estado Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
     @Override
     public SolicitudPsicologica obtener(String id) {
         SolicitudPsicologica model;
@@ -169,7 +228,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             closeConnection(session);
         }
     }
-    
+
     @Override
     public void grabarSolicitudPsicologica(SolicitudPsicologica model) {
         SolicitudPsicologica solicitudPsicologicaConsultado = obtener(model.getCodigo());
@@ -181,7 +240,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             actualizar(model);
         }
     }
-    
+
     @Override
     public void eliminar(SolicitudPsicologica model) {
         SqlSession session = null;
@@ -212,5 +271,4 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
 }

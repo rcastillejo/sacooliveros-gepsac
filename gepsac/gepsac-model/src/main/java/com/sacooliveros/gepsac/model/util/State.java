@@ -39,5 +39,7 @@ public interface State {
     interface SolicitudPsicologica {
 
         String PENDIENTE = "SPS0001";
+        String EN_EVALUACION = "SPS0002";
+        String POR_ATENDER = "SPS0003";
     }
 }

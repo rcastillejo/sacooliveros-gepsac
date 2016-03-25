@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.dao;
 
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
+import java.util.List;
 
 /**
  *
@@ -16,6 +17,10 @@ public interface SolicitudPsicologicaDAO extends BaseDao<SolicitudPsicologica> {
     //void registrarSolicitudPsicologica(SolicitudPsicologica model);
 
     //void actualizarSolicitudPsicologica(SolicitudPsicologica model);
+    void actualizarEstado(SolicitudPsicologica model);
+    
+    List<SolicitudPsicologica> listarPorEstado(String codigoEstado);
+    List<SolicitudPsicologica> listarPendiente(int maxMinutes);
     
     void grabarSolicitudPsicologica(SolicitudPsicologica model);
 

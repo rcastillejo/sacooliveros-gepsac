@@ -21,6 +21,9 @@ public class StateUtil {
         states.put(State.EvaluacionAcosoEscolar.POR_RESOLVER, "Por Resolver");
         states.put(State.EvaluacionAcosoEscolar.EVALUADO, "Evaluado");
         states.put(State.EvaluacionAcosoEscolar.RESUELTO, "Resuelto");
+        
+        states.put(State.SolicitudPsicologica.EN_EVALUACION, "En Evaluacion");
+        states.put(State.SolicitudPsicologica.POR_ATENDER, "Por Atender");
     }
 
     public static String getDescription(String codigo) {

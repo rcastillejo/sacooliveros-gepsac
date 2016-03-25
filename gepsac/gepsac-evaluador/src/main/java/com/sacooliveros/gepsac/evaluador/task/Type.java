@@ -14,7 +14,9 @@ public enum Type {
     ALUMNO("com.sacooliveros.gepsac.evaluador.task.PostulanteTimerTask",
             "com.sacooliveros.gepsac.evaluador.task.PostulanteEvaluadorTask"),
     EVALUACION("com.sacooliveros.gepsac.evaluador.task.TimerTask",
-            "com.sacooliveros.gepsac.evaluador.task.EvaluadorTask");
+            "com.sacooliveros.gepsac.evaluador.task.EvaluadorTask"),
+    SOLICITUD_PSICOLOGICA("com.sacooliveros.gepsac.evaluador.task.SolicitudPsicologicaMonitor",
+            "com.sacooliveros.gepsac.evaluador.task.SolicitudPsicologicaConsumer");
 
     private String timer;
     private String evaluator;

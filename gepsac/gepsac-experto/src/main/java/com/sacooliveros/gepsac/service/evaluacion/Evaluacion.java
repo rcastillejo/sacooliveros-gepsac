@@ -22,6 +22,9 @@ public interface Evaluacion {
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
         String RESOLVER_ACOSO_ESCOLAR = "Evaluación fue finalizada con éxito [{0}]";
 
+        String REGISTRO_SOLICITUD_PSICOLOGICA = "Solicitud Psicológica Registrado Satisfactoriamente [{0}]";
+        String VERIFICAR_SOLICITUD_PSICOLOGICA = "Solicitud Psicológica Paso se actulizo al estado [{0}]";
+
     }
 
     interface Error {
@@ -49,9 +52,13 @@ public interface Evaluacion {
     }
 
     List<SolicitudPsicologica> listarSolicitudPsicologica() throws ExpertoServiceException;
+
     List<SolicitudPsicologica> listarSolicitudPsicologica(String codigoUsuario) throws ExpertoServiceException;
+
     String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException;
+    
+    String verificarSolicitudPsicologicaPendiente(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException;
 
     String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException;
-    
+
 }

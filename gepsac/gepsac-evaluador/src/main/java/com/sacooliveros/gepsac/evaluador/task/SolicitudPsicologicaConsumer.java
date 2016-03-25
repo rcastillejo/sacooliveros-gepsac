@@ -6,12 +6,11 @@
 package com.sacooliveros.gepsac.evaluador.task;
 
 import com.sacooliveros.gepsac.evaluador.message.Mensaje;
-import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
-import com.sacooliveros.gepsac.service.experto.Experto;
-import com.sacooliveros.gepsac.service.experto.ExpertoService;
+import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
+import com.sacooliveros.gepsac.service.evaluacion.Evaluacion;
+import com.sacooliveros.gepsac.service.evaluacion.EvaluacionService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
-import com.sacooliveros.gepsac.service.experto.se.Engine;
-import com.sacooliveros.gepsac.service.experto.se.Engines;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -21,18 +20,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author Ricardo
  */
-public class EvaluadorTask implements Runnable {
+public class SolicitudPsicologicaConsumer extends EvaluadorTask {
 
-    private static final Logger log = LoggerFactory.getLogger(EvaluadorTask.class);
+    private static final Logger log = LoggerFactory.getLogger(SolicitudPsicologicaConsumer.class);
 
-    protected int workerId;
-    protected BlockingQueue<Mensaje> colaEvaluacion;
-    protected Experto service;
-    
-    public void configure(int workerId, BlockingQueue<Mensaje> colaEvaluacion){
+    private int workerId;
+    private BlockingQueue<Mensaje> cola;
+    private Evaluacion service;
+
+    public void configure(int workerId, BlockingQueue<Mensaje> cola) {
         this.workerId = workerId;
-        this.colaEvaluacion = colaEvaluacion;
-        this.service = new ExpertoService();
+        this.cola = cola;
+        this.service = new EvaluacionService();
     }
 
     @Override
@@ -57,14 +56,16 @@ public class EvaluadorTask implements Runnable {
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
-            Engine engine = Engines.create();
+            log.info(/*id + "\t" +*/"El sistema obtiene la solicitud peniente");
 
-            EvaluacionAcosoEscolar evaluacion = (EvaluacionAcosoEscolar) mensaje.getRequest();
+            SolicitudPsicologica solicitud = (SolicitudPsicologica) mensaje.getRequest();
 
-            String msg = service.evaluarRespuestaAcosoEscolar(evaluacion, engine);
+            log.info(/*id + "\t" +*/"El sistema verifca si existe la solicitud peniente");
+            String msg = service.verificarSolicitudPsicologicaPendiente(solicitud);
 
             log.info(/*id + "\t" + */msg);
+        } catch (ValidatorException e) {
+            log.error(id + "\t" + e.getMessage(), e);
         } catch (ExpertoServiceException e) {
             log.error(id + "\t" + e.getMessage(), e);
         } catch (Exception e) {
@@ -83,7 +84,7 @@ public class EvaluadorTask implements Runnable {
         while (true) {
             try {
                 log.trace("Verificando mensaje de la cola");
-                mensaje = colaEvaluacion.poll(1, TimeUnit.SECONDS);
+                mensaje = cola.poll(1, TimeUnit.SECONDS);
                 if (mensaje != null) {
                     break;
                 }
@@ -106,7 +107,7 @@ public class EvaluadorTask implements Runnable {
     }
 
     public BlockingQueue<Mensaje> getColaEvaluacion() {
-        return colaEvaluacion;
+        return cola;
     }
 
 }

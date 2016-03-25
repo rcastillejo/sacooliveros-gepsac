@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.evaluador.config;
 
 import com.sacooliveros.gepsac.evaluador.task.Type;
 import com.sacooliveros.gepsac.evaluador.util.ResourceHelper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,12 +26,15 @@ public class Configuration {
     protected final long timeout;
 
     protected List<Type> types;
+    protected Properties config;
 
     public Configuration(String configname) {
         this(ResourceHelper.loadConfig(configname));
     }
 
     public Configuration(Properties config) {
+        this.types = new ArrayList<Type>();
+        this.config = config;
         brokerName = config.getProperty("BrokerName");
         timeForThreads = Integer.parseInt(config.getProperty("BrokerTimeToBusyThreads"));
         brokerInterval = Integer.parseInt(config.getProperty("BrokerInterval"));
@@ -79,6 +83,10 @@ public class Configuration {
 
     public long getTimeout() {
         return timeout;
+    }
+    
+    public String getProperty(String key){
+        return config.getProperty(key);
     }
 
     @Override

@@ -19,11 +19,13 @@ import com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.util.State;
+import com.sacooliveros.gepsac.model.util.StateUtil;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
@@ -77,12 +79,11 @@ public class EvaluacionService implements Evaluacion {
         }
     }
 
-    
     private String getCodigoDocumento(String codigo) {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmmss");
         return codigo + sdf.format(new Date());
     }
-    
+
     @Override
     public String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException {
         try {
@@ -94,29 +95,23 @@ public class EvaluacionService implements Evaluacion {
 
             log.debug("Validando datos de la solicitud [{}]", solicitudPsicologica);
             validarSolicitudPsicologica(solicitudPsicologica);
-            
+
             //Grabar alumnos Involucrados
-            
+            log.debug("Alumno involucrados grabados [{}]", solicitudPsicologica);
             for (SolicitudAlumno solicitudAlumno : solicitudPsicologica.getAlumnoInvolucrado()) {
                 Alumno alumno = solicitudAlumno.getAlumno();
                 alumno.setCodigoEstado(State.Alumno.REGISTRADO);
-                alumnoDao.cargarCodificacionAlumno(alumno); 
+                alumnoDao.cargarCodificacionAlumno(alumno);
                 alumnoDao.grabarEvaluado(alumno);
             }
-            
 
-            solicitudPsicologica.setFechaSolicitud(new Date());            
+            solicitudPsicologica.setFechaSolicitud(new Date());
             String codigo = getCodigoDocumento("SP");
             solicitudPsicologica.setCodigo(codigo);
             solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.PENDIENTE);
             //Grabar solicitud psicologica
             solicitudPsicologicaDAO.grabarSolicitudPsicologica(solicitudPsicologica);
-            if (solicitudPsicologica.getMotivo() == MOTIVO_AGRESION_ESCOLAR) {
-                validarAlmunosInvolucrados(solicitudPsicologica.getAlumnoInvolucrado());
-            }
-            log.debug("Alumno postulante grabado[{}]", solicitudPsicologica);
-
-            mensaje = "Solicitud Psicológica Registrado Satisfactoriamente";
+            mensaje = Mensaje.REGISTRO_SOLICITUD_PSICOLOGICA;
             return mensaje;
 
         } catch (ValidatorException e) {
@@ -131,21 +126,65 @@ public class EvaluacionService implements Evaluacion {
         }
     }
 
-    private void validarAlmunosInvolucrados(List<SolicitudAlumno> alumnoInvolucrado) {
-        for (SolicitudAlumno alumno : alumnoInvolucrado) {
-            validarAlumnoInvolucrado(alumno.getAlumno());
-        }
+    @Override
+    public String verificarSolicitudPsicologicaPendiente(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException {
+        try {
+            String mensaje;
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+            AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
 
+            solicitudPsicologica.determinarAlumnos();
+
+            log.debug("Validando datos de la solicitud [{}]", solicitudPsicologica);
+
+            if (solicitudPsicologica.getMotivo() == MOTIVO_AGRESION_ESCOLAR) {
+                //Validar Alumno Involucrados
+                List<SolicitudAlumno> alumnosAEvaluar = obtenerAlumnosInvolucradosAEvaluar(solicitudPsicologica);
+                log.debug("Alumno involucrados a evaluar [{}]", alumnosAEvaluar.size());
+                if (alumnosAEvaluar.isEmpty()) {//No existen alumnos involucrados reincidentes por motivo de agresion
+                    solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+                } else {//Existen al menos un reincidente, lo cual se procedera a evaluar
+                    solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.EN_EVALUACION);
+                }
+            } else {
+                solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+            }
+
+            solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+
+            mensaje = MessageFormat.format(Mensaje.VERIFICAR_SOLICITUD_PSICOLOGICA, StateUtil.getDescription(solicitudPsicologica.getEstado().getCodigo()));
+            return mensaje;
+
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+        }
     }
 
-    private void validarAlumnoInvolucrado(Alumno alumnoInvolucrado) {
-        SolicitudPsicologicaDAO solicitudPsicologicaDao = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
-        int numeroVeces = 0;
-        numeroVeces = solicitudPsicologicaDao.cantidadSolicitudPsicologicaAlumnoInvolucrado(alumnoInvolucrado.getCodigo());
-        if (numeroVeces > CANTIDAD_SOLICITUD_ALUMNO_INVOLUCRADO_MAXIMO_ANUAL) {
-            //identifica que ya tiene mas de una solicitud por agresion en el anio actual---->SE ENVIA UNA NOTIFICACION (ALERTA)
-            log.info("[{}] Se requerie que el alumno resuelva una evaluacion de acoso escolar", alumnoInvolucrado.getCodigo());
+    private List<SolicitudAlumno> obtenerAlumnosInvolucradosAEvaluar(SolicitudPsicologica solicitudPsicologica) {
+        List<SolicitudAlumno> alumnosAEvaluar = new ArrayList<SolicitudAlumno>();
+        for (SolicitudAlumno solicitudAlumno : solicitudPsicologica.getAlumnoInvolucrado()) {
+            Alumno alumno = solicitudAlumno.getAlumno();
+            if (validarAlumnoInvolucrado(alumno)) {
+                log.info("[{}] Se requerie que el alumno resuelva una evaluacion de acoso escolar", alumno.getCodigo());
+                alumnosAEvaluar.add(solicitudAlumno);
+            }
         }
+        return alumnosAEvaluar;
+    }
+
+    private boolean validarAlumnoInvolucrado(Alumno alumnoInvolucrado) {
+        SolicitudPsicologicaDAO solicitudPsicologicaDao = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+        int numeroVeces;
+        numeroVeces = solicitudPsicologicaDao.cantidadSolicitudPsicologicaAlumnoInvolucrado(alumnoInvolucrado.getCodigo());
+        //identifica que ya tiene mas de una solicitud por agresion en el anio actual
+        return numeroVeces > CANTIDAD_SOLICITUD_ALUMNO_INVOLUCRADO_MAXIMO_ANUAL;
     }
 
     private void validarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
