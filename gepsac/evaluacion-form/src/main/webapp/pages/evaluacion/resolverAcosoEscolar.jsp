@@ -17,28 +17,13 @@
         $("#btnCancelar").click(function (e) {
             e.preventDefault();
             location.assign("<%=request.getContextPath()%>");
-        }
+        });
         
         $("#btnFinalizar").click(function (e) {
             e.preventDefault();
-            /*var sError = validarResolver();
-             if (sError === "") {
-             resolverAcosoEscolar();
-             } else {
-             fn_mdl_alert(sError, null, "MENSAJE");
-             }*/
             resolverAcosoEscolar();
         });
     });
-
-    function validarResolver() {
-        var sError = "";
-        var noChecked = $("[name='respuesta']:checked").length;
-        if (codigoAlumno.length === 0) {
-            sError = sError + "   - Debe seleccionar un alumno. <br/>";
-        }
-        return sError;
-    }
 
     function getData(jQueryEl) {
         var data = {};
@@ -82,8 +67,25 @@
             var pregunta = {};
 
             pregunta = getData($(this));
-
+            
+            pregunta.alternativas = [];
+            
+            var elAlternativas = $(this).find("input[id^='rdbAlternativa']");
+            
+            console.log('elAlternativas', elAlternativas);
+            elAlternativas.map(function (idx, el) {
+                console.log('elAlternativa', el);
+                var alternativa = {
+                      secuencia: $(el).attr('value')
+                };
+                var seleccionado = $(el).is(':checked');   
+                pregunta.alternativas.push({
+                    alternativa : alternativa,
+                    seleccionado : seleccionado
+                });
+            });
             listadoVal.push(pregunta);
+            
             console.log('listDetalle', listadoVal);
         });
 
@@ -193,9 +195,43 @@
         detalle.find("#hdnPreguntaId").val(json.pregunta.codigo);
 
         detalle.find("#lblNroPregunta").append(parseInt(i) + 1);
+        
         detalle.find("#lblPregunta").append(json.pregunta.enunciado);
-        var respuesta = detalle.find("[name='respuesta']");
-        respuesta.attr('name', 'respuesta-' + json.pregunta.codigo);
+        
+        /*var respuesta = detalle.find("[name='respuesta']");
+        respuesta.attr('name', 'respuesta-' + json.pregunta.codigo);*/
+        
+        var detalleAlternativa = $("#rowDetalleAlternativa");
+        var alternativas = json.alternativas;
+
+        for (var i in alternativas) {
+            var alternativaPregunta = alternativas[i];
+            var lblAlternativa = detalleAlternativa.find("#lblAlternativa").clone();
+            var rdbAlternativa = detalleAlternativa.find("#rdbAlternativa").clone();
+
+            lblAlternativa.attr('for', 'alternativa-' + alternativaPregunta.codigoPregunta);
+            rdbAlternativa.attr('name', 'alternativa-' + alternativaPregunta.codigoPregunta);
+
+            lblAlternativa.attr('id', lblAlternativa.attr('id') + '-' + alternativaPregunta.codigoPregunta);
+            rdbAlternativa.attr('id', rdbAlternativa.attr('id') + '-' + alternativaPregunta.codigoPregunta);
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas alternativa=', alternativaPregunta.alternativa.alternativa);
+
+            lblAlternativa.append(alternativaPregunta.alternativa.alternativa);
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas codigoPregunta=', alternativaPregunta.codigoPregunta);
+
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas secuencia=', alternativaPregunta.alternativa.secuencia);
+
+            rdbAlternativa.val(alternativaPregunta.alternativa.secuencia);
+            console.log('[' + json.pregunta.codigo + '] alternativa seleccionada', alternativaPregunta.seleccionado);
+            
+            detalle.find("#alternativas").append(rdbAlternativa);
+            detalle.find("#alternativas").append(lblAlternativa);
+        }
+
+
 
         table.find("tbody").append(detalle);
     }
@@ -253,6 +289,11 @@
 
             <div class="separator"></div>
 
+            
+            <div id="rowDetalleAlternativa" style="display:none;">                
+                <label id="lblAlternativa" for="alternativa" ></label>
+                <input id="rdbAlternativa" type="radio" name="alternativa">
+            </div>
 
             <div id="rowDetalle" style="display:none;">   
                 <table>
@@ -264,11 +305,7 @@
                         <td>
                             <label id="lblPregunta"></label>
                         </td>
-                        <td>
-                            <input type="radio" name="respuesta" value="SI" class="inputValue" data-name="respuesta">
-                        </td>
-                        <td>
-                            <input type="radio" name="respuesta" value="NO" class="inputValue" data-name="respuesta">
+                        <td id="alternativas">
                         </td>
                     </tr>
                 </table>
@@ -284,8 +321,7 @@
                     <thead>
                     <th>N°</th>
                     <th>Pregunta</th>
-                    <th>SI</th>
-                    <th>NO</th>
+                    <th>Alternativas</th>
                     </thead>
 
                     <tbody>

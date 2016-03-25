@@ -75,18 +75,18 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
-            
+
             model.setFechaEvaluacion(new Date());
-            
+
             log.debug("Registrando [{}] ...", model);
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
-            
-            if(model.getPreguntas() != null){
+
+            if (model.getPreguntas() != null) {
                 ingresarPreguntas(mapper, model);
-            }            
-            
+            }
+
             session.commit();
             log.info("Registrado [{}]", model);
 
@@ -100,19 +100,19 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         }
 
     }
-    
-    public void ingresarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model){
+
+    public void ingresarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model) {
         List<PreguntaEvaluacion> preguntas;
-        
+
         preguntas = model.getPreguntas();
-        
+
         for (PreguntaEvaluacion pregunta : preguntas) {
             pregunta.setCodigoEvaluacion(model.getCodigo());
             if (mapper.insertPreguntas(pregunta) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
         }
-         
+
     }
 
     @Override
@@ -123,18 +123,18 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
-            
+
             model.setFechaEvaluacion(new Date());
-            
+
             log.debug("Actualizando [{}] ...", model);
             if (mapper.update(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-            
-            if(model.getPreguntas() != null){
+
+            if (model.getPreguntas() != null) {
                 actualizarPreguntas(mapper, model);
             }
-            
+
             session.commit();
             log.info("Actualizado [{}]", model);
 
@@ -148,18 +148,18 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         }
     }
 
-    public void actualizarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model){
+    public void actualizarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model) {
         List<PreguntaEvaluacion> preguntas;
-        
-        preguntas = model.getPreguntas();  
-        
+
+        preguntas = model.getPreguntas();
+
         for (PreguntaEvaluacion pregunta : preguntas) {
             pregunta.setCodigoEvaluacion(model.getCodigo());
             if (mapper.updatePreguntas(pregunta) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
         }
-         
+
     }
 
     @Override
@@ -219,7 +219,7 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             closeConnection(session);
         }
     }
-    
+
     @Override
     public List<PreguntaEvaluacionAlternativa> listarPreguntaEvaluacionAlternativa(String codigoEvaluacion, String codigoPregunta) {
         SqlSession session = null;
@@ -255,7 +255,7 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             closeConnection(session);
         }
     }
-   
+
     @Override
     public void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {
         SqlSession session = null;
@@ -264,18 +264,18 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
-            
+
             model.setFechaEvaluacion(new Date());
-            
+
             log.debug("Actualizando [{}] ...", model);
             if (mapper.updateRespEvalAcosoEscolar(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-            
-            if(model.getPreguntas() != null){
+
+            if (model.getPreguntas() != null) {
                 actualizarPreguntas(mapper, model);
             }
-            
+
             session.commit();
             log.info("Actualizado [{}]", model);
 
@@ -288,22 +288,25 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             closeConnection(session);
         }
     }
-   
-    
-    public void actualizarRespuestaPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model){
+
+    private void actualizarRespuestaPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model) {
         List<PreguntaEvaluacion> preguntas;
-        
-        preguntas = model.getPreguntas();  
-        
+
+        preguntas = model.getPreguntas();
+
         for (PreguntaEvaluacion pregunta : preguntas) {
-            pregunta.setCodigoEvaluacion(model.getCodigo());
-            if (mapper.updateRespuestaPreguntas(pregunta) == 0) {
-                throw new DAOException("No se pudo registrar");
+            for (PreguntaEvaluacionAlternativa alternativa : pregunta.getAlternativas()) {
+                alternativa.setCodigoEvaluacion(model.getCodigo());
+                alternativa.setCodigoPregunta(pregunta.getPregunta().getCodigo());
+                log.debug("Actualizando Alternativa [{}]", alternativa);
+                if (mapper.updateRespuestaPreguntas(alternativa) == 0) {
+                    throw new DAOException("No se pudo registrar");
+                }
             }
         }
-         
+
     }
-    
+
     @Override
     public void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {
         SqlSession session = null;
@@ -312,16 +315,16 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         try {
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
-            
+
             log.debug("Actualizando [{}] ...", model);
             if (mapper.updateResueltoEvalAcosoEscolar(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-            
-            if(model.getPreguntas() != null){
+
+            if (model.getPreguntas() != null) {
                 actualizarRespuestaPreguntas(mapper, model);
             }
-            
+
             session.commit();
             log.info("Actualizado [{}]", model);
 
@@ -335,5 +338,4 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         }
     }
 
-  
 }

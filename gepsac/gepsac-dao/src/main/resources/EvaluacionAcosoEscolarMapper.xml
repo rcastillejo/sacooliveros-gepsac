@@ -208,9 +208,11 @@
         Update 
             tp_pregunta_evaluacion 
         Set
-            respuesta = #{respuesta}
+            seleccionado = #{seleccionado}
         Where
-            cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+        cod_evaluacion = #{codigoEvaluacion} 
+        and cod_pregunta = #{codigoPregunta} 
+        and secuencia = #{alternativa.secuencia}
     </insert>
     
     <update id="updateRespEvalAcosoEscolar">

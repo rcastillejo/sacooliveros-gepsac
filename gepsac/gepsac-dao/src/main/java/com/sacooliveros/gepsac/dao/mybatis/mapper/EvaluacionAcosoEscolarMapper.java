@@ -3,6 +3,7 @@ package com.sacooliveros.gepsac.dao.mybatis.mapper;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,7 +35,7 @@ public interface EvaluacionAcosoEscolarMapper {
     /**
      * Resolver Evaluacion Acoso Escolar
      */
-    public int updateRespuestaPreguntas(PreguntaEvaluacion model);
+    public int updateRespuestaPreguntas(PreguntaEvaluacionAlternativa model);
     
     public List<EvaluacionAcosoEscolar> queryEstado(@Param("codigoEstado") String codigoEstado);
     
