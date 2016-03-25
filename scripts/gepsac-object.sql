@@ -675,8 +675,7 @@ CREATE TABLE tp_solicitud_psicologica
   solicitante character varying(100) NOT NULL,
   descripcion character varying(200) NOT NULL,
   motivo integer NOT NULL,
-  lugar character varying(200) NOT NULL,
-  cod_alumno character varying(20) NOT NULL,
+  lugar character varying(200) NULL,
   cod_estado character varying(15) NOT NULL,
   usu_crea character varying(50),
   fec_crea timestamp without time zone DEFAULT now(),
@@ -685,9 +684,6 @@ CREATE TABLE tp_solicitud_psicologica
   CONSTRAINT pk_tp_solicitud_psicologica PRIMARY KEY (cod_solicitud),
   CONSTRAINT fk_tp_solicitud_psicologica_tp_usuario FOREIGN KEY (solicitante)
       REFERENCES tp_usuario (cod_usuario) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tp_solicitud_psicologica_tp_alumno FOREIGN KEY (cod_alumno)
-      REFERENCES tp_alumno_evaluado (cod_alumno) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_ev_acoso_escolar_tp_estado FOREIGN KEY (cod_estado)
       REFERENCES tp_estado (cod_estado) MATCH SIMPLE

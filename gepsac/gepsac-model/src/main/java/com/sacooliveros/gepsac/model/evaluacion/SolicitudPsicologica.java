@@ -7,7 +7,6 @@ package com.sacooliveros.gepsac.model.evaluacion;
 
 import com.sacooliveros.gepsac.model.comun.Model;
 import com.sacooliveros.gepsac.model.comun.Usuario;
-import com.sacooliveros.gepsac.model.experto.Alumno;
 import java.util.Date;
 import java.util.List;
 
@@ -20,11 +19,13 @@ public class SolicitudPsicologica extends Model {
     private Date fechaSolicitud;
     private Date fechaAtencion;
     private Usuario solicitante;
-    private String motivo; 
-    private String descripcion; 
-    private Alumno alumno; 
-    private List<Alumno> alumnoInvolucrado;
-    
+    private int motivo;
+    private String descripcion;
+    private boolean existeAlumnoDirigido;
+    private boolean existeAlumnosInvolucrados;
+
+    private List<SolicitudAlumno> alumnoInvolucrado;
+
     /*public void setPerfil(String codigoPerfil) {
         if(codigoPerfil != null && !codigoPerfil.isEmpty()){
             perfil = new Perfil();
@@ -33,7 +34,6 @@ public class SolicitudPsicologica extends Model {
             perfil = null;
         }
     }*/
-
     public Date getFechaSolicitud() {
         return fechaSolicitud;
     }
@@ -58,11 +58,11 @@ public class SolicitudPsicologica extends Model {
         this.solicitante = solicitante;
     }
 
-    public String getMotivo() {
+    public int getMotivo() {
         return motivo;
     }
 
-    public void setMotivo(String motivo) {
+    public void setMotivo(int motivo) {
         this.motivo = motivo;
     }
 
@@ -74,25 +74,35 @@ public class SolicitudPsicologica extends Model {
         this.descripcion = descripcion;
     }
 
-    public List<Alumno> getAlumnoInvolucrado() {
+    public List<SolicitudAlumno> getAlumnoInvolucrado() {
         return alumnoInvolucrado;
     }
 
-    public void setAlumnoInvolucrado(List<Alumno> alumnoInvolucrado) {
+    public void setAlumnoInvolucrado(List<SolicitudAlumno> alumnoInvolucrado) {
         this.alumnoInvolucrado = alumnoInvolucrado;
     }
 
-    public Alumno getAlumno() {
-        return alumno;
+    public void determinarAlumnos() {
+        for (SolicitudAlumno solicitudAlumno : alumnoInvolucrado) {
+            if (solicitudAlumno.isDirigido()) {
+                existeAlumnoDirigido = Boolean.TRUE;
+            } else {
+                existeAlumnosInvolucrados = Boolean.TRUE;
+            }
+        }
     }
 
-    public void setAlumno(Alumno alumno) {
-        this.alumno = alumno;
+    public boolean existeAlumnoDirigido() {
+        return existeAlumnoDirigido;
+    }
+
+    public boolean existeAlumnosInvolucrados() {
+        return existeAlumnosInvolucrados;
     }
 
     @Override
     public String toString() {
-        return "SolicitudPsicologica{" + "fechaSolicitud=" + fechaSolicitud + ", alumno=" + alumno + ", solicitante=" + solicitante + '}';
+        return "SolicitudPsicologica{" + "fechaSolicitud=" + fechaSolicitud + ", fechaAtencion=" + fechaAtencion + ", solicitante=" + solicitante + ", motivo=" + motivo + ", descripcion=" + descripcion + ", alumnoInvolucrado=" + alumnoInvolucrado + '}';
     }
 
 }

@@ -1,4 +1,20 @@
 
+<script src="<%=request.getContextPath()%>/resources/js/jquery-1.8.3.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/jquery-ui-1.9.2.css" />
+<script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.9.2.js"></script>
+
+<!--<link href="<%=request.getContextPath()%>/resources/css/skinSCA.css" rel="stylesheet" type="text/css" />-->
+<link href="<%=request.getContextPath()%>/resources/css/jquery-combobox.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/sca-template.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/jquery-override.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<script src="<%=request.getContextPath()%>/resources/js/jquery.iframe-transport.js"></script>
+
+<script src="<%=request.getContextPath()%>/resources/js/jquery.fileupload.js"></script>       
+<script src="<%=request.getContextPath()%>/resources/js/jquery.dataTables.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/util.js"></script>
+
 <script type='text/javascript'>
     var action = '/EvaluarPostulante.do';
     var item;
@@ -64,7 +80,7 @@
     function fn_seleccionar() {
         if (item && item !== null) {
             console.log("itemSeleccionado", item);
-            parent.cargarAlumnoNuevo(item);
+            parent.cargarAlumnoDirigido(item);
         } else {
             fn_mdl_alert("Debe seleccionar un alumno", null, "MENSAJE");
         }

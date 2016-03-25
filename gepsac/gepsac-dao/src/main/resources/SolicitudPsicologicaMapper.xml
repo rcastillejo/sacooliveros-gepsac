@@ -6,11 +6,13 @@
         <id column="cod_solicitud" property="codigo" jdbcType="VARCHAR" />
         <result column="fec_solicitud" property="fechaSolicitud" jdbcType="DATE" />
         <result column="fec_atencion" property="fechaAtencion" jdbcType="DATE" />        
-        <result column="solicitante" property="usuario.codigo" jdbcType="VARCHAR" />
+        <result column="cod_usuario" property="solicitante.codigo" jdbcType="VARCHAR" />
+        <result column="nombres" property="solicitante.nombres" jdbcType="VARCHAR" />
+        <result column="apellidos" property="solicitante.apellidos" jdbcType="VARCHAR" />
         <result column="motivo" property="motivo" jdbcType="VARCHAR" />
         <result column="descripcion" property="descripcion" jdbcType="VARCHAR" />
-        <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
         <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="nom_estado" property="estado.nombre" jdbcType="VARCHAR" />
         <result column="usu_crea" property="usuCre" jdbcType="VARCHAR" />
         <result column="fec_crea" property="fecCre" jdbcType="DATE" />
         <result column="usu_modif" property="usuMod" jdbcType="VARCHAR" />
@@ -19,28 +21,41 @@
        
     <select id="query" resultMap="recordSolicitudPsicologica">
         SELECT
-            cod_solicitud,
-            solicitante,
-            motivo,
-            fec_solicitud,
-            fec_atencion,
-            cod_estado
+            a.cod_solicitud,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.fec_solicitud,
+            a.fec_atencion,
+            a.cod_estado,
+            c.nom_estado
         FROM 
-            tp_solicitud_psicologica
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
     </select>
   
     <select id="get" resultMap="recordSolicitudPsicologica">
         SELECT
-            cod_solicitud,
-            fec_solicitud,
-            fec_atencion,
-            solicitante,
-            motivo,
-            descripcion,
-            cod_alumno,
-            cod_estado
+            a.cod_solicitud,
+            a.fec_solicitud,
+            a.fec_atencion,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.descripcion,
+            a.cod_estado,
+            c.nom_estado
         FROM 
-            tp_solicitud_psicologica
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
       <!--  where
             cod_solicitud=#{codigo}
         and
@@ -57,10 +72,17 @@
     <insert id="insert">
         Insert into tp_solicitud_psicologica 
             (cod_solicitud, fec_solicitud, fec_atencion, solicitante, motivo, 
-            descripcion, cod_alumno, cod_estado, usu_crea, fec_crea)
+            descripcion,  cod_estado)
         values
-            (#{codigo}, #{fechaSolicitud}, #{fechaAtencion}, #{solicitante}, #{motivo}, 
-            #{descripcion}, #{alumno.codigo}, #{estado.codigo}, #{fecCre}, #{usuCre})
+            (#{codigo}, #{fechaSolicitud}, #{fechaAtencion}, #{solicitante.codigo}, #{motivo}, 
+            #{descripcion}, #{estado.codigo})
+    </insert>
+    
+    <insert id="insertAlumnos">
+        Insert into tp_solicitud_alumno 
+            (cod_solicitud, cod_alumno, dirigido)
+        values
+            (#{codigoSolicitud}, #{alumno.codigo}, #{dirigido})
     </insert>
   
   

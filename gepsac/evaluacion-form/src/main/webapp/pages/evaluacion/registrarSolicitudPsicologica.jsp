@@ -4,20 +4,21 @@
     //alert('COLORRRR' + gOptions.color);
     var formatDate = 'dd/mm/yy';
     var table = '#div-resultado';
-    var action = '/SolicitudPsicologica.do';
+    var action = '/RegistrarSolicitudPsicologica.do';
 
     var serviceIP = "<%=request.getLocalAddr()%>";
     var fromUrl;
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
     var codigoEvaluacion;
+    var alumnos = [];
 
     $(document).ready(function () {
-        initEvaluarAlumno();
+        init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
         $("#btnCancelar").click(function (e) {
             e.preventDefault();
-            location.assign("<%=request.getContextPath()%>");
+            location.assign("<%=request.getContextPath()%>" + action + '?method=init');
         });
 
         //Buscar al Alumno Nuevo
@@ -28,49 +29,72 @@
                     900, 600, null);
         });
 
-        $("#btnCancelar").click(function (e) {
+        $("#btnGuardar").click(function (e) {
             e.preventDefault();
-            location.assign("<%=request.getContextPath()%>");
-        }
+            registrarSolictudPsicologica();
+        });
 
-        $("#btnRegistrar").click(function (e) {
-        e.preventDefault();
-        /*var sError = validarResolver();
-         if (sError === "") {
-         resolverAcosoEscolar();
-         } else {
-         fn_mdl_alert(sError, null, "MENSAJE");
-         }*/
-        registrarSolictudPsicologica();
+
+        //Buscar al Alumno Nuevo
+        $("#btnBuscarAlumno").click(function (e) {
+            e.preventDefault();
+            fn_util_AbreModal("",
+                    "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumno.jsp',
+                    900, 600, null);
+        });
+
+        $("#btnBuscarAlumnoInvolucrado").click(function (e) {
+            e.preventDefault();
+            fn_util_AbreModal("",
+                    "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumnoInvolucrado.jsp',
+                    900, 600, null);
+        });
+
     });
-    });
-            function registrarSolictudPsicologica() {
 
-                var data = getData($("#evaluacion"));
-                data.alumnoInvolucrado = obtenerAlumnoInvolucrados();
+    function init() {
 
-                console.log('grabando', data);
+        var fecEva = new Date();
+        $("#fechaRegistro").val(getDateString(fecEva));
 
-                $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    data: JSON.stringify(data),
-                    contentType: "application/json",
-                    url: serviceUrl + '/solicitudPsicologica'
-                }).done(function (result) {
-                    console.log('result', result);
-                    fn_mdl_alert(result, function () {}, "CONFIRMACION");
-                }).fail(function (error, status, a) {
-                    console.log('error', error, 'status', status, 'a', a);
-                    if (error && error.status === 400) {
-                        fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
-                    } else {
-                        fn_mdl_alert(error.responseText, function () {
-                            location.assign("<%=request.getContextPath()%>" + action + '?method=init');
-                        }, "MENSAJE");
-                    }
-                });
+        $("#motivoSolicitud").on('change', function () {
+            var motivo = $(this).val();
+            console.log('motivo', motivo);
+            if (motivo === '1') {
+                $("#alumnosInvolucrados").show();
+            } else {
+                $("#alumnosInvolucrados").hide();
             }
+        });
+    }
+
+    function registrarSolictudPsicologica() {
+
+        var data = getData($("#tblSolicitud"));
+        data.alumnoInvolucrado = alumnos;
+
+        console.log('grabando', data);
+
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            url: serviceUrl + '/solicitudPsicologica'
+        }).done(function (result) {
+            console.log('result', result);
+            fn_mdl_alert(result, function () {}, "CONFIRMACION");
+        }).fail(function (error, status, a) {
+            console.log('error', error, 'status', status, 'a', a);
+            if (error && error.status === 400) {
+                fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+            } else {
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+                }, "MENSAJE");
+            }
+        });
+    }
 
     //obtenerAlumnoInvolucrados
 
@@ -116,90 +140,181 @@
         return data;
     }
 
-    function evaluarAlumnoNuevo() {
-        var data = serializeEvaluacionAlumnoNuevo();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
-        }).done(function (result) {
-            var evaluacion = result[0];
-            var msg = result[1];
-            console.log('evaluacion', evaluacion);
-            console.log('msg', msg);
-            cargarRespuestaEvaluacion(evaluacion);
-            $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
-            $('#btnEvaluar').attr('disabled', 'disabled');
-            fn_mdl_alert(msg, function () {}, "CONFIRMACION");
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
-        });
+    function getAlumnoDTO(json) {
+        var alumno = {
+            codigo: json.codigo,
+            nombres: json.nombres,
+            apellidoPaterno: json.apellidoPaterno,
+            apellidoMaterno: json.apellidoMaterno,
+            sexo: {
+                nombre: json.genero
+            },
+            edad: json.edad,
+            contextura: {
+                nombre: json.contextura
+            },
+            estatura: {
+                nombre: json.altura
+            },
+            direccion: json.domicilio,
+            distrito: {
+                nombre: json.distrito
+            },
+            provincia: {
+                nombre: json.provincia
+            },
+            departamento: {
+                nombre: json.departamento
+            },
+            nacionalidad: {
+                nombre: json.nacionalidad
+            },
+            religion: {
+                nombre: json.religion
+            },
+            gradoEscolar: json.gradoEscolar,
+            nivelEscolar: {
+                nombre: json.nivelEscolar
+            },
+            promedioEscolar: json.promedioEscolar,
+            cantCambioColegio: json.nroCambioColegio,
+            tipoFamilia: {
+                nombre: json.tipoFamilia
+            },
+            ordenNacimiento: json.ordenNacimiento,
+            cantHnos: json.numHnos
+        };
 
-        //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
-        //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
+        return alumno;
+    }
+
+    function cargarAlumnoDirigido(json) {
+        if (!alumnoEstaAgregado(json)) {
+            cargarAlumno($("#tblAlumnoDirigido"), json);
+
+
+            alumnos.push({
+                alumno: getAlumnoDTO(json),
+                dirigido: true
+            });
+            fn_util_CierraModal();
+        } else {
+            fn_mdl_alert('El alumno ya se encuentra agregado en la solicitud', fn_util_CierraModal, "MENSAJE");
+        }
 
     }
 
-    function cargarRespuestaEvaluacion(evaluacion) {
-        for (var i in evaluacion.perfiles) {
-            var perfilEval = evaluacion.perfiles[i];
-            var el;
-            if (perfilEval.perfil === undefined) {
-                el = $("#mensaje");
-            } else if (perfilEval.perfil.codigo === 'P0001') {
-                el = $("#agresor");
-            } else if (perfilEval.perfil.codigo === 'P0002') {
-                el = $("#victima");
-            } else if (perfilEval.perfil.codigo === 'P0003') {
-                el = $("#testigo");
+    function cargarAlumno(el, json) {
+        console.log('cargando...', json);
+        var promedioEscolar = json.promedioEscolar;
+        promedioEscolar = promedioEscolar.toFixed(2);
+
+        el.find("#codigoAlumno").val(json.codigo);
+
+        el.find("#nombrecompletoAlumno").val(json.nombres + ' ' + json.apellidoPaterno + ' ' + json.apellidoMaterno);
+
+        el.find("#direccionAlumno").val(json.domicilio);
+        el.find("#edadAlumno").val(json.edad);
+        el.find("#distritoAlumno").val(json.distrito);
+
+
+        /*$("#genero").val(json.genero);
+         $("#contextura").val(json.contextura);
+         $("#estatura").val(json.altura);
+         $("#provincia").val(json.provincia);
+         $("#departamento").val(json.departamento);
+         $("#nacionalidad").val(json.nacionalidad);
+         $("#religion").val(json.religion);
+         $("#nivelEscolar").val(json.nivelEscolar);
+         $("#gradoEscolar").val(json.gradoEscolar);
+         $("#promedioEscolar").val(promedioEscolar);
+         $("#cantCambioColegio").val(json.nroCambioColegio);
+         $("#tipoFamilia").val(json.tipoFamilia);
+         $("#ordenNacimiento").val(json.ordenNacimiento);
+         $("#cantHnos").val(json.numHnos);*/
+    }
+
+    function alumnoEstaAgregado(item) {
+        for (var i in alumnos) {
+            var solicitudAlumno = alumnos[i];
+            if (solicitudAlumno && solicitudAlumno.alumno && solicitudAlumno.alumno.codigo === item.codigo) {
+                return true;
             }
-            var probabilidad = new Number(perfilEval.probabilidad);
-            var porcProbabilidad = (probabilidad * 100.0);
-            porcProbabilidad = porcProbabilidad.toFixed(2);
-            console.log('Perfil Evaluado', perfilEval, '%', porcProbabilidad);
-            el.val(porcProbabilidad + '%');
+        }
+        return false;
+    }
+
+    function quitarAlumno(item) {
+
+        console.log('eliminando de lista', item);
+        for (var i in alumnos) {
+            var solicitudAlumno = alumnos[i];
+            console.log('comparando alumno', solicitudAlumno, 'item', item);
+            if (solicitudAlumno && solicitudAlumno.alumno && solicitudAlumno.alumno.codigo === item.codigo) {
+                alumnos.splice(i, 1);
+                console.log('eliminado alumno', alumnos);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function cargarAlumnoInvolucrados(listado) {
+        var msg = '';
+        for (var i in listado) {
+            var item = listado[i];
+
+            if (!alumnoEstaAgregado(item)) {
+                cargarAlumnoInvolucrado(listado[i], parseInt(i) + 1);
+                alumnos.push({
+                    /*alumno: {
+                     codigo: item.codigo
+                     }*/
+                    alumno: getAlumnoDTO(item),
+                    dirigido: false
+                });
+            } else {
+                msg += '<p>' + item.codigo + ': ' + item.nombres + ' ' + item.apellidoPaterno + ' ' + item.apellidoMaterno + '</p>';
+            }
+        }
+
+        fn_util_CierraModal();
+
+        if (msg !== '') {
+            fn_mdl_alert('No se pudo agregar a los siguientes alumnos, ya que se encontraban en la solicitud:' + msg, null, "MENSAJE");
         }
     }
 
-    function initEvaluarAlumno() {
-        $("#mensajeError").empty();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
-        }).done(function (objeto) {
-            console.log('objeto', objeto);
-            cargarEvaluacion(objeto);
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
+
+    function cargarAlumnoInvolucrado(json, idx) {
+
+        var table = $("#tblDetalle");
+        var detalle = $("#rowDetalle").find("tbody tr").clone();
+
+        detalle.find("#hdnCodigo").val(json.codigo);
+        detalle.find("#lblNro").append(json.codigo);
+        detalle.find("#lblGrado").append(json.gradoEscolar + '° ' + json.nivelEscolar);
+        detalle.find("#lblAlumno").append(json.nombres + ' ' + json.apellidoPaterno + ' ' + json.apellidoMaterno);
+
+
+        table.find("tbody").append(detalle);
+
+        var chkIdQuitar = detalle.find("#chkIdQuitar");
+
+        chkIdQuitar.click(function (e) {
+            e.preventDefault();
+            fn_mdl_confirma("¿Está seguro de eliminar el alumno involucrado?",
+                    function () {
+                        detalle.remove();
+                        var resultado = quitarAlumno(json);
+                        console.log('resultado de la eliminacion', resultado, 'alumnos', alumnos);
+                    }, null, null, "Confirmacion");
+            return false;
         });
+
     }
 
-    function cargarPlanEstrategia(plan) {
-
-        cargarPlan(plan);
-
-        for (var i in plan.estrategiasSeleccionadas) {
-            var estrategia = plan.estrategiasSeleccionadas[i];
-            cargarEstrategia(estrategia);
-
-            for (var j in estrategia.actividadesSeleccionadas) {
-                var actividad = estrategia.actividadesSeleccionadas[j];
-                cargarActividadIndicadores(actividad, actividad.indicadoresSeleccionados);
-            }
-
-        }
-    }
-
-    function cargarEvaluacion(objeto) {
-        $("#codigoEvaluacion").val(objeto.codigo);
-        var fechaEvaluacion = new Date();
+    function getDateString(fechaEvaluacion) {
         var twoDigitMonth = fechaEvaluacion.getMonth() + 1 + "";
         if (twoDigitMonth.length === 1)
             twoDigitMonth = "0" + twoDigitMonth;
@@ -207,131 +322,8 @@
         if (twoDigitDate.length === 1)
             twoDigitDate = "0" + twoDigitDate;
         var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
-        console.log('fechaActual', fechaActual);
-        $("#fechaEvaluacion").val(fechaActual);
-        console.log('fechaEvaluacion', fechaEvaluacion);
+        return fechaActual;
     }
-
-    function cargarAlumnoNuevo(json) {
-        cargarAlumno(json);
-        fn_util_CierraModal();
-
-    }
-
-    function cargarAlumno(json) {
-        console.log('cargando...', json);
-        var promedioEscolar = json.promedioEscolar;
-        promedioEscolar = promedioEscolar.toFixed(2);
-
-        $("#codigoAlumno").val(json.codigo);
-        $("#nombres").val(json.nombres);
-        $("#apellidoPaterno").val(json.apellidoPaterno);
-        $("#apellidoMaterno").val(json.apellidoMaterno);
-        $("#genero").val(json.genero);
-        $("#edad").val(json.edad);
-        $("#contextura").val(json.contextura);
-        $("#estatura").val(json.altura);
-        $("#direccion").val(json.domicilio);
-        $("#distrito").val(json.distrito);
-        $("#provincia").val(json.provincia);
-        $("#departamento").val(json.departamento);
-        $("#nacionalidad").val(json.nacionalidad);
-        $("#religion").val(json.religion);
-        $("#nivelEscolar").val(json.nivelEscolar);
-        $("#gradoEscolar").val(json.gradoEscolar);
-        $("#promedioEscolar").val(promedioEscolar);
-        $("#cantCambioColegio").val(json.nroCambioColegio);
-        $("#tipoFamilia").val(json.tipoFamilia);
-        $("#ordenNacimiento").val(json.ordenNacimiento);
-        $("#cantHnos").val(json.numHnos);
-
-    }
-
-    //Buscar al Alumno Nuevo
-    $("#btnBuscarAlumno").click(function (e) {
-        e.preventDefault();
-        fn_util_AbreModal("",
-                "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumno.jsp',
-                900, 600, null);
-    });
-
-    $("#btnBuscarAlumnoInvolucrado").click(function (e) {
-        e.preventDefault();
-        fn_util_AbreModal("",
-                "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumnoInvolucrado.jsp',
-                900, 600, null);
-    });
-
-    function cargarAlumno(json) {
-        cargarAlumno(json);
-        fn_util_CierraModal();
-
-    }
-
-    function cargarAlumno(json) {
-        console.log('cargando...', json);
-        var promedioEscolar = json.promedioEscolar;
-        promedioEscolar = promedioEscolar.toFixed(2);
-
-        $("#codigoAlumno").val(json.codigo);
-        $("#nombres").val(json.nombres);
-        $("#apellidoPaterno").val(json.apellidoPaterno);
-        $("#apellidoMaterno").val(json.apellidoMaterno);
-        $("#genero").val(json.genero);
-        $("#edad").val(json.edad);
-        $("#contextura").val(json.contextura);
-        $("#estatura").val(json.altura);
-        $("#direccion").val(json.domicilio);
-        $("#distrito").val(json.distrito);
-        $("#provincia").val(json.provincia);
-        $("#departamento").val(json.departamento);
-        $("#nacionalidad").val(json.nacionalidad);
-        $("#religion").val(json.religion);
-        $("#nivelEscolar").val(json.nivelEscolar);
-        $("#gradoEscolar").val(json.gradoEscolar);
-        $("#promedioEscolar").val(promedioEscolar);
-        $("#cantCambioColegio").val(json.nroCambioColegio);
-        $("#tipoFamilia").val(json.tipoFamilia);
-        $("#ordenNacimiento").val(json.ordenNacimiento);
-        $("#cantHnos").val(json.numHnos);
-
-    }
-
-    function cargarAlumnoInvolucrado(json) {
-        cargarAlumnoInvolucrado(json);
-        fn_util_CierraModal();
-
-    }
-
-    function cargarAlumnoInvolucrado(json) {
-        console.log('cargando...', json);
-        var promedioEscolar = json.promedioEscolar;
-        promedioEscolar = promedioEscolar.toFixed(2);
-
-        $("#codigoAlumno").val(json.codigo);
-        $("#nombres").val(json.nombres);
-        $("#apellidoPaterno").val(json.apellidoPaterno);
-        $("#apellidoMaterno").val(json.apellidoMaterno);
-        $("#genero").val(json.genero);
-        $("#edad").val(json.edad);
-        $("#contextura").val(json.contextura);
-        $("#estatura").val(json.altura);
-        $("#direccion").val(json.domicilio);
-        $("#distrito").val(json.distrito);
-        $("#provincia").val(json.provincia);
-        $("#departamento").val(json.departamento);
-        $("#nacionalidad").val(json.nacionalidad);
-        $("#religion").val(json.religion);
-        $("#nivelEscolar").val(json.nivelEscolar);
-        $("#gradoEscolar").val(json.gradoEscolar);
-        $("#promedioEscolar").val(promedioEscolar);
-        $("#cantCambioColegio").val(json.nroCambioColegio);
-        $("#tipoFamilia").val(json.tipoFamilia);
-        $("#ordenNacimiento").val(json.ordenNacimiento);
-        $("#cantHnos").val(json.numHnos);
-
-    }
-
 </script>
 
 <div class="div-pagina">
@@ -341,7 +333,7 @@
     <div id="dvData">
         <fieldset>
             <legend>Datos de la Solicitud</legend>
-            <table>
+            <table id="tblSolicitud">
                 <tr>
                     <td>Fecha Registro</td><td>:</td> 
                     <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
@@ -356,7 +348,7 @@
                                class="inputValue" data-name="solicitante.codigo">
 
 
-                        <input id="solicitanteSolicitud" type="text" disabled="true" class="inputValue" 
+                        <input id="solicitanteSolicitud" type="text" disabled="true"
                                value="<%= usuario.getNombres() + ' ' + usuario.getApellidos()%>">
                     </td>
                 </tr>
@@ -375,12 +367,13 @@
                 </tr>
             </table>
         </fieldset>
+        <br/>
         <fieldset>
             <legend>Datos del Alumno</legend>
-            <table>
+            <table id="tblAlumnoDirigido">
                 <tr>
                     <td>C&oacute;digo</td><td>:</td>
-                    <td><input id="codigoAlumno" type="text" disabled="true" class="inputValue" data-name="alumno.codigo"></td>
+                    <td><input id="codigoAlumno" type="text" disabled="true"  data-name="alumno.codigo"></td>
                     <td colspan="2"><input type="button" id="btnBuscarAlumno" value="Buscar Alumno" /></td>
                 </tr>
                 <tr>
@@ -401,19 +394,21 @@
                 </tr>
             </table>
         </fieldset>
+        <br/>
         <fieldset id="alumnosInvolucrados" hidden="true">
             <legend>Datos de Alumnos Involucrados</legend>
             <div id="rowDetalle" style="display:none;">   
                 <table>
                     <tr>
                         <td>
-                            <label id="lblNro" class="inputValue"></label>
+                            <input id="hdnCodigo" type="hidden" data-name="usuario.codigo"></label>
+                            <label id="lblNro" ></label>
                         </td>
                         <td>
-                            <label id="lblAlumno" class="inputValue"></label>
+                            <label id="lblAlumno" ></label>
                         </td>
                         <td>
-                            <label id="lblGrado" class="inputValue"></label>
+                            <label id="lblGrado" ></label>
                         </td>
                         <td>
                             <a id="chkIdQuitar" href="<%=request.getContextPath()%>" >
@@ -425,8 +420,9 @@
             </div>
             <input type="button" id="btnBuscarAlumnoInvolucrado" value="Agregar Alumno Involucrado">
             <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                <thead>    <tr>
-                        <td>Nro</td> 
+                <thead>    
+                    <tr>
+                        <td>C&oacute;digo</td> 
                         <td>Alumno</td> 
                         <td>Grado</td> 
                         <td>Opci&oacute;n</td> 

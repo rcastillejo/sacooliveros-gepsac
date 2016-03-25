@@ -41,6 +41,11 @@ INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0001', 'R
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0002', 'Evaluado'	, 'Evaluacion de Acoso Escolar Evaluado por el Sistema');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0001', 'Registrado'	, 'Alumno Registrado');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('ALU0002', 'Evaluado'	, 'Alumno Evaluado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('SPS0001', 'Pendiente'	, 'En este estado se puede editar o eliminar');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('SPS0002', 'En Evaluación'	, 'En este estado solo se puede consultar');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('SPS0003', 'Por Atender'	, 'En este estado solo se puede atender por un psicologo');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('SPS0004', 'Atendido'	, 'En este estado final indica que la solicitud fue atendida');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('SPS0005', 'Anulado'	, 'En este estado final indica que la solicitud fue anulada');
 
 
 --

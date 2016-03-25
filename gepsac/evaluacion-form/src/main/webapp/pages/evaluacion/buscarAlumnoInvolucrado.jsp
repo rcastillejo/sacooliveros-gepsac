@@ -1,16 +1,32 @@
 
+<script src="<%=request.getContextPath()%>/resources/js/jquery-1.8.3.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/jquery-ui-1.9.2.css" />
+<script src="<%=request.getContextPath()%>/resources/js/jquery-ui-1.9.2.js"></script>
+
+<!--<link href="<%=request.getContextPath()%>/resources/css/skinSCA.css" rel="stylesheet" type="text/css" />-->
+<link href="<%=request.getContextPath()%>/resources/css/jquery-combobox.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/sca-template.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/jquery-override.css" rel="stylesheet" type="text/css" />
+<link href="<%=request.getContextPath()%>/resources/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+<script src="<%=request.getContextPath()%>/resources/js/jquery.iframe-transport.js"></script>
+
+<script src="<%=request.getContextPath()%>/resources/js/jquery.fileupload.js"></script>       
+<script src="<%=request.getContextPath()%>/resources/js/jquery.dataTables.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/util.js"></script>
 <script type='text/javascript'>
     var action = '/EvaluarPostulante.do';
+    var listadoTemp;
     var item;
 
     $(document).ready(function () {
         initBuscarAlumnoNuevo();
     });
-    
-    function getRequestParameter(name){
-        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-           return decodeURIComponent(name[1]);
-     }
+
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
 
     function initBuscarAlumnoNuevo() {
         $.ajax({
@@ -19,6 +35,7 @@
             url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
         }).done(function (listado) {
             console.log('listado', listado);
+            listadoTemp = listado;
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
@@ -43,16 +60,18 @@
 
         detalle.find("#lblCodigo").append(json.codigo);
         detalle.find("#lblNombres").append(json.nombres);
-        detalle.find("#lblApellidos").append(json.apellidoPaterno+' '+json.apellidoMaterno);
+        detalle.find("#lblApellidos").append(json.apellidoPaterno + ' ' + json.apellidoMaterno);
         detalle.find("#lblEdad").append(json.edad + ' años');
         detalle.find("#lblDistrito").append(json.distrito);
         detalle.find("#lblDomicilio").append(json.domicilio);
 
         table.find("tbody").append(detalle);
-
-        detalle.find("#chkId").click(function () {
-            fn_checkListadoItem($(this).get(0), json);
-        });
+        var chkId = detalle.find("#chkId");
+        chkId.attr('id', 'chkId-' + json.codigo);
+        chkId.val(json.codigo);
+        /*detalle.find("#chkId").click(function () {
+         fn_checkListadoItem($(this).get(0), json);
+         });*/
     }
 
     function fn_checkListadoItem(objCheck, json) {
@@ -62,9 +81,25 @@
     }
 
     function fn_seleccionar() {
-        if (item && item !== null) {
-            console.log("itemSeleccionado", item);
-            parent.cargarAlumnoInvolucrado(item);
+        var ids = $("input[id^='chkId']:checked");
+        console.log('ids', ids.length);
+        var listado = [];
+        ids.map(function (idx, el) {
+        console.log('el', el, 'checked', $(el).is(':checked'));
+            //if ($(el).is(':checked')) {
+                for (var i in listadoTemp) {
+                    var item = listadoTemp[i];
+                    if (item.codigo === $(el).val()) {
+                        listado.push(item);
+                        //break;
+                    }
+                }
+            //}
+        });
+
+        if (listado.length > 0) {
+            console.log("cargarAlumnoInvolucrado", listado);
+            parent.cargarAlumnoInvolucrados(listado);
         } else {
             fn_mdl_alert("Debe seleccionar un alumno", null, "MENSAJE");
         }
@@ -77,15 +112,15 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
         }).done(function (listado) {
             console.log('listado', listado);
             $("#tblDetalle tbody").empty();
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+            fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+        });
     }
 
 </script>
@@ -124,7 +159,7 @@
             <table>
                 <tr>
                     <td>
-                        <input id="chkId" type="checkbox" />
+                        <input id="chkId" type="checkbox" multiple="true"/>
                     </td>
                     <td>
                         <label id="lblCodigo" class="inputValue"></label>
@@ -168,13 +203,13 @@
         <table style="align-content: center; text-align: center">
             <tr>
                 <td><a href="javascript:fn_seleccionar();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
-                    Aceptar
+                        <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
+                        Aceptar
                     </a>
                 </td>
                 <td><a href="javascript:parent.fn_util_CierraModal();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
-                    Cancelar
+                        <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
+                        Cancelar
                     </a>
                 </td>
             </tr>

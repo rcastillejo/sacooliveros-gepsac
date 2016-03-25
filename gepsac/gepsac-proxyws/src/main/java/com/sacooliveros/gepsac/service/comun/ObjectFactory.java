@@ -45,19 +45,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Actividad }
+     * Create an instance of {@link EstrategiaActividad }
      * 
      */
-    public Actividad createActividad() {
-        return new Actividad();
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link ListarEstrategiaActividad }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategia }
+     * 
+     */
+    public ListarEstrategia createListarEstrategia() {
+        return new ListarEstrategia();
     }
 
     /**
@@ -77,19 +85,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategia }
+     * Create an instance of {@link Indicador }
      * 
      */
-    public ListarEstrategia createListarEstrategia() {
-        return new ListarEstrategia();
+    public Indicador createIndicador() {
+        return new Indicador();
     }
 
     /**
-     * Create an instance of {@link EstrategiaActividad }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
@@ -101,19 +109,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaActividad }
+     * Create an instance of {@link Estado }
      * 
      */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
-    }
-
-    /**
-     * Create an instance of {@link Indicador }
-     * 
-     */
-    public Indicador createIndicador() {
-        return new Indicador();
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**

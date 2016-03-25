@@ -35,4 +35,9 @@ public interface State {
         String REGISTRADO = "ALU0001";
         String EVALUADO = "ALU0002";
     }
+
+    interface SolicitudPsicologica {
+
+        String PENDIENTE = "SPS0001";
+    }
 }

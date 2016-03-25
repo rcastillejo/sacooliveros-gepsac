@@ -39,19 +39,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * Create an instance of {@link ListarAlumnoPostulanteResponse }
      * 
      */
-    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
-        return new BuscarAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoPostulante }
-     * 
-     */
-    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
-        return new ObtenerAlumnoPostulante();
+    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
+        return new ListarAlumnoPostulanteResponse();
     }
 
     /**
@@ -60,6 +52,14 @@ public class ObjectFactory {
      */
     public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
         return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoPostulante }
+     * 
+     */
+    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
+        return new ObtenerAlumnoPostulante();
     }
 
     /**
@@ -79,19 +79,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarAlumnoPostulanteResponse }
-     * 
-     */
-    public ListarAlumnoPostulanteResponse createListarAlumnoPostulanteResponse() {
-        return new ListarAlumnoPostulanteResponse();
-    }
-
-    /**
      * Create an instance of {@link Alumno }
      * 
      */
     public Alumno createAlumno() {
         return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * 
+     */
+    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
+        return new BuscarAlumnoPostulanteResponse();
     }
 
     /**

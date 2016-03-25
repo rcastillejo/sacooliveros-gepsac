@@ -15,6 +15,7 @@ import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.rs.EvaluacionResource;
+import com.sacooliveros.gepsac.service.rs.exception.RestServiceException;
 import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -35,7 +36,7 @@ public class EvaluacionRestService implements EvaluacionResource {
         this.service = new EvaluacionService();
         this.serviceExperto = new ExpertoService();
     }
-        
+
     @Override
     public String test() {
         String result = "evaluacion test";
@@ -47,21 +48,25 @@ public class EvaluacionRestService implements EvaluacionResource {
     public List<SolicitudPsicologica> listarSolicitudPsicologica() {
         try {
             return service.listarSolicitudPsicologica();
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
-            throw new WebApplicationException(
-                    Response.status(500).entity(e.getMessage()).build());
+            throw new RestServiceException(e);
         }
     }
 
     @Override
     public List<SolicitudPsicologica> listarSolicitudPsicologica(String codigoUsuario) {
         try {
-            return service.listarSolicitudPsicologica();
+            return service.listarSolicitudPsicologica(codigoUsuario);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
-            throw new WebApplicationException(
-                    Response.status(500).entity(e.getMessage()).build());
+            throw new RestServiceException(e);
         }
     }
 
@@ -69,15 +74,17 @@ public class EvaluacionRestService implements EvaluacionResource {
     public String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
         try {
             return service.registrarSolicitudPsicologica(solicitudPsicologica);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new RestServiceException(e);
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
-            throw new WebApplicationException(
-                    Response.status(500).entity(e.getMessage()).build());
+            throw new RestServiceException(e);
         }
     }
 
     @Override
-    public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarResuelto() {        
+    public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarResuelto() {
         try {
             return serviceExperto.listarEvaluacionAcosoEscolar(State.EvaluacionAcosoEscolar.RESUELTO);
         } catch (ExpertoServiceException e) {
@@ -88,7 +95,7 @@ public class EvaluacionRestService implements EvaluacionResource {
     }
 
     @Override
-    public EvaluacionAcosoEscolar obtenerEvaluacionAcosoEscolar(String codigoEvaluacion) {                
+    public EvaluacionAcosoEscolar obtenerEvaluacionAcosoEscolar(String codigoEvaluacion) {
         try {
             return serviceExperto.consultarResultadoAcosoEscolar(codigoEvaluacion);
         } catch (ExpertoServiceException e) {
@@ -99,7 +106,7 @@ public class EvaluacionRestService implements EvaluacionResource {
     }
 
     @Override
-    public List<EvaluacionAcosoEscolar> listarEvaluacionAEPorResolver() {        
+    public List<EvaluacionAcosoEscolar> listarEvaluacionAEPorResolver() {
         try {
             return serviceExperto.listarEvaluacionAcosoEscolar(State.EvaluacionAcosoEscolar.POR_RESOLVER);
         } catch (ExpertoServiceException e) {
@@ -108,9 +115,9 @@ public class EvaluacionRestService implements EvaluacionResource {
                     Response.status(500).entity(e.getMessage()).build());
         }
     }
-    
+
     @Override
-    public String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion) {                   
+    public String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion) {
         try {
             return service.resolverAcosoEscolar(evaluacion);
         } catch (ValidatorException e) {
@@ -123,5 +130,5 @@ public class EvaluacionRestService implements EvaluacionResource {
                     Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
         }
     }
-    
+
 }

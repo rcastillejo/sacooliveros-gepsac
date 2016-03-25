@@ -7,6 +7,14 @@
 
     $(document).ready(function () {
         init();
+
+
+        $("#btnRegistrar").click(function (e) {
+            e.preventDefault();
+            location.assign("<%=request.getContextPath()%>" + action + '?method=initRegistrar');
+            return false;
+        });
+
     });
 
     function getRequestParameter(name) {
@@ -15,18 +23,25 @@
     }
 
     function init() {
+        $("#mensaje").empty();
+        $("#tblDetalle").hide();
         $.ajax({
             type: "GET",
             dataType: 'json',
             url: serviceUrl + "/solicitudPsicologica/gepsac"
         }).done(function (listado) {
             console.log('listado', listado);
+            $("#tblDetalle").show();
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
+            if (error && error.status === 400) {
+                $("#mensaje").append(error.responseText);
+            } else {
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "MENSAJE");
+            }
         });
     }
 
@@ -46,7 +61,6 @@
         detalle.find("#lblFechaRegistro").append(json.codigo);
         detalle.find("#lblNro").append(json.nro);
         detalle.find("#lblMotivo").append(json.motivo);
-        detalle.find("#lblEstado").append(json.estado);
         detalle.find("#lblEstado").append(json.estado.nombre);
 
         table.find("tbody").append(detalle);
@@ -65,13 +79,13 @@
         //var linkEliminar = chkIdEliminar.attr('href') + action + '?method=initEliminar&codigo=' + json.codigo;
         //chkIdEliminar.attr("href", linkEliminar + fromUrl);
         chkIdEliminar.click(function (e) {
-           e.preventDefault();
-           fn_mdl_confirma("¿Está seguro que desea eliminar la solicitud?",
-                   function () {
-                       eliminar(json.codigo);
-                   }, null, null, "Confirmacion");
-           return false;
-       });
+            e.preventDefault();
+            fn_mdl_confirma("¿Está seguro que desea eliminar la solicitud?",
+                    function () {
+                        eliminar(json.codigo);
+                    }, null, null, "Confirmacion");
+            return false;
+        });
     }
 
     function fn_checkListadoItem(objCheck, json) {
@@ -106,13 +120,8 @@
             fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
         });
     }
-    
-    $("#btnRegistrar").click(function (e) {
-           e.preventDefault();
-           location.assign("<%=request.getContextPath()%>"+action + '?method=initRegistrar');
-           return false;
-       });
-       
+
+
 
 
 </script>
@@ -130,26 +139,24 @@
                     <td><input id="codigoSolicitud" type="text" disabled="true" class="inputValue"></td>
                     <td>Motivo</td><td>:</td>
                     <td><select id="motivoSolicitud" data-name="motivo">
-                        <option value="" selected="selected">-- Seleccionar --</option>    
-                        <option value="AE">Agresi&oacute;n</option>
-                        <option value="BR">Bajo Rendimiento</option>
-                        <option value="CS">Comportamiento Sospechoso</option>
-                      </select></td>
+                            <option value="" selected="selected">-- Seleccionar --</option>    
+                            <option value="AE">Agresi&oacute;n</option>
+                            <option value="BR">Bajo Rendimiento</option>
+                            <option value="CS">Comportamiento Sospechoso</option>
+                        </select></td>
                     <td>Estado</td><td>:</td>
                     <td><select id="estadoSolicitud" data-name="estado">
-                        <option value="" selected="selected">-- Todos --</option>   
-                        <option value="EP">En proceso</option>
-                        <option value="PA">Por Atender</option>
-                        <option value="AT">Atendido</option>
-                      </select></td>
+                            <option value="" selected="selected">-- Todos --</option>   
+                            <option value="EP">En proceso</option>
+                            <option value="PA">Por Atender</option>
+                            <option value="AT">Atendido</option>
+                        </select></td>
                     <td><input type="button" id="btnBuscar" value="Buscar"/></td>
                 </tr>
             </table>
         </fieldset>
-        <div style="align-content: left; text-align: center">
-            <a id="btnRegistrar" href="<%=request.getContextPath()%>" >
-                            Registrar
-                        </a>
+        <div style="align-content: left;">
+            <input type="button" id="btnRegistrar" value="Registrar">
         </div>
         <div id="rowDetalle" style="display:none;">   
             <table>
@@ -184,15 +191,15 @@
                 </tr>
             </table>
         </div>
-        <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
-                    <thead>    <tr>
-                            <td>Fecha Registro</td> 
-                            <td>Nro</td> 
-                            <td>Motivo</td>
-                            <td>Estado</td> 
-                            <td colspan="3">Opciones</td> 
-                        </tr> </thead>
-                        <tbody></tbody>
+        <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla" style="display: none">
+            <thead>    <tr>
+                    <td>Fecha Registro</td> 
+                    <td>Nro</td> 
+                    <td>Motivo</td>
+                    <td>Estado</td> 
+                    <td colspan="3">Opciones</td> 
+                </tr> </thead>
+            <tbody></tbody>
         </table>
         <div class="mensaje" >
             <span>
@@ -205,5 +212,5 @@
             </span>
         </div>  
     </div>
-    
+
 </div>

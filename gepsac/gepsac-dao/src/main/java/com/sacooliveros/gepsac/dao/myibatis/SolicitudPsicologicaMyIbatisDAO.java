@@ -9,6 +9,7 @@ import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.SolicitudPsicologicaMapper;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.SolicitudPsicologicaMapper;
+import com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -106,6 +107,12 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
+            
+            for (SolicitudAlumno object : model.getAlumnoInvolucrado()) {
+                object.setCodigoSolicitud(model.getCodigo());
+                mapper.insertAlumnos(object);
+            }
+            
             session.commit();
             log.info("Registrado [{}]", model);
 
