@@ -16,16 +16,16 @@ import java.util.TreeSet;
  */
 public class Regla extends Model {
 
-    private String tipo;
+    private boolean deshabilitado;
     private Perfil perfil;
     private List<PreguntaRegla> preguntas;
 
-    public String getTipo() {
-        return tipo;
+    public boolean isDeshabilitado() {
+        return deshabilitado;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setDeshabilitado(boolean deshabilitado) {
+        this.deshabilitado = deshabilitado;
     }
 
     public Perfil getPerfil() {

@@ -573,6 +573,41 @@ WITH (
   OIDS=FALSE
 );
 
+CREATE TABLE tp_pregunta
+(
+  cod_pregunta character varying(15) NOT NULL,
+  --tipo character varying(25) NOT NULL, 
+  --alias character varying(25) NOT NULL,
+  enunciado character varying(250) NOT NULL,
+  
+  --cod_estado character varying(15) NOT NULL, 
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_pregunta PRIMARY KEY (cod_pregunta)
+)
+WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE tp_alternativa
+(
+  secuencia int not null,
+  alternativa character varying(50) NOT NULL,
+  
+  usu_crea character varying(50), -- Usuario de creacion
+  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
+  usu_modif character varying(50), -- Usuario de Modificacion
+  fec_modif timestamp without time zone, -- Fecha de modifcacion
+  CONSTRAINT pk_tp_alternativa PRIMARY KEY (secuencia)
+)
+WITH (
+  OIDS=FALSE
+);
+
+
 
 CREATE TABLE tp_plantilla_evaluacion_acoso_escolar
 (
@@ -592,55 +627,31 @@ WITH (
 );
 
 
-CREATE TABLE tp_pregunta
+
+CREATE TABLE tp_pregunta_plantilla
 (
-  cod_pregunta character varying(15) NOT NULL,
   cod_plantilla character varying(20) NOT NULL,
-  --tipo character varying(25) NOT NULL, 
-  --alias character varying(25) NOT NULL,
-  enunciado character varying(250) NOT NULL,
-  
-  --cod_estado character varying(15) NOT NULL, 
-  
-  usu_crea character varying(50), -- Usuario de creacion
-  fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
-  usu_modif character varying(50), -- Usuario de Modificacion
-  fec_modif timestamp without time zone, -- Fecha de modifcacion
-  CONSTRAINT pk_tp_pregunta PRIMARY KEY (cod_pregunta, cod_plantilla),
-  CONSTRAINT fk_tp_pregunta_tp_plantilla FOREIGN KEY (cod_plantilla)
-      REFERENCES tp_plantilla_evaluacion_acoso_escolar (cod_plantilla) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)
-WITH (
-  OIDS=FALSE
-);
-
-
-CREATE TABLE tp_alternativa
-(
-  secuencia int not null,
   cod_pregunta character varying(15) NOT NULL,
-  cod_plantilla character varying(15) NOT NULL,
-  --tipo character varying(25) NOT NULL, 
-  --alias character varying(25) NOT NULL,
-  alternativa character varying(50) NOT NULL,
-  
-  --cod_estado character varying(15) NOT NULL, 
+  secuencia int not null,
   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
-  CONSTRAINT pk_tp_alternativa PRIMARY KEY (secuencia,cod_pregunta, cod_plantilla),
-  CONSTRAINT fk_tp_alternativa_tp_pregunta FOREIGN KEY (cod_pregunta, cod_plantilla)
-      REFERENCES tp_pregunta (cod_pregunta, cod_plantilla) MATCH SIMPLE
+  CONSTRAINT pk_tp_pregunta_plantilla PRIMARY KEY (cod_plantilla,cod_pregunta,secuencia),
+  CONSTRAINT fk_tp_pregunta_plantilla_tp_plantilla FOREIGN KEY (cod_plantilla)
+      REFERENCES tp_plantilla_evaluacion_acoso_escolar (cod_plantilla) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_pregunta_plantilla_tp_pregunta FOREIGN KEY (cod_pregunta)
+      REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_pregunta_plantilla_tp_alternativa FOREIGN KEY (secuencia)
+      REFERENCES tp_alternativa (secuencia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
   OIDS=FALSE
 );
-
-
 
 CREATE TABLE tp_usuario
 (
@@ -744,32 +755,25 @@ WITH (
 
 
 CREATE TABLE tp_pregunta_evaluacion
-(
+(	
   cod_evaluacion character varying(20) NOT NULL,
 
-  cod_pregunta character varying(15) NULL,
   cod_plantilla character varying(20) NOT NULL,
-
+  cod_pregunta character varying(15) NULL,
   secuencia int not null,
-  
-  --respuesta character varying(15) NULL,
-  --orden_evaluado int NOT NULL,
-  
-  --regla character varying(50) NULL,
+ 
+  seleccionado boolean NOT NULL,
   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
   usu_modif character varying(50), -- Usuario de Modificacion
   fec_modif timestamp without time zone, -- Fecha de modifcacion
-  CONSTRAINT pk_tp_pregunta_evaluacion PRIMARY KEY (cod_evaluacion, cod_pregunta, cod_plantilla),
+  CONSTRAINT pk_tp_pregunta_evaluacion PRIMARY KEY (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia),
   CONSTRAINT fk_tp_pregunta_evaluacion_tp_eva_acoso FOREIGN KEY (cod_evaluacion)
       REFERENCES tp_evaluacion_acoso_escolar (cod_evaluacion) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tp_pregunta_evaluacion_tp_pregunta FOREIGN KEY (cod_pregunta, cod_plantilla)
-      REFERENCES tp_pregunta (cod_pregunta, cod_plantilla) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tp_pregunta_evaluacion_tp_alternativa FOREIGN KEY (secuencia,cod_pregunta, cod_plantilla)
-      REFERENCES tp_alternativa (secuencia,cod_pregunta, cod_plantilla) MATCH SIMPLE
+  CONSTRAINT fk_tp_pregunta_evaluacion_tp_pregunta FOREIGN KEY (cod_plantilla, cod_pregunta, secuencia)
+      REFERENCES tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (
@@ -804,11 +808,10 @@ CREATE TABLE tp_pregunta_regla
 (
   cod_regla character varying(15) NOT NULL,
   cod_pregunta character varying(15) NOT NULL,
-  cod_plantilla character varying(20) NOT NULL,
   
-  CONSTRAINT pk_tp_regla_pregunta PRIMARY KEY (cod_regla, cod_pregunta, cod_plantilla),
-  CONSTRAINT fk_tp_regla_pregunta_tp_pregunta FOREIGN KEY (cod_pregunta, cod_plantilla)
-      REFERENCES tp_pregunta (cod_pregunta, cod_plantilla) MATCH SIMPLE
+  CONSTRAINT pk_tp_regla_pregunta PRIMARY KEY (cod_regla, cod_pregunta),
+  CONSTRAINT fk_tp_regla_pregunta_tp_pregunta FOREIGN KEY (cod_pregunta)
+      REFERENCES tp_pregunta (cod_pregunta) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tp_regla_pregunta_tp_regla FOREIGN KEY (cod_regla)
       REFERENCES tp_regla_acoso_escolar (cod_regla) MATCH SIMPLE
@@ -824,15 +827,16 @@ CREATE TABLE tp_pregunta_evaluacion_regla
   cod_regla character varying(15) NOT NULL,
   
   cod_evaluacion character varying(20) NOT NULL,
-  cod_pregunta character varying(15) NOT NULL,
   cod_plantilla character varying(20) NOT NULL,
+  cod_pregunta character varying(15) NOT NULL,
+  secuencia int not null,
   
-  CONSTRAINT pk_tp_pregunta_eva_regla PRIMARY KEY (cod_regla, cod_evaluacion, cod_pregunta, cod_plantilla),
-  CONSTRAINT fk_tp_pregunta_eva_regla_tp_acoso_escolar FOREIGN KEY (cod_regla)
-      REFERENCES tp_regla_acoso_escolar (cod_regla) MATCH SIMPLE
+  CONSTRAINT pk_tp_regla_pregunta_evaluacion PRIMARY KEY (cod_regla, cod_pregunta, cod_plantilla, secuencia),
+  CONSTRAINT fk_tp_regla_pregunta_tp_evaluacion FOREIGN KEY (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia)
+      REFERENCES tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tp_pregunta_eva_regla_tp_preg_eva FOREIGN KEY (cod_evaluacion, cod_pregunta, cod_plantilla)
-      REFERENCES tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, cod_plantilla) MATCH SIMPLE
+  CONSTRAINT fk_tp_regla_pregunta_tp_regla FOREIGN KEY (cod_regla)
+      REFERENCES tp_regla_acoso_escolar (cod_regla) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (

@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.model.comun.Estado;
+import com.sacooliveros.gepsac.model.comun.Usuario;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
@@ -41,6 +42,26 @@ public class EvaluacionService implements Evaluacion {
         try {
             SolicitudPsicologicaDAO solicitudPsicologicaDao = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
             List<SolicitudPsicologica> solicitudes = solicitudPsicologicaDao.listar();
+            if (solicitudes == null || solicitudes.isEmpty()) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_SOLICITUD_PSICOLOGICA);
+            }
+            log.info("Listado de evaluaciones obtenidas [estado={}, tamanio={}]", new Object[]{null, solicitudes.size()});
+            return solicitudes;
+        } catch (DAOException e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EVALUACIONES_ACOSO_ESCOLAR, e);
+        }
+    }
+
+    @Override
+    public List<SolicitudPsicologica> listarSolicitudPsicologica(String codigoUsuario) throws ExpertoServiceException {
+        try {
+            List<SolicitudPsicologica> solicitudes = listarSolicitudPsicologica();
+            for (SolicitudPsicologica solicitud : solicitudes) {
+                Usuario solicitante = solicitud.getSolicitante();
+                if(!solicitante.getCodigo().equals(codigoUsuario)){
+                    solicitudes.remove(solicitud);
+                }
+            }
             if (solicitudes == null || solicitudes.isEmpty()) {
                 throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_SOLICITUD_PSICOLOGICA);
             }

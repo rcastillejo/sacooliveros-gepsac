@@ -20,13 +20,23 @@ drop table tp_alumno_postulante;
 drop table tp_pregunta_evaluacion_regla;
 
 drop table tp_pregunta_evaluacion;
-drop table tp_alternativa;
+
+
+drop table tp_pregunta_plantilla;
+
+
 drop table tp_evaluacion_acoso_escolar;
+
 
 drop table tp_pregunta_regla;
 
-drop table tp_pregunta;
 drop table tp_plantilla_evaluacion_acoso_escolar;
+
+drop table tp_pregunta;
+
+drop table tp_alternativa;
+
+
 
 drop table tp_solicitud_alumno;
 drop table tp_solicitud_psicologica;

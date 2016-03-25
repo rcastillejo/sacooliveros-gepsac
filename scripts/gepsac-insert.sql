@@ -15,6 +15,9 @@ SET client_min_messages = warning;
 
 SET search_path = public, pg_catalog;
 
+
+INSERT INTO tp_usuario (cod_usuario, nombres, apellidos) VALUES ('gepsac', 'Jose', 'Perez');
+
 --
 -- TOC entry 1992 (class 0 OID 16688)
 -- Dependencies: 170
@@ -32,6 +35,7 @@ INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0001', 'R
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0002', 'Configurado'	, null);
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PLA0003', 'Programado'	, null);
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVP0001', 'Registrado'	, 'Evaluacion de Postulante Registrado');
+INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('PEV0001', 'Registrado'  , 'Plantilla de Evaluacion de Acoso Escolar Registrado');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0000', 'Por Resolver', 'Evaluacion de Acoso Escolar Pendiente de Resolver por el Alumno');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0001', 'Resuelto'	, 'Evaluacion de Acoso Escolar Resuelto por el Alumno');
 INSERT INTO tp_estado (cod_estado, nom_estado, des_estado) VALUES ('EVA0002', 'Evaluado'	, 'Evaluacion de Acoso Escolar Evaluado por el Sistema');
@@ -184,129 +188,227 @@ insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500016', '1', '12', '2', '1', '2', '2', '3', '2', '2', '13', '2', '0', '1', '4', '1', '1', 'P0002','ALU0002');
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500017', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', 'P0002','ALU0002');
 
-
 --Preguntas
 --Victima
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0001', '', 'Excluyen','No me dejan participar, me excluyen');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0002', '', 'Rompen','Rompen mis cosas a propósito');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0003', '', 'Esconden','Me esconden las cosas');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0004', '', 'Insultan','Me insultan');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0005', '', 'No me hablen','Dicen a otros que no estén conmigo o que no me hablen');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0001', 'No me dejan participar, me excluyen');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0002', 'Rompen mis cosas a propósito');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0003', 'Me esconden las cosas');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0004', 'Me insultan');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0005', 'Dicen a otros que no estén conmigo o que no me hablen');
 
 --Agresor
 
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0006', '', 'Excluyo','No dejo participar, excluyo');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0007', '', 'Rompo','Rompo sus cosas a propósito');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0008', '', 'Robo','Robo sus cosas');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0009', '', 'Insulto','Insulto a mis compañeros');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0010', '', 'Difamo','Digo chismes falsos sobre él o ella');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0011', '', 'Manipulo','Trato de hacer que otros les desprecien');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0012', '', 'Agredo Verbal','Digo nombres ofensivos, comentarios o gestos con contenido sexual');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0006', 'No dejo participar, excluyo');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0007', 'Rompo sus cosas a propósito');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0008', 'Robo sus cosas');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0009', 'Insulto a mis compañeros');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0010', 'Digo chismes falsos sobre él o ella');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0011', 'Trato de hacer que otros les desprecien');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0012', 'Digo nombres ofensivos, comentarios o gestos con contenido sexual');
 
 --Testigo
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0013', '', 'Colaboro Maltrato','Colaboras en una situación de maltrato');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0014', '', 'Participo Burla','Participas en las burlas');
-insert into tp_pregunta (cod_pregunta,tipo,alias,enunciado) values ('PR0015', '', 'Grabo Agresión','Grabas o tomas fotos de las agresiones');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0013', 'Colaboras en una situación de maltrato');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0014', 'Participas en las burlas');
+insert into tp_pregunta (cod_pregunta,enunciado) values ('PR0015', 'Grabas o tomas fotos de las agresiones');
 
+--Alternativas
+insert into tp_alternativa (secuencia, alternativa) values (0, 'NO');
+insert into tp_alternativa (secuencia, alternativa) values (1, 'SI');
+
+--Plantilla Evaluacion
+insert into tp_plantilla_evaluacion_acoso_escolar (cod_plantilla,fec_registro,vigente,cod_estado) values ('PTEV0001', now(), true, 'EVA0001');
+
+	--Preguntas Plantilla
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0001', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0001', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0002', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0002', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0003', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0003', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0004', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0004', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0005', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0005', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0006', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0006', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0007', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0007', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0008', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0008', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0009', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0009', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0010', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0010', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0011', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0011', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0012', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0012', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0013', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0013', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0014', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0014', 1);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0015', 0);
+insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) values ('PTEV0001', 'PR0015', 1);
+	
 
 --P0001 Agresor
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500099', '1', '13', '2', '3', '3', '3', '3', '2', '4', '11', '2', '1', '1', '1', '1', '1', null,'ALU0001');
 
 --A201500099 | P0001
-insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203901', now(), 'A201500099', null,'EVA0001');
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion, cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203901', 'PTEV0001', now(), 'A201500099', null,'EVA0001');
 	--Preguntas Respondidas Victima
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0001', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0002', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0003', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0004', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0005', 'NO', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0001', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0002', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0003', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0004', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0005', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0001', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0002', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0003', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0004', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0005', 1, false);
 	--Preguntas Respondidas Agresor
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0006', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0007', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0008', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0009', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0010', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0011', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0012', 'SI', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0006', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0007', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0008', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0009', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0010', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0011', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0012', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0006', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0007', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0008', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0009', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0010', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0011', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0012', 0, false);
 	--Preguntas Respondidas Testigo
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0013', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0014', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203901', 'PR0015', 'NO', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0013', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0014', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0015', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0013', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0014', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203901', 'PTEV0001', 'PR0015', 1, false);
 
 
 --P0002 Victima
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500098', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500098 | P0002
-insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203902', now(), 'A201500098', null,'EVA0001');
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203902', 'PTEV0001', now(), 'A201500098', null,'EVA0001');
 	--Preguntas Respondidas Victima
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0001', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0002', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0003', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0004', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0005', 'SI', 0);
-	--Preguntas Respondidas Agresor
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0006', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0007', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0008', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0009', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0010', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0011', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0012', 'NO', 0);
-	--Preguntas Respondidas Testigo
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0013', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0014', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203902', 'PR0015', 'NO', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0001', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0002', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0003', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0004', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0005', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0001', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0002', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0003', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0004', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0005', 0, false);
+	--Preguntas Respondidas Agresor                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0006', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0007', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0008', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0009', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0010', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0011', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0012', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0006', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0007', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0008', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0009', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0010', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0011', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0012', 1, false);
+	--Preguntas Respondidas Testigo                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0013', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0014', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0015', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0013', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0014', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203902', 'PTEV0001', 'PR0015', 1, false);
 
 
 --P0003 Testigo
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500097', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500097 | P0003
-insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203903', now(), 'A201500097', null,'EVA0001');
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203903', 'PTEV0001', now(), 'A201500097', null,'EVA0001');
 	--Preguntas Respondidas Victima
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0001', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0002', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0003', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0004', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0005', 'NO', 0);
-	--Preguntas Respondidas Agresor
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0006', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0007', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0008', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0009', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0010', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0011', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0012', 'NO', 0);
-	--Preguntas Respondidas Testigo
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0013', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0014', 'SI', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203903', 'PR0015', 'SI', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0001', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0002', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0003', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0004', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0005', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0001', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0002', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0003', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0004', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0005', 1, false);
+	--Preguntas Respondidas Agresor                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0006', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0007', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0008', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0009', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0010', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0011', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0012', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0006', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0007', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0008', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0009', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0010', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0011', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0012', 1, false);
+	--Preguntas Respondidas Testigo                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0013', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0014', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0015', 1, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0013', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0014', 0, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203903', 'PTEV0001', 'PR0015', 0, false);
 
 
 -- Ninguno
 insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500096', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500096 | 
-insert into tp_evaluacion_acoso_escolar (cod_evaluacion,fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203904', now(), 'A201500096', null,'EVA0001');
+insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203904', 'PTEV0001', now(), 'A201500096', null,'EVA0001');
 	--Preguntas Respondidas Victima
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0001', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0002', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0003', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0004', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0005', 'NO', 0);
-	--Preguntas Respondidas Agresor
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0006', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0007', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0008', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0009', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0010', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0011', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0012', 'NO', 0);
-	--Preguntas Respondidas Testigo
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0013', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0014', 'NO', 0);
-insert into tp_pregunta_evaluacion (cod_evaluacion, cod_pregunta, respuesta, orden_evaluado) values ('EV20151205203904', 'PR0015', 'NO', 0);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0001', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0002', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0003', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0004', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0005', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0001', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0002', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0003', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0004', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0005', 1, false);
+	--Preguntas Respondidas Agresor                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0006', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0007', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0008', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0009', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0010', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0011', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0012', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0006', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0007', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0008', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0009', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0010', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0011', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0012', 1, false);
+	--Preguntas Respondidas Testigo                 
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0013', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0014', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0015', 0, true);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0013', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0014', 1, false);
+insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0015', 1, false);
 
 
 

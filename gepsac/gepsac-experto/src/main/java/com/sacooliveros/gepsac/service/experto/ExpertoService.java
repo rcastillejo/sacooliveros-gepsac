@@ -329,7 +329,7 @@ public class ExpertoService implements Experto {
     }
 
     private boolean condicionRepetida(TreeSet<String> preguntasRegla, TreeSet<String> preguntasReglaAComparar) {
-        return preguntasRegla.containsAll(preguntasReglaAComparar);
+        return preguntasRegla.containsAll(preguntasReglaAComparar) || preguntasReglaAComparar.containsAll(preguntasRegla);
     }
 
     private void validarPreguntaRepetida(Regla regla) {

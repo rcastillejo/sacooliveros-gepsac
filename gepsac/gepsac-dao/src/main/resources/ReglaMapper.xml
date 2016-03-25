@@ -13,7 +13,7 @@
         <id column="cod_pregunta" property="pregunta.codigo" jdbcType="VARCHAR" />
         <result column="cod_regla" property="codigoRegla" jdbcType="VARCHAR" />
         
-        <result column="tipo" property="pregunta.tipo" jdbcType="VARCHAR" />
+        <result column="tipo" property="pregunta.deshabilitado" jdbcType="VARCHAR" />
         <result column="alias" property="pregunta.alias" jdbcType="VARCHAR" />
         <result column="enunciado" property="pregunta.enunciado" jdbcType="VARCHAR" />
         
@@ -39,13 +39,13 @@
     <select id="query" resultMap="recordRegla">
         SELECT
             a.cod_regla,
-            a.tipo,
+            a.deshabilitado,
             d.cod_perfil,
             d.nom_perfil
         FROM 
-            tp_regla a
+            tp_regla_acoso_escolar a
         INNER JOIN
-            tp_perfil d ON a.perfil = d.cod_perfil
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
         Order by 
             a.cod_regla;
     </select>
@@ -53,13 +53,13 @@
     <select id="get" resultMap="recordRegla">
         SELECT
             a.cod_regla,
-            a.tipo,
+            a.deshabilitado,
             d.cod_perfil,
             d.nom_perfil
         FROM 
-            tp_regla a
+            tp_regla_acoso_escolar a
         INNER JOIN
-            tp_perfil d ON a.perfil = d.cod_perfil
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
         where
             cod_regla=#{codigo}
     </select>
@@ -68,8 +68,6 @@
     <select id="queryPregunta" resultMap="recordPregunta">
         SELECT
             a.cod_pregunta,
-            a.tipo,
-            a.alias,
             a.enunciado
         FROM 
             tp_pregunta a
@@ -109,10 +107,10 @@
     
   
     <insert id="insert">
-        Insert into tp_regla 
-            (cod_regla, tipo, perfil)
+        Insert into tp_regla_acoso_escolar 
+            (cod_regla, deshabilitado, cod_perfil)
         values
-            (#{codigo},#{tipo},#{perfil.codigo})
+            (#{codigo},#{deshabilitado},#{perfil.codigo})
     </insert>
   
     <insert id="insertPregunta">
@@ -125,10 +123,10 @@
   
     <update id="update">
         Update 
-            tp_regla 
+            tp_regla_acoso_escolar 
         Set
-            tipo = #{tipo},
-            perfil = #{perfil.codigo}
+            deshabilitado = #{deshabilitado},
+            cod_perfil = #{perfil.codigo}
         Where
             cod_regla=#{codigo}
     </update> 
@@ -147,7 +145,7 @@
   
     <delete id="delete">
         Delete from 
-            tp_regla 
+            tp_regla_acoso_escolar 
         Where
             cod_regla=#{codigo}
     </delete> 

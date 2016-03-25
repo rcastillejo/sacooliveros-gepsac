@@ -6,7 +6,7 @@
         <id column="cod_solicitud" property="codigo" jdbcType="VARCHAR" />
         <result column="fec_solicitud" property="fechaSolicitud" jdbcType="DATE" />
         <result column="fec_atencion" property="fechaAtencion" jdbcType="DATE" />        
-        <result column="solicitante" property="solicitante" jdbcType="VARCHAR" />
+        <result column="solicitante" property="usuario.codigo" jdbcType="VARCHAR" />
         <result column="motivo" property="motivo" jdbcType="VARCHAR" />
         <result column="descripcion" property="descripcion" jdbcType="VARCHAR" />
         <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />

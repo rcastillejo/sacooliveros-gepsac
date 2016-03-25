@@ -18,7 +18,7 @@
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: serviceUrl + "/solicitudPsicologica"
+            url: serviceUrl + "/solicitudPsicologica/gepsac"
         }).done(function (listado) {
             console.log('listado', listado);
             cargarListado(listado);

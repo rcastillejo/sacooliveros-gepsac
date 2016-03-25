@@ -23,40 +23,44 @@ import javax.ws.rs.Produces;
 @Consumes("application/json")
 @Produces("application/json")
 public interface EvaluacionResource {
-    
+
     @GET
     String test();
-    
-   /* @GET
+
+    /* @GET
     @Path("/evaluacionAcosoEscolar")
     EvaluacionAcosoEscolar getEvaluacionAcosoEscolar();
     
     @POST
     @Path("/alumno/evaluar")
     EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacionPostulante);
-    */
+     */
     @GET
     @Path("/solicitudPsicologica")
     List<SolicitudPsicologica> listarSolicitudPsicologica();
-    
+
+    @GET
+    @Path("/solicitudPsicologica/{codigoUsuario}")
+    List<SolicitudPsicologica> listarSolicitudPsicologica(@PathParam("codigoUsuario") String codigoUsuario);
+
     @POST
     @Path("/solicitudPsicologica")
     String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
-        
+
     @GET
     @Path("/acosoEscolar/resuelto")
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarResuelto();
-        
+
     @GET
     @Path("/acosoEscolar/{codigoEvaluacion}")
     EvaluacionAcosoEscolar obtenerEvaluacionAcosoEscolar(@PathParam("codigoEvaluacion") String codigoEvaluacion);
-    
+
     @GET
     @Path("/acosoEscolar/porResolver")
     List<EvaluacionAcosoEscolar> listarEvaluacionAEPorResolver();
-    
+
     @POST
     @Path("/acosoEscolar/resolver")
     String resolverAcosoEscolar(EvaluacionAcosoEscolar evaluacion);
-    
+
 }
