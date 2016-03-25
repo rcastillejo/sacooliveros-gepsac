@@ -22,6 +22,8 @@ public interface ReglaDAO extends BaseDao<Regla> {
     List<Pregunta> listarPregunta();
     
     List<PreguntaRegla> listarPreguntaRegla(String codigoRegla);
+    
+    List<Regla> listarReglaActiva();
     /*
     void actualizarPreguntas(Regla regla);
 

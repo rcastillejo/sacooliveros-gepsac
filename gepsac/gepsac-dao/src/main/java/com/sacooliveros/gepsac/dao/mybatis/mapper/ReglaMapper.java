@@ -32,5 +32,7 @@ public interface ReglaMapper {
     public List<Pregunta> queryPregunta();
     
     public List<Perfil> queryPerfil();
+    
+    public List<Regla> queryReglaActiva();
 
 }

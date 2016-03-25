@@ -176,9 +176,9 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
             mapper = session.getMapper(ReglaMapper.class);
 
             log.debug("Eliminando [{}] ...", model);
-            
+
             eliminarPreguntas(mapper, model);
-            
+
             if (mapper.delete(model) == 0) {
                 throw new DAOException("No se pudo eliminar");
             }
@@ -303,6 +303,33 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
         } finally {
             closeConnection(session);
         }
+    }
+
+    @Override
+    public List<Regla> listarReglaActiva() {
+
+        SqlSession session = null;
+        ReglaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(ReglaMapper.class);
+            List<Regla> listado = mapper.queryReglaActiva();
+            if (listado != null && !listado.isEmpty()) {
+                for (Regla regla : listado) {
+                    List<PreguntaRegla> preguntas = mapper.getPreguntas(regla.getCodigo());
+                    regla.setPreguntas(preguntas);
+                    log.trace("Preguntas [codigo={}, preguntas={}]", new Object[]{regla.getCodigo(), preguntas});
+                }
+            }
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+
     }
 
 }

@@ -35,6 +35,10 @@
         <result column="des_perfil" property="descripcion" jdbcType="VARCHAR" />
         
     </resultMap>
+    
+     <resultMap id="recordReglaActiva" type="com.sacooliveros.gepsac.model.experto.Regla" >
+        <id column="cod_regla" property="codigo" jdbcType="VARCHAR" />
+    </resultMap>
        
     <select id="query" resultMap="recordRegla">
         SELECT
@@ -158,5 +162,16 @@
         Where
             cod_regla = #{codigo}
     </delete>
+    
+    <select id="queryReglaActiva" resultMap="recordReglaActiva">
+        SELECT
+            a.cod_regla
+        FROM 
+            tp_regla_acoso_escolar a
+        WHERE
+            a.deshabilitado = false
+        Order by 
+            a.cod_regla
+    </select>
     
 </mapper>
