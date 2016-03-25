@@ -37,27 +37,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Indicador }
+     * Create an instance of {@link ListarEstrategiaActividadResponse }
      * 
      */
-    public Indicador createIndicador() {
-        return new Indicador();
+    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
+        return new ListarEstrategiaActividadResponse();
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaResponse }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
+    public Actividad createActividad() {
+        return new Actividad();
     }
 
     /**
-     * Create an instance of {@link EstrategiaActividad }
+     * Create an instance of {@link Estado }
      * 
      */
-    public EstrategiaActividad createEstrategiaActividad() {
-        return new EstrategiaActividad();
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**
@@ -77,19 +77,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaActividadResponse }
-     * 
-     */
-    public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
-        return new ListarEstrategiaActividadResponse();
-    }
-
-    /**
      * Create an instance of {@link ListarEstrategia }
      * 
      */
     public ListarEstrategia createListarEstrategia() {
         return new ListarEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link EstrategiaActividad }
+     * 
+     */
+    public EstrategiaActividad createEstrategiaActividad() {
+        return new EstrategiaActividad();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
     }
 
     /**
@@ -101,19 +109,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Actividad }
+     * Create an instance of {@link Indicador }
      * 
      */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
-     * Create an instance of {@link Estado }
-     * 
-     */
-    public Estado createEstado() {
-        return new Estado();
+    public Indicador createIndicador() {
+        return new Indicador();
     }
 
     /**

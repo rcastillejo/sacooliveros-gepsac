@@ -9,31 +9,6 @@
     </div>-->
     <ul id="accordion">
         <li>
-            <div>Experto</div>
-            <ul style="display: none;">
-                <li>
-                    <html:link page="/EvaluarPostulante.do?method=init" >
-                        Evaluar Nuevos Alumnos
-                    </html:link>
-                </li>
-                <li>
-                    <html:link page="/GenerarExplicacion.do?method=init&profile=E" >
-                        Generar Explicacion Resultado
-                    </html:link>
-                </li>
-                <li>
-                    <html:link page="/GenerarExplicacion.do?method=init&profile=P" >
-                        Consultar Resultado Evaluacion Acoso Escolar
-                    </html:link>
-                </li>
-                <li>
-                    <html:link page="/MantenerRegla.do?method=init" >
-                        Actualizar Reglas de Acoso Escolar
-                    </html:link>
-                </li>
-            </ul>
-        </li>
-        <li>
             <div>Evaluacion</div>
             <ul style="display: none;">
                 <li>
@@ -44,6 +19,31 @@
                 <li>
                     <html:link page="/ResolverAcosoEscolar.do?method=init" >
                         Resolver Evaluacion
+                    </html:link>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <div>Experto</div>
+            <ul style="display: none;">
+                <li>
+                    <html:link page="/MantenerRegla.do?method=init" >
+                        Actualizar Reglas de Acoso Escolar
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/GenerarExplicacion.do?method=init&profile=P" >
+                        Consultar Resultado Evaluacion Acoso Escolar
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/GenerarExplicacion.do?method=init&profile=E" >
+                        Generar Explicacion Resultado
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/EvaluarPostulante.do?method=init" >
+                        Evaluar Nuevos Alumnos
                     </html:link>
                 </li>
             </ul>

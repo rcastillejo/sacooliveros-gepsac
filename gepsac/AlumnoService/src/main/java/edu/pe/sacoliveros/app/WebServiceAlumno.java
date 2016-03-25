@@ -91,6 +91,8 @@ public class WebServiceAlumno {
 
     private void createAlumnosPostulante(int size) {
         alumnosPrueba = new ArrayList<Alumno>();
+        alumnosPrueba.add(createAlumnoAgresor());
+        alumnosPrueba.add(createAlumnoVictima());
         for (int i = 0; i < size; i++) {
             Alumno alumno = createAlumno(i);
             alumnosPrueba.add(alumno);
@@ -121,6 +123,66 @@ public class WebServiceAlumno {
         alumno.setDistrito(DISTRITO[getInt(0, DISTRITO.length - 1)]);
         alumno.setProvincia(PROVINCIA[getInt(0, PROVINCIA.length - 1)]);
         alumno.setDepartamento(DEPARTAMENTO[getInt(0, DEPARTAMENTO.length - 1)]);
+        log.debug("Alumno creado [{}]", alumno);
+        return alumno;
+    }
+
+    private Alumno createAlumnoAgresor() {
+        Alumno alumno = new Alumno();
+        alumno.setCodigo("A201500999");
+        
+        alumno.setNombres("Adrian");
+        alumno.setApellidoPaterno("Larrea");
+        alumno.setApellidoMaterno("Villacorta");
+        alumno.setDomicilio(DOMICILIOS[getInt(0, DOMICILIOS.length - 1)]);
+        
+        alumno.setGenero("Femenino");
+        alumno.setEdad(18);
+        alumno.setContextura("Grande");
+        alumno.setAltura("Alto");
+        alumno.setTipoFamilia("Monoparental");
+        alumno.setOrdenNacimiento(1);
+        alumno.setNumHnos(0);
+        alumno.setNivelEscolar("Secundaria");
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(10.00);
+        alumno.setNroCambioColegio(4);
+        alumno.setReligion("Católico");
+        alumno.setNacionalidad("Peruano");
+        alumno.setDistrito("Pueblo Libre");
+        alumno.setProvincia("Lima");
+        alumno.setDepartamento("Lima");
+        
+        log.debug("Alumno creado [{}]", alumno);
+        return alumno;
+    }
+
+    private Alumno createAlumnoVictima() {
+        Alumno alumno = new Alumno();
+        alumno.setCodigo("A201500998");
+        
+        alumno.setNombres("Abraham");
+        alumno.setApellidoPaterno("Cornejo");
+        alumno.setApellidoMaterno("Herrera");
+        alumno.setDomicilio(DOMICILIOS[getInt(0, DOMICILIOS.length - 1)]);
+        
+        alumno.setGenero("Masculino");
+        alumno.setEdad(15);
+        alumno.setContextura("Pequeño");
+        alumno.setAltura("Alto");
+        alumno.setTipoFamilia("Monoparental");
+        alumno.setOrdenNacimiento(2);
+        alumno.setNumHnos(2);
+        alumno.setNivelEscolar("Secundaria");
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(11.00);
+        alumno.setNroCambioColegio(2);
+        alumno.setReligion("Católico");
+        alumno.setNacionalidad("Peruano");
+        alumno.setDistrito("Pueblo Libre");
+        alumno.setProvincia("Lima");
+        alumno.setDepartamento("Lima");
+        
         log.debug("Alumno creado [{}]", alumno);
         return alumno;
     }

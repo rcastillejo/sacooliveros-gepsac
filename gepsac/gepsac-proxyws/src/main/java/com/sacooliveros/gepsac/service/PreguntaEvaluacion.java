@@ -1,8 +1,11 @@
 
 package com.sacooliveros.gepsac.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -16,11 +19,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="alternativas" type="{http://service.gepsac.sacooliveros.com/}preguntaEvaluacionAlternativa" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="codigoEvaluacion" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="ordenEvaluacion" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="pregunta" type="{http://service.gepsac.sacooliveros.com/}pregunta" minOccurs="0"/>
- *         &lt;element name="regla" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="respuesta" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,19 +32,45 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "preguntaEvaluacion", propOrder = {
+    "alternativas",
     "codigoEvaluacion",
-    "ordenEvaluacion",
-    "pregunta",
-    "regla",
-    "respuesta"
+    "pregunta"
 })
 public class PreguntaEvaluacion {
 
+    @XmlElement(nillable = true)
+    protected List<PreguntaEvaluacionAlternativa> alternativas;
     protected String codigoEvaluacion;
-    protected int ordenEvaluacion;
     protected Pregunta pregunta;
-    protected String regla;
-    protected String respuesta;
+
+    /**
+     * Gets the value of the alternativas property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the alternativas property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getAlternativas().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link PreguntaEvaluacionAlternativa }
+     * 
+     * 
+     */
+    public List<PreguntaEvaluacionAlternativa> getAlternativas() {
+        if (alternativas == null) {
+            alternativas = new ArrayList<PreguntaEvaluacionAlternativa>();
+        }
+        return this.alternativas;
+    }
 
     /**
      * Gets the value of the codigoEvaluacion property.
@@ -70,22 +97,6 @@ public class PreguntaEvaluacion {
     }
 
     /**
-     * Gets the value of the ordenEvaluacion property.
-     * 
-     */
-    public int getOrdenEvaluacion() {
-        return ordenEvaluacion;
-    }
-
-    /**
-     * Sets the value of the ordenEvaluacion property.
-     * 
-     */
-    public void setOrdenEvaluacion(int value) {
-        this.ordenEvaluacion = value;
-    }
-
-    /**
      * Gets the value of the pregunta property.
      * 
      * @return
@@ -107,54 +118,6 @@ public class PreguntaEvaluacion {
      */
     public void setPregunta(Pregunta value) {
         this.pregunta = value;
-    }
-
-    /**
-     * Gets the value of the regla property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRegla() {
-        return regla;
-    }
-
-    /**
-     * Sets the value of the regla property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRegla(String value) {
-        this.regla = value;
-    }
-
-    /**
-     * Gets the value of the respuesta property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRespuesta() {
-        return respuesta;
-    }
-
-    /**
-     * Sets the value of the respuesta property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRespuesta(String value) {
-        this.respuesta = value;
     }
 
 }

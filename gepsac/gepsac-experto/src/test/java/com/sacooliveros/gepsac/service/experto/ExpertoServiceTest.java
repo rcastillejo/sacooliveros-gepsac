@@ -90,8 +90,8 @@ public class ExpertoServiceTest {
     /**
      * Test of evaluarAlumno method, of class ExpertoService.
      */
-    //@Test
-    public void testEvaluarAlumno() {
+    @Test
+    public void testEvaluarAlumnoVictima() {
         log.debug("evaluarAlumno");
         //String codigo = "A201500099";
         //String codigo = "A201500098";
@@ -112,6 +112,51 @@ public class ExpertoServiceTest {
         alumno.setGradoEscolar(5);
         alumno.setPromedioEscolar(11.00);
         alumno.setCantCambioColegio(2);
+        alumno.setReligion(new Entidad("Católico"));
+        alumno.setNacionalidad(new Entidad("Peruano"));
+        alumno.setDistrito(new Entidad("Pueblo Libre"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
+
+        EvaluacionPostulante evaluacion = new EvaluacionPostulante();
+        evaluacion.setCodigo("EV"+new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()));
+        evaluacion.setAlumno(alumno);
+        
+        log.debug("evaluacion:" + evaluacion);
+        
+        EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
+
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+
+        for (PerfilEvaluado perfilEval : result.getPerfiles()) {
+            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
+                    perfilEval.getProbabilidad());
+        }
+
+    }
+    @Test
+    public void testEvaluarAlumnoAgresor() {
+        log.debug("evaluarAlumno");
+        //String codigo = "A201500099";
+        //String codigo = "A201500098";
+        String codigo = "2";
+        Alumno alumno;
+        ExpertoService instance = new ExpertoService();
+
+        alumno = new Alumno();
+        alumno.setCodigo("A201500098");
+        alumno.setSexo(new Entidad("Femenino"));
+        alumno.setEdad(18);
+        alumno.setContextura(new Entidad("Grande"));
+        alumno.setEstatura(new Entidad("Alto"));
+        alumno.setTipoFamilia(new Entidad("Monoparental"));
+        alumno.setOrdenNacimiento(1);
+        alumno.setCantHnos(0);
+        alumno.setNivelEscolar(new Entidad("Secundaria"));
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(10.00);
+        alumno.setCantCambioColegio(4);
         alumno.setReligion(new Entidad("Católico"));
         alumno.setNacionalidad(new Entidad("Peruano"));
         alumno.setDistrito(new Entidad("Pueblo Libre"));

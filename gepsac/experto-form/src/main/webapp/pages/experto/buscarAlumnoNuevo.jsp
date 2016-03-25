@@ -67,6 +67,7 @@
         detalle.find("#lblNombres").append(json.nombres);
         detalle.find("#lblApellidos").append(json.apellidoPaterno+' '+json.apellidoMaterno);
         detalle.find("#lblEdad").append(json.edad + ' años');
+        detalle.find("#lblContextura").append(json.contextura);
         detalle.find("#lblDistrito").append(json.distrito);
         detalle.find("#lblDomicilio").append(json.domicilio);
 
@@ -161,6 +162,9 @@
                         <label id="lblEdad" class="inputValue"></label>
                     </td>
                     <td>
+                        <label id="lblContextura" class="inputValue"></label>
+                    </td>
+                    <td>
                         <label id="lblDomicilio" class="inputValue"></label>
                     </td>
                     <td>
@@ -178,6 +182,7 @@
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Edad</th>
+                    <th>Contextura</th>
                     <th>Distrito</th>	
                     <th>Domicilio</th>
                 </tr>	

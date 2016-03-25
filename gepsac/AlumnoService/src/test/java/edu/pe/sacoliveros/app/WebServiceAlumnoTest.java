@@ -47,7 +47,7 @@ public class WebServiceAlumnoTest {
         WebServiceAlumno instance = new WebServiceAlumno();
         
         List<Alumno> result = instance.listarAlumnoPostulante();
-        assertEquals(10, result.size()); 
+        assertEquals(12, result.size()); 
     }
     
 }

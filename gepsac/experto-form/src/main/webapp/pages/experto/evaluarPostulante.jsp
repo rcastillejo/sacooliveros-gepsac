@@ -118,8 +118,8 @@
             console.log('evaluacion', evaluacion);
             console.log('msg', msg);
             cargarRespuestaEvaluacion(evaluacion);
-            $('#btnBuscarAlumnoNuevo').attr('disabled','disabled');
-            $('#btnEvaluar').attr('disabled','disabled');
+            $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
+            $('#btnEvaluar').attr('disabled', 'disabled');
             fn_mdl_alert(msg, function () {}, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
@@ -134,24 +134,36 @@
     }
 
     function cargarRespuestaEvaluacion(evaluacion) {
+        var max = 0;
+        var perfilMax;
         for (var i in evaluacion.perfiles) {
             var perfilEval = evaluacion.perfiles[i];
             var el;
             if (perfilEval.perfil === undefined) {
                 el = $("#mensaje");
-            } else if (perfilEval.perfil.codigo === 'P0001') {
-                el = $("#agresor");
-            } else if (perfilEval.perfil.codigo === 'P0002') {
-                el = $("#victima");
-            } else if (perfilEval.perfil.codigo === 'P0003') {
-                el = $("#testigo");
+            } /*else if (perfilEval.perfil.codigo === 'P0001') {
+             el = $("#agresor");
+             } else if (perfilEval.perfil.codigo === 'P0002') {
+             el = $("#victima");
+             } else if (perfilEval.perfil.codigo === 'P0003') {
+             el = $("#testigo");
+             }*/
+            else {
+                el = $("#" + perfilEval.perfil.codigo);
             }
+
             var probabilidad = new Number(perfilEval.probabilidad);
             var porcProbabilidad = (probabilidad * 100.0);
             porcProbabilidad = porcProbabilidad.toFixed(2);
             console.log('Perfil Evaluado', perfilEval, '%', porcProbabilidad);
             el.val(porcProbabilidad + '%');
+            if (max < porcProbabilidad) {
+                max = porcProbabilidad;
+                perfilMax = perfilEval.perfil.codigo;
+            }
         }
+
+        $("#" + perfilMax).addClass(perfilMax);
     }
 
     function initEvaluarAlumno() {
@@ -238,6 +250,21 @@
     }
 
 </script>
+
+<style>
+    .P0001{
+        background-color:#B22222;
+        color: white;
+    }
+    .P0002{
+        background-color:#DAA520;
+        color: white;
+    }
+    .P0003{
+        background-color:#F0E68C;
+        color: black;
+    }
+</style>
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
@@ -372,15 +399,15 @@
                 </tr>
                 <tr>
                     <td> Agresor</td>
-                    <td><input id="agresor" type="text" disabled="true" style="text-align: right"></td>  
+                    <td><input id="P0001" type="text" disabled="true" style="text-align: right"></td>  
                 </tr>
                 <tr>
                     <td> V&iacute;ctima</td> 
-                    <td><input id="victima" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0002" type="text" disabled="true" style="text-align: right"></td>
                 </tr>
                 <tr>
                     <td> Testigo</td>
-                    <td><input id="testigo" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0003" type="text" disabled="true" style="text-align: right"></td>
                 </tr>
             </table>
         </fieldset>
