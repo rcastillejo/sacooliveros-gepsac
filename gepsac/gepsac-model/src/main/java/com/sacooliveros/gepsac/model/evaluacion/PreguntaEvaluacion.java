@@ -5,6 +5,8 @@
  */
 package com.sacooliveros.gepsac.model.evaluacion;
 
+import java.util.List;
+
 /**
  *
  * @author Ricardo
@@ -13,10 +15,7 @@ public class PreguntaEvaluacion {
 
     private String codigoEvaluacion;
     private Pregunta pregunta;
-    private int ordenEvaluacion;
-    private String respuesta;
-    //@TODO: La regla debe ser redirigida a su propia clase
-    private String regla;
+    private List<PreguntaEvaluacionAlternativa> alternativas;
 
     public String getCodigoEvaluacion() {
         return codigoEvaluacion;
@@ -30,48 +29,32 @@ public class PreguntaEvaluacion {
         return pregunta;
     }
 
-    public void setCodigoPregunta(String codigoPregunta) {
-        if (codigoPregunta != null && !codigoPregunta.isEmpty()) {
-            pregunta = new Pregunta();
-            pregunta.setCodigo(codigoPregunta);
-        }
-    }
-
-    public int getOrdenEvaluacion() {
-        return ordenEvaluacion;
-    }
-
-    public void setOrdenEvaluacion(int ordenEvaluacion) {
-        this.ordenEvaluacion = ordenEvaluacion;
-    }
-
     public void setPregunta(Pregunta pregunta) {
         this.pregunta = pregunta;
     }
 
-    public String getRespuesta() {
-        return respuesta;
+    public List<PreguntaEvaluacionAlternativa> getAlternativas() {
+        return alternativas;
     }
 
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
+    public void setAlternativas(List<PreguntaEvaluacionAlternativa> alternativas) {
+        this.alternativas = alternativas;
     }
 
-    public boolean isSeleccionado() {
-        return ordenEvaluacion > 0;
-    }
-
-    public String getRegla() {
-        return regla;
-    }
-
-    public void setRegla(String regla) {
-        this.regla = regla;
+    public PreguntaEvaluacionAlternativa getAternativaSeleccionada() {
+        if (alternativas != null) {
+            for (PreguntaEvaluacionAlternativa alternativa : alternativas) {
+                if (alternativa.isSeleccionado()) {
+                    return alternativa;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
     public String toString() {
-        return "PreguntaEvaluacion{" + "codigoEvaluacion=" + codigoEvaluacion + ", pregunta=" + pregunta + ", ordenEvaluacion=" + ordenEvaluacion + ", respuesta=" + respuesta + '}';
+        return "PreguntaEvaluacion{" + "codigoEvaluacion=" + codigoEvaluacion + ", pregunta=" + pregunta + ", alternativas=" + alternativas + '}';
     }
 
 }

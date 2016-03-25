@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.EvaluacionAcosoEscolarMapper;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -184,6 +185,24 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
     }
 
     @Override
+    public List<EvaluacionAcosoEscolar> listarEvaluacionEvaluadoResuelto() {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            List listado = mapper.queryEvaluadoResuelto();
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
     public List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion) {
         SqlSession session = null;
         EvaluacionAcosoEscolarMapper mapper;
@@ -192,6 +211,24 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
             List listado = mapper.queryPregunta(codigoEvaluacion);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+    
+    @Override
+    public List<PreguntaEvaluacionAlternativa> listarPreguntaEvaluacionAlternativa(String codigoEvaluacion, String codigoPregunta) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            List listado = mapper.queryPreguntaAlternativa(codigoEvaluacion, codigoPregunta);
             log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
             return listado;
         } catch (Exception e) {

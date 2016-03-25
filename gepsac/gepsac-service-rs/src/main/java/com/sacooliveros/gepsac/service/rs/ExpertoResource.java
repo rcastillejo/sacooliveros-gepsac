@@ -46,6 +46,10 @@ public interface ExpertoResource {
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarEvaluado();
 
     @GET
+    @Path("/acosoEscolar/evaluadoResuelto")
+    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarEvaluadoResuelto();
+
+    @GET
     @Path("/explicacion/{codigoEvaluacion}")
     ExplicacionResultado generarExplicacion(@PathParam("codigoEvaluacion") String codigoEvaluacion);
 

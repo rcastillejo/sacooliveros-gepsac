@@ -13,6 +13,7 @@ import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.comun.Usuario;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.service.experto.Experto;
@@ -58,7 +59,7 @@ public class EvaluacionService implements Evaluacion {
             List<SolicitudPsicologica> solicitudes = listarSolicitudPsicologica();
             for (SolicitudPsicologica solicitud : solicitudes) {
                 Usuario solicitante = solicitud.getSolicitante();
-                if(!solicitante.getCodigo().equals(codigoUsuario)){
+                if (!solicitante.getCodigo().equals(codigoUsuario)) {
                     solicitudes.remove(solicitud);
                 }
             }
@@ -115,8 +116,8 @@ public class EvaluacionService implements Evaluacion {
     }
 
     private void validarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {
-        if (solicitudPsicologica.getSolicitante() == null || 
-                solicitudPsicologica.getSolicitante().getCodigo() == null || solicitudPsicologica.getSolicitante().getCodigo().isEmpty()) {
+        if (solicitudPsicologica.getSolicitante() == null
+                || solicitudPsicologica.getSolicitante().getCodigo() == null || solicitudPsicologica.getSolicitante().getCodigo().isEmpty()) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, "Se debe ingresar el solicitante de la solicitud psicologica");
         }
         if (solicitudPsicologica.getMotivo() == null || solicitudPsicologica.getMotivo().isEmpty()) {
@@ -164,7 +165,16 @@ public class EvaluacionService implements Evaluacion {
         List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
         for (int i = 0; i < preguntas.size(); i++) {
             PreguntaEvaluacion pregunta = preguntas.get(i);
-            if (pregunta.getRespuesta() == null || pregunta.getRespuesta().isEmpty()) {
+            List<PreguntaEvaluacionAlternativa> alternativas = pregunta.getAlternativas();
+            int seleccionados = 0;
+
+            for (PreguntaEvaluacionAlternativa alternativa : alternativas) {
+                if (alternativa.isSeleccionado()) {
+                    seleccionados++;
+                }
+            }
+
+            if (seleccionados == 0) {
                 throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.RESOLVER_PREGUNTA_ACOSO_ESCOLAR, i + 1);
             }
         }

@@ -252,7 +252,8 @@ insert into tp_pregunta_plantilla (cod_plantilla, cod_pregunta, secuencia) value
 	
 
 --P0001 Agresor
-insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500099', '1', '13', '2', '3', '3', '3', '3', '2', '4', '11', '2', '1', '1', '1', '1', '1', null,'ALU0001');
+insert into tp_alumno_evaluado (cod_alumno,nombres, apellido_pat, apellido_mat, sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values 
+('A201500099', 'Ricardo', 'Castillejo', 'Luna', '1', '13', '2', '3', '3', '3', '3', '2', '4', '11', '2', '1', '1', '1', '1', '1', null,'ALU0001');
 
 --A201500099 | P0001
 insert into tp_evaluacion_acoso_escolar (cod_evaluacion, cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203901', 'PTEV0001', now(), 'A201500099', null,'EVA0001');
@@ -292,7 +293,8 @@ insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta,
 
 
 --P0002 Victima
-insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500098', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
+insert into tp_alumno_evaluado (cod_alumno,nombres, apellido_pat, apellido_mat, sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values 
+('A201500098', 'Andrea', 'Castillo', 'Huillca', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500098 | P0002
 insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203902', 'PTEV0001', now(), 'A201500098', null,'EVA0001');
@@ -332,7 +334,8 @@ insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta,
 
 
 --P0003 Testigo
-insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500097', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
+insert into tp_alumno_evaluado (cod_alumno,nombres, apellido_pat, apellido_mat, sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values 
+('A201500097', 'Jose', 'Carrillo', 'Luna', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500097 | P0003
 insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203903', 'PTEV0001', now(), 'A201500097', null,'EVA0001');
@@ -372,7 +375,8 @@ insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta,
 
 
 -- Ninguno
-insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values ('A201500096', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
+insert into tp_alumno_evaluado (cod_alumno,nombres, apellido_pat, apellido_mat,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values 
+('A201500096', 'Edgar', 'Valdivieso', 'Pajuelo', '1', '15', '1', '3', '2', '2', '2', '2', '5', '11', '2', '2', '1', '5', '1', '1', null,'ALU0001');
 
 --A201500096 | 
 insert into tp_evaluacion_acoso_escolar (cod_evaluacion,cod_plantilla, fec_evaluacion,cod_alumno,cod_perfil,cod_estado) values ('EV20151205203904', 'PTEV0001', now(), 'A201500096', null,'EVA0001');

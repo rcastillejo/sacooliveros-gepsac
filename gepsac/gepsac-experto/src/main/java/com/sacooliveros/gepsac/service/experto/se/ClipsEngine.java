@@ -9,6 +9,7 @@ import CLIPSJNI.Environment;
 import CLIPSJNI.PrimitiveValue;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import java.util.List;
@@ -75,14 +76,16 @@ public class ClipsEngine implements Engine<PreguntaEvaluacion, ResultadoInferenc
             log.debug("obteniendo respuesta [" + inferencia.getPregunta() + "] preguntas[" + preguntasResueltas + "]");
             PreguntaEvaluacion preguntaResuelta = obtenerRespuesta(preguntasResueltas, inferencia.getPregunta());
             log.debug("respuesta obtenida [" + preguntaResuelta + "]");
-            preguntaResuelta.setOrdenEvaluacion(orden);
-            preguntaResuelta.setRegla(inferencia.getNombre());
+            //preguntaResuelta.setOrdenEvaluacion(orden);
+            //preguntaResuelta.setRegla(inferencia.getNombre());
 
             /**
              * Evalúa la respuesta de acuerdo a las reglas.
              */
             log.debug("evaluando respuesta [" + preguntaResuelta + "]");
-            clips.eval("(assert (opcion " + preguntaResuelta.getRespuesta().toLowerCase() + "))");
+            PreguntaEvaluacionAlternativa alternativaSeleccionada = preguntaResuelta.getAternativaSeleccionada();
+            
+            clips.eval("(assert (opcion " +alternativaSeleccionada.getAlternativa().getAlternativa().toLowerCase() + "))");
             inferencia = inferir();
         }
 

@@ -18,10 +18,12 @@
     }
 
     function init() {
+        var url = serviceUrl + (profile === 'E' ? "/acosoEscolar/evaluado" : "/acosoEscolar/evaluadoResuelto" );
+        console.log('url servicio', url);
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: serviceUrl + "/acosoEscolar/evaluado"
+            url: url
         }).done(function (listado) {
             console.log('listado', listado);
             cargarListado(listado);
@@ -51,6 +53,8 @@
         detalle.find("#lblAlumno").append(json.alumno.nombres + ' ' + json.alumno.apellidoPaterno + ' ' + json.alumno.apellidoMaterno);
         if (json.perfil) {
             detalle.find("#lblPerfil").append(json.perfil.nombre);
+        } else {
+            detalle.find("#lblPerfil").append('-');
         }
         detalle.find("#lblEstado").append(json.estado.nombre);
 

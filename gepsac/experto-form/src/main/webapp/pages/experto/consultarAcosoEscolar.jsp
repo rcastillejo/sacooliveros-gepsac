@@ -8,14 +8,14 @@
     var actionExplicacion = '/GenerarExplicacion.do';
     var codigoEvaluacion;
     var profile;
-    
+
     $(document).ready(function () {
         fromUrl = getRequestParameter("fromUrl");
-        
+
         codigoEvaluacion = getRequestParameter("codigo");
-        
+
         profile = getRequestParameter("profile");
-        
+
         init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -27,13 +27,13 @@
         //Invoca a Generar Explicacion
         $("#btnGenerarExplicacion").click(function (e) {
             e.preventDefault();
-            
+
             var link = "<%=request.getContextPath()%>" + actionExplicacion + '?method=initExplicacion&codigo=' + codigoEvaluacion;
             var url = encodeURIComponent(window.location.href);
             console.log('fromUrl', url);
-            
+
             link += ("&fromUrl=" + url);
-            
+
             location.assign(link);
         });
     });
@@ -71,11 +71,17 @@
 
 
         $("#txtCodigo").val(objeto.codigo);
-        
+
         var fecEva = new Date(objeto.fechaEvaluacion);
         $("#txtFecEva").val(getDateString(fecEva));
 
-        $("#txtPerfil").val(objeto.perfil.nombre);
+        if (objeto.perfil) {
+            $("#txtPerfil").val(objeto.perfil.nombre);
+        }
+
+        if (objeto.estado.codigo === 'EVA0001') {
+            $("#btnGenerarExplicacion").prop('disabled', true);
+        }
 
         cargarListado(objeto.preguntas);
 
@@ -104,9 +110,45 @@
         var table = $("#tblDetalle");
 
         var detalle = $("#rowDetalle").find("tbody tr").clone();
+        var alternativas = json.alternativas;
+
+        var detalleAlternativa = $("#rowDetalleAlternativa");
 
         detalle.find("#lblPregunta").append(json.pregunta.enunciado);
-        detalle.find("#lblRespuesta").append(json.respuesta);
+
+
+        for (var i in alternativas) {
+            var alternativaPregunta = alternativas[i];
+            var lblAlternativa = detalleAlternativa.find("#lblAlternativa").clone();
+            var rdbAlternativa = detalleAlternativa.find("#rdbAlternativa").clone();
+
+            lblAlternativa.attr('for', 'alternativa-' + alternativaPregunta.codigoPregunta);
+            rdbAlternativa.attr('name', 'alternativa-' + alternativaPregunta.codigoPregunta);
+
+            lblAlternativa.attr('id', lblAlternativa.attr('id') + '-' + alternativaPregunta.codigoPregunta);
+            rdbAlternativa.attr('id', rdbAlternativa.attr('id') + '-' + alternativaPregunta.codigoPregunta);
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas alternativa=', alternativaPregunta.alternativa.alternativa);
+
+            lblAlternativa.append(alternativaPregunta.alternativa.alternativa);
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas codigoPregunta=', alternativaPregunta.codigoPregunta);
+
+
+            console.log('[' + json.pregunta.codigo + '] cargando alternativas secuencia=', alternativaPregunta.alternativa.secuencia);
+
+            rdbAlternativa.val(alternativaPregunta.alternativa.secuencia);
+            console.log('[' + json.pregunta.codigo + '] alternativa seleccionada', alternativaPregunta.seleccionado);
+            if (alternativaPregunta.seleccionado === true) {
+
+                rdbAlternativa.prop("checked", true);
+            }
+            detalle.find("#alternativas").append(rdbAlternativa);
+            detalle.find("#alternativas").append(lblAlternativa);
+        }
+        /*
+         
+         detalle.find("#lblRespuesta").append(json.respuesta);*/
 
         table.find("tbody").append(detalle);
     }
@@ -185,14 +227,18 @@
             <div class="separator"/>
 
 
+            <div id="rowDetalleAlternativa" style="display:none;">                
+                <label id="lblAlternativa" for="alternativa" class="inputValue" disabled></label>
+                <input id="rdbAlternativa" type="radio" name="alternativa" class="inputValue" data-name="respuesta" disabled>
+            </div>
+
             <div id="rowDetalle" style="display:none;">   
                 <table>
                     <tr>
                         <td>
                             <label id="lblPregunta" class="inputValue"></label>
                         </td>
-                        <td>
-                            <label id="lblRespuesta" class="inputValue"></label>
+                        <td id="alternativas">
                         </td>
                     </tr>
                 </table>

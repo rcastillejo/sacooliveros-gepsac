@@ -16,6 +16,7 @@ import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
@@ -33,6 +34,7 @@ import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.TreeSet;
 import java.util.List;
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.classifiers.Classifier;
@@ -154,6 +156,27 @@ public class ExpertoService implements Experto {
     }
 
     @Override
+    public List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarEvaluadoResuelto() throws ExpertoServiceException {
+
+        try {
+            EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+
+            List<EvaluacionAcosoEscolar> evaluaciones = evaluacionDao.listarEvaluacionEvaluadoResuelto();
+
+            if (evaluaciones == null || evaluaciones.isEmpty()) {
+                throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_EVALUACION_ACOSO_ESCOLAR_EVALUADO_RESUELTO);
+            }
+
+            log.info("Listado de evaluaciones obtenidas [tamanio={}]", new Object[]{evaluaciones.size()});
+
+            return evaluaciones;
+
+        } catch (DAOException e) {
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.LISTAR_EVALUACIONES_ACOSO_ESCOLAR_EVALUADO_RESUELTO, e);
+        }
+    }
+
+    @Override
     public String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine engine) throws ExpertoServiceException {
 
         try {
@@ -267,13 +290,22 @@ public class ExpertoService implements Experto {
 
             List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacionAcosoEscolar.getCodigo());
 
+             
+            for (PreguntaEvaluacion pregunta : preguntas) {
+                String codigoPregunta = pregunta.getPregunta().getCodigo();
+                log.debug("Preguntas alternativas [codigoPregunta={}, codigoEvaluacion={}]", new Object[]{codigoPregunta, codigoEvaluacion});
+                List<PreguntaEvaluacionAlternativa> alternativas = evaluacionDao.listarPreguntaEvaluacionAlternativa(codigoEvaluacion, codigoPregunta);
+                pregunta.setAlternativas(alternativas);
+                log.debug("Preguntas alternativas [codigoPregunta={}, codigoEvaluacion={}, alternativas={}]", new Object[]{codigoPregunta, codigoEvaluacion, alternativas.size()});
+            } 
+            
             evaluacionAcosoEscolar.setPreguntas(preguntas);
 
             return evaluacionAcosoEscolar;
         } catch (ExpertoServiceException e) {
             throw e;
         } catch (Exception e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.GENERAR_EXPLICACION_ACOSO_ESCOLAR, e, codigoEvaluacion);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.CONSULTAR_RESULTADO_ACOSO_ESCOLAR, e, codigoEvaluacion);
         }
     }
 

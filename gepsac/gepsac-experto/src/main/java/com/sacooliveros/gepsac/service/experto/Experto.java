@@ -49,7 +49,9 @@ public interface Experto {
             String REGISTRAR_SOLICITUD_PSICOLOGICA = "Error al registrar la solicitud psicologica [{0}]";
             String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
+            String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "No existen evaluaciones de acoso escolar resuelto o evaluadas";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar";
+            String LISTAR_EVALUACIONES_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "Error al consultar evaluaciones de acoso escolar";
             String OBTENER_REGLA_ACOSO_ESCOLAR = "Error al consultar regla de acoso escolar";
             String LISTAR_REGLAS_ACOSO_ESCOLAR = "Error al consultar reglas de acoso escolar";
             String LISTAR_PREGUNTAS = "Error al consultar preguntas";
@@ -75,6 +77,8 @@ public interface Experto {
 
     //String evaluarRespuestaAcosoEscolar(List<EvaluacionAcosoEscolar> evaluacionesAcosoEscolar);
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolar(String codigoEstado) throws ExpertoServiceException;
+    
+    List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarEvaluadoResuelto() throws ExpertoServiceException;
 
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
 

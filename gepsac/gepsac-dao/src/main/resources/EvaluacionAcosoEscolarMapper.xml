@@ -26,6 +26,16 @@
         <result column="respuesta" property="respuesta" jdbcType="VARCHAR" />
         <result column="orden_evaluado" property="ordenEvaluacion" jdbcType="INTEGER" />
     </resultMap>
+    
+    <resultMap id="recordPreguntaEvaluacionAlternativa" type="com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa" >
+        <id column="secuencia" property="alternativa.secuencia" jdbcType="INTEGER" />
+        <result column="cod_pregunta" property="codigoPregunta" jdbcType="VARCHAR" />
+        <result column="cod_evaluacion" property="codigoEvaluacion" jdbcType="VARCHAR" />
+        
+        <result column="alternativa" property="alternativa.alternativa" jdbcType="VARCHAR" />
+        <result column="seleccionado" property="seleccionado" jdbcType="BOOLEAN" />
+        
+    </resultMap>
        
     <select id="query" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
@@ -87,20 +97,57 @@
             a.cod_estado=#{codigoEstado}
     </select>
   
-    <select id="queryPregunta" resultMap="recordPreguntaEvaluacion">
+    <select id="queryEvaluadoResuelto" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            fec_evaluacion,
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            a.cod_estado in ('EVA0001','EVA0002');
+    </select>
+  
+    <select id="queryPregunta" resultMap="recordPreguntaEvaluacion">
+        SELECT DISTINCT
+            cod_evaluacion,
             b.cod_pregunta,
-            b.tipo,
-            b.alias,
-            b.enunciado,
-            respuesta
+            b.enunciado
         FROM 
             tp_pregunta_evaluacion a
         INNER JOIN
             tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
         where
             cod_evaluacion=#{codigoEvaluacion}
+        ORDER BY b.cod_pregunta
+    </select>
+  
+    <select id="queryPreguntaAlternativa" resultMap="recordPreguntaEvaluacionAlternativa">
+        SELECT
+            b.cod_evaluacion,
+            b.cod_pregunta,
+            b.seleccionado,
+            c.secuencia,
+            c.alternativa
+        FROM 
+            tp_pregunta_evaluacion b
+        INNER JOIN
+            tp_alternativa c ON b.secuencia = c.secuencia 
+        where
+            cod_evaluacion=#{codigoEvaluacion} and b.cod_pregunta = #{codigoPregunta}
     </select>
   
     <select id="queryPreguntaAfirmativa" resultMap="recordPreguntaEvaluacion">
