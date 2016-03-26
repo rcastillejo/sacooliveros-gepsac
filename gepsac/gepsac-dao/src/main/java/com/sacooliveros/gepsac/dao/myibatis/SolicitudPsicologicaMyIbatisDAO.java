@@ -83,6 +83,24 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
         }
     }
 
+    @Override
+    public List listarAlumno(String codigoSolicitud) {
+        SqlSession session = null;
+        SolicitudPsicologicaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(SolicitudPsicologicaMapper.class);
+            List listado = mapper.queryAlumnos(codigoSolicitud);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
     /*
     @Override
     public Alumno obtener(String id) {
@@ -229,7 +247,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
         }
     }
 
-    @Override
+    /*@Override
     public void grabarSolicitudPsicologica(SolicitudPsicologica model) {
         SolicitudPsicologica solicitudPsicologicaConsultado = obtener(model.getCodigo());
         log.debug("SolicitudPsicologica consultado [{}]", solicitudPsicologicaConsultado);
@@ -239,7 +257,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
         } else {
             actualizar(model);
         }
-    }
+    }*/
 
     @Override
     public void eliminar(SolicitudPsicologica model) {
@@ -268,7 +286,20 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
 
     @Override
     public int cantidadSolicitudPsicologicaAlumnoInvolucrado(String alumnoInvolucradoCodigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SqlSession session = null;
+        SolicitudPsicologicaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(SolicitudPsicologicaMapper.class);
+            int cantidad = mapper.queryCantidadAtendidas(alumnoInvolucradoCodigo);
+            log.debug("cantidad [{}]", new Object[]{cantidad});
+            return cantidad;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
     }
 
 }

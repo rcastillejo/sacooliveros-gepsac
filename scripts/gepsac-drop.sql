@@ -62,3 +62,5 @@ drop table tp_perfil;
 drop table tp_usuario;
 
 drop SEQUENCE SEQ_REGLA;
+
+drop SEQUENCE SEQ_EVALUACION_ACOSO_ESCOLAR;

@@ -18,6 +18,14 @@
         <result column="usu_modif" property="usuMod" jdbcType="VARCHAR" />
         <result column="fec_modif" property="fecMod" jdbcType="DATE" />-->
     </resultMap>
+    
+    <resultMap id="recordSolicitudAlumno" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno" >
+        <id column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="dirigido" property="dirigido" jdbcType="BOOLEAN" />        
+        
+    </resultMap>
        
     <select id="query" resultMap="recordSolicitudPsicologica">
         SELECT
@@ -84,6 +92,17 @@
                DATE_PART('hour', now()::timestamp - a.fec_solicitud::timestamp)) * 60 +
                DATE_PART('minute', now()::timestamp - a.fec_solicitud::timestamp)) > #{maxMinutosPendiente};
     </select>
+       
+    <select id="queryCantidadAtendidas" resultType="int">
+        SELECT
+            count(*)
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN tp_solicitud_alumno b on a.cod_solicitud = b.cod_solicitud
+        WHERE motivo = 1
+        and cod_estado in ('SPS0003','SPS0004')
+        and cod_alumno = #{alumnoInvolucradoCodigo}
+    </select>
   
     <select id="get" resultMap="recordSolicitudPsicologica">
         SELECT
@@ -116,6 +135,17 @@
         
     </select>
     
+    <select id="queryAlumnos" resultMap="recordSolicitudAlumno">
+        SELECT
+            a.cod_solicitud,
+            a.cod_alumno,
+            a.dirigido
+        FROM 
+            tp_solicitud_alumno a
+        WHERE
+            a.cod_solicitud= #{codigoSolicitud}
+    </select>
+    
     <insert id="insert">
         Insert into tp_solicitud_psicologica 
             (cod_solicitud, fec_solicitud, fec_atencion, solicitante, motivo, 
@@ -137,11 +167,8 @@
         Update 
             tp_solicitud_psicologica 
         Set
-            fec_evaluacion = #{fechaEvaluacion},
             motivo = #{motivo}, 
-            descripcion = #{descripcion}, 
-            usu_modif = #{usuMod},
-            fec_modif = #{fecMod}
+            descripcion = #{descripcion}
         Where
             cod_solicitud=#{codigo}
     </update> 

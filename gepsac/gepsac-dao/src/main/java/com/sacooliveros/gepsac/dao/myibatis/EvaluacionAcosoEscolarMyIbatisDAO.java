@@ -31,6 +31,24 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
     }
 
     @Override
+    public String getCodigo() {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            String codigo = mapper.getCodigo();
+            log.debug("Codigo [{}]", new Object[]{codigo});
+            return codigo;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
     public List listar() {
         SqlSession session = null;
         EvaluacionAcosoEscolarMapper mapper;
@@ -68,7 +86,48 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
     }
 
     @Override
-    public void ingresar(EvaluacionAcosoEscolar model) {
+    public EvaluacionAcosoEscolar obtenerDesdePlantillaVigente() {
+        EvaluacionAcosoEscolar model;
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            model = mapper.getDesdePlantillaVigente();
+                        
+            log.info("Evaluacion obtenido [{}]", model);
+            return model;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<PreguntaEvaluacionAlternativa> obtenerPreguntaDesdePlantilla(String codigoPlantilla) {
+        List<PreguntaEvaluacionAlternativa> preguntasEvaluacionAlternativa;
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            preguntasEvaluacionAlternativa = mapper.listarPreguntaDesdePlantilla(codigoPlantilla);
+             
+            log.info("Listado obtenido [{}]", preguntasEvaluacionAlternativa == null ? 0 : preguntasEvaluacionAlternativa.size());
+            return preguntasEvaluacionAlternativa;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+
+    @Override
+    public void ingresar(EvaluacionAcosoEscolar model, List<PreguntaEvaluacionAlternativa> preguntaAlternativas) {
         SqlSession session = null;
         EvaluacionAcosoEscolarMapper mapper;
 
@@ -76,15 +135,13 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
 
-            model.setFechaEvaluacion(new Date());
-
             log.debug("Registrando [{}] ...", model);
             if (mapper.insert(model) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
 
-            if (model.getPreguntas() != null) {
-                ingresarPreguntas(mapper, model);
+            if (preguntaAlternativas != null) {
+                ingresarPreguntas(mapper, model, preguntaAlternativas);
             }
 
             session.commit();
@@ -101,18 +158,14 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
 
     }
 
-    public void ingresarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model) {
-        List<PreguntaEvaluacion> preguntas;
-
-        preguntas = model.getPreguntas();
-
-        for (PreguntaEvaluacion pregunta : preguntas) {
+    public void ingresarPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model, List<PreguntaEvaluacionAlternativa> preguntas) {
+        for (PreguntaEvaluacionAlternativa pregunta : preguntas) {
             pregunta.setCodigoEvaluacion(model.getCodigo());
-            if (mapper.insertPreguntas(pregunta) == 0) {
+            pregunta.setCodigoPlantilla(model.getCodigoPlantilla());
+            if (mapper.insertPreguntaEvaluacion(pregunta) == 0) {
                 throw new DAOException("No se pudo registrar");
             }
         }
-
     }
 
     @Override
@@ -336,6 +389,11 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         } finally {
             closeConnection(session);
         }
+    }
+
+    @Override
+    public void ingresar(EvaluacionAcosoEscolar t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

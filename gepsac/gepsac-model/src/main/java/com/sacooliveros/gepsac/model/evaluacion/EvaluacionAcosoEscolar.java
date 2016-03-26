@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class EvaluacionAcosoEscolar extends Model {
 
+    private String codigoPlantilla;
     private Date fechaRegistro;
     private Date fechaResuelto;
     private Date fechaEvaluacion;
@@ -24,6 +25,16 @@ public class EvaluacionAcosoEscolar extends Model {
     private List<PreguntaEvaluacion> preguntas;
     private Perfil perfil;
 
+    public String getCodigoPlantilla() {
+        return codigoPlantilla;
+    }
+
+    public void setCodigoPlantilla(String codigoPlantilla) {
+        this.codigoPlantilla = codigoPlantilla;
+    }
+
+    
+    
     public Date getFechaEvaluacion() {
         return fechaEvaluacion;
     }

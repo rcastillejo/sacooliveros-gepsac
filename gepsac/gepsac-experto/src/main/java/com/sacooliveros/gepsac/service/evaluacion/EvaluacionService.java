@@ -110,8 +110,8 @@ public class EvaluacionService implements Evaluacion {
             solicitudPsicologica.setCodigo(codigo);
             solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.PENDIENTE);
             //Grabar solicitud psicologica
-            solicitudPsicologicaDAO.grabarSolicitudPsicologica(solicitudPsicologica);
-            mensaje = Mensaje.REGISTRO_SOLICITUD_PSICOLOGICA;
+            solicitudPsicologicaDAO.ingresar(solicitudPsicologica);
+            mensaje = MessageFormat.format(Mensaje.REGISTRO_SOLICITUD_PSICOLOGICA, solicitudPsicologica.getCodigo());
             return mensaje;
 
         } catch (ValidatorException e) {
@@ -135,22 +135,30 @@ public class EvaluacionService implements Evaluacion {
 
             solicitudPsicologica.determinarAlumnos();
 
-            log.debug("Validando datos de la solicitud [{}]", solicitudPsicologica);
-
             if (solicitudPsicologica.getMotivo() == MOTIVO_AGRESION_ESCOLAR) {
+                log.info("Verificando los alumnos involucrados por motivo de agresion [{}]", solicitudPsicologica);
                 //Validar Alumno Involucrados
                 List<SolicitudAlumno> alumnosAEvaluar = obtenerAlumnosInvolucradosAEvaluar(solicitudPsicologica);
-                log.debug("Alumno involucrados a evaluar [{}]", alumnosAEvaluar.size());
                 if (alumnosAEvaluar.isEmpty()) {//No existen alumnos involucrados reincidentes por motivo de agresion
+                    log.info("No existe Alumno involucrados a evaluar por acoso escolar [{}]", alumnosAEvaluar.size());
                     solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+                    log.info("Actualiza el estado de la solicitud en 'por anteder' de una agresion [{}]", solicitudPsicologica);
+                    solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
                 } else {//Existen al menos un reincidente, lo cual se procedera a evaluar
+                    log.info("Alumno involucrados a solicitar una evaluacion de acoso escolar [{}]", alumnosAEvaluar.size());
                     solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.EN_EVALUACION);
+                    log.info("Actualiza el estado de la solicitud en 'en evaluacion' de una agresion [{}]", solicitudPsicologica);
+                    solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+                    log.info("Generar evaluaciones de Acoso Escolar para los alumnos a evaluar [{}]", alumnosAEvaluar.size());
+
+                    generarEvaluacionesAcosoEscolar(alumnosAEvaluar);
                 }
             } else {
-                solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
-            }
 
-            solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+                log.info("Actualiza el estado de la solicitud en por anteder [{}]", solicitudPsicologica);
+                solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+                solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+            }
 
             mensaje = MessageFormat.format(Mensaje.VERIFICAR_SOLICITUD_PSICOLOGICA, StateUtil.getDescription(solicitudPsicologica.getEstado().getCodigo()));
             return mensaje;
@@ -164,6 +172,23 @@ public class EvaluacionService implements Evaluacion {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+        }
+    }
+
+    private void generarEvaluacionesAcosoEscolar(List<SolicitudAlumno> alumnosSolicitud) {
+        EvaluacionAcosoEscolar evaluacion;
+
+        EvaluacionAcosoEscolarDAO evaluacionAcosoEscolarDAO = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+        for (SolicitudAlumno solicitudAlumno : alumnosSolicitud) {
+            log.info("Generando Evaluacion a partir de la plantilla para alumno [{}]", solicitudAlumno.getAlumno());
+            evaluacion = evaluacionAcosoEscolarDAO.obtenerDesdePlantillaVigente();
+            List<PreguntaEvaluacionAlternativa> preguntaAlternativas = evaluacionAcosoEscolarDAO.obtenerPreguntaDesdePlantilla(evaluacion.getCodigoPlantilla());
+            evaluacion.setCodigo(evaluacionAcosoEscolarDAO.getCodigo());
+            evaluacion.setFechaRegistro(new Date());
+            evaluacion.setAlumno(solicitudAlumno.getAlumno());
+            evaluacion.setCodigoEstado(State.EvaluacionAcosoEscolar.POR_RESOLVER);
+            log.info("Registrando de Evaluacion Escolar para alumno [{}]", solicitudAlumno.getAlumno());
+            evaluacionAcosoEscolarDAO.ingresar(evaluacion, preguntaAlternativas);
         }
     }
 

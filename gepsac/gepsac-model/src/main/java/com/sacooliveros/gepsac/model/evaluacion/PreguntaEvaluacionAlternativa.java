@@ -12,6 +12,7 @@ package com.sacooliveros.gepsac.model.evaluacion;
 public class PreguntaEvaluacionAlternativa {
 
     private String codigoEvaluacion;
+    private String codigoPlantilla;
     private String codigoPregunta;
     private Alternativa alternativa;
     private boolean seleccionado;
@@ -22,6 +23,14 @@ public class PreguntaEvaluacionAlternativa {
 
     public void setCodigoEvaluacion(String codigoEvaluacion) {
         this.codigoEvaluacion = codigoEvaluacion;
+    }
+
+    public String getCodigoPlantilla() {
+        return codigoPlantilla;
+    }
+
+    public void setCodigoPlantilla(String codigoPlantilla) {
+        this.codigoPlantilla = codigoPlantilla;
     }
 
     public String getCodigoPregunta() {

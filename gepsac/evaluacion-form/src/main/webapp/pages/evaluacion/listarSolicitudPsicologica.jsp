@@ -22,6 +22,21 @@
             return decodeURIComponent(name[1]);
     }
 
+    function getDateString(fechaEvaluacion) {
+        var twoDigitMonth = fechaEvaluacion.getMonth() + 1 + "";
+        if (twoDigitMonth.length === 1)
+            twoDigitMonth = "0" + twoDigitMonth;
+        var twoDigitDate = fechaEvaluacion.getDate() + "";
+        if (twoDigitDate.length === 1)
+            twoDigitDate = "0" + twoDigitDate;
+        var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
+        return fechaActual;
+    }
+
+    function getTimeString(fechaEvaluacion) {
+        console.log('fecha evaluacion',fechaEvaluacion);
+    }
+
     function init() {
         $("#mensaje").empty();
         $("#tblDetalle").hide();
@@ -58,9 +73,22 @@
         var table = $("#tblDetalle");
         var detalle = $("#rowDetalle").find("tbody tr").clone();
 
-        detalle.find("#lblFechaRegistro").append(json.codigo);
-        detalle.find("#lblNro").append(json.nro);
+        detalle.find("#lblCodigo").append(json.codigo);
+        detalle.find("#lblSolicitante").append(json.solicitante.nombres + ' ' + json.solicitante.apellidos);
         detalle.find("#lblMotivo").append(json.motivo);
+
+        var fechaSolicitud = new Date(json.fechaSolicitud);
+        detalle.find("#lblFechaRegistro").append(getDateString(fechaSolicitud));
+        getTimeString(fechaSolicitud);
+        var fechaAtencion;
+        if (json.fechaAtencion) {
+            fechaAtencion = getDateString(new Date(json.fechaAtencion));
+            detalle.find("#lblFechaAtencion").append();
+        } else {
+            fechaAtencion = '-';
+        }
+        detalle.find("#lblFechaAtencion").append(fechaAtencion);
+
         detalle.find("#lblEstado").append(json.estado.nombre);
 
         table.find("tbody").append(detalle);
@@ -76,8 +104,7 @@
         chkIdConsultar.attr("href", linkConsultar + fromUrl);
         var linkEditar = chkIdEditar.attr('href') + action + '?method=initEditar&codigo=' + json.codigo;
         chkIdEditar.attr("href", linkEditar + fromUrl);
-        //var linkEliminar = chkIdEliminar.attr('href') + action + '?method=initEliminar&codigo=' + json.codigo;
-        //chkIdEliminar.attr("href", linkEliminar + fromUrl);
+
         chkIdEliminar.click(function (e) {
             e.preventDefault();
             fn_mdl_confirma("¿Está seguro que desea eliminar la solicitud?",
@@ -162,13 +189,19 @@
             <table>
                 <tr>
                     <td>
-                        <label id="lblFechaRegistro" class="inputValue"></label>
+                        <label id="lblCodigo" class="inputValue"></label>
                     </td>
                     <td>
-                        <label id="lblNro" class="inputValue"></label>
+                        <label id="lblSolicitante" class="inputValue"></label>
                     </td>
                     <td>
                         <label id="lblMotivo" class="inputValue"></label>
+                    </td>
+                    <td>
+                        <label id="lblFechaRegistro" class="inputValue"></label>
+                    </td>
+                    <td>
+                        <label id="lblFechaAtencion" class="inputValue"></label>
                     </td>
                     <td>
                         <label id="lblEstado" class="inputValue"></label>
@@ -193,9 +226,11 @@
         </div>
         <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla" style="display: none">
             <thead>    <tr>
-                    <td>Fecha Registro</td> 
-                    <td>Nro</td> 
+                    <td>Codigo</td> 
+                    <td>Solicitante</td> 
                     <td>Motivo</td>
+                    <td>Fecha Solicitud</td> 
+                    <td>Fecha Atencion</td> 
                     <td>Estado</td> 
                     <td colspan="3">Opciones</td> 
                 </tr> </thead>

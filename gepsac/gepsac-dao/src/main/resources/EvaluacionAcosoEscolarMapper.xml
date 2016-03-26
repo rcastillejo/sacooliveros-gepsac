@@ -4,6 +4,7 @@
     
     <resultMap id="recordEvaluacionAcosoEscolar" type="com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar" >
         <id column="cod_evaluacion" property="codigo" jdbcType="VARCHAR" />
+        <result column="cod_plantilla" property="codigoPlantilla" jdbcType="DATE" />
         <result column="fec_evaluacion" property="fechaEvaluacion" jdbcType="DATE" />
         <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
         <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />
@@ -37,6 +38,11 @@
         
     </resultMap>
        
+       
+    <select id="getCodigo" resultType="string">
+        SELECT concat('EV', to_char(now(), 'YYYYMMDD'), LPAD(nextval('SEQ_EVALUACION_ACOSO_ESCOLAR')::text, 10, '0'));
+    </select>
+    
     <select id="query" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
@@ -70,6 +76,25 @@
             tp_perfil d ON a.cod_perfil = d.cod_perfil
         where
             cod_evaluacion=#{codigo}
+    </select>
+  
+    <select id="getDesdePlantillaVigente" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT cod_plantilla
+        FROM 
+            tp_plantilla_evaluacion_acoso_escolar
+        where
+            vigente
+    </select>
+  
+    <select id="listarPreguntaDesdePlantilla" resultMap="recordPreguntaEvaluacionAlternativa">
+        SELECT
+            a.cod_plantilla,
+            a.cod_pregunta,
+            a.secuencia
+        FROM 
+            tp_pregunta_plantilla a
+        where
+            a.cod_plantilla = #{codigoPlantilla}
     </select>
   
   
@@ -174,9 +199,16 @@
   
     <insert id="insert">
         Insert into tp_evaluacion_acoso_escolar 
-            (cod_evaluacion, fec_evaluacion, cod_alumno, cod_estado)
+            (cod_evaluacion, cod_plantilla, cod_alumno, cod_estado)
         values
-            (#{codigo},#{fechaEvaluacion},#{alumno.codigo},#{estado.codigo})
+            (#{codigo},#{codigoPlantilla},#{alumno.codigo},#{estado.codigo})
+    </insert>
+  
+    <insert id="insertPreguntaEvaluacion">
+        Insert into tp_pregunta_evaluacion 
+            (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado)
+        values
+            (#{codigoEvaluacion},#{codigoPlantilla},#{codigoPregunta},#{alternativa.secuencia},false)
     </insert>
   
   

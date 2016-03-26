@@ -25,7 +25,10 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
     void grabarPostulante(Alumno model);
 
     Alumno obtenerPostulante(String id);*/
+     String getCodigo();
     
+     void ingresar(EvaluacionAcosoEscolar evaluacion, List<PreguntaEvaluacionAlternativa> preguntasAlternativas);
+     
      List<EvaluacionAcosoEscolar> listarEvaluacionPorEstado(String codigoEstado);
      List<EvaluacionAcosoEscolar> listarEvaluacionEvaluadoResuelto();
      
@@ -38,4 +41,8 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
      void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
      
      void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+     
+     EvaluacionAcosoEscolar obtenerDesdePlantillaVigente();
+     
+     List<PreguntaEvaluacionAlternativa> obtenerPreguntaDesdePlantilla(String codigoPlantilla);
 }

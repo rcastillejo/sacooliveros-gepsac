@@ -9,17 +9,22 @@ import org.apache.ibatis.annotations.Param;
 
 public interface EvaluacionAcosoEscolarMapper {
 
+    public String getCodigo();
+    
     public List<EvaluacionAcosoEscolar> query();
 
     public EvaluacionAcosoEscolar get(@Param("codigo") String codigo);
+    
+    public EvaluacionAcosoEscolar getDesdePlantillaVigente();
+    public List<PreguntaEvaluacionAlternativa> listarPreguntaDesdePlantilla(@Param("codigoPlantilla") String codigoPlantilla);
     
     public EvaluacionAcosoEscolar getEvaluacionAcosoEscolar(Estado estado);
     
     public EvaluacionAcosoEscolar getRespuestaEvaluacion(@Param("codigo") String codigo);
 
     public int insert(EvaluacionAcosoEscolar model);  
-    
-    public int insertPreguntas(PreguntaEvaluacion model);  
+        
+    public int insertPreguntaEvaluacion(PreguntaEvaluacionAlternativa model);  
     
     public int update(EvaluacionAcosoEscolar model);  
     

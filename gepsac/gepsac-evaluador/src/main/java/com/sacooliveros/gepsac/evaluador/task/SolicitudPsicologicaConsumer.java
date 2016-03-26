@@ -5,12 +5,16 @@
  */
 package com.sacooliveros.gepsac.evaluador.task;
 
+import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
+import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.evaluador.message.Mensaje;
+import com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.service.evaluacion.Evaluacion;
 import com.sacooliveros.gepsac.service.evaluacion.EvaluacionService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -52,15 +56,18 @@ public class SolicitudPsicologicaConsumer extends EvaluadorTask {
         String id = mensaje.getId();
 
         try {
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
             /**
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info(/*id + "\t" +*/"El sistema obtiene la solicitud peniente");
 
             SolicitudPsicologica solicitud = (SolicitudPsicologica) mensaje.getRequest();
+            log.info(/*id + "\t" +*/"El sistema obtiene la solicitud pendiente [{}]", solicitud.getCodigo());
+            
+            List<SolicitudAlumno> alumnosInvolucrados = solicitudPsicologicaDAO.listarAlumno(solicitud.getCodigo());
+            solicitud.setAlumnoInvolucrado(alumnosInvolucrados);
 
-            log.info(/*id + "\t" +*/"El sistema verifca si existe la solicitud peniente");
             String msg = service.verificarSolicitudPsicologicaPendiente(solicitud);
 
             log.info(/*id + "\t" + */msg);

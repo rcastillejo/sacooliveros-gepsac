@@ -12,6 +12,10 @@ public interface SolicitudPsicologicaMapper {
     public List<SolicitudPsicologica> queryEstado(@Param("codigoEstado") String codigoEstado);
     
     public List<SolicitudPsicologica> queryPendiente(@Param("maxMinutosPendiente") int maxMinutosPendiente);
+    
+    public int queryCantidadAtendidas(@Param("alumnoInvolucradoCodigo")String alumnoInvolucradoCodigo);
+    
+    public List<SolicitudAlumno> queryAlumnos(@Param("codigoSolicitud") String codigoSolicitud);
 
     public SolicitudPsicologica get(@Param("codigo") String codigo);
 

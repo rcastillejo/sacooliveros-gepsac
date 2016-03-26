@@ -53,15 +53,13 @@ public class SolicitudPsicologicaMonitor extends TimerTask {
                  * 4.1.2.	El sistema busca los registros de las evaluaciones en
                  * estado “Registrado”.
                  */
-                log.info("El sistema busca los registros de las evaliaciones en estado 'Pendiente' que superaron 30 minutos");
+                log.info("El sistema busca los registros de las evaliaciones en estado 'Pendiente' que superaron " + maxMinutosPendiente + " minutos");
                 SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
                 List<SolicitudPsicologica> solicitudes = solicitudPsicologicaDAO.listarPendiente(maxMinutosPendiente);
 
                 if (solicitudes == null || solicitudes.isEmpty()) {
                     log.info("El sistema no encuentra solicitudes pendientes ");
                 } else {
-                    //@TODO: Cargar los alumnos involucrados!
-                    
                     log.info("El sistema obtiene  evaliaciones en estado 'Pendiente' que superaron 30 minutos [{}]", solicitudes.size());
                     /**
                      * Se crea el mensaje para cada evaluacion
