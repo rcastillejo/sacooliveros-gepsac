@@ -54,14 +54,39 @@
 
         $("#lblAlumno").val(objeto.alumno.nombres + ' ' + objeto.alumno.apellidoPaterno + ' ' + objeto.alumno.apellidoMaterno);
 
-        cargarPerfil(objeto.reglas);
+        if (objeto.reglas && objeto.reglas.length > 0) {
+            cargarPerfil(objeto.reglas);
+        } else {
+            var elPerfil = $("#divHidden").find("#lblPerfil").clone();
 
-        for (var i in objeto.premisas) {
-            cargarPremisa(objeto.premisas[i]);
+            elPerfil.append('No Aplica');
+
+            $("#perfiles").append(elPerfil);
+            
+            $("#resultadoPerfil").hide();
+            $("#resultadoSinPerfil").show();
         }
 
-        for (var i in objeto.reglas) {
-            cargarRegla(objeto.reglas[i]);
+        if (objeto.premisas && objeto.premisas.length > 0) {
+            for (var i in objeto.premisas) {
+                cargarPremisa(objeto.premisas[i]);
+            }
+        } else {
+            var table = $("#permisas");
+            var elPremisa = $("#divHidden").find("#lblPremisa").clone();
+            elPremisa.append('NINGUNO');
+            table.append(elPremisa);
+        }
+
+        if (objeto.reglas && objeto.reglas.length > 0) {
+            for (var i in objeto.reglas) {
+                cargarRegla(objeto.reglas[i]);
+            }
+        } else {
+            var table = $("#reglas");
+            var elRegla = $("#divHidden").find("#lblRegla").clone();
+            elRegla.append('NINGUNO');
+            table.append(elRegla);
         }
 
     }
@@ -235,13 +260,17 @@
                 <td  colspan="2">                    
 
                     <!--<p>Para obtener el resultado anterior se ha sumado la cantidad de aciertos que ha tenido para cada perfil, se concluye las siguientes premisas:</p>-->
-                    <p>El sistema analiza las conclusiones de este conjunto de reglas y busca las apariciones de
+                    <p id="resultadoPerfil">El sistema analiza las conclusiones de este conjunto de reglas y busca las apariciones de
                         aquellos perfiles a evaluar teniendo un conjunto de perfiles se calcula el porcentaje de
                         aparicion en el conjunto de reglas y finalmente llegaria al resultado mostrado
                         Por ejemplo, el perfil <label id="lblPerfilMencionado" style="font-weight: bold"></label> se repite 
                         <label id="lblVecesPerfilMencionado" style="font-weight: bold"></label> por lo que su porcentaje de aparicion es de 
                         <label id="lblPorcentajePerfilMencionado" style="font-weight: bold"></label>
                         dentro del total de reglas que lo contienen perfiles</p>
+                    
+                    <p id="resultadoSinPerfil" style="display: none">Debido a que no existe un conjunto de reglas asociadas, 
+                        no puede buscar las apariciones de aquellos perfiles evaluados. Por tanto, 
+                        el sistema llega al resultado mostrado.</p>
 
                 </td>
             </tr>

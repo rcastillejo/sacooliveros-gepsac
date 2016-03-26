@@ -104,7 +104,7 @@
         WHERE
             a.cod_estado = 'SPS0001' and (SELECT (DATE_PART('day', now()::timestamp - a.fec_solicitud::timestamp) * 24 + 
                DATE_PART('hour', now()::timestamp - a.fec_solicitud::timestamp)) * 60 +
-               DATE_PART('minute', now()::timestamp - a.fec_solicitud::timestamp)) > #{maxMinutosPendiente};
+               DATE_PART('minute', now()::timestamp - a.fec_solicitud::timestamp)) >= #{maxMinutosPendiente};
     </select>
        
     <select id="queryCantidadAtendidas" resultType="int">
