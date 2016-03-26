@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.dao.myibatis;
 
 import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
+import com.sacooliveros.gepsac.dao.exception.ForeignKeyException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.ReglaMapper;
 import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
@@ -15,6 +16,7 @@ import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,6 +132,10 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
             session = getConnection();
             mapper = session.getMapper(ReglaMapper.class);
 
+            if (mapper.cantUso(model) > 0) {
+                throw new ForeignKeyException("Se encuentra utilizada la regla [" + model.getCodigo() + "]");
+            }
+
             log.debug("Actualizando [{}] ...", model);
             if (mapper.update(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
@@ -143,11 +149,13 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
             session.commit();
             log.info("Actualizado [{}]", model);
 
+        } catch (ForeignKeyException e) {
+            throw e;
         } catch (Exception e) {
             if (session != null) {
                 session.rollback();
             }
-            throw new DAOException("Error al grabar", e);
+                throw new DAOException("Error al grabar", e);
         } finally {
             closeConnection(session);
         }
@@ -185,6 +193,39 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
 
             session.commit();
             log.info("Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            log.warn("Evaluando la excepcion al eliminar regla instancia=[{}], message=[{}]",
+                    new Object[]{e.getCause() instanceof PSQLException, e.getCause().getMessage()});
+
+            if (e.getCause() instanceof PSQLException && e.getCause().getMessage().contains("«fk_tp_regla_pregunta_tp_regla»")) {
+                throw new ForeignKeyException(e);
+            } else {
+                throw new DAOException("Error al grabar", e);
+            }
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public void deshabilitar(Regla regla) {
+        SqlSession session = null;
+        ReglaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(ReglaMapper.class);
+
+            log.debug("Deshabilitando [{}] ...", regla);
+            if (mapper.deshabilitar(regla) == 0) {
+                throw new DAOException("No se pudo deshabilitar");
+            }
+            session.commit();
+            log.info("Deshabilitado [{}]", regla);
 
         } catch (Exception e) {
             if (session != null) {

@@ -8,6 +8,7 @@ package com.sacooliveros.gepsac.dao;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
      
      List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion);
      
-     void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+     void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion, List<Regla> reglasActivas);
      
      void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
      

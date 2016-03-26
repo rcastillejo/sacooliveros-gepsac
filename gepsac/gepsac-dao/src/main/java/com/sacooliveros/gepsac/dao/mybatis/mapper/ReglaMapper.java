@@ -22,6 +22,10 @@ public interface ReglaMapper {
     public int insertPregunta(PreguntaRegla model);
 
     public int update(Regla model);
+    
+    public int deshabilitar(Regla model);
+    
+    public int cantUso(Regla model);
 
     //public int updatePregunta(PreguntaRegla model);
 

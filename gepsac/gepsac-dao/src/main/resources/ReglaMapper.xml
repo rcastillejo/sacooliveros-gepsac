@@ -150,8 +150,20 @@
         Where
             cod_regla=#{codigo}
     </delete> 
-    
-    
+  
+    <delete id="deshabilitar">
+        Update tp_regla_acoso_escolar 
+        set deshabilitado = true
+        Where
+            cod_regla=#{codigo}
+    </delete> 
+       
+  
+    <select id="cantUso" resultType="int">
+        Select count(*) from tp_pregunta_evaluacion_regla
+        Where cod_regla=#{codigo}
+    </select> 
+       
     
     <delete id="deletePreguntas">
         Delete from

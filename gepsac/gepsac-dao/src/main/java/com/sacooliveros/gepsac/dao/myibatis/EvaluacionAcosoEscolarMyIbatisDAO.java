@@ -8,9 +8,13 @@ package com.sacooliveros.gepsac.dao.myibatis;
 import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.mybatis.mapper.EvaluacionAcosoEscolarMapper;
+import com.sacooliveros.gepsac.model.evaluacion.Alternativa;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
+import com.sacooliveros.gepsac.model.experto.PreguntaEvaluacionRegla;
+import com.sacooliveros.gepsac.model.experto.PreguntaRegla;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.session.SqlSession;
@@ -310,7 +314,7 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
     }
 
     @Override
-    public void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar model) {
+    public void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar model, List<Regla> reglasActivas) {
         SqlSession session = null;
         EvaluacionAcosoEscolarMapper mapper;
 
@@ -324,10 +328,10 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             if (mapper.updateRespEvalAcosoEscolar(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-            /*@TODO:Ingresar la relacion de reglas que fueron aplicadas
-            if (model.getPreguntas() != null) {
-                actualizarPreguntas(mapper, model);
-            }*/
+            //@TODO:Ingresar la relacion de reglas que fueron aplicadas
+            if (reglasActivas != null) {
+                actualizarPreguntaEvaluacionReglas(mapper, model, reglasActivas);
+            }
 
             session.commit();
             log.info("Actualizado [{}]", model);
@@ -342,6 +346,32 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
         }
     }
 
+    private void actualizarPreguntaEvaluacionReglas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model, List<Regla> reglasActivas) {
+        for (Regla reglasActiva : reglasActivas) {
+            
+            for (String codigoPregunta : reglasActiva.getSetCodigoPreguntas()) {
+                PreguntaEvaluacionRegla preguntaEvaluacionRegla = new PreguntaEvaluacionRegla();
+                preguntaEvaluacionRegla.setCodigoRegla(reglasActiva.getCodigo());
+                
+                PreguntaEvaluacionAlternativa preguntaAlternativa = new PreguntaEvaluacionAlternativa();                
+                preguntaAlternativa.setCodigoEvaluacion(model.getCodigo());
+                preguntaAlternativa.setCodigoPregunta(codigoPregunta);
+                preguntaAlternativa.setCodigoPlantilla(model.getCodigoPlantilla());
+                 
+                Alternativa alternativa = new Alternativa();
+                //@TODO:Remover esta asignacion
+                alternativa.setSecuencia(1);
+                
+                preguntaAlternativa.setAlternativa(alternativa);
+                
+                preguntaEvaluacionRegla.setPreguntaAlternativa(preguntaAlternativa);
+                
+                mapper.insertPreguntaEvaluacionRegla(preguntaEvaluacionRegla);
+            }
+            
+        }
+    }
+    
     private void actualizarRespuestaPreguntas(EvaluacionAcosoEscolarMapper mapper, EvaluacionAcosoEscolar model) {
         List<PreguntaEvaluacion> preguntas;
 

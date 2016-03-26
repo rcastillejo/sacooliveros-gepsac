@@ -186,28 +186,34 @@
         formula += " entonces " + json.perfil.nombre;
 
         detalle.find("#lblReglaFormula").append(formula);
+        detalle.find("#lblEstado").append(json.deshabilitado ? 'Deshabilitado' : 'Habilitado');
 
 
         table.find("tbody").append(detalle);
         var lnkEditar = detalle.find("#lnkEditar");
         var lnkEliminar = detalle.find("#lnkEliminar");
 
-        lnkEditar.click(function (e) {
-            e.preventDefault();
-            $("#opcAgregar").hide();
-            $("#opcModificar").show();
-            initEditar(json.codigo);
-            return false;
-        });
+        if (json.deshabilitado) {
+            lnkEditar.remove();
+            lnkEliminar.remove();
+        } else {
+            lnkEditar.click(function (e) {
+                e.preventDefault();
+                $("#opcAgregar").hide();
+                $("#opcModificar").show();
+                initEditar(json.codigo);
+                return false;
+            });
 
-        lnkEliminar.click(function (e) {
-            e.preventDefault();
-            fn_mdl_confirma("¿Está seguro que desea eliminar la regla?",
-                    function () {
-                        eliminar(json.codigo);
-                    }, null, null, "Confirmacion");
-            return false;
-        });
+            lnkEliminar.click(function (e) {
+                e.preventDefault();
+                fn_mdl_confirma("¿Está seguro que desea eliminar la regla?",
+                        function () {
+                            eliminar(json.codigo);
+                        }, null, null, "Confirmacion");
+                return false;
+            });
+        }
     }
 
     function initEditar(codigo) {
@@ -272,7 +278,7 @@
             fn_mdl_alert(result, function () {
                 init();
                 reset();
-            } ,"CONFIRMACION");
+            }, "CONFIRMACION");
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, null, "MENSAJE");
@@ -291,7 +297,7 @@
         $("#perfiles input[name='codigoPerfil'][value='" + objeto.perfil.codigo + "']").prop('checked', true);
     }
 
-    function reset() {        
+    function reset() {
         //Habilitar Opciones
         $("#opcAgregar").show();
         $("#opcModificar").hide();
@@ -427,6 +433,9 @@
                         <label id="lblReglaFormula" class="inputValue"></label>
                     </td>
                     <td>
+                        <label id="lblEstado" class="inputValue"></label>
+                    </td>
+                    <td>
                         <a id="lnkEditar" href="#" >
                             Editar
                         </a>
@@ -449,6 +458,7 @@
                         <tr>
                             <th>Código</th>
                             <th>Regla</th>
+                            <th>Estado</th>
                             <th>Editar</th>
                             <th>Elimnar</th>
                         </tr>	

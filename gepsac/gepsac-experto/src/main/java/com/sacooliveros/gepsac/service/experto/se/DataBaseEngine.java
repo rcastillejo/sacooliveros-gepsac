@@ -120,6 +120,7 @@ public class DataBaseEngine implements Engine<PreguntaEvaluacion, ResultadoInfer
 
         String codigoPerfilObtenido = obtenerCodigoPerfil(reglasActivadas.size(), perfiles);
         resultado.setConclusion(codigoPerfilObtenido);
+        resultado.setReglasActivas(reglasActivadas);
         return resultado;
     }
 

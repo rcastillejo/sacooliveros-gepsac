@@ -31,6 +31,8 @@ public interface Experto {
         String AGREGAR_REGLA = "El registro se realizo con exito";
         String MODIFICAR_REGLA = "La modificacion se realizo con exito";
         String ELIMINAR_REGLA = "La eliminacion se realizo con exito";
+        String DESHABILITAR_MODIFICAR_REGLA = "Se creó una nueva regla con los cambios solicitados, debido a que se encontraba en uso";
+        String DESHABILITAR_REGLA = "La regla ha sido deshabilitada, debido a que se encontraba en uso";
 
     }
 

@@ -47,6 +47,7 @@
     <select id="query" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
             cod_alumno,
@@ -59,6 +60,7 @@
     <select id="get" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
             b.cod_alumno,
@@ -104,6 +106,7 @@
     <select id="queryEstado" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
             b.cod_alumno,
@@ -129,6 +132,7 @@
     <select id="queryEvaluadoResuelto" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
             b.cod_alumno,
@@ -272,6 +276,15 @@
             regla = #{regla}
         Where
             cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+    </insert>
+    
+    
+    <insert id="insertPreguntaEvaluacionRegla">
+        Insert into tp_pregunta_evaluacion_regla
+            (cod_regla, cod_evaluacion, cod_pregunta, cod_plantilla, secuencia)
+        values
+            (#{codigoRegla},#{preguntaAlternativa.codigoEvaluacion},#{preguntaAlternativa.codigoPregunta},
+        #{preguntaAlternativa.codigoPlantilla},#{preguntaAlternativa.alternativa.secuencia})
     </insert>
     
 </mapper>

@@ -11,6 +11,7 @@ import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
+import com.sacooliveros.gepsac.dao.exception.ForeignKeyException;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
@@ -183,7 +184,7 @@ public class ExpertoService implements Experto {
             AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
             ReglaDAO reglaDAO = SingletonDAOFactory.getDAOFactory().getReglaDAO();
-            
+
             EvaluacionAcosoEscolar evaluacionAcosoEscolar = consultarResultadoAcosoEscolar(evaluacion.getCodigo());
 
             /**
@@ -221,7 +222,7 @@ public class ExpertoService implements Experto {
             evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
 
             log.info("[{}] El sistema graba la evaluación con el perfil en estado 'Evaluado'", evaluacionAcosoEscolar.getCodigo());
-            evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar);
+            evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar, resultado.getReglasActivas());
 
             /**
              * 4.1.8.	El sistema actualiza el perfil del alumno evaluado
@@ -284,15 +285,14 @@ public class ExpertoService implements Experto {
 
             List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaEvaluacion(evaluacionAcosoEscolar.getCodigo());
 
-             
             for (PreguntaEvaluacion pregunta : preguntas) {
                 String codigoPregunta = pregunta.getPregunta().getCodigo();
                 log.debug("Preguntas alternativas [codigoPregunta={}, codigoEvaluacion={}]", new Object[]{codigoPregunta, codigoEvaluacion});
                 List<PreguntaEvaluacionAlternativa> alternativas = evaluacionDao.listarPreguntaEvaluacionAlternativa(codigoEvaluacion, codigoPregunta);
                 pregunta.setAlternativas(alternativas);
                 log.debug("Preguntas alternativas [codigoPregunta={}, codigoEvaluacion={}, alternativas={}]", new Object[]{codigoPregunta, codigoEvaluacion, alternativas.size()});
-            } 
-            
+            }
+
             evaluacionAcosoEscolar.setPreguntas(preguntas);
 
             return evaluacionAcosoEscolar;
@@ -485,17 +485,28 @@ public class ExpertoService implements Experto {
                     validarReglaRepetida(reglaVerificar, regla);
                 }
             }
-            /**
-             * 4.2.2.8.	El sistema graba los cambios de la regla
-             */
-            reglaDao.actualizar(regla);
-            log.info("El sistema grabo los cambios de la regla");
 
-            /**
-             * 4.2.1.6.	El sistema muestra mensaje “La Regla se actualizó
-             * satisfactoriamente” con el listado de reglas actualizado.
-             */
-            return MessageFormat.format(Mensaje.MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
+            String msg;
+            try {
+                /**
+                 * 4.2.2.8.	El sistema graba los cambios de la regla
+                 */
+                reglaDao.actualizar(regla);
+                log.info("El sistema grabo los cambios de la regla");
+
+                /**
+                 * 4.2.1.6.	El sistema muestra mensaje “La Regla se actualizó
+                 * satisfactoriamente” con el listado de reglas actualizado.
+                 */
+                msg = MessageFormat.format(Mensaje.MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
+            } catch (ForeignKeyException e) {
+                log.warn("El sistema deshabilitara la regla y crea una con codigo diferente, debido a que se encontraba en uso");
+                reglaDao.deshabilitar(regla);
+                reglaDao.ingresar(regla);
+                msg = MessageFormat.format(Mensaje.DESHABILITAR_MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
+            }
+
+            return msg;
         } catch (ValidatorException e) {
             throw e;
         } catch (ExpertoServiceException e) {
@@ -507,8 +518,8 @@ public class ExpertoService implements Experto {
 
     @Override
     public String eliminarRegla(String codigoRegla) throws ExpertoServiceException {
+        ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
         try {
-            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
 
             /**
              * 4.2.3.4.	El sistema elimina el registro de la regla
@@ -518,15 +529,22 @@ public class ExpertoService implements Experto {
             if (regla == null) {
                 throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.MANTENIMIENTO_REGLA);
             }
+            String msg;
+            try {
+                /**
+                 * 4.3.6.1.	si la regla a eliminar se encuentra utilizada, el
+                 * sistema deshabilita la regla
+                 */
+                log.info("El sistema eliminara la regla");
+                reglaDao.eliminar(regla);
+                msg = MessageFormat.format(Mensaje.ELIMINAR_REGLA, new Object[]{regla.getCodigo()});
+            } catch (ForeignKeyException e) {
+                log.warn("El sistema deshabilitara la regla debido a que se encontraba en uso");
+                reglaDao.deshabilitar(regla);
+                msg = MessageFormat.format(Mensaje.DESHABILITAR_REGLA, new Object[]{regla.getCodigo()});
+            }
 
-            reglaDao.eliminar(regla);
-            log.info("El sistema grabo los cambios de la regla");
-
-            /**
-             * 4.2.1.6.	El sistema muestra mensaje “La Regla se actualizó
-             * satisfactoriamente” con el listado de reglas actualizado.
-             */
-            return MessageFormat.format(Mensaje.ELIMINAR_REGLA, new Object[]{regla.getCodigo()});
+            return msg;
         } catch (ValidatorException e) {
             throw e;
         } catch (ExpertoServiceException e) {

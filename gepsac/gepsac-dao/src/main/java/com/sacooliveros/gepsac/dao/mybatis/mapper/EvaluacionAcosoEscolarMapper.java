@@ -4,6 +4,7 @@ import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
+import com.sacooliveros.gepsac.model.experto.PreguntaEvaluacionRegla;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,6 +26,8 @@ public interface EvaluacionAcosoEscolarMapper {
     public int insert(EvaluacionAcosoEscolar model);  
         
     public int insertPreguntaEvaluacion(PreguntaEvaluacionAlternativa model);  
+            
+    public int insertPreguntaEvaluacionRegla(PreguntaEvaluacionRegla model);  
     
     public int update(EvaluacionAcosoEscolar model);  
     
