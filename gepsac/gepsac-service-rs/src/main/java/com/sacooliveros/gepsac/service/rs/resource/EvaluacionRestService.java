@@ -131,4 +131,64 @@ public class EvaluacionRestService implements EvaluacionResource {
         }
     }
 
+    @Override
+    public String editarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) {        
+        try {
+            return service.editarSolicitudPsicologica(solicitudPsicologica);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+        }
+    }
+
+    @Override
+    public String eliminarSolicitudPsicologica(String codigoUsuario) {
+        try {
+            return service.eliminarSolicitudPsicologica(codigoUsuario);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+        }
+    }
+
+    @Override
+    public SolicitudPsicologica obtenerEditarSolicitudPsicologica(String codigoSolicitud) {
+        try {
+            return service.obtenerEditarSolicitudPsicologica(codigoSolicitud);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+        }
+    }
+
+    @Override
+    public SolicitudPsicologica consultarSolicitudPsicologica(String codigoSolicitud) {
+        try {
+            return service.consultarSolicitudPsicologica(codigoSolicitud);
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build());
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw new WebApplicationException(
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build());
+        }
+    }
+
 }

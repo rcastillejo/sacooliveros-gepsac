@@ -34,7 +34,7 @@
     }
 
     function getTimeString(fechaEvaluacion) {
-        console.log('fecha evaluacion',fechaEvaluacion);
+        console.log('fecha evaluacion', fechaEvaluacion);
     }
 
     function init() {
@@ -62,6 +62,7 @@
 
 
     function cargarListado(listado) {
+        $("#tblDetalle tbody").empty();
         for (var i in listado) {
             cargarItem(listado[i]);
         }
@@ -75,7 +76,18 @@
 
         detalle.find("#lblCodigo").append(json.codigo);
         detalle.find("#lblSolicitante").append(json.solicitante.nombres + ' ' + json.solicitante.apellidos);
-        detalle.find("#lblMotivo").append(json.motivo);
+        var motivo;
+        if (json.motivo === 1) {
+            motivo = 'Agresión';
+        } else if (json.motivo === 2) {
+            motivo = 'Bajo Rendimiento';
+        } else if (json.motivo === 3) {
+            motivo = 'Comportamiento Sospechoso';
+        } else {
+            motivo = '-';
+        }
+
+        detalle.find("#lblMotivo").append(motivo);
 
         var fechaSolicitud = new Date(json.fechaSolicitud);
         detalle.find("#lblFechaRegistro").append(getDateString(fechaSolicitud));
@@ -96,14 +108,10 @@
         var chkIdEditar = detalle.find("#chkIdEditar");
         var chkIdEliminar = detalle.find("#chkIdEliminar");
 
-        var fromUrl = "&fromUrl=" + window.location.href;
-
-        console.log('fromUrl', fromUrl);
-
         var linkConsultar = chkIdConsultar.attr('href') + action + '?method=initConsultar&codigo=' + json.codigo;
-        chkIdConsultar.attr("href", linkConsultar + fromUrl);
+        chkIdConsultar.attr("href", linkConsultar);
         var linkEditar = chkIdEditar.attr('href') + action + '?method=initEditar&codigo=' + json.codigo;
-        chkIdEditar.attr("href", linkEditar + fromUrl);
+        chkIdEditar.attr("href", linkEditar);
 
         chkIdEliminar.click(function (e) {
             e.preventDefault();
@@ -114,6 +122,23 @@
             return false;
         });
     }
+
+
+    function eliminar(codigo) {
+        $.ajax({
+            type: "DELETE",
+            url: serviceUrl + '/solicitudPsicologica/' + codigo
+        }).done(function (result) {
+            console.log('result', result);
+            fn_mdl_alert(result, function () {
+                init();
+            }, "CONFIRMACION");
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, init, "MENSAJE");
+        });
+    }
+
 
     function fn_checkListadoItem(objCheck, json) {
         $('input[id*="chkId"]').prop('checked', false);

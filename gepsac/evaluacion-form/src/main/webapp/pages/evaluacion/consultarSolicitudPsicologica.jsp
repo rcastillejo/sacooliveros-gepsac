@@ -7,12 +7,14 @@
     var action = '/RegistrarSolicitudPsicologica.do';
 
     var serviceIP = "<%=request.getLocalAddr()%>";
-    var fromUrl;
+    
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
-    var codigoEvaluacion;
+    var codigoSolicitud;
     var alumnos = [];
 
     $(document).ready(function () {
+        codigoSolicitud = getRequestParameter("codigo");
+        
         init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -31,7 +33,7 @@
 
         $("#btnGuardar").click(function (e) {
             e.preventDefault();
-            registrarSolictudPsicologica();
+            editarSolictudPsicologica();
         });
 
 
@@ -51,12 +53,13 @@
         });
 
     });
+    
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
 
     function init() {
-
-        var fecEva = new Date();
-        $("#fechaRegistro").val(getDateString(fecEva));
-
         $("#motivoSolicitud").on('change', function () {
             var motivo = $(this).val();
             console.log('motivo', motivo);
@@ -66,9 +69,62 @@
                 $("#alumnosInvolucrados").hide();
             }
         });
+        
+        initEditar(codigoSolicitud);
+        
+    }
+    
+    function initEditar(codigo) {
+        console.log('initEditar', codigo);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: serviceUrl + '/solicitudPsicologica/editar=' + codigo
+        }).done(function (objeto) {
+            console.log('objeto', objeto);
+            cargar(objeto);
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, null, "MENSAJE");
+        });
+    }
+    
+    
+    function cargar(objeto) {
+        $("#hdnCodigo").val(objeto.codigo);
+        
+        
+        if(objeto.fechaSolicitud){
+            $("#fechaRegistro").val(getDateString(objeto.fechaSolicitud));
+        }
+                
+        //Seleccionando el motivo
+        $("#motivoSolicitud input[name='motivo'][value='" + objeto.motivo + "']").prop('selected', true);
+        
+        $("#descripcionSolicitud").val(objeto.descripcion);
+                
+        //Agregando Alumnos
+        for (var i in objeto.alumnoInvolucrado) {
+            var alumno = objeto.alumnoInvolucrado[i];            
+            if(alumno.dirigido){
+                //Cargando Alumno Dirigido
+                cargarAlumno($("#tblAlumnoDirigido"), alumno);
+                alumnos.push({
+                    alumno: alumno,
+                    dirigido: false
+                });
+            }else{
+                //Cargando Alumno Involucrado
+                cargarAlumnoInvolucrado(alumno, i);                
+                alumnos.push({
+                    alumno: alumno,
+                    dirigido: false
+                });
+            }
+        }
     }
 
-    function registrarSolictudPsicologica() {
+    function editarSolictudPsicologica() {
 
         var data = getData($("#tblSolicitud"));
         data.alumnoInvolucrado = alumnos;
@@ -76,15 +132,13 @@
         console.log('grabando', data);
 
         $.ajax({
-            type: "POST",
+            type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
             url: serviceUrl + '/solicitudPsicologica'
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, function () {
-                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
-            }, "CONFIRMACION");
+            fn_mdl_alert(result, function () {}, "CONFIRMACION");
         }).fail(function (error, status, a) {
             console.log('error', error, 'status', status, 'a', a);
             if (error && error.status === 400) {
@@ -98,15 +152,6 @@
     }
 
     //obtenerAlumnoInvolucrados
-
-    function validarEvaluacion() {
-        var sError = "";
-        var codigoAlumno = $("#codigoAlumno").val();
-        if (codigoAlumno.length === 0) {
-            sError = sError + "   - Debe seleccionar un alumno. <br/>";
-        }
-        return sError;
-    }
 
     function serializeEvaluacionAlumnoNuevo() {
         var dataSerialize = {};
@@ -325,17 +370,19 @@
         var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
         return fechaActual;
     }
+    
 </script>
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Registrar Solicitud Psicol&oacute;gica
+        Editar Solicitud Psicol&oacute;gica
     </div>
     <div id="dvData">
         <fieldset>
             <legend>Datos de la Solicitud</legend>
             <table id="tblSolicitud">
                 <tr>
+                    <input id="hdnCodigo" type="hidden" class="inputValue" data-name="codigo">
                     <td>Fecha Registro</td><td>:</td> 
                     <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
                 </tr>

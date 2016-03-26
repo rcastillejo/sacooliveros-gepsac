@@ -26,6 +26,20 @@
         <result column="dirigido" property="dirigido" jdbcType="BOOLEAN" />        
         
     </resultMap>
+    
+    <resultMap id="recordSolicitudAlumnoInvolucrado" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno" >
+        <id column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="dirigido" property="dirigido" jdbcType="BOOLEAN" />        
+        <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />        
+        <result column="apellido_pat" property="alumno.apellidoPaterno" jdbcType="VARCHAR" />        
+        <result column="apellido_mat" property="alumno.apellidoMaterno" jdbcType="VARCHAR" />        
+        <result column="edad" property="alumno.edad" jdbcType="INTEGER" />        
+        <result column="cod_ditrito" property="alumno.distrito.codigo" jdbcType="INTEGER" />        
+        <result column="nom_ditrito" property="alumno.distrito.nombre" jdbcType="VARCHAR" />        
+        
+    </resultMap>
        
     <select id="query" resultMap="recordSolicitudPsicologica">
         SELECT
@@ -122,20 +136,23 @@
             tp_usuario b on a.solicitante = b.cod_usuario
         INNER JOIN
             tp_estado c ON a.cod_estado = c.cod_estado
-      <!--  where
-            cod_solicitud=#{codigo}
-        and
-            solicitante=#{solicitante}
-        and
-            motivo=#{motivo}
-        and
-            (fec_solicitud between #{fechaInicio} and #{fechaFin}
-        and 
-            cod_estado=#{estado} -->
+        WHERE
+           a.cod_solicitud=#{codigo}
         
     </select>
     
     <select id="queryAlumnos" resultMap="recordSolicitudAlumno">
+        SELECT
+            a.cod_solicitud,
+            a.cod_alumno,
+            a.dirigido
+        FROM 
+            tp_solicitud_alumno a
+        WHERE
+            a.cod_solicitud= #{codigoSolicitud}
+    </select>
+    
+    <select id="queryAlumnosInvolucrados" resultMap="recordSolicitudAlumno">
         SELECT
             a.cod_solicitud,
             a.cod_alumno,
@@ -185,6 +202,14 @@
     <delete id="delete">
         Delete from 
                     tp_solicitud_psicologica
+        Where
+                    cod_solicitud=#{codigo}
+    </delete>
+    
+    
+    <delete id="deleteAlumnos">
+        Delete from 
+                    tp_solicitud_alumno
         Where
                     cod_solicitud=#{codigo}
     </delete>

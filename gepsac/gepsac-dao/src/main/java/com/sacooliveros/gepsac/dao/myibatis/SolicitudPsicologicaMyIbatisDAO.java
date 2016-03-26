@@ -187,9 +187,10 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             session = getConnection();
             mapper = session.getMapper(SolicitudPsicologicaMapper.class);
             log.debug("Actualizando SolicitudPsicologica [{}] ...", model);
-            if (mapper.update(model) == 0) {
-                throw new DAOException("No se pudo actualizar");
-            }
+            
+            eliminar(model);
+            ingresar(model);
+            
             session.commit();
             log.info("Actualizado [{}]", model);
 
@@ -238,7 +239,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             session = getConnection();
             mapper = session.getMapper(SolicitudPsicologicaMapper.class);
             model = mapper.get(id);
-            log.info("Plan obtenido [{}]", model);
+            log.info("obtenido [{}]", model);
             return model;
         } catch (Exception e) {
             throw new DAOException("Error al consultar", e);
@@ -268,6 +269,11 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             session = getConnection();
             mapper = session.getMapper(SolicitudPsicologicaMapper.class);
             log.debug("Eliminando SolicitudPsicologica [{}] ...", model);
+            
+            if (mapper.deleteAlumnos(model) == 0) {
+                throw new DAOException("No se pudo eliminar la relacion de alumnos");
+            }
+            
             if (mapper.delete(model) == 0) {
                 throw new DAOException("No se pudo eliminar");
             }
@@ -278,7 +284,7 @@ public class SolicitudPsicologicaMyIbatisDAO extends GenericMyIbatisDAO implemen
             if (session != null) {
                 session.rollback();
             }
-            throw new DAOException("Error al grabar", e);
+            throw new DAOException("Error al eliminar", e);
         } finally {
             closeConnection(session);
         }

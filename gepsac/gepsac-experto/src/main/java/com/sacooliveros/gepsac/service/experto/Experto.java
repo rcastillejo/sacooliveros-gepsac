@@ -48,7 +48,6 @@ public interface Experto {
             String GENERAL = "No se pudo realizar la  evaluación [{0}]";
             String LISTAR = "No se encuentra planes";
             String EVALUAR = "Error al evaluar alumno postulante [{0}]";
-            String REGISTRAR_SOLICITUD_PSICOLOGICA = "Error al registrar la solicitud psicologica [{0}]";
             String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "No existen evaluaciones de acoso escolar resuelto o evaluadas";

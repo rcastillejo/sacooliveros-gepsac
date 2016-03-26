@@ -40,6 +40,12 @@ public class RegistrarSolicitudPsicologicaAction extends DispatchAction {
     }
     
     public ActionForward initEditar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession httpSession = request.getSession(false);
+        Usuario user = (Usuario) httpSession.getAttribute("session");
+        if (user == null) {
+            user = new Usuario("gepsac", "Jose", "Perez");
+            httpSession.setAttribute("session", user);
+        }
         return mapping.findForward("editarSolicitudPsicologica");
     }
     

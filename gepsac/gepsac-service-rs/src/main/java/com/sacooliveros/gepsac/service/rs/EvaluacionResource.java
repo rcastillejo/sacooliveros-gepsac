@@ -9,8 +9,10 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -43,9 +45,28 @@ public interface EvaluacionResource {
     @Path("/solicitudPsicologica/{codigoUsuario}")
     List<SolicitudPsicologica> listarSolicitudPsicologica(@PathParam("codigoUsuario") String codigoUsuario);
 
+    @GET
+    @Path("/solicitudPsicologica/editar={codigoSolicitud}")
+    SolicitudPsicologica obtenerEditarSolicitudPsicologica(@PathParam("codigoSolicitud") String codigoSolicitud);
+
+    @GET
+    @Path("/solicitudPsicologica/consultar={codigoSolicitud}")
+    SolicitudPsicologica consultarSolicitudPsicologica(@PathParam("codigoSolicitud") String codigoSolicitud);
+
     @POST
     @Path("/solicitudPsicologica")
+    @Produces("text/plain")
     String registrarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
+
+    @PUT
+    @Path("/solicitudPsicologica")
+    @Produces("text/plain")
+    String editarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica);
+
+    @DELETE
+    @Path("/solicitudPsicologica/{codigoSolicitud}")
+    @Produces("text/plain")
+    String eliminarSolicitudPsicologica(@PathParam("codigoSolicitud") String codigoUsuario);
 
     @GET
     @Path("/acosoEscolar/resuelto")

@@ -62,7 +62,12 @@ public class EvaluacionService implements Evaluacion {
     @Override
     public List<SolicitudPsicologica> listarSolicitudPsicologica(String codigoUsuario) throws ExpertoServiceException {
         try {
-            List<SolicitudPsicologica> solicitudes = listarSolicitudPsicologica();
+            SolicitudPsicologicaDAO solicitudPsicologicaDao = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+            List<SolicitudPsicologica> solicitudes = solicitudPsicologicaDao.listar();
+            if (solicitudes == null || solicitudes.isEmpty()) {
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_SOLICITUD_PSICOLOGICA);
+            }
+
             for (SolicitudPsicologica solicitud : solicitudes) {
                 Usuario solicitante = solicitud.getSolicitante();
                 if (!solicitante.getCodigo().equals(codigoUsuario)) {
@@ -122,7 +127,7 @@ public class EvaluacionService implements Evaluacion {
             throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
         }
     }
 
@@ -171,7 +176,7 @@ public class EvaluacionService implements Evaluacion {
             throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Experto.Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.REGISTRAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
         }
     }
 
@@ -274,6 +279,168 @@ public class EvaluacionService implements Evaluacion {
             if (seleccionados == 0) {
                 throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.RESOLVER_PREGUNTA_ACOSO_ESCOLAR, i + 1);
             }
+        }
+    }
+
+    @Override
+    public String editarSolicitudPsicologica(SolicitudPsicologica solicitudPsicologica) throws ExpertoServiceException {
+        try {
+            String codigoSolicitudPsicologica;
+            String mensaje;
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+            AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
+
+            solicitudPsicologica.determinarAlumnos();
+
+            log.debug("Validando datos de la solicitud [{}]", solicitudPsicologica);
+            validarSolicitudPsicologica(solicitudPsicologica);
+
+            codigoSolicitudPsicologica = solicitudPsicologica.getCodigo();
+            log.debug("Validando estado pendiente de la solicitud [{}]", codigoSolicitudPsicologica);
+            SolicitudPsicologica solicitud = solicitudPsicologicaDAO.obtener(codigoSolicitudPsicologica);
+            if (!solicitud.getEstado().getCodigo().equals(State.SolicitudPsicologica.PENDIENTE)) {
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.NO_EDITAR_SOLICITUD_PSICOLOGICA);
+            }
+
+            //Grabar alumnos Involucrados
+            if (solicitudPsicologica.getMotivo() == 1) {//Motivo Agresion
+                log.debug("Alumno involucrados grabados [{}]", solicitudPsicologica);
+                for (SolicitudAlumno solicitudAlumno : solicitudPsicologica.getAlumnoInvolucrado()) {
+                    Alumno alumno = solicitudAlumno.getAlumno();
+                    alumno.setCodigoEstado(State.Alumno.REGISTRADO);
+                    alumnoDao.cargarCodificacionAlumno(alumno);
+                    alumnoDao.grabarEvaluado(alumno);
+                }
+            } else {//Si es por otro motivo                
+                log.debug("Obteniendo alumno dirigido[{}]", solicitudPsicologica);
+                SolicitudAlumno solicitudAlumnoDirigido = null;
+                for (SolicitudAlumno solicitudAlumno : solicitudPsicologica.getAlumnoInvolucrado()) {
+                    //Se busca al alumno dirigido
+                    if (solicitudAlumno.isDirigido()) {
+                        Alumno alumno = solicitudAlumno.getAlumno();
+                        alumno.setCodigoEstado(State.Alumno.REGISTRADO);
+                        alumnoDao.cargarCodificacionAlumno(alumno);
+                        //Solo se registra al alumno dirigido
+                        alumnoDao.grabarEvaluado(alumno);
+                        solicitudAlumnoDirigido = solicitudAlumno;
+                        break;
+                    }
+                }
+                log.debug("Alumno dirigido obtenido [{}]", solicitudAlumnoDirigido);
+                List<SolicitudAlumno> dirigido = new ArrayList<SolicitudAlumno>();
+                dirigido.add(solicitudAlumnoDirigido);
+                solicitudPsicologica.setAlumnoInvolucrado(dirigido);
+            }
+
+            //Prevalece datos de la solicitud original
+            solicitudPsicologica.setFechaSolicitud(solicitud.getFechaSolicitud());
+            solicitudPsicologica.setEstado(solicitud.getEstado());
+
+            //Actualizando Solicitud
+            log.debug("Actualizando la solicitud psicologica pendiente[{}]", codigoSolicitudPsicologica);
+            solicitudPsicologicaDAO.actualizar(solicitudPsicologica);
+
+            mensaje = MessageFormat.format(Mensaje.EDITAR_SOLICITUD_PSICOLOGICA, codigoSolicitudPsicologica);
+            return mensaje;
+
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EDITAR_SOLICITUD_PSICOLOGICA, e, solicitudPsicologica.getCodigo());
+        }
+    }
+
+    @Override
+    public String eliminarSolicitudPsicologica(String codigoSolicitudPsicologica) throws ExpertoServiceException {
+        try {
+            String mensaje;
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+
+            SolicitudPsicologica solicitud = solicitudPsicologicaDAO.obtener(codigoSolicitudPsicologica);
+
+            log.debug("Validando estado pendiente de la solicitud [{}]", codigoSolicitudPsicologica);
+            if (!solicitud.getEstado().getCodigo().equals(State.SolicitudPsicologica.PENDIENTE)) {
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.NO_ELIMINAR_SOLICITUD_PSICOLOGICA);
+            }
+
+            log.debug("Eliminando la solicitud psicologica pedniente en estado [{}]", codigoSolicitudPsicologica);
+            solicitudPsicologicaDAO.eliminar(solicitud);
+            mensaje = MessageFormat.format(Mensaje.ELIMINAR_SOLICITUD_PSICOLOGICA, codigoSolicitudPsicologica);
+            return mensaje;
+
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.ELIMINAR_SOLICITUD_PSICOLOGICA, e, codigoSolicitudPsicologica);
+        }
+    }
+
+    @Override
+    public SolicitudPsicologica obtenerEditarSolicitudPsicologica(String codigoSolicitudPsicologica) throws ExpertoServiceException {
+        try {
+            String mensaje;
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+
+            SolicitudPsicologica solicitud = solicitudPsicologicaDAO.obtener(codigoSolicitudPsicologica);
+
+            log.debug("Validando estado pendiente de la solicitud [{}]", codigoSolicitudPsicologica);
+            if (!solicitud.getEstado().getCodigo().equals(State.SolicitudPsicologica.PENDIENTE)) {
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.NO_EDITAR_SOLICITUD_PSICOLOGICA);
+            }
+
+            List<SolicitudAlumno> almunosInvolucrados = solicitudPsicologicaDAO.listarAlumno(codigoSolicitudPsicologica);
+            solicitud.setAlumnoInvolucrado(almunosInvolucrados);
+
+            log.debug("Solicitud psicologica [{}]", codigoSolicitudPsicologica);
+
+            return solicitud;
+
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.ELIMINAR_SOLICITUD_PSICOLOGICA, e, codigoSolicitudPsicologica);
+        }
+    }
+
+    @Override
+    public SolicitudPsicologica consultarSolicitudPsicologica(String codigoSolicitudPsicologica) throws ExpertoServiceException {
+        try {
+            String mensaje;
+            SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+
+            SolicitudPsicologica solicitud = solicitudPsicologicaDAO.obtener(codigoSolicitudPsicologica);
+
+            List<SolicitudAlumno> almunosInvolucrados = solicitudPsicologicaDAO.listarAlumno(codigoSolicitudPsicologica);
+            solicitud.setAlumnoInvolucrado(almunosInvolucrados);
+
+            log.debug("Solicitud psicologica [{}]", codigoSolicitudPsicologica);
+
+            return solicitud;
+
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (ExpertoServiceException e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.ELIMINAR_SOLICITUD_PSICOLOGICA, e, codigoSolicitudPsicologica);
         }
     }
 

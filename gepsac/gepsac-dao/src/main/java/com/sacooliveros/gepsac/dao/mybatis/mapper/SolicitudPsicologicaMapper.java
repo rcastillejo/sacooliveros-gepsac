@@ -28,4 +28,6 @@ public interface SolicitudPsicologicaMapper {
     public int updateEstado(SolicitudPsicologica model);
 
     public int delete(SolicitudPsicologica model);
+
+    public int deleteAlumnos(SolicitudPsicologica model);
 }

@@ -7,12 +7,14 @@
     var action = '/RegistrarSolicitudPsicologica.do';
 
     var serviceIP = "<%=request.getLocalAddr()%>";
-    var fromUrl;
+
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
-    var codigoEvaluacion;
+    var codigoSolicitud;
     var alumnos = [];
 
     $(document).ready(function () {
+        codigoSolicitud = getRequestParameter("codigo");
+
         init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -31,7 +33,7 @@
 
         $("#btnGuardar").click(function (e) {
             e.preventDefault();
-            registrarSolictudPsicologica();
+            editarSolictudPsicologica();
         });
 
 
@@ -52,11 +54,12 @@
 
     });
 
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
+
     function init() {
-
-        var fecEva = new Date();
-        $("#fechaRegistro").val(getDateString(fecEva));
-
         $("#motivoSolicitud").on('change', function () {
             var motivo = $(this).val();
             console.log('motivo', motivo);
@@ -66,9 +69,102 @@
                 $("#alumnosInvolucrados").hide();
             }
         });
+
+        initEditar(codigoSolicitud);
+
     }
 
-    function registrarSolictudPsicologica() {
+    function initEditar(codigo) {
+        console.log('initEditar', codigo);
+        $.ajax({
+            type: "GET",
+            dataType: 'json',
+            url: serviceUrl + '/solicitudPsicologica/editar=' + codigo
+        }).done(function (objeto) {
+            console.log('objeto', objeto);
+            cargar(objeto);
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, function(){
+                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+            }, "MENSAJE");
+        });
+    }
+
+
+    function cargar(objeto) {
+        $("#hdnCodigo").val(objeto.codigo);
+        var alumnosInvolucrados;
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: 'json',
+            url: "<%=request.getContextPath()%>" + '/EvaluarPostulante.do?method=initBuscarAlumnoNuevo'
+        }).done(function (listado) {
+            console.log('listado', listado);
+            alumnosInvolucrados = listado;
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert('Ocurrio un error al consultar los alumnos involucrados', function(){
+                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+            }, "MENSAJE");
+        });
+
+        console.log('involucrados', alumnosInvolucrados);
+
+        if (objeto.fechaSolicitud) {
+            $("#fechaRegistro").val(getDateString(new Date(objeto.fechaSolicitud)));
+        }
+
+        //Seleccionando el motivo
+        $("#motivoSolicitud option[value='" + objeto.motivo + "']").prop('selected', 'selected');
+
+        $("#descripcionSolicitud").val(objeto.descripcion);
+
+
+        var alumnosWS = [];
+        //Agregando Alumnos
+        for (var i in objeto.alumnoInvolucrado) {
+            var alumno = objeto.alumnoInvolucrado[i];
+            if (alumno.dirigido) {
+                var alumnoWS = obtenerInvolucrado(alumnosInvolucrados, alumno);
+                if (alumnoWS) {
+                    //Cargando Alumno Dirigido
+                    cargarAlumnoDirigido(alumnoWS);
+                }
+
+            } else {
+                var alumnoWS = obtenerInvolucrado(alumnosInvolucrados, alumno);
+                alumnosWS.push(alumnoWS);
+            }
+        }
+        if (alumnosWS.length > 0) {         
+            //Cargando Alumnos Involucrados
+            cargarAlumnoInvolucrados(alumnosWS);
+        }
+        
+        if(objeto.motivo === 1){            
+            $("#alumnosInvolucrados").show();   
+        }else{
+            $("#alumnosInvolucrados").hide();   
+        }
+    }
+
+    function obtenerInvolucrado(alumnosInvolucrados, alumno) {
+
+        var alumnoWS;
+        for (var j in alumnosInvolucrados) {
+            var involucrado = alumnosInvolucrados[j];
+            if (involucrado && involucrado.codigo === alumno.alumno.codigo) {
+                alumnoWS = involucrado;
+                break;
+            }
+        }
+        return alumnoWS;
+
+    }
+
+    function editarSolictudPsicologica() {
 
         var data = getData($("#tblSolicitud"));
         data.alumnoInvolucrado = alumnos;
@@ -76,13 +172,13 @@
         console.log('grabando', data);
 
         $.ajax({
-            type: "POST",
+            type: "PUT",
             data: JSON.stringify(data),
             contentType: "application/json",
             url: serviceUrl + '/solicitudPsicologica'
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, function () {
+            fn_mdl_alert(result, function () {                
                 location.assign("<%=request.getContextPath()%>" + action + '?method=init');
             }, "CONFIRMACION");
         }).fail(function (error, status, a) {
@@ -98,15 +194,6 @@
     }
 
     //obtenerAlumnoInvolucrados
-
-    function validarEvaluacion() {
-        var sError = "";
-        var codigoAlumno = $("#codigoAlumno").val();
-        if (codigoAlumno.length === 0) {
-            sError = sError + "   - Debe seleccionar un alumno. <br/>";
-        }
-        return sError;
-    }
 
     function serializeEvaluacionAlumnoNuevo() {
         var dataSerialize = {};
@@ -325,19 +412,21 @@
         var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
         return fechaActual;
     }
+
 </script>
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Registrar Solicitud Psicol&oacute;gica
+        Editar Solicitud Psicol&oacute;gica
     </div>
     <div id="dvData">
         <fieldset>
             <legend>Datos de la Solicitud</legend>
             <table id="tblSolicitud">
                 <tr>
-                    <td>Fecha Registro</td><td>:</td> 
-                    <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
+                <input id="hdnCodigo" type="hidden" class="inputValue" data-name="codigo">
+                <td>Fecha Registro</td><td>:</td> 
+                <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
                 </tr>
                 <tr>
                     <td>Solicitante</td><td>:</td>
