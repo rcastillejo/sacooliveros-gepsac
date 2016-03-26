@@ -36,9 +36,6 @@
         
     </resultMap>
     
-     <resultMap id="recordReglaActiva" type="com.sacooliveros.gepsac.model.experto.Regla" >
-        <id column="cod_regla" property="codigo" jdbcType="VARCHAR" />
-    </resultMap>
        
     <select id="query" resultMap="recordRegla">
         SELECT
@@ -163,11 +160,16 @@
             cod_regla = #{codigo}
     </delete>
     
-    <select id="queryReglaActiva" resultMap="recordReglaActiva">
+    <select id="queryReglaActiva" resultMap="recordRegla">
         SELECT
-            a.cod_regla
+            a.cod_regla,
+            a.deshabilitado,
+            d.cod_perfil,
+            d.nom_perfil
         FROM 
             tp_regla_acoso_escolar a
+        INNER JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
         WHERE
             a.deshabilitado = false
         Order by 

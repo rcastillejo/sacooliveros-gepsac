@@ -71,16 +71,24 @@
 
 
         $("#txtCodigo").val(objeto.codigo);
-
-        var fecEva = new Date(objeto.fechaEvaluacion);
-        $("#txtFecEva").val(getDateString(fecEva));
+        
+        if(objeto.fechaEvaluacion){
+            var fecEva = new Date(objeto.fechaEvaluacion);
+            $("#txtFecEva").val(getDateString(fecEva));
+        }else{
+            $("#txtFecEva").val('-');
+        }
 
         if (objeto.perfil) {
             $("#txtPerfil").val(objeto.perfil.nombre);
+        }else{
+            $("#txtPerfil").val('-');
         }
 
         if (objeto.estado.codigo === 'EVA0001') {
             $("#btnGenerarExplicacion").prop('disabled', true);
+        }else{
+            $("#btnGenerarExplicacion").prop('disabled', false);
         }
 
         cargarListado(objeto.preguntas);

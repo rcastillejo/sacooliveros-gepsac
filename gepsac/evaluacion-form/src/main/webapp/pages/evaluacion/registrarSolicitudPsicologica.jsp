@@ -303,7 +303,7 @@
 
         chkIdQuitar.click(function (e) {
             e.preventDefault();
-            fn_mdl_confirma("¿Está seguro de eliminar el alumno involucrado?",
+            fn_mdl_confirma("¿Está seguro de eliminar el alumno involucrado?<br/>" + json.nombres + ' ' + json.apellidoPaterno + ' ' + json.apellidoMaterno,
                     function () {
                         detalle.remove();
                         var resultado = quitarAlumno(json);
@@ -363,7 +363,7 @@
                 </tr>
                 <tr>
                     <td>Descripci&oacute;n</td><td>:</td>
-                    <td><textarea id="descripcionSolicitud" class="inputValue" data-name="descripcion" rows="4" cols="50"></textarea></td>                   
+                    <td><textarea id="descripcionSolicitud" class="inputValue" data-name="descripcion" rows="4" cols="50" maxlength="200"></textarea></td>                   
                 </tr>
             </table>
         </fieldset>

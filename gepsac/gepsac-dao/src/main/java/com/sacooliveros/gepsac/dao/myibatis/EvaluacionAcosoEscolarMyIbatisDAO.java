@@ -324,10 +324,10 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             if (mapper.updateRespEvalAcosoEscolar(model) == 0) {
                 throw new DAOException("No se pudo actualizar");
             }
-
+            /*@TODO:Ingresar la relacion de reglas que fueron aplicadas
             if (model.getPreguntas() != null) {
                 actualizarPreguntas(mapper, model);
-            }
+            }*/
 
             session.commit();
             log.info("Actualizado [{}]", model);

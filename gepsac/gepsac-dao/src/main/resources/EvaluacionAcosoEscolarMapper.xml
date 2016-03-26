@@ -5,6 +5,7 @@
     <resultMap id="recordEvaluacionAcosoEscolar" type="com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar" >
         <id column="cod_evaluacion" property="codigo" jdbcType="VARCHAR" />
         <result column="cod_plantilla" property="codigoPlantilla" jdbcType="DATE" />
+        <result column="fec_resuelto" property="fechaResuelto" jdbcType="DATE" />
         <result column="fec_evaluacion" property="fechaEvaluacion" jdbcType="DATE" />
         <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
         <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />
@@ -47,6 +48,7 @@
         SELECT
             cod_evaluacion,
             fec_evaluacion,
+            fec_resuelto,
             cod_alumno,
             cod_perfil,
             cod_estado
@@ -58,6 +60,7 @@
         SELECT
             cod_evaluacion,
             fec_evaluacion,
+            fec_resuelto,
             b.cod_alumno,
             b.nombres,
             b.apellido_pat,
@@ -102,6 +105,7 @@
         SELECT
             cod_evaluacion,
             fec_evaluacion,
+            fec_resuelto,
             b.cod_alumno,
             b.nombres,
             b.apellido_pat,
@@ -126,6 +130,7 @@
         SELECT
             cod_evaluacion,
             fec_evaluacion,
+            fec_resuelto,
             b.cod_alumno,
             b.nombres,
             b.apellido_pat,

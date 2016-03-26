@@ -24,7 +24,7 @@ public class Engines {
     public static Engine create(String rulesConfig, String factsConfig) {
         Engine instancia;
         try {
-            instancia = new ClipsEngine();
+            instancia = new DataBaseEngine(); //new ClipsEngine();
             instancia.loadRules(rulesConfig);
             instancia.loadFacts(factsConfig);
             return instancia;

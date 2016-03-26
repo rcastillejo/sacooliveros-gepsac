@@ -177,33 +177,27 @@ public class ExpertoService implements Experto {
     }
 
     @Override
-    public String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine engine) throws ExpertoServiceException {
+    public String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacion, Engine engine) throws ExpertoServiceException {
 
         try {
             AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
             ReglaDAO reglaDAO = SingletonDAOFactory.getDAOFactory().getReglaDAO();
+            
+            EvaluacionAcosoEscolar evaluacionAcosoEscolar = consultarResultadoAcosoEscolar(evaluacion.getCodigo());
 
             /**
              * 4.1.4.	El sistema carga las preguntas de la evaluación
              */
-            log.info("El sistema carga las preguntas de la evaluacion");
+            log.info("[{}] El sistema carga las preguntas de la evaluacion", evaluacionAcosoEscolar.getCodigo());
             List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
 
             /**
              * 4.1.5.	El sistema evalúa las respuestas de una evaluación de
              * acuerdo a las reglas.
              */
-            log.info("El sistema determina el perfil de acoso escolar de una evaluacion");
-            ResultadoInferencia resultado = null;   //reglaDAO.
-
-            List<Regla> listaReglaActiva = reglaDAO.listarReglaActiva();
-            if (listaReglaActiva != null && !listaReglaActiva.isEmpty()) {
-                for (Regla regla : listaReglaActiva) {
-                    
-                }
-            }
-            //(ResultadoInferencia) engine.evaluate(preguntas);
+            log.info("[{}] El sistema determina el perfil de acoso escolar de una evaluacion", evaluacionAcosoEscolar.getCodigo());
+            ResultadoInferencia resultado = (ResultadoInferencia) engine.evaluate(preguntas);
 
             /**
              * 4.1.6.	El sistema determina el perfil de acoso escolar de una
@@ -214,9 +208,9 @@ public class ExpertoService implements Experto {
 
             if (perfilResultado != null) {
                 perfil.setCodigo(perfilResultado);
-                log.info("El sistema concluyo el perfil '" + perfilResultado + "'");
+                log.info("[{}] El sistema concluyo el perfil '" + perfilResultado + "'", evaluacionAcosoEscolar.getCodigo());
             } else {
-                log.info("El sistema no encontro perfil");
+                log.info("[{}] El sistema no encontro perfil", evaluacionAcosoEscolar.getCodigo());
             }
             evaluacionAcosoEscolar.setPerfil(perfil);
 
@@ -226,7 +220,7 @@ public class ExpertoService implements Experto {
              */
             evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
 
-            log.info("El sistema graba la evaluación con el perfil en estado 'Evaluado'");
+            log.info("[{}] El sistema graba la evaluación con el perfil en estado 'Evaluado'", evaluacionAcosoEscolar.getCodigo());
             evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar);
 
             /**
@@ -236,10 +230,10 @@ public class ExpertoService implements Experto {
             alumnoEvaluado.setPerfil(evaluacionAcosoEscolar.getPerfil());
             alumnoEvaluado.setCodigoEstado(Estado.Alumno.EVALUADO);
 
-            log.info("El sistema actualiza el perfil del alumno evaluado");
+            log.info("[{}] El sistema actualiza el perfil del alumno evaluado", evaluacionAcosoEscolar.getCodigo());
             alumnoDao.actualizarEstadoAlumnoEvaluado(alumnoEvaluado);
 
-            log.debug("Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{perfil});
+            log.debug("[{}] Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), perfil});
 
             /**
              * 4.1.9.	El sistema muestra el mensaje [Evaluación realizada
@@ -249,7 +243,7 @@ public class ExpertoService implements Experto {
         } catch (ExpertoServiceException e) {
             throw e;
         } catch (Exception e) {
-            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacionAcosoEscolar.getCodigo());
+            throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacion.getCodigo());
         }
     }
 
