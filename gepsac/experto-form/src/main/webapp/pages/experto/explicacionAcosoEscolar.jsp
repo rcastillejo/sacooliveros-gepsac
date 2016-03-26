@@ -104,6 +104,7 @@
             elPerfil.append(mostrarPerfil);
 
             $("#perfiles").append(elPerfil);
+            $("#perfiles").append($("<br>"));
 
             if (max < porcentaje) {
                 max = porcentaje;
@@ -113,9 +114,9 @@
         }
 
         $("#lblPerfilMencionado").append(perfilMax);
-        $("#lblVecesPerfilMencionado").append(cantMax);
+        $("#lblVecesPerfilMencionado").append(parseInt(cantMax) > 1 ? (cantMax + ' veces') : (cantMax + ' vez'));
         $("#lblPorcentajePerfilMencionado").append(max + '%');
-        
+
         $("#" + perfilMax).addClass(perfilMax);
     }
 
@@ -128,6 +129,7 @@
         elPremisa.append(premisa);
 
         table.append(elPremisa);
+        table.append($("<br>"));
 
     }
 
@@ -138,19 +140,20 @@
         var elRegla = $("#divHidden").find("#lblRegla").clone();
 
         var formula = regla.codigo;
-        formula += " Si ";
+        formula += ": Si ";
         for (var i in regla.preguntas) {
 
             var preguntaRegla = regla.preguntas[i];
-            formula += preguntaRegla.pregunta.enunciado;
+            formula += preguntaRegla.pregunta.enunciado.toUpperCase();
             if (i < (regla.preguntas.length - 1)) {
                 formula += " y ";
             }
         }
-        formula += " entonces " + regla.perfil.nombre;
+        formula += " entonces " + regla.perfil.nombre.toUpperCase();
 
         elRegla.append(formula);
         table.append(elRegla);
+        table.append($("<br>"));
     }
 
     function cargarPregunta(json) {
@@ -183,9 +186,9 @@
     <div id="dvData">
 
         <div id="divHidden" style="display: none">
-            <label id="lblPerfil"></label>
-            <label id="lblPremisa"></label>
-            <label id="lblRegla"></label>
+            <label id="lblPerfil" style="font-weight: bold"></label>
+            <label id="lblPremisa" style="font-weight: bold"></label>
+            <label id="lblRegla" style="font-weight: bold"></label>
         </div>
 
         <table id="tblExplicacion">
@@ -232,11 +235,13 @@
                 <td  colspan="2">                    
 
                     <!--<p>Para obtener el resultado anterior se ha sumado la cantidad de aciertos que ha tenido para cada perfil, se concluye las siguientes premisas:</p>-->
-                    <p>El sistema analiza las conclusiones de este conjunto de reeglas y busca las apariciones de</p>
-                    <p>aquellos perfiles a evaluar teniendo un conjunto de perfiles se calcula el porcentaje de</p>
-                    <p>aparicion en el conjunto de reglas y finalmente llegaria al resultaado mostrado</p>
-                    <p>Por ejemplo, el perfil <label id="lblPerfilMencionado"></label> se repite <label id="lblVecesPerfilMencionado"></label> por lo que su porcentaje de aparicion es de <label id="lblPorcentajePerfilMencionado"></label></p>
-                    <p>dentro del total de reglas que contienen lo perfiles</p>
+                    <p>El sistema analiza las conclusiones de este conjunto de reglas y busca las apariciones de
+                        aquellos perfiles a evaluar teniendo un conjunto de perfiles se calcula el porcentaje de
+                        aparicion en el conjunto de reglas y finalmente llegaria al resultado mostrado
+                        Por ejemplo, el perfil <label id="lblPerfilMencionado" style="font-weight: bold"></label> se repite 
+                        <label id="lblVecesPerfilMencionado" style="font-weight: bold"></label> por lo que su porcentaje de aparicion es de 
+                        <label id="lblPorcentajePerfilMencionado" style="font-weight: bold"></label>
+                        dentro del total de reglas que lo contienen perfiles</p>
 
                 </td>
             </tr>

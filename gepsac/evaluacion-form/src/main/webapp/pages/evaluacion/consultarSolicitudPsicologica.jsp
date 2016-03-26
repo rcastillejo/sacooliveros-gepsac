@@ -7,14 +7,14 @@
     var action = '/RegistrarSolicitudPsicologica.do';
 
     var serviceIP = "<%=request.getLocalAddr()%>";
-    
+
     var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/evaluacion";
     var codigoSolicitud;
     var alumnos = [];
 
     $(document).ready(function () {
         codigoSolicitud = getRequestParameter("codigo");
-        
+
         init();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -23,37 +23,9 @@
             location.assign("<%=request.getContextPath()%>" + action + '?method=init');
         });
 
-        //Buscar al Alumno Nuevo
-        $("#btnBuscarAlumnoNuevo").click(function (e) {
-            e.preventDefault();
-            fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/experto/buscarAlumnoNuevo.jsp',
-                    900, 600, null);
-        });
-
-        $("#btnGuardar").click(function (e) {
-            e.preventDefault();
-            editarSolictudPsicologica();
-        });
-
-
-        //Buscar al Alumno Nuevo
-        $("#btnBuscarAlumno").click(function (e) {
-            e.preventDefault();
-            fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumno.jsp',
-                    900, 600, null);
-        });
-
-        $("#btnBuscarAlumnoInvolucrado").click(function (e) {
-            e.preventDefault();
-            fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/evaluacion/buscarAlumnoInvolucrado.jsp',
-                    900, 600, null);
-        });
 
     });
-    
+
     function getRequestParameter(name) {
         if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
             return decodeURIComponent(name[1]);
@@ -69,59 +41,99 @@
                 $("#alumnosInvolucrados").hide();
             }
         });
-        
-        initEditar(codigoSolicitud);
-        
+
+        initConsultar(codigoSolicitud);
+
     }
-    
-    function initEditar(codigo) {
+
+    function initConsultar(codigo) {
         console.log('initEditar', codigo);
         $.ajax({
             type: "GET",
             dataType: 'json',
-            url: serviceUrl + '/solicitudPsicologica/editar=' + codigo
+            url: serviceUrl + '/solicitudPsicologica/consultar=' + codigo
         }).done(function (objeto) {
             console.log('objeto', objeto);
             cargar(objeto);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, null, "MENSAJE");
+            fn_mdl_alert(error.responseText, function(){
+                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+            }, "MENSAJE");
         });
     }
-    
-    
+
+
     function cargar(objeto) {
         $("#hdnCodigo").val(objeto.codigo);
-        
-        
-        if(objeto.fechaSolicitud){
-            $("#fechaRegistro").val(getDateString(objeto.fechaSolicitud));
+        var alumnosInvolucrados;
+        $.ajax({
+            async: false,
+            type: "POST",
+            dataType: 'json',
+            url: "<%=request.getContextPath()%>" + '/EvaluarPostulante.do?method=initBuscarAlumnoNuevo'
+        }).done(function (listado) {
+            console.log('listado', listado);
+            alumnosInvolucrados = listado;
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert('Ocurrio un error al consultar los alumnos involucrados', function(){
+                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+            }, "MENSAJE");
+        });
+
+        console.log('involucrados', alumnosInvolucrados);
+
+        if (objeto.fechaSolicitud) {
+            $("#fechaRegistro").val(getDateString(new Date(objeto.fechaSolicitud)));
         }
-                
+
         //Seleccionando el motivo
-        $("#motivoSolicitud input[name='motivo'][value='" + objeto.motivo + "']").prop('selected', true);
-        
+        $("#motivoSolicitud option[value='" + objeto.motivo + "']").prop('selected', 'selected');
+
         $("#descripcionSolicitud").val(objeto.descripcion);
-                
+
+
+        var alumnosWS = [];
         //Agregando Alumnos
         for (var i in objeto.alumnoInvolucrado) {
-            var alumno = objeto.alumnoInvolucrado[i];            
-            if(alumno.dirigido){
-                //Cargando Alumno Dirigido
-                cargarAlumno($("#tblAlumnoDirigido"), alumno);
-                alumnos.push({
-                    alumno: alumno,
-                    dirigido: false
-                });
-            }else{
-                //Cargando Alumno Involucrado
-                cargarAlumnoInvolucrado(alumno, i);                
-                alumnos.push({
-                    alumno: alumno,
-                    dirigido: false
-                });
+            var alumno = objeto.alumnoInvolucrado[i];
+            if (alumno.dirigido) {
+                var alumnoWS = obtenerInvolucrado(alumnosInvolucrados, alumno);
+                if (alumnoWS) {
+                    //Cargando Alumno Dirigido
+                    cargarAlumnoDirigido(alumnoWS);
+                }
+
+            } else {
+                var alumnoWS = obtenerInvolucrado(alumnosInvolucrados, alumno);
+                alumnosWS.push(alumnoWS);
             }
         }
+        if (alumnosWS.length > 0) {         
+            //Cargando Alumnos Involucrados
+            cargarAlumnoInvolucrados(alumnosWS);
+        }
+        
+        if(objeto.motivo === 1){            
+            $("#alumnosInvolucrados").show();   
+        }else{
+            $("#alumnosInvolucrados").hide();   
+        }
+    }
+
+    function obtenerInvolucrado(alumnosInvolucrados, alumno) {
+
+        var alumnoWS;
+        for (var j in alumnosInvolucrados) {
+            var involucrado = alumnosInvolucrados[j];
+            if (involucrado && involucrado.codigo === alumno.alumno.codigo) {
+                alumnoWS = involucrado;
+                break;
+            }
+        }
+        return alumnoWS;
+
     }
 
     function editarSolictudPsicologica() {
@@ -138,7 +150,9 @@
             url: serviceUrl + '/solicitudPsicologica'
         }).done(function (result) {
             console.log('result', result);
-            fn_mdl_alert(result, function () {}, "CONFIRMACION");
+            fn_mdl_alert(result, function () {                
+                location.assign("<%=request.getContextPath()%>" + action + '?method=init');
+            }, "CONFIRMACION");
         }).fail(function (error, status, a) {
             console.log('error', error, 'status', status, 'a', a);
             if (error && error.status === 400) {
@@ -345,19 +359,6 @@
 
         table.find("tbody").append(detalle);
 
-        var chkIdQuitar = detalle.find("#chkIdQuitar");
-
-        chkIdQuitar.click(function (e) {
-            e.preventDefault();
-            fn_mdl_confirma("¿Está seguro de eliminar el alumno involucrado?<br/>" + json.nombres + ' ' + json.apellidoPaterno + ' ' + json.apellidoMaterno,
-                    function () {
-                        detalle.remove();
-                        var resultado = quitarAlumno(json);
-                        console.log('resultado de la eliminacion', resultado, 'alumnos', alumnos);
-                    }, null, null, "Confirmacion");
-            return false;
-        });
-
     }
 
     function getDateString(fechaEvaluacion) {
@@ -370,7 +371,7 @@
         var fechaActual = twoDigitDate + '/' + twoDigitMonth + '/' + fechaEvaluacion.getFullYear();
         return fechaActual;
     }
-    
+
 </script>
 
 <div class="div-pagina">
@@ -382,9 +383,9 @@
             <legend>Datos de la Solicitud</legend>
             <table id="tblSolicitud">
                 <tr>
-                    <input id="hdnCodigo" type="hidden" class="inputValue" data-name="codigo">
-                    <td>Fecha Registro</td><td>:</td> 
-                    <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
+                <input id="hdnCodigo" type="hidden" class="inputValue" data-name="codigo">
+                <td>Fecha Registro</td><td>:</td> 
+                <td><input id="fechaRegistro" type="text" disabled="true" size="10" ></td>
                 </tr>
                 <tr>
                     <td>Solicitante</td><td>:</td>
@@ -402,7 +403,7 @@
                 </tr>
                 <tr>
                     <td>Motivo</td><td>:</td>
-                    <td><select id="motivoSolicitud" class="inputValue" data-name="motivo">
+                    <td><select id="motivoSolicitud" class="inputValue" data-name="motivo" disabled="true">
                             <option value="0" selected="selected">-- Seleccionar --</option>    
                             <option value="1">Agresi&oacute;n</option>
                             <option value="2">Bajo Rendimiento</option>
@@ -411,7 +412,7 @@
                 </tr>
                 <tr>
                     <td>Descripci&oacute;n</td><td>:</td>
-                    <td><textarea id="descripcionSolicitud" class="inputValue" data-name="descripcion" rows="4" cols="50" maxlength="200"></textarea></td>                   
+                    <td><textarea id="descripcionSolicitud" class="inputValue" data-name="descripcion" rows="4" cols="50" maxlength="200" disabled="true"></textarea></td>                   
                 </tr>
             </table>
         </fieldset>
@@ -422,7 +423,6 @@
                 <tr>
                     <td>C&oacute;digo</td><td>:</td>
                     <td><input id="codigoAlumno" type="text" disabled="true"  data-name="alumno.codigo"></td>
-                    <td colspan="2"><input type="button" id="btnBuscarAlumno" value="Buscar Alumno" /></td>
                 </tr>
                 <tr>
                     <td>Alumno</td><td>:</td> 
@@ -458,22 +458,16 @@
                         <td>
                             <label id="lblGrado" ></label>
                         </td>
-                        <td>
-                            <a id="chkIdQuitar" href="<%=request.getContextPath()%>" >
-                                Quitar
-                            </a>
-                        </td>
                     </tr>
                 </table>
             </div>
-            <input type="button" id="btnBuscarAlumnoInvolucrado" value="Agregar Alumno Involucrado">
+                                
             <table id="tblDetalle" border="0" cellpadding="3" cellspacing="0" class="css_grilla">
                 <thead>    
                     <tr>
                         <td>C&oacute;digo</td> 
                         <td>Alumno</td> 
                         <td>Grado</td> 
-                        <td>Opci&oacute;n</td> 
                     </tr> </thead>
                 <tbody></tbody>
             </table>
@@ -491,7 +485,6 @@
         </div>  
     </div>
     <div style="align-content: center; text-align: center">
-        <input type="button" id="btnGuardar" value="Guardar" />
-        <input type="button" id="btnCancelar" value="Cancelar" />
+        <input type="button" id="btnCancelar" value="Cerrar" />
     </div>
 </div>

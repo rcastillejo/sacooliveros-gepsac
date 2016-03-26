@@ -827,12 +827,12 @@ CREATE TABLE tp_pregunta_evaluacion_regla
   cod_pregunta character varying(15) NOT NULL,
   secuencia int not null,
   
-  CONSTRAINT pk_tp_regla_pregunta_evaluacion PRIMARY KEY (cod_regla, cod_pregunta, cod_plantilla, secuencia),
-  CONSTRAINT fk_tp_regla_pregunta_tp_evaluacion FOREIGN KEY (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia)
-      REFERENCES tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT pk_tp_regla_pregunta_evaluacion PRIMARY KEY (cod_regla, cod_evaluacion, cod_plantilla, cod_pregunta, secuencia),
   CONSTRAINT fk_tp_regla_pregunta_tp_regla FOREIGN KEY (cod_regla)
       REFERENCES tp_regla_acoso_escolar (cod_regla) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tp_regla_pregunta_tp_evaluacion FOREIGN KEY (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia)
+      REFERENCES tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
 WITH (

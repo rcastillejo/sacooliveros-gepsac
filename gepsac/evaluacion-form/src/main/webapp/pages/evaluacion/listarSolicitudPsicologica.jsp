@@ -188,7 +188,7 @@
             <table>
                 <tr>
                     <td>C&oacute;digo</td><td>:</td>
-                    <td><input id="codigoSolicitud" type="text" disabled="true" class="inputValue"></td>
+                    <td><input id="codigoSolicitud" type="text" class="inputValue"></td>
                     <td>Motivo</td><td>:</td>
                     <td><select id="motivoSolicitud" data-name="motivo">
                             <option value="" selected="selected">-- Seleccionar --</option>    
@@ -199,9 +199,10 @@
                     <td>Estado</td><td>:</td>
                     <td><select id="estadoSolicitud" data-name="estado">
                             <option value="" selected="selected">-- Todos --</option>   
-                            <option value="EP">En proceso</option>
-                            <option value="PA">Por Atender</option>
-                            <option value="AT">Atendido</option>
+                            <option value="SPS0001">Pendiente</option>
+                            <option value="SPS0002">En Evaluacion</option>
+                            <option value="SPS0003">Por Atender</option>
+                            <option value="SPS0004">Atendido</option>
                         </select></td>
                     <td><input type="button" id="btnBuscar" value="Buscar"/></td>
                 </tr>
