@@ -18,12 +18,22 @@ import java.util.List;
 public class EvaluacionAcosoEscolar extends Model {
 
     private String codigoPlantilla;
+    private String codigoSolicitud;
     private Date fechaRegistro;
     private Date fechaResuelto;
     private Date fechaEvaluacion;
     private Alumno alumno;
     private List<PreguntaEvaluacion> preguntas;
     private Perfil perfil;
+
+    public String getCodigoSolicitud() {
+        return codigoSolicitud;
+    }
+
+    public void setCodigoSolicitud(String codigoSolicitud) {
+        this.codigoSolicitud = codigoSolicitud;
+    }
+    
 
     public String getCodigoPlantilla() {
         return codigoPlantilla;

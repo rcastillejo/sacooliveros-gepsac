@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
+import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.exception.DAOException;
 import com.sacooliveros.gepsac.dao.exception.ForeignKeyException;
 import com.sacooliveros.gepsac.model.comun.Estado;
@@ -18,12 +19,14 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
+import com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.ExplicacionResultado;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import com.sacooliveros.gepsac.model.experto.PreguntaRegla;
 import com.sacooliveros.gepsac.model.experto.Regla;
+import com.sacooliveros.gepsac.model.util.State;
 import com.sacooliveros.gepsac.model.util.StateUtil;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
 import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
@@ -236,6 +239,16 @@ public class ExpertoService implements Experto {
 
             log.debug("[{}] Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), perfil});
 
+            if(evaluacionAcosoEscolar.getCodigoSolicitud() != null){
+                log.debug("[{}] Evaluacion de acoso escolar, proviene de una solicitud [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
+                SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+                SolicitudPsicologica solicitudPsicologica = new SolicitudPsicologica();
+                solicitudPsicologica.setCodigo(evaluacionAcosoEscolar.getCodigoSolicitud());
+                solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+                log.debug("[{}] Se actualizara la solicitud en 'por atender' [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
+                solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+            }
+            
             /**
              * 4.1.9.	El sistema muestra el mensaje [Evaluación realizada
              * satisfactoriamente] en los registros del sistema.
@@ -247,7 +260,7 @@ public class ExpertoService implements Experto {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacion.getCodigo());
         }
     }
-
+    
     @Override
     public ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException {
         ExplicacionResultado resultado;

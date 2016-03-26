@@ -4,7 +4,8 @@
     
     <resultMap id="recordEvaluacionAcosoEscolar" type="com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar" >
         <id column="cod_evaluacion" property="codigo" jdbcType="VARCHAR" />
-        <result column="cod_plantilla" property="codigoPlantilla" jdbcType="DATE" />
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="cod_plantilla" property="codigoPlantilla" jdbcType="VARCHAR" />
         <result column="fec_resuelto" property="fechaResuelto" jdbcType="DATE" />
         <result column="fec_evaluacion" property="fechaEvaluacion" jdbcType="DATE" />
         <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
@@ -47,6 +48,7 @@
     <select id="query" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_solicitud,
             cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
@@ -60,6 +62,7 @@
     <select id="get" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_solicitud,
             cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
@@ -106,6 +109,7 @@
     <select id="queryEstado" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_solicitud,
             cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
@@ -132,6 +136,7 @@
     <select id="queryEvaluadoResuelto" resultMap="recordEvaluacionAcosoEscolar">
         SELECT
             cod_evaluacion,
+            cod_solicitud,
             cod_plantilla,
             fec_evaluacion,
             fec_resuelto,
@@ -208,9 +213,9 @@
   
     <insert id="insert">
         Insert into tp_evaluacion_acoso_escolar 
-            (cod_evaluacion, cod_plantilla, cod_alumno, cod_estado)
+            (cod_evaluacion, cod_plantilla, cod_solicitud, cod_alumno, cod_estado)
         values
-            (#{codigo},#{codigoPlantilla},#{alumno.codigo},#{estado.codigo})
+            (#{codigo},#{codigoPlantilla},#{codigoSolicitud}, #{alumno.codigo},#{estado.codigo})
     </insert>
   
     <insert id="insertPreguntaEvaluacion">

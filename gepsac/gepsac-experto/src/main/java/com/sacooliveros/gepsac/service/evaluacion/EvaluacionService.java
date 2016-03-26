@@ -151,7 +151,7 @@ public class EvaluacionService implements Evaluacion {
                     solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
                     log.info("Generar evaluaciones de Acoso Escolar para los alumnos a evaluar [{}]", alumnosAEvaluar.size());
 
-                    generarEvaluacionesAcosoEscolar(alumnosAEvaluar);
+                    generarEvaluacionesAcosoEscolar(solicitudPsicologica.getCodigo(), alumnosAEvaluar);
                 }
             } else {
 
@@ -175,7 +175,7 @@ public class EvaluacionService implements Evaluacion {
         }
     }
 
-    private void generarEvaluacionesAcosoEscolar(List<SolicitudAlumno> alumnosSolicitud) {
+    private void generarEvaluacionesAcosoEscolar(String codigoSolicitud, List<SolicitudAlumno> alumnosSolicitud) {
         EvaluacionAcosoEscolar evaluacion;
 
         EvaluacionAcosoEscolarDAO evaluacionAcosoEscolarDAO = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
@@ -184,6 +184,7 @@ public class EvaluacionService implements Evaluacion {
             evaluacion = evaluacionAcosoEscolarDAO.obtenerDesdePlantillaVigente();
             List<PreguntaEvaluacionAlternativa> preguntaAlternativas = evaluacionAcosoEscolarDAO.obtenerPreguntaDesdePlantilla(evaluacion.getCodigoPlantilla());
             evaluacion.setCodigo(evaluacionAcosoEscolarDAO.getCodigo());
+            evaluacion.setCodigoSolicitud(codigoSolicitud);
             evaluacion.setFechaRegistro(new Date());
             evaluacion.setAlumno(solicitudAlumno.getAlumno());
             evaluacion.setCodigoEstado(State.EvaluacionAcosoEscolar.POR_RESOLVER);
