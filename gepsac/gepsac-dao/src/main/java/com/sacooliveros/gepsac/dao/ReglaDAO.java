@@ -30,4 +30,7 @@ public interface ReglaDAO extends BaseDao<Regla> {
     void actualizarPreguntas(Regla regla);
 
     void registrarPreguntas(Regla regla);*/
+    
+    List<String> listarExplicacionPremisas(String codigoEvaluacion);
+    List<String> listarExplicacionReglas(String codigoEvaluacion);
 }

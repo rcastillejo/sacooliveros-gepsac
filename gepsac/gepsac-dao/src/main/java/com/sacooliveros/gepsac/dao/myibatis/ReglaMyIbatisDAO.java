@@ -373,4 +373,40 @@ public class ReglaMyIbatisDAO extends GenericMyIbatisDAO implements ReglaDAO {
 
     }
 
+    @Override
+    public List<String> listarExplicacionPremisas(String codigoEvaluacion) {
+        SqlSession session = null;
+        ReglaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(ReglaMapper.class);
+            List listado = mapper.queryExplicacionPremisas(codigoEvaluacion);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<String> listarExplicacionReglas(String codigoEvaluacion) {
+        SqlSession session = null;
+        ReglaMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(ReglaMapper.class);
+            List listado = mapper.queryExplicacionReglas(codigoEvaluacion);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
 }

@@ -35,10 +35,10 @@ import com.sacooliveros.gepsac.service.experto.rna.instance.InstanciaFactory;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
 import com.sacooliveros.gepsac.service.experto.se.ResultadoInferencia;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.TreeSet;
 import java.util.List;
-import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import weka.classifiers.Classifier;
@@ -239,7 +239,7 @@ public class ExpertoService implements Experto {
 
             log.debug("[{}] Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), perfil});
 
-            if(evaluacionAcosoEscolar.getCodigoSolicitud() != null){
+            if (evaluacionAcosoEscolar.getCodigoSolicitud() != null) {
                 log.debug("[{}] Evaluacion de acoso escolar, proviene de una solicitud [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
                 SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
                 SolicitudPsicologica solicitudPsicologica = new SolicitudPsicologica();
@@ -248,7 +248,7 @@ public class ExpertoService implements Experto {
                 log.debug("[{}] Se actualizara la solicitud en 'por atender' [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
                 solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
             }
-            
+
             /**
              * 4.1.9.	El sistema muestra el mensaje [Evaluación realizada
              * satisfactoriamente] en los registros del sistema.
@@ -260,7 +260,7 @@ public class ExpertoService implements Experto {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacion.getCodigo());
         }
     }
-    
+
     @Override
     public ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException {
         ExplicacionResultado resultado;
@@ -268,15 +268,25 @@ public class ExpertoService implements Experto {
         try {
             AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionAcosoEscolarDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+            ReglaDAO reglaDao = SingletonDAOFactory.getDAOFactory().getReglaDAO();
 
             EvaluacionAcosoEscolar evaluacionAcosoEscolar = evaluacionDao.obtener(codigoEvaluacion);
 
-            List<PreguntaEvaluacion> preguntas = evaluacionDao.listarPreguntaAfirmativa(evaluacionAcosoEscolar.getCodigo());
+            List<String> premisas = reglaDao.listarExplicacionPremisas(codigoEvaluacion);
+            List<String> codigoReglas = reglaDao.listarExplicacionReglas(codigoEvaluacion);
 
             resultado = new ExplicacionResultado();
             resultado.setAlumno(evaluacionAcosoEscolar.getAlumno());
             resultado.setPerfil(evaluacionAcosoEscolar.getPerfil());
-            resultado.setPreguntas(preguntas);
+            resultado.setPremisas(premisas);
+
+            List<Regla> reglas = new ArrayList<Regla>();
+            for (String codigoRegla : codigoReglas) {
+                Regla regla = obtenerRegla(codigoRegla);
+                reglas.add(regla);
+            }
+
+            resultado.setReglas(reglas);
 
             return resultado;
         } catch (ExpertoServiceException e) {

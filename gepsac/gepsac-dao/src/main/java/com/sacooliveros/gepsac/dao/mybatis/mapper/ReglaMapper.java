@@ -38,5 +38,8 @@ public interface ReglaMapper {
     public List<Perfil> queryPerfil();
     
     public List<Regla> queryReglaActiva();
+    
+    public List<String> queryExplicacionPremisas(@Param("codigoEvaluacion") String codigo);
+    public List<String> queryExplicacionReglas(@Param("codigoEvaluacion") String codigo);
 
 }

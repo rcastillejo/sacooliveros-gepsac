@@ -163,6 +163,19 @@
         Select count(*) from tp_pregunta_evaluacion_regla
         Where cod_regla=#{codigo}
     </select> 
+  
+    <select id="queryExplicacionPremisas" resultType="string">
+        Select distinct enunciado 
+        from tp_pregunta_evaluacion_regla a
+        inner join tp_pregunta b on b.cod_pregunta = a.cod_pregunta
+        Where cod_evaluacion=#{codigoEvaluacion}
+    </select> 
+  
+    <select id="queryExplicacionReglas" resultType="string">
+        Select distinct a.cod_regla
+        from tp_pregunta_evaluacion_regla a
+        Where cod_evaluacion=#{codigoEvaluacion}
+    </select> 
        
     
     <delete id="deletePreguntas">

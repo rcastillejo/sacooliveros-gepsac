@@ -32,16 +32,9 @@ public class DataBaseEngine implements Engine<PreguntaEvaluacion, ResultadoInfer
 
     private static final double LIMIT_PERFIL_ACTIVE = 0.5;
     private static final Logger log = LoggerFactory.getLogger(DataBaseEngine.class);
-    private final Environment clips;
     private List<Regla> reglas;
 
     public DataBaseEngine() {
-        try {
-            clips = new Environment();
-            log.debug("Enviroment cargado [{}]", clips);
-        } catch (Exception e) {
-            throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No se pudo cargar el entorno", e);
-        }
     }
 
     @Override
@@ -158,9 +151,6 @@ public class DataBaseEngine implements Engine<PreguntaEvaluacion, ResultadoInfer
 
     @Override
     public void reset() {
-        if (clips != null) {
-            clips.reset();
-        }
     }
 
 }
