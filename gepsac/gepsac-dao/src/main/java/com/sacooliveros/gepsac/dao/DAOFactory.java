@@ -26,4 +26,6 @@ public interface DAOFactory {
     SolicitudPsicologicaDAO getSolicitudPsicologicaDAO();
     
     ReglaDAO getReglaDAO();
+    
+    ConfigDAO getConfigDAO();
 }

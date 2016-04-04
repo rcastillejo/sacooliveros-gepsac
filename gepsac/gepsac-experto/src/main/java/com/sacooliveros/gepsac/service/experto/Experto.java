@@ -21,11 +21,15 @@ import java.util.List;
  * @author Ricardo
  */
 public interface Experto {
-
+    interface Config{
+        String MINIMO_ALUMNO_EVALUADOS = "service.cus22.evaluadoMinimo";
+    }
+    
     interface Mensaje {
 
         String EVALUAR_ALUMNO_POSTULANTE = "La evaluación fue realizada con éxito [{0}]";
         String EVALUAR_ACOSO_ESCOLAR = "Evaluación realizada satisfactoriamente [{0}]";
+        String SOLICITUD_POR_ATENDER = "La Solicitud Psicológica se encuentra por atender [{0}]";
         String CONFIGURAR = "Los cambios se grabaron con éxito [{0}]";
         String PROGRAMAR = "La programación fue satisfactoria [{0}]";
         String AGREGAR_REGLA = "El registro se realizo con exito";
@@ -48,9 +52,11 @@ public interface Experto {
             String GENERAL = "No se pudo realizar la  evaluación [{0}]";
             String LISTAR = "No se encuentra planes";
             String EVALUAR = "Error al evaluar alumno postulante [{0}]";
-            String NO_EXISTE_ALUMNO_EVALUADOS = "No existen alumnos evaluados";
+            String NO_EXISTE_ALUMNO_EVALUADOS = "No existe suficiente información de alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "No existen evaluaciones de acoso escolar resuelto o evaluadas";
+            
+            String SOLICITUD_CON_EVALUACIONES_PENDIENTES_EVALUAR = "Existen Evaluaciones de la Solicitud Psicológica pendientes de Evaluar";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "Error al consultar evaluaciones de acoso escolar";
             String OBTENER_REGLA_ACOSO_ESCOLAR = "Error al consultar regla de acoso escolar";
@@ -82,6 +88,8 @@ public interface Experto {
     List<EvaluacionAcosoEscolar> listarEvaluacionAcosoEscolarEvaluadoResuelto() throws ExpertoServiceException;
 
     String evaluarRespuestaAcosoEscolar(EvaluacionAcosoEscolar evaluacionAcosoEscolar, Engine<Pregunta, ResultadoInferencia> engine) throws ExpertoServiceException;
+
+    String verificarSolicitudPsicologica(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException;
 
     ExplicacionResultado generarExplicacionResultado(String codigoEvaluacion) throws ExpertoServiceException;
 

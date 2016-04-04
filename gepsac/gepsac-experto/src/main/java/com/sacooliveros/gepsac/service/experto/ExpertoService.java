@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.service.experto;
 
 import com.sacooliveros.gepsac.dao.AlumnoDAO;
+import com.sacooliveros.gepsac.dao.ConfigDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionPostulanteDAO;
 import com.sacooliveros.gepsac.dao.ReglaDAO;
@@ -67,14 +68,19 @@ public class ExpertoService implements Experto {
         Alumno alumno = evaluacion.getAlumno();
 
         try {
+            ConfigDAO configDao = SingletonDAOFactory.getDAOFactory().getConfigDAO();
             AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionPostulanteDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionPostulanteDAO();
             Instancia instancia = InstanciaFactory.create();
 
             //Cargar alumnos evaluados
             Instances alumnosEvaluados = instancia.getTrainInstances();
-
-            if (alumnosEvaluados.numInstances() == 0) {
+            int cantAlumnosEvaluados = alumnosEvaluados.numInstances();
+            String minimoEvaluados = configDao.obtener(Config.MINIMO_ALUMNO_EVALUADOS);
+            int alumnosEvaluadosMinimo = Integer.parseInt(minimoEvaluados);
+            log.debug("Alumno evaluados [cantidad={}, minimoRequerido={}]", new Object[]{cantAlumnosEvaluados, alumnosEvaluadosMinimo});
+            
+            if (cantAlumnosEvaluados < alumnosEvaluadosMinimo) {
                 throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.NO_EXISTE_ALUMNO_EVALUADOS);
             }
 
@@ -106,6 +112,9 @@ public class ExpertoService implements Experto {
 
             return evaluacion;
 
+        } catch (ValidatorException e) {
+            log.error(e.getMessage(), e);
+            throw e;
         } catch (ExpertoServiceException e) {
             log.error(e.getMessage(), e);
             throw e;
@@ -239,16 +248,6 @@ public class ExpertoService implements Experto {
 
             log.debug("[{}] Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), perfil});
 
-            if (evaluacionAcosoEscolar.getCodigoSolicitud() != null) {
-                log.debug("[{}] Evaluacion de acoso escolar, proviene de una solicitud [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
-                SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
-                SolicitudPsicologica solicitudPsicologica = new SolicitudPsicologica();
-                solicitudPsicologica.setCodigo(evaluacionAcosoEscolar.getCodigoSolicitud());
-                solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
-                log.debug("[{}] Se actualizara la solicitud en 'por atender' [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
-                solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
-            }
-
             /**
              * 4.1.9.	El sistema muestra el mensaje [Evaluación realizada
              * satisfactoriamente] en los registros del sistema.
@@ -259,6 +258,30 @@ public class ExpertoService implements Experto {
         } catch (Exception e) {
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR_RESPUESTA_ACOSO_ESCOLAR, e, evaluacion.getCodigo());
         }
+    }
+
+    @Override
+    public String verificarSolicitudPsicologica(EvaluacionAcosoEscolar evaluacionAcosoEscolar) throws ExpertoServiceException {
+        log.debug("[{}] Evaluacion de acoso escolar, proviene de una solicitud [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
+        SolicitudPsicologicaDAO solicitudPsicologicaDAO = SingletonDAOFactory.getDAOFactory().getSolicitudPsicologicaDAO();
+        EvaluacionAcosoEscolarDAO evaluacionDAO = SingletonDAOFactory.getDAOFactory().getEvaluacionAcosoEscolarDAO();
+        String codigoSolicitud = evaluacionAcosoEscolar.getCodigoSolicitud();
+        
+        List<EvaluacionAcosoEscolar> evaluacionesPorSolicitud = evaluacionDAO.listarEvaluacionPorSolicitud(codigoSolicitud);
+        
+        for (EvaluacionAcosoEscolar evaluacion : evaluacionesPorSolicitud) {
+            if(!evaluacion.getEstado().getCodigo().equals(State.EvaluacionAcosoEscolar.EVALUADO)){
+                throw new ValidatorException(Error.Codigo.GENERAL, Error.Mensaje.SOLICITUD_CON_EVALUACIONES_PENDIENTES_EVALUAR);
+            }
+        }
+        
+        SolicitudPsicologica solicitudPsicologica = new SolicitudPsicologica();
+        solicitudPsicologica.setCodigo(codigoSolicitud);
+        solicitudPsicologica.setCodigoEstado(State.SolicitudPsicologica.POR_ATENDER);
+        log.debug("[{}] Se actualizara la solicitud en 'por atender' [{}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), evaluacionAcosoEscolar.getCodigoSolicitud()});
+        solicitudPsicologicaDAO.actualizarEstado(solicitudPsicologica);
+
+        return MessageFormat.format(Mensaje.SOLICITUD_POR_ATENDER, new Object[]{solicitudPsicologica.getCodigo()});
     }
 
     @Override

@@ -135,7 +135,9 @@ INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.sexo.Feme
 INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.nivelEscolar.Primaria', '1', NULL);
 INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.nivelEscolar.Secundaria', '2', NULL);
 
-INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0000', 'No Aplica', 'No tiene perfil asignado', NULL, '2015-11-26 21:10:26.977', NULL, NULL);
+INSERT INTO tp_config (parametro, valor, descripcion) VALUES ('service.cus22.evaluadoMinimo', '50', NULL);
+
+INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0000', 'No Identificado', 'No tiene perfil asignado', NULL, '2015-11-26 21:10:26.977', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0001', 'Agresor', 'Agresor', NULL, '2015-11-26 21:10:26.977', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0002', 'Victima', 'Victima', NULL, '2015-11-26 21:10:46.65', NULL, NULL);
 INSERT INTO tp_perfil (cod_perfil, nom_perfil, des_perfil, usu_crea, fec_crea, usu_modif, fec_modif) VALUES ('P0003', 'Testigo', 'Testigo', NULL, '2015-11-26 21:10:58.444', NULL, NULL);
@@ -419,6 +421,7 @@ insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta,
 insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0014', 1, false);
 insert into tp_pregunta_evaluacion (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado) values ('EV20151205203904', 'PTEV0001', 'PR0015', 1, false);
 
+--Deurapacion
 
-
--- Reglas
+delete from tp_pregunta_evaluacion where cod_evaluacion in ('EV20151205203901', 'EV20151205203902', 'EV20151205203903', 'EV20151205203904');
+delete from tp_evaluacion_acoso_escolar where cod_evaluacion in ('EV20151205203901', 'EV20151205203902', 'EV20151205203903','EV20151205203904');

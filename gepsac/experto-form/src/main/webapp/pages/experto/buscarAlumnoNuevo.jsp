@@ -45,7 +45,7 @@
         }).fail(function (error) {
             console.log('error', error);
             //$("#mensajeError").append(error);
-            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "MENSAJE");
+            fn_mdl_alert(error.responseText, parent.noExisteAlumnoPostulante, "MENSAJE");
         });
     }
 

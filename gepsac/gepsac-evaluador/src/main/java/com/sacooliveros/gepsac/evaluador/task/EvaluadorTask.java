@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
 import com.sacooliveros.gepsac.service.experto.se.Engines;
 import java.util.concurrent.BlockingQueue;
@@ -28,8 +29,8 @@ public class EvaluadorTask implements Runnable {
     protected int workerId;
     protected BlockingQueue<Mensaje> colaEvaluacion;
     protected Experto service;
-    
-    public void configure(int workerId, BlockingQueue<Mensaje> colaEvaluacion){
+
+    public void configure(int workerId, BlockingQueue<Mensaje> colaEvaluacion) {
         this.workerId = workerId;
         this.colaEvaluacion = colaEvaluacion;
         this.service = new ExpertoService();
@@ -60,11 +61,18 @@ public class EvaluadorTask implements Runnable {
             log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
             Engine engine = Engines.create();
 
-            EvaluacionAcosoEscolar evaluacion = (EvaluacionAcosoEscolar) mensaje.getRequest();
+            EvaluacionAcosoEscolar evaluacionAcosoEscolar = (EvaluacionAcosoEscolar) mensaje.getRequest();
 
-            String msg = service.evaluarRespuestaAcosoEscolar(evaluacion, engine);
-
+            String msg = service.evaluarRespuestaAcosoEscolar(evaluacionAcosoEscolar, engine);
             log.info(/*id + "\t" + */msg);
+
+            if (evaluacionAcosoEscolar.getCodigoSolicitud() != null) {
+                msg = service.verificarSolicitudPsicologica(evaluacionAcosoEscolar);
+                log.info(/*id + "\t" + */msg);
+            }
+
+        } catch (ValidatorException e) {
+            log.error(id + "\t" + e.getMessage(), e);
         } catch (ExpertoServiceException e) {
             log.error(id + "\t" + e.getMessage(), e);
         } catch (Exception e) {

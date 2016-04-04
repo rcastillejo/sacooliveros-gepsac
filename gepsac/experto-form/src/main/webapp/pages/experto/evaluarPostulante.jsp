@@ -64,6 +64,11 @@
         });
     });
 
+    function noExisteAlumnoPostulante(){
+        fn_util_CierraModal();
+        location.assign("<%=request.getContextPath()%>");
+    }
+
     function validarEvaluacion() {
         var sError = "";
         var codigoAlumno = $("#codigoAlumno").val();
@@ -264,6 +269,10 @@
         background-color:#F0E68C;
         color: black;
     }
+    .P0000{
+        background-color:gray;
+        color: black;
+    }
 </style>
 
 <div class="div-pagina">
@@ -399,15 +408,19 @@
                 </tr>
                 <tr>
                     <td> Agresor</td>
-                    <td><input id="P0001" type="text" disabled="true" style="text-align: right"></td>  
+                    <td><input id="P0001" type="text" disabled="true" style="text-align: right" value="0.00%"></td>  
                 </tr>
                 <tr>
                     <td> V&iacute;ctima</td> 
-                    <td><input id="P0002" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0002" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
                 </tr>
                 <tr>
                     <td> Testigo</td>
-                    <td><input id="P0003" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0003" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
+                </tr>
+                <tr>
+                    <td> No Identificado</td>
+                    <td><input id="P0000" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
                 </tr>
             </table>
         </fieldset>

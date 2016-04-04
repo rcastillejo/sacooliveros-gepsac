@@ -70,8 +70,8 @@ public class EvaluarPostulanteAction extends DispatchAction {
             logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
 
             List<edu.pe.sacoliveros.app.Alumno> listaAlumno = service.listarAlumnoPostulante();
-            if(listaAlumno.isEmpty()){
-                throw new Exception("No existe información que coincida con lo ingresado");
+            if(listaAlumno == null || listaAlumno.isEmpty()){
+                throw new Exception("No existe información de los alumnos postulantes");
             }
             
             Resultado resultado = createSuccessResult(listaAlumno);

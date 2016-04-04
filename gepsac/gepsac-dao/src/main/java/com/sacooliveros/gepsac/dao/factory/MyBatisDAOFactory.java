@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.dao.factory;
 
 import com.sacooliveros.gepsac.dao.AlumnoDAO;
+import com.sacooliveros.gepsac.dao.ConfigDAO;
 import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.EstrategiaDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
@@ -15,6 +16,7 @@ import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.SolicitudPsicologicaDAO;
 import com.sacooliveros.gepsac.dao.mybatis.session.SessionFactory;
 import com.sacooliveros.gepsac.dao.myibatis.AlumnoMyIbatisDAO;
+import com.sacooliveros.gepsac.dao.myibatis.ConfigMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EstrategiaMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EvaluacionAcosoEscolarMyIbatisDAO;
 import com.sacooliveros.gepsac.dao.myibatis.EvaluacionPostulanteMyIbatisDAO;
@@ -34,7 +36,7 @@ public class MyBatisDAOFactory extends SessionFactory implements DAOFactory {
     public MyBatisDAOFactory(String resource) {
         super(resource);
     }
-    
+
     @Override
     public PlanDAO getPlanEstrategicoDAO() {
         return new PlanMyIbatisDAO(getSqlSessionFactory());
@@ -59,15 +61,20 @@ public class MyBatisDAOFactory extends SessionFactory implements DAOFactory {
     public EvaluacionAcosoEscolarDAO getEvaluacionAcosoEscolarDAO() {
         return new EvaluacionAcosoEscolarMyIbatisDAO(getSqlSessionFactory());
     }
-    
+
     @Override
-    public SolicitudPsicologicaDAO getSolicitudPsicologicaDAO() { 
+    public SolicitudPsicologicaDAO getSolicitudPsicologicaDAO() {
         return new SolicitudPsicologicaMyIbatisDAO(getSqlSessionFactory());
     }
-    
+
     @Override
-    public ReglaDAO getReglaDAO() { 
+    public ReglaDAO getReglaDAO() {
         return new ReglaMyIbatisDAO(getSqlSessionFactory());
     }
-    
+
+    @Override
+    public ConfigDAO getConfigDAO() {
+        return new ConfigMyIbatisDAO(getSqlSessionFactory());
+    }
+
 }

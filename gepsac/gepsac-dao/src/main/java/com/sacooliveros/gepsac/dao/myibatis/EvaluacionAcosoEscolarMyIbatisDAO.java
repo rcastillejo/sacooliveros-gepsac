@@ -13,7 +13,6 @@ import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import com.sacooliveros.gepsac.model.experto.PreguntaEvaluacionRegla;
-import com.sacooliveros.gepsac.model.experto.PreguntaRegla;
 import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.Date;
 import java.util.List;
@@ -232,6 +231,24 @@ public class EvaluacionAcosoEscolarMyIbatisDAO extends GenericMyIbatisDAO implem
             session = getConnection();
             mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
             List listado = mapper.queryEstado(codigoEstado);
+            log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
+            return listado;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public List<EvaluacionAcosoEscolar> listarEvaluacionPorSolicitud(String codigoSolicitud) {
+        SqlSession session = null;
+        EvaluacionAcosoEscolarMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionAcosoEscolarMapper.class);
+            List listado = mapper.querySolicitud(codigoSolicitud);
             log.debug("Listado tamanio[{}] [{}] ", new Object[]{listado == null ? 0 : listado.size(), listado});
             return listado;
         } catch (Exception e) {

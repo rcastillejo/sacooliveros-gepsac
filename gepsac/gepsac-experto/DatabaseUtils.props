@@ -12,7 +12,7 @@
 jdbcDriver=org.postgresql.Driver
 
 # database URL
-jdbcURL=jdbc:postgresql://localhost:5432/gepsac
+jdbcURL=jdbc:postgresql://localhost:5432/gepsac2
 #jdbcURL=jdbc:postgresql://localhost:5432/test
 
 # specific data types

@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.dao.factory;
 
 import com.sacooliveros.gepsac.dao.AlumnoDAO;
+import com.sacooliveros.gepsac.dao.ConfigDAO;
 import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.EstrategiaDAO;
 import com.sacooliveros.gepsac.dao.EvaluacionAcosoEscolarDAO;
@@ -64,8 +65,14 @@ public class MockDAOFactory implements DAOFactory {
     public SolicitudPsicologicaDAO getSolicitudPsicologicaDAO() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     @Override
     public ReglaDAO getReglaDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ConfigDAO getConfigDAO() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

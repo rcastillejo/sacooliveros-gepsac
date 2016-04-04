@@ -5,22 +5,18 @@
  */
 package com.sacooliveros.gepsac.service.experto.se;
 
-import CLIPSJNI.Environment;
-import CLIPSJNI.PrimitiveValue;
 import com.sacooliveros.gepsac.dao.ReglaDAO;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
-import com.sacooliveros.gepsac.model.evaluacion.Pregunta;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
-import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
 import com.sacooliveros.gepsac.model.experto.PreguntaRegla;
 import com.sacooliveros.gepsac.model.experto.Regla;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,14 +38,25 @@ public class DataBaseEngine implements Engine<PreguntaEvaluacion, ResultadoInfer
         try {
             ReglaDAO reglaDAO = SingletonDAOFactory.getDAOFactory().getReglaDAO();
             reglas = reglaDAO.listarReglaActiva();
+            
+            validateRules();
+            
             for (Regla regla : reglas) {
                 for (String codigoPregunta : regla.getSetCodigoPreguntas()) {
                     log.debug("Reglas Cargada [{}] = pregunta [{}]", new Object[]{regla.getCodigo(), codigoPregunta});
                 }
             }
             log.debug("Reglas Cargadas [{}]", reglas == null ? 0 : reglas.size());
+        } catch (ValidatorException e) {
+            throw e;
         } catch (Exception e) {
             throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, "No cargaron los reglas", e);
+        }
+    }
+    
+    private void validateRules(){
+        if(reglas == null || reglas.isEmpty()){
+            throw new ValidatorException(Experto.Error.Codigo.GENERAL, Experto.Error.Mensaje.NO_EXISTE_REGLAS_ACOSO_ESCOLAR);
         }
     }
 

@@ -376,7 +376,7 @@
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
-        Editar Solicitud Psicol&oacute;gica
+        Consultar Solicitud Psicol&oacute;gica
     </div>
     <div id="dvData">
         <fieldset>

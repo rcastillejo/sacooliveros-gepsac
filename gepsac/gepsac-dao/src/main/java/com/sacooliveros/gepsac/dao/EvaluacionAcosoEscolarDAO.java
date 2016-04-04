@@ -26,24 +26,27 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
     void grabarPostulante(Alumno model);
 
     Alumno obtenerPostulante(String id);*/
-     String getCodigo();
-    
-     void ingresar(EvaluacionAcosoEscolar evaluacion, List<PreguntaEvaluacionAlternativa> preguntasAlternativas);
-     
-     List<EvaluacionAcosoEscolar> listarEvaluacionPorEstado(String codigoEstado);
-     List<EvaluacionAcosoEscolar> listarEvaluacionEvaluadoResuelto();
-     
-     List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion);
-     
-     List<PreguntaEvaluacionAlternativa> listarPreguntaEvaluacionAlternativa(String codigoEvaluacion,String codigoPregunta);
-     
-     List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion);
-     
-     void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion, List<Regla> reglasActivas);
-     
-     void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
-     
-     EvaluacionAcosoEscolar obtenerDesdePlantillaVigente();
-     
-     List<PreguntaEvaluacionAlternativa> obtenerPreguntaDesdePlantilla(String codigoPlantilla);
+    String getCodigo();
+
+    void ingresar(EvaluacionAcosoEscolar evaluacion, List<PreguntaEvaluacionAlternativa> preguntasAlternativas);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionPorEstado(String codigoEstado);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionPorSolicitud(String codigoSolicitud);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionEvaluadoResuelto();
+
+    List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion);
+
+    List<PreguntaEvaluacionAlternativa> listarPreguntaEvaluacionAlternativa(String codigoEvaluacion, String codigoPregunta);
+
+    List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion);
+
+    void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion, List<Regla> reglasActivas);
+
+    void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+
+    EvaluacionAcosoEscolar obtenerDesdePlantillaVigente();
+
+    List<PreguntaEvaluacionAlternativa> obtenerPreguntaDesdePlantilla(String codigoPlantilla);
 }

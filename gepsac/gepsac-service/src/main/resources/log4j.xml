@@ -93,11 +93,16 @@
         <appender-ref ref="TRAZADO"/>
     </logger>
     
-    <!--<logger name="com.sacooliveros.gepsac.dao.myibatis" additivity="false">
+    <!--<logger name="com.sacooliveros.gepsac.dao.mybatis" additivity="false">
         <level value="ERROR" />
         <appender-ref ref="ERROR"/>
     </logger>-->
 
+    <logger name="com.sacooliveros.gepsac.dao.mybatis.session" additivity="false">
+        <level value="TRACE" />
+        <appender-ref ref="TRAZADO"/>
+    </logger>
+    
     <root>
         <level value="ERROR" />        
         <appender-ref ref="ERROR" />
