@@ -404,7 +404,7 @@
             <table border="1">
                 <tr>
                     <td>Perfil</td> 
-                    <td>Grado Similitud (%)</td>  
+                    <td>Porcentaje Similitud (%)</td>  
                 </tr>
                 <tr>
                     <td> Agresor</td>

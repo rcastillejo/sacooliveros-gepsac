@@ -153,7 +153,7 @@ INSERT INTO tp_estatura (cod_estatura, nom_estatura) VALUES (3, 'Alto');
 INSERT INTO tp_tipo_familia (cod_familia, nom_familia) VALUES (1, 'Nuclear');
 INSERT INTO tp_tipo_familia (cod_familia, nom_familia) VALUES (2, 'Monoparental');
 INSERT INTO tp_tipo_familia (cod_familia, nom_familia) VALUES (3, 'Extensa');
-INSERT INTO tp_tipo_familia (cod_familia, nom_familia) VALUES (4, 'Esamblada');
+INSERT INTO tp_tipo_familia (cod_familia, nom_familia) VALUES (4, 'Ensamblada');
 
 
 INSERT INTO tp_religion (cod_religion, nom_religion) VALUES (0, 'Ateo');
@@ -166,7 +166,7 @@ INSERT INTO tp_nacionalidad (cod_nacionalidad, nom_nacionalidad) VALUES (2, 'Chi
 INSERT INTO tp_nacionalidad (cod_nacionalidad, nom_nacionalidad) VALUES (3, 'Colombiano');
 
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (1, 'Lince');
-INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (2, 'Jesus María');
+INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (2, 'Jesús María');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (3, 'La Victoria');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (4, 'Breña');
 INSERT INTO tp_distrito (cod_distrito, nom_distrito) VALUES (5, 'Pueblo Libre');

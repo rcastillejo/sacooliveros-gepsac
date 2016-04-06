@@ -37,7 +37,8 @@ public class WebServiceAlumno {
     private static final String[] PROVINCIA = {"Lima"};
     private static final String[] DEPARTAMENTO = {"Lima"};
     private static final int SIZE = 10;
-    private static List<Alumno> alumnosPrueba;
+    private static List<Alumno> alumnosPostulante;
+    private static List<Alumno> alumnosEvaluado;
     private static final boolean CON_ALUMNO = Boolean.TRUE;
 
     /**
@@ -48,13 +49,13 @@ public class WebServiceAlumno {
     @WebMethod(operationName = "listarAlumnoPostulante")
     public List<Alumno> listarAlumnoPostulante() {
         if (CON_ALUMNO) {
-            if (alumnosPrueba == null || alumnosPrueba.isEmpty()) {
+            if (alumnosPostulante == null || alumnosPostulante.isEmpty()) {
                 createAlumnosPostulante(SIZE);
             }
         } else {
-            alumnosPrueba = new ArrayList<Alumno>();
+            alumnosPostulante = new ArrayList<Alumno>();
         }
-        return alumnosPrueba;
+        return alumnosPostulante;
     }
 
     @WebMethod(operationName = "buscarAlumnoPostulante")
@@ -94,13 +95,62 @@ public class WebServiceAlumno {
         return alumnoObtenido;
     }
 
+    @WebMethod(operationName = "listarAlumnoEvaluado")
+    public List<Alumno> listarAlumnoEvaluado() {
+        if (CON_ALUMNO) {
+            if (alumnosEvaluado == null || alumnosEvaluado.isEmpty()) {
+                createAlumnosPostulante(SIZE);
+            }
+        } else {
+            alumnosEvaluado = new ArrayList<Alumno>();
+        }
+        return alumnosEvaluado;
+    }
+
+    @WebMethod(operationName = "buscarAlumnoEvaluado")
+    public List<Alumno> buscarAlumnoEvaluado(
+            @WebParam(name = "codigo") String codigo,
+            @WebParam(name = "nombres") String nombres,
+            @WebParam(name = "apellidos") String apellidos) {
+
+        List<Alumno> alumnos = listarAlumnoEvaluado();
+        String codigoParam = codigo == null ? "" : codigo;
+        String nombresParam = nombres == null ? "" : nombres;
+        String apellidosParam = apellidos == null ? "" : apellidos;
+
+        List<Alumno> alumnosBuscados = new ArrayList<Alumno>();
+        for (Alumno alumno : alumnos) {
+            String apellidosAlumno = alumno.getApellidoPaterno() + ' ' + alumno.getApellidoMaterno();
+            if (alumno.getCodigo().toUpperCase().contains(codigoParam.toUpperCase())
+                    && alumno.getNombres().toUpperCase().contains(nombresParam.toUpperCase())
+                    && apellidosAlumno.toUpperCase().contains(apellidosParam.toUpperCase())) {
+                alumnosBuscados.add(alumno);
+            }
+        }
+        return alumnosBuscados;
+    }
+
+    @WebMethod(operationName = "obtenerAlumnoEvaluacion")
+    public Alumno obtenerAlumnoEvaluacion(
+            @WebParam(name = "codigo") String codigo) {
+        Alumno alumnoObtenido = null;
+        List<Alumno> alumnos = listarAlumnoEvaluado();
+        for (Alumno alumno : alumnos) {
+            if (alumno.getCodigo().equals(codigo)) {
+                alumnoObtenido = alumno;
+                break;
+            }
+        }
+        return alumnoObtenido;
+    }
+
     private void createAlumnosPostulante(int size) {
-        alumnosPrueba = new ArrayList<Alumno>();
-        alumnosPrueba.add(createAlumnoAgresor());
-        alumnosPrueba.add(createAlumnoVictima());
+        alumnosPostulante = new ArrayList<Alumno>();
+        alumnosPostulante.add(createAlumnoAgresor());
+        alumnosPostulante.add(createAlumnoVictima());
         for (int i = 0; i < size; i++) {
             Alumno alumno = createAlumno(i);
-            alumnosPrueba.add(alumno);
+            alumnosPostulante.add(alumno);
         }
     }
 
@@ -136,12 +186,12 @@ public class WebServiceAlumno {
         Alumno alumno = new Alumno();
         alumno.setCodigo("A201500999");
 
-        alumno.setNombres("Adrian");
-        alumno.setApellidoPaterno("Larrea");
-        alumno.setApellidoMaterno("Villacorta");
+        alumno.setNombres("Violeta");
+        alumno.setApellidoPaterno("Carrillo");
+        alumno.setApellidoMaterno("Barnechea");
         alumno.setDomicilio(DOMICILIOS[getInt(0, DOMICILIOS.length - 1)]);
 
-        alumno.setGenero("Femenino");
+        alumno.setGenero("Masculino");
         alumno.setEdad(18);
         alumno.setContextura("Grande");
         alumno.setAltura("Alto");
