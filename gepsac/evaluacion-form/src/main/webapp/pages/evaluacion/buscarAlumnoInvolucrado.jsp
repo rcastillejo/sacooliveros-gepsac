@@ -32,7 +32,8 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            //url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoEvaluado'
         }).done(function (listado) {
             console.log('listado', listado);
             listadoTemp = listado;
@@ -112,7 +113,8 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
+            //url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoEvaluado&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
         }).done(function (listado) {
             console.log('listado', listado);
             $("#tblDetalle tbody").empty();

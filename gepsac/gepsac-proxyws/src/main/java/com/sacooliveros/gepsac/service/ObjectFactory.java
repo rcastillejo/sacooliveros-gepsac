@@ -37,35 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EvaluarAlumno }
+     * Create an instance of {@link ExplicacionResultado }
      * 
      */
-    public EvaluarAlumno createEvaluarAlumno() {
-        return new EvaluarAlumno();
-    }
-
-    /**
-     * Create an instance of {@link PreguntaEvaluacion }
-     * 
-     */
-    public PreguntaEvaluacion createPreguntaEvaluacion() {
-        return new PreguntaEvaluacion();
-    }
-
-    /**
-     * Create an instance of {@link ExplicacionResponse }
-     * 
-     */
-    public ExplicacionResponse createExplicacionResponse() {
-        return new ExplicacionResponse();
-    }
-
-    /**
-     * Create an instance of {@link PreguntaEvaluacionAlternativa }
-     * 
-     */
-    public PreguntaEvaluacionAlternativa createPreguntaEvaluacionAlternativa() {
-        return new PreguntaEvaluacionAlternativa();
+    public ExplicacionResultado createExplicacionResultado() {
+        return new ExplicacionResultado();
     }
 
     /**
@@ -77,51 +53,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Entidad }
+     * Create an instance of {@link EvaluarAlumno }
      * 
      */
-    public Entidad createEntidad() {
-        return new Entidad();
+    public EvaluarAlumno createEvaluarAlumno() {
+        return new EvaluarAlumno();
     }
 
     /**
-     * Create an instance of {@link Alternativa }
+     * Create an instance of {@link ExplicacionResponse }
      * 
      */
-    public Alternativa createAlternativa() {
-        return new Alternativa();
-    }
-
-    /**
-     * Create an instance of {@link ExplicacionResultado }
-     * 
-     */
-    public ExplicacionResultado createExplicacionResultado() {
-        return new ExplicacionResultado();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link EvaluacionPostulante }
-     * 
-     */
-    public EvaluacionPostulante createEvaluacionPostulante() {
-        return new EvaluacionPostulante();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumnoResponse }
-     * 
-     */
-    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
-        return new EvaluarAlumnoResponse();
+    public ExplicacionResponse createExplicacionResponse() {
+        return new ExplicacionResponse();
     }
 
     /**
@@ -133,6 +77,38 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Pregunta }
+     * 
+     */
+    public Pregunta createPregunta() {
+        return new Pregunta();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link Regla }
+     * 
+     */
+    public Regla createRegla() {
+        return new Regla();
+    }
+
+    /**
+     * Create an instance of {@link PreguntaRegla }
+     * 
+     */
+    public PreguntaRegla createPreguntaRegla() {
+        return new PreguntaRegla();
+    }
+
+    /**
      * Create an instance of {@link Participante }
      * 
      */
@@ -141,11 +117,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Pregunta }
+     * Create an instance of {@link Entidad }
      * 
      */
-    public Pregunta createPregunta() {
-        return new Pregunta();
+    public Entidad createEntidad() {
+        return new Entidad();
     }
 
     /**
@@ -165,11 +141,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Alumno }
+     * Create an instance of {@link EvaluarAlumnoResponse }
      * 
      */
-    public Alumno createAlumno() {
-        return new Alumno();
+    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
+        return new EvaluarAlumnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link EvaluacionPostulante }
+     * 
+     */
+    public EvaluacionPostulante createEvaluacionPostulante() {
+        return new EvaluacionPostulante();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
     }
 
     /**

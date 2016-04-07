@@ -21,7 +21,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="alumno" type="{http://service.gepsac.sacooliveros.com/}alumno" minOccurs="0"/>
  *         &lt;element name="perfil" type="{http://service.gepsac.sacooliveros.com/}perfil" minOccurs="0"/>
- *         &lt;element name="preguntas" type="{http://service.gepsac.sacooliveros.com/}preguntaEvaluacion" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="premisas" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="reglas" type="{http://service.gepsac.sacooliveros.com/}regla" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,14 +35,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "explicacionResultado", propOrder = {
     "alumno",
     "perfil",
-    "preguntas"
+    "premisas",
+    "reglas"
 })
 public class ExplicacionResultado {
 
     protected Alumno alumno;
     protected Perfil perfil;
     @XmlElement(nillable = true)
-    protected List<PreguntaEvaluacion> preguntas;
+    protected List<String> premisas;
+    @XmlElement(nillable = true)
+    protected List<Regla> reglas;
 
     /**
      * Gets the value of the alumno property.
@@ -92,32 +96,61 @@ public class ExplicacionResultado {
     }
 
     /**
-     * Gets the value of the preguntas property.
+     * Gets the value of the premisas property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the preguntas property.
+     * This is why there is not a <CODE>set</CODE> method for the premisas property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getPreguntas().add(newItem);
+     *    getPremisas().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link PreguntaEvaluacion }
+     * {@link String }
      * 
      * 
      */
-    public List<PreguntaEvaluacion> getPreguntas() {
-        if (preguntas == null) {
-            preguntas = new ArrayList<PreguntaEvaluacion>();
+    public List<String> getPremisas() {
+        if (premisas == null) {
+            premisas = new ArrayList<String>();
         }
-        return this.preguntas;
+        return this.premisas;
+    }
+
+    /**
+     * Gets the value of the reglas property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the reglas property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getReglas().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Regla }
+     * 
+     * 
+     */
+    public List<Regla> getReglas() {
+        if (reglas == null) {
+            reglas = new ArrayList<Regla>();
+        }
+        return this.reglas;
     }
 
 }

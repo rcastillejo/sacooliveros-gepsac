@@ -32,7 +32,8 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            //url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoEvaluado'
         }).done(function (listado) {
             console.log('listado', listado);
             cargarListado(listado);

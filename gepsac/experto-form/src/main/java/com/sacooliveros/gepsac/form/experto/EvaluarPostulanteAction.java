@@ -82,6 +82,25 @@ public class EvaluarPostulanteAction extends DispatchAction {
             generalAction(createErrorResult(e), response);
         }
     }
+
+    public void initBuscarAlumnoEvaluado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
+
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno = service.listarAlumnoEvaluado();
+            if(listaAlumno == null || listaAlumno.isEmpty()){
+                throw new Exception("No existe información de los alumnos postulantes");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
+
+            generalAction(resultado, response);
+        } catch (Exception e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
     
     public void buscarAlumnoNuevo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -92,6 +111,27 @@ public class EvaluarPostulanteAction extends DispatchAction {
             String apellidos = request.getParameter("apellidos");
             
             List<edu.pe.sacoliveros.app.Alumno> listaAlumno= service.buscarAlumnoPostulante(codigo, nombres, apellidos);
+            if(listaAlumno.isEmpty()){
+                throw new Exception("No existe información que coincida con lo ingresado");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
+            generalAction(resultado, response);
+        } catch (Exception e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+    
+    public void buscarAlumnoEvaluado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
+            String codigo = request.getParameter("codigo");
+            String nombres = request.getParameter("nombres");
+            String apellidos = request.getParameter("apellidos");
+            
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno= service.buscarAlumnoEvaluado(codigo, nombres, apellidos);
             if(listaAlumno.isEmpty()){
                 throw new Exception("No existe información que coincida con lo ingresado");
             }

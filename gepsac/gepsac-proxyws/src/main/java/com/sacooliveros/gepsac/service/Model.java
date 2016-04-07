@@ -46,7 +46,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     EvaluacionPostulante.class,
     Pregunta.class,
     Perfil.class,
-    Participante.class
+    Participante.class,
+    Regla.class
 })
 public class Model {
 

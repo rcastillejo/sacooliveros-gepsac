@@ -37,51 +37,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link Model }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategia }
-     * 
-     */
-    public ListarEstrategia createListarEstrategia() {
-        return new ListarEstrategia();
-    }
-
-    /**
-     * Create an instance of {@link Indicador }
-     * 
-     */
-    public Indicador createIndicador() {
-        return new Indicador();
-    }
-
-    /**
-     * Create an instance of {@link ListarEstrategiaResponse }
-     * 
-     */
-    public ListarEstrategiaResponse createListarEstrategiaResponse() {
-        return new ListarEstrategiaResponse();
-    }
-
-    /**
-     * Create an instance of {@link Actividad }
-     * 
-     */
-    public Actividad createActividad() {
-        return new Actividad();
-    }
-
-    /**
-     * Create an instance of {@link Estrategia }
-     * 
-     */
-    public Estrategia createEstrategia() {
-        return new Estrategia();
+    public Model createModel() {
+        return new Model();
     }
 
     /**
@@ -93,19 +53,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Model }
+     * Create an instance of {@link Estrategia }
      * 
      */
-    public Model createModel() {
-        return new Model();
+    public Estrategia createEstrategia() {
+        return new Estrategia();
     }
 
     /**
-     * Create an instance of {@link ListarEstrategiaActividad }
+     * Create an instance of {@link Actividad }
      * 
      */
-    public ListarEstrategiaActividad createListarEstrategiaActividad() {
-        return new ListarEstrategiaActividad();
+    public Actividad createActividad() {
+        return new Actividad();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**
@@ -114,6 +82,38 @@ public class ObjectFactory {
      */
     public ListarEstrategiaActividadResponse createListarEstrategiaActividadResponse() {
         return new ListarEstrategiaActividadResponse();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaResponse }
+     * 
+     */
+    public ListarEstrategiaResponse createListarEstrategiaResponse() {
+        return new ListarEstrategiaResponse();
+    }
+
+    /**
+     * Create an instance of {@link Indicador }
+     * 
+     */
+    public Indicador createIndicador() {
+        return new Indicador();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategia }
+     * 
+     */
+    public ListarEstrategia createListarEstrategia() {
+        return new ListarEstrategia();
+    }
+
+    /**
+     * Create an instance of {@link ListarEstrategiaActividad }
+     * 
+     */
+    public ListarEstrategiaActividad createListarEstrategiaActividad() {
+        return new ListarEstrategiaActividad();
     }
 
     /**

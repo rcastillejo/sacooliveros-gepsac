@@ -21,14 +21,6 @@
             location.assign("<%=request.getContextPath()%>" + action + '?method=init');
         });
 
-        //Buscar al Alumno Nuevo
-        $("#btnBuscarAlumnoNuevo").click(function (e) {
-            e.preventDefault();
-            fn_util_AbreModal("",
-                    "<%=request.getContextPath()%>" + '/pages/experto/buscarAlumnoNuevo.jsp',
-                    900, 600, null);
-        });
-
         $("#btnGuardar").click(function (e) {
             e.preventDefault();
             registrarSolictudPsicologica();
