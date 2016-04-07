@@ -5,8 +5,6 @@ delete from tp_pregunta_evaluacion where cod_evaluacion in ('EV20151205203901');
 delete from tp_evaluacion_acoso_escolar where cod_evaluacion in ('EV20151205203901');
 delete from tp_alumno_evaluado where cod_alumno in ('A201500099');
 
---CUS18.P1 - Agresor
-
 --P0001 Agresor
 insert into tp_alumno_evaluado (cod_alumno,nombres, apellido_pat, apellido_mat, sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,cod_perfil,cod_estado) values 
 ('A201500099', 'Ricardo', 'Castillejo', 'Luna', '1', '13', '2', '3', '3', '3', '3', '2', '4', '11', '2', '1', '1', '1', '1', '1', null,'ALU0001');

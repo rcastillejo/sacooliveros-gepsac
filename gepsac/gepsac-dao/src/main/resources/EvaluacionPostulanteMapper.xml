@@ -11,6 +11,10 @@
         <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
     </resultMap>
        
+    <select id="getCodigo" resultType="string">
+        SELECT concat('EV', to_char(now(), 'YYYYMMDD'), LPAD(nextval('SEQ_EVALUACION_POSTULANTE')::text, 10, '0'));
+    </select>
+    
     <select id="query" resultMap="recordResultMap">
         SELECT
             cod_alumno,

@@ -22,4 +22,5 @@ public interface EvaluacionPostulanteDAO extends BaseDao<EvaluacionPostulante> {
     void grabarPostulante(Alumno model);
 
     Alumno obtenerPostulante(String id);*/
+    String getCodigo();
 }

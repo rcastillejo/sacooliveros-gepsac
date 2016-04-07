@@ -54,7 +54,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
     public void initEvaluarAlumno(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             EvaluacionPostulante evaluacion = new EvaluacionPostulante();
-            evaluacion.setCodigo(getCodigoDocumento(Config.CODIGO_DOCUMENTO));
+            //evaluacion.setCodigo(getCodigoDocumento(Config.CODIGO_DOCUMENTO));
             Resultado resultado = createSuccessResult(evaluacion);
 
             generalAction(resultado, response);

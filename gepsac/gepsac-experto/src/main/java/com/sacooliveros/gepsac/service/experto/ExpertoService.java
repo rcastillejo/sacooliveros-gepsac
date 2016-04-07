@@ -66,12 +66,12 @@ public class ExpertoService implements Experto {
     public EvaluacionPostulante evaluarAlumno(EvaluacionPostulante evaluacion) {
 
         Alumno alumno = evaluacion.getAlumno();
-
+        Instancia instancia = null;
         try {
             ConfigDAO configDao = SingletonDAOFactory.getDAOFactory().getConfigDAO();
             AlumnoDAO alumnoDao = SingletonDAOFactory.getDAOFactory().getAlumnoDAO();
             EvaluacionPostulanteDAO evaluacionDao = SingletonDAOFactory.getDAOFactory().getEvaluacionPostulanteDAO();
-            Instancia instancia = InstanciaFactory.create();
+            instancia = InstanciaFactory.create();
 
             //Cargar alumnos evaluados
             Instances alumnosEvaluados = instancia.getTrainInstances();
@@ -105,6 +105,8 @@ public class ExpertoService implements Experto {
             log.debug("Alumno postulante grabado[{}]", alumno);
 
             //Grabar perfiles evaluados
+            String codigo = evaluacionDao.getCodigo();
+            evaluacion.setCodigo(codigo);
             evaluacionDao.ingresar(evaluacion);
             log.debug("Evaluacion grabado[{}]", alumno);
 
@@ -121,6 +123,10 @@ public class ExpertoService implements Experto {
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new ExpertoServiceException(Error.Codigo.GENERAL, Error.Mensaje.EVALUAR, e, alumno.getCodigo());
+        } finally {
+            if(instancia != null){
+                instancia.destroy();
+            }
         }
     }
 

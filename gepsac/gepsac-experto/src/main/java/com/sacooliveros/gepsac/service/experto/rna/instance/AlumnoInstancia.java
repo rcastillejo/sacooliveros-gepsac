@@ -65,7 +65,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
         datapredict = new Instances(RELATION_NAME, fvWekaAttributes, 0);
         Instance ins = new Instance(fvWekaAttributes.size());
-        
+
         int idx = 0;
         ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getSexo().getCodigo());
         idx++;
@@ -203,6 +203,22 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
             return clasificador;
         } catch (Exception e) {
             throw new ExpertoServiceException("Error al predecir alumno", e);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        if (query != null) {
+            try {
+                log.debug("Revisando estado de instancia antes de cerrar [connected={}]", 
+                        new Object[]{query.isConnected()});
+                query.close();
+                query.disconnectFromDatabase();
+                log.debug("Revisando estado de instancia luego de cerrar [connected={}]", 
+                        new Object[]{query.isConnected()});
+            } catch (Exception e) {
+                log.warn("No se pudo cerrar la instancia del query", e);
+            }
         }
     }
 

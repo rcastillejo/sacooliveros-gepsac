@@ -141,6 +141,7 @@
     function cargarRespuestaEvaluacion(evaluacion) {
         var max = 0;
         var perfilMax;
+        $("#codigoEvaluacion").val(evaluacion.codigo);
         for (var i in evaluacion.perfiles) {
             var perfilEval = evaluacion.perfiles[i];
             var el;
@@ -205,7 +206,7 @@
     }
 
     function cargarEvaluacion(objeto) {
-        $("#codigoEvaluacion").val(objeto.codigo);
+        //$("#codigoEvaluacion").val(objeto.codigo);
         var fechaEvaluacion = new Date();
         var twoDigitMonth = fechaEvaluacion.getMonth() + 1 + "";
         if (twoDigitMonth.length === 1)
