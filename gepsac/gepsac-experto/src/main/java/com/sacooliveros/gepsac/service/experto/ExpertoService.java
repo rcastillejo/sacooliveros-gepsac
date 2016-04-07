@@ -233,7 +233,8 @@ public class ExpertoService implements Experto {
              */
             evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
 
-            log.info("[{}] El sistema graba la evaluación con el perfil en estado 'Evaluado'", evaluacionAcosoEscolar.getCodigo());
+            log.info("[{}] El sistema graba la evaluación con el perfil en estado '{}'", 
+                    new Object[]{evaluacionAcosoEscolar.getCodigo(), StateUtil.getDescription(Estado.EvaluacionAcosoEscolar.EVALUADO)});
             evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar, resultado.getReglasActivas());
 
             /**

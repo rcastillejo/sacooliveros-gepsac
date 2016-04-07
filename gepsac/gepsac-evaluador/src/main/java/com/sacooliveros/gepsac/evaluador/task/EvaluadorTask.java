@@ -6,6 +6,7 @@
 package com.sacooliveros.gepsac.evaluador.task;
 
 import com.sacooliveros.gepsac.evaluador.message.Mensaje;
+import com.sacooliveros.gepsac.evaluador.perf.Logp;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
@@ -51,32 +52,32 @@ public class EvaluadorTask implements Runnable {
     }
 
     public void procesarMensaje(Mensaje mensaje) {
-        String id = mensaje.getId();
-
+        EvaluacionAcosoEscolar evaluacionAcosoEscolar = (EvaluacionAcosoEscolar) mensaje.getRequest();
+        String logId = '[' + evaluacionAcosoEscolar.getCodigo() + ']';
         try {
+
             /**
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info(/*id + "\t" +*/"El sistema carga las reglas de acoso escolar de cada perfil");
+            log.info(logId + "El sistema carga las reglas de acoso escolar de cada perfil");
             Engine engine = Engines.create();
 
-            EvaluacionAcosoEscolar evaluacionAcosoEscolar = (EvaluacionAcosoEscolar) mensaje.getRequest();
-
             String msg = service.evaluarRespuestaAcosoEscolar(evaluacionAcosoEscolar, engine);
-            log.info(/*id + "\t" + */msg);
+            log.info(logId + msg);
 
             if (evaluacionAcosoEscolar.getCodigoSolicitud() != null) {
                 msg = service.verificarSolicitudPsicologica(evaluacionAcosoEscolar);
-                log.info(/*id + "\t" + */msg);
+                log.info(logId + msg);
             }
 
+            Logp.showTrx(evaluacionAcosoEscolar.getCodigo(), "EvaluarAcosoEscolar", mensaje.getInit());
         } catch (ValidatorException e) {
-            log.error(id + "\t" + e.getMessage(), e);
+            log.error(logId + e.getMessage(), e);
         } catch (ExpertoServiceException e) {
-            log.error(id + "\t" + e.getMessage(), e);
+            log.error(logId + e.getMessage(), e);
         } catch (Exception e) {
-            log.error(id + "\tOcurrio un error en el procesamiento", e);
+            log.error(logId + "Ocurrio un error en el procesamiento", e);
         }
     }
 

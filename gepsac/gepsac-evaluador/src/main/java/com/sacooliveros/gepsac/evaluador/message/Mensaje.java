@@ -5,8 +5,6 @@
  */
 package com.sacooliveros.gepsac.evaluador.message;
 
-import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
-
 /**
  *
  * @author Ricardo
@@ -16,6 +14,8 @@ public class Mensaje {
     private String id;
     private Object request;
     private String response;
+    private long init;
+    private long end;
 
     public String getId() {
         return id;
@@ -40,6 +40,23 @@ public class Mensaje {
     public void setResponse(String response) {
         this.response = response;
     }
+
+    public void start() {
+        init = System.currentTimeMillis();
+    }
+
+    public void end() {
+        end = System.currentTimeMillis();
+    }
+
+    public long getInit() {
+        return init;
+    }
+
+    public long getEnd() {
+        return end;
+    }
+    
 
     @Override
     public String toString() {

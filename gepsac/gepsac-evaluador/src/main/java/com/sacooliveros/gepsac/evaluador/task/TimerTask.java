@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import com.sacooliveros.gepsac.evaluador.util.Identificador;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.util.StateUtil;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
@@ -51,7 +52,7 @@ public class TimerTask implements Runnable {
                  * 4.1.2.	El sistema busca los registros de las evaluaciones en
                  * estado “Registrado”.
                  */
-                log.info("El sistema busca los registros de las evaliaciones en estado 'Registrado'");
+                log.info("El sistema busca los registros de las evaluaciones en estado '{}'", StateUtil.getDescription(Estado.EvaluacionAcosoEscolar.RESUELTO));
                 List<EvaluacionAcosoEscolar> evaluaciones = buscaEvaluacionesAcosoEscolar();
 
                 /**
@@ -88,6 +89,7 @@ public class TimerTask implements Runnable {
         Mensaje evaluacionModel = new Mensaje();
         evaluacionModel.setId(idf.getCode());
         evaluacionModel.setRequest(evaluacion);
+        evaluacionModel.start();
 
         boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
         if (insertaOk) {
