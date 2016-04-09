@@ -58,6 +58,9 @@ public class EvaluarPostulanteAction extends DispatchAction {
             Resultado resultado = createSuccessResult(evaluacion);
 
             generalAction(resultado, response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "initEvaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al evaluar al alumno"), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "initEvaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -77,6 +80,9 @@ public class EvaluarPostulanteAction extends DispatchAction {
             Resultado resultado = createSuccessResult(listaAlumno);
 
             generalAction(resultado, response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos nuevos"), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -96,8 +102,11 @@ public class EvaluarPostulanteAction extends DispatchAction {
             Resultado resultado = createSuccessResult(listaAlumno);
 
             generalAction(resultado, response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoEvaluado", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos evaluados"), response);  
         } catch (Exception e) {
-            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            LoggerUtil.error(logger, "initBuscarAlumnoEvaluado", "experto", request, e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -117,8 +126,11 @@ public class EvaluarPostulanteAction extends DispatchAction {
             
             Resultado resultado = createSuccessResult(listaAlumno);
             generalAction(resultado, response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "buscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos nuevos"), response);  
         } catch (Exception e) {
-            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            LoggerUtil.error(logger, "buscarAlumnoNuevo", "experto", request, e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -138,6 +150,9 @@ public class EvaluarPostulanteAction extends DispatchAction {
             
             Resultado resultado = createSuccessResult(listaAlumno);
             generalAction(resultado, response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos evaluados"), response);     
         } catch (Exception e) {
             LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -164,6 +179,9 @@ public class EvaluarPostulanteAction extends DispatchAction {
 
             logger.info("Evaluacion resultado [{}]", evaluacionPostulante.getCodigo());
             generalAction(createSuccessResult(new Object[]{evaluacionPostulante, msg}), response);
+        } catch (javax.xml.ws.WebServiceException e) {
+            LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al evaluar al alumno"), response);            
         } catch (Exception e) {
             LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -193,6 +211,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
         json = resultado.getJson();
         mensaje = resultado.getMensaje();
 
+        response.setStatus(resultado.getCodigo());
         if (StringUtils.isNotBlank(json)) {
             try {
                 response.setContentType("text/json;charset=utf-8");
@@ -213,7 +232,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
                 throw new RuntimeException(e);
             }
         }
-        response.setStatus(resultado.getCodigo());
+        
     }
 
 }

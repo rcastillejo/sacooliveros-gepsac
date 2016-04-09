@@ -54,6 +54,8 @@ public class WebServiceAlumno {
             @WebParam(name = "codigo") String codigo,
             @WebParam(name = "nombres") String nombres,
             @WebParam(name = "apellidos") String apellidos) {
+        
+        alumnosPostulante = listarAlumnoPostulante();
 
         return alumnoUtils.buscarAlumnos(alumnosPostulante, codigo, nombres, apellidos);
     }
@@ -61,6 +63,7 @@ public class WebServiceAlumno {
     @WebMethod(operationName = "obtenerAlumnoPostulante")
     public Alumno obtenerAlumnoPostulante(
             @WebParam(name = "codigo") String codigo) {
+        alumnosPostulante = listarAlumnoPostulante();
         return alumnoUtils.obtenerAlumno(alumnosPostulante, codigo);
     }
 
@@ -85,12 +88,14 @@ public class WebServiceAlumno {
             @WebParam(name = "codigo") String codigo,
             @WebParam(name = "nombres") String nombres,
             @WebParam(name = "apellidos") String apellidos) {
+        alumnosEvaluado = listarAlumnoEvaluado();
         return alumnoUtils.buscarAlumnos(alumnosEvaluado, codigo, nombres, apellidos);
     }
 
     @WebMethod(operationName = "obtenerAlumnoEvaluacion")
     public Alumno obtenerAlumnoEvaluacion(
             @WebParam(name = "codigo") String codigo) {
+        alumnosEvaluado = listarAlumnoEvaluado();
         return alumnoUtils.obtenerAlumno(alumnosEvaluado, codigo);
     }
 }

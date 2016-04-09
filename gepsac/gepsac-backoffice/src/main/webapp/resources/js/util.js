@@ -4,27 +4,49 @@
 //**********************************************************************
 function fn_util_AbreModal(pTitulo, pURL, pAncho, pAlto, pFuncion) {
     if ((pTitulo == null) | (pTitulo == 'undefined')) { pTitulo = ''; }
-    $("body").append("<div id='dv_ModalFrame'></div>");
+    if(validateUrl(pURL)){
+        
+        $("body").append("<div id='dv_ModalFrame'></div>");
 	
 	var strHtml= '<iframe runat="server" id="ifrModal" width="'+pAncho+'px" height="'+ (pAlto - 20) +'px" frameborder="0"scrolling="auto" marginheight="0" marginwidth="0" src="'+ pURL +'"></iframe>';
-		 
-    $("#dv_ModalFrame").html(strHtml);
-    $("#dv_ModalFrame").dialog({
-        modal: true
-        , title: pTitulo
-        , resizable: false
-	    , beforeclose: function (event, ui) {
-	        $(this).remove(); pFuncion();
-	    }
-        /*,buttons: {
-            "Cerrar": function () {
-                $(this).remove();
-            }
-        }*/
-		, width: (pAncho + 30)
-    });
+        
+           $("#dv_ModalFrame").html(strHtml);
+           $("#dv_ModalFrame").dialog({
+               modal: true
+               , title: pTitulo
+               , resizable: false
+                   , beforeclose: function (event, ui) {
+                       $(this).remove(); pFuncion();
+                   }
+               /*,buttons: {
+                   "Cerrar": function () {
+                       $(this).remove();
+                   }
+               }*/
+                       , width: (pAncho + 30)
+           });
 	
-};
+    }
+}
+
+function validateUrl(url){    
+    var result;
+    $.ajax({
+        async: false,
+        type: "GET",
+        timeout:3000, 
+        url: url
+    }).done(function(){
+        result = true;
+    }).fail(function (error) {
+        console.log('error', error);
+        result = false;
+        //$("#mensajeError").append(error);
+        fn_mdl_alert("Error General del Sistema", null, "MENSAJE");
+    });    
+    
+    return result;
+}
 
 function fn_util_CierraModal() {
     $("#ifrModal").attr('src', '');

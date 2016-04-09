@@ -249,6 +249,7 @@
     }
 
     function cargarAlumnoDirigido(json) {
+        console.log('cargando alumno dirigido', json);
         if (!alumnoEstaAgregado(json)) {
             cargarAlumno($("#tblAlumnoDirigido"), json);
 
@@ -295,8 +296,10 @@
     }
 
     function alumnoEstaAgregado(item) {
+        console.log('alumno se encuentra agreado?', item);
         for (var i in alumnos) {
             var solicitudAlumno = alumnos[i];
+            console.log('comparando con el alumno', solicitudAlumno);
             if (solicitudAlumno && solicitudAlumno.alumno && solicitudAlumno.alumno.codigo === item.codigo) {
                 return true;
             }
@@ -323,9 +326,9 @@
         var msg = '';
         for (var i in listado) {
             var item = listado[i];
-
-            if (!alumnoEstaAgregado(item)) {
-                cargarAlumnoInvolucrado(listado[i], parseInt(i) + 1);
+            console.log('cargando alumno involucrado', i, item);
+            if (item && !alumnoEstaAgregado(item)) {
+                cargarAlumnoInvolucrado(item, parseInt(i) + 1);
                 alumnos.push({
                     /*alumno: {
                      codigo: item.codigo

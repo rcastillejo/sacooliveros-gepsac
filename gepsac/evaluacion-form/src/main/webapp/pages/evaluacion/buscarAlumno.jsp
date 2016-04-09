@@ -22,25 +22,30 @@
     $(document).ready(function () {
         initBuscarAlumnoNuevo();
     });
-    
-    function getRequestParameter(name){
-        if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
-           return decodeURIComponent(name[1]);
-     }
+
+    function getRequestParameter(name) {
+        if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+            return decodeURIComponent(name[1]);
+    }
 
     function initBuscarAlumnoNuevo() {
         $.ajax({
             type: "POST",
             dataType: 'json',
+            timeout:3000, 
             //url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
             url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoEvaluado'
         }).done(function (listado) {
             console.log('listado', listado);
             cargarListado(listado);
-        }).fail(function (error) {
+        }).fail(function (error, textStatus) {
             console.log('error', error);
-            //$("#mensajeError").append(error);
-            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "MENSAJE");
+            if (textStatus === 'timeout') {
+                fn_mdl_alert("Ocurrio un error al consultar los alumnos", null, "MENSAJE");
+            } else {
+                //$("#mensajeError").append(error);
+                fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "MENSAJE");
+            }
         });
     }
 
@@ -60,7 +65,7 @@
 
         detalle.find("#lblCodigo").append(json.codigo);
         detalle.find("#lblNombres").append(json.nombres);
-        detalle.find("#lblApellidos").append(json.apellidoPaterno+' '+json.apellidoMaterno);
+        detalle.find("#lblApellidos").append(json.apellidoPaterno + ' ' + json.apellidoMaterno);
         detalle.find("#lblEdad").append(json.edad + ' años');
         detalle.find("#lblDistrito").append(json.distrito);
         detalle.find("#lblDomicilio").append(json.domicilio);
@@ -94,15 +99,15 @@
         $.ajax({
             type: "POST",
             dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo=' + codigo + '&nombres=' + nombres + '&apellidos=' + apellidos
         }).done(function (listado) {
             console.log('listado', listado);
             $("#tblDetalle tbody").empty();
             cargarListado(listado);
         }).fail(function (error) {
             console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+            fn_mdl_alert(error.responseText, function () {}, "MENSAJE");
+        });
     }
 
 </script>
@@ -185,13 +190,13 @@
         <table style="align-content: center; text-align: center">
             <tr>
                 <td><a href="javascript:fn_seleccionar();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
-                    Aceptar
+                        <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_mdl_dominio.jpg" border="0" /><br />
+                        Aceptar
                     </a>
                 </td>
                 <td><a href="javascript:parent.fn_util_CierraModal();">
-                    <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
-                    Cancelar
+                        <img src="<%=request.getContextPath()%>/resources/images/iconos/ico_btn_cancelar.jpg" border="0" /><br />
+                        Cancelar
                     </a>
                 </td>
             </tr>

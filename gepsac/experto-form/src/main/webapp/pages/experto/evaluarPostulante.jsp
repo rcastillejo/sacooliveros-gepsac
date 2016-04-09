@@ -113,29 +113,27 @@
 
     function evaluarAlumnoNuevo() {
         var data = serializeEvaluacionAlumnoNuevo();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
-        }).done(function (result) {
-            var evaluacion = result[0];
-            var msg = result[1];
-            console.log('evaluacion', evaluacion);
-            console.log('msg', msg);
-            cargarRespuestaEvaluacion(evaluacion);
-            $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
-            $('#btnEvaluar').attr('disabled', 'disabled');
-            fn_mdl_alert(msg, function () {}, "CONFIRMACION");
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
-        });
-
-        //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
-        //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
-
+        if(validateUrl("<%=request.getContextPath()%>")){
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
+            }).done(function (result) {
+                var evaluacion = result[0];
+                var msg = result[1];
+                console.log('evaluacion', evaluacion);
+                console.log('msg', msg);
+                cargarRespuestaEvaluacion(evaluacion);
+                $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
+                $('#btnEvaluar').attr('disabled', 'disabled');
+                fn_mdl_alert(msg, function () {}, "CONFIRMACION");
+            }).fail(function (error) {
+                console.log('error', error);
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "MENSAJE");
+            });
+        }
     }
 
     function cargarRespuestaEvaluacion(evaluacion) {
@@ -174,19 +172,21 @@
 
     function initEvaluarAlumno() {
         $("#mensajeError").empty();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
-        }).done(function (objeto) {
-            console.log('objeto', objeto);
-            cargarEvaluacion(objeto);
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
-        });
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
+            }).done(function (objeto) {
+                console.log('objeto', objeto);
+                cargarEvaluacion(objeto);
+            }).fail(function (error) {
+                console.log('error', error);
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "MENSAJE");
+            });
+        }
     }
 
     function cargarPlanEstrategia(plan) {

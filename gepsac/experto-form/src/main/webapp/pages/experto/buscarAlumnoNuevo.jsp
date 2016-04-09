@@ -35,18 +35,25 @@
      }
 
     function initBuscarAlumnoNuevo() {
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
-        }).done(function (listado) {
-            console.log('listado', listado);
-            cargarListado(listado);
-        }).fail(function (error) {
-            console.log('error', error);
-            //$("#mensajeError").append(error);
-            fn_mdl_alert(error.responseText, parent.noExisteAlumnoPostulante, "MENSAJE");
-        });
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                timeout:3000, 
+                url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            }).done(function (listado) {
+                console.log('listado', listado);
+                cargarListado(listado);
+            }).fail(function (error) {
+                console.log('error', error);
+                if (error.status === 500) {
+                    fn_mdl_alert(error.responseText, parent.noExisteAlumnoPostulante, "MENSAJE");
+                } else {
+                    //$("#mensajeError").append(error);
+                    fn_mdl_alert("Ocurrio un error al consultar los alumnos", null, "MENSAJE");
+                }
+            });
+        }
     }
 
 
@@ -97,18 +104,26 @@
         var codigo = $("#codigo").val();
         var nombres = $("#nombres").val();
         var apellidos = $("#apellidos").val();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
-        }).done(function (listado) {
-            console.log('listado', listado);
-            $("#tblDetalle tbody").empty();
-            cargarListado(listado);
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                timeout:3000,
+                url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            }).done(function (listado) {
+                console.log('listado', listado);
+                $("#tblDetalle tbody").empty();
+                cargarListado(listado);
+            }).fail(function (error, textStatus) {
+                console.log('error', error);
+                if (error.status === 500) {
+                    //$("#mensajeError").append(error);
+                    fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
+                } else {
+                    fn_mdl_alert("Ocurrio un error al consultar los alumnos", null, "MENSAJE");
+                }
+            });     
+        }
     }
 
 </script>

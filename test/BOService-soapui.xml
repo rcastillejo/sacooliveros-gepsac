@@ -405,7 +405,67 @@
          </evaluacionPostulante>\r
       </ser:evaluarAlumno>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/></con:call></con:operation><con:operation id="047f171b-6749-4e09-b929-000dcdeba2f6" isOneWay="false" action="" name="explicacion" bindingOperationName="explicacion" type="Request-Response" outputName="explicacionResponse" inputName="explicacion" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ebfd8881-4e0a-4e0e-818e-522f746ea824" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.gepsac.sacooliveros.com/">\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:call><con:call id="6c250c3e-ee13-4432-99d0-fa336f68b338" name="Performance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns2:evaluarAlumno xmlns:ns2="http://service.gepsac.sacooliveros.com/">
+			<evaluacionPostulante>
+				<alumno>
+					<codigo>A201600000</codigo>
+					<apellidoMaterno>Cornejo</apellidoMaterno>
+					<apellidoPaterno>Jose </apellidoPaterno>
+					<edad>15</edad>
+					<nombres>Jose Alberto</nombres>
+					<cantCambioColegio>3</cantCambioColegio>
+					<cantHnos>4</cantHnos>
+					<contextura>
+						<codigo>0</codigo>
+						<nombre>Pequeño</nombre>
+					</contextura>
+					<departamento>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</departamento>
+					<direccion>Gálvez Barrenechea 515</direccion>
+					<distrito>
+						<codigo>0</codigo>
+						<nombre>Breña</nombre>
+					</distrito>
+					<estatura>
+						<codigo>0</codigo>
+						<nombre>Medio</nombre>
+					</estatura>
+					<gradoEscolar>6</gradoEscolar>
+					<nacionalidad>
+						<codigo>0</codigo>
+						<nombre>Peruano</nombre>
+					</nacionalidad>
+					<nivelEscolar>
+						<codigo>0</codigo>
+						<nombre>Primaria</nombre>
+					</nivelEscolar>
+					<ordenNacimiento>2</ordenNacimiento>
+					<promedioEscolar>16.0</promedioEscolar>
+					<provincia>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</provincia>
+					<religion>
+						<codigo>0</codigo>
+						<nombre>Evangélico</nombre>
+					</religion>
+					<sexo>
+						<codigo>0</codigo>
+						<nombre>Masculino</nombre>
+					</sexo>
+					<tipoFamilia>
+						<codigo>0</codigo>
+						<nombre>Esamblada</nombre>
+					</tipoFamilia>
+				</alumno>
+			</evaluacionPostulante>
+		</ns2:evaluarAlumno>
+	</soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="047f171b-6749-4e09-b929-000dcdeba2f6" isOneWay="false" action="" name="explicacion" bindingOperationName="explicacion" type="Request-Response" outputName="explicacionResponse" inputName="explicacion" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ebfd8881-4e0a-4e0e-818e-522f746ea824" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.gepsac.sacooliveros.com/">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <ser:explicacion>\r
@@ -416,4 +476,64 @@
          </evaluacionAcosoEscolar>\r
       </ser:explicacion>\r
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/explicacion"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/explicacion"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="f97d15d3-67ac-43fa-95d4-4bc351438a7e" name="TestPerformance"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="b457e954-eab4-4a20-8263-5a9950e87ead" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" id="5f33ef50-8410-4abd-affc-0a8ae2d58117" name="evaluarAlumno - Performance"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BOServiceSoapBinding</con:interface><con:operation>evaluarAlumno</con:operation><con:request name="evaluarAlumno - Performance" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ca30438d-c65e-4f2d-a01c-8f3def64f899"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns2:evaluarAlumno xmlns:ns2="http://service.gepsac.sacooliveros.com/">
+			<evaluacionPostulante>
+				<alumno>
+					<codigo>A201600000</codigo>
+					<apellidoMaterno>Cornejo</apellidoMaterno>
+					<apellidoPaterno>Jose </apellidoPaterno>
+					<edad>15</edad>
+					<nombres>Jose Alberto</nombres>
+					<cantCambioColegio>3</cantCambioColegio>
+					<cantHnos>4</cantHnos>
+					<contextura>
+						<codigo>0</codigo>
+						<nombre>Pequeño</nombre>
+					</contextura>
+					<departamento>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</departamento>
+					<direccion>Gálvez Barrenechea 515</direccion>
+					<distrito>
+						<codigo>0</codigo>
+						<nombre>Breña</nombre>
+					</distrito>
+					<estatura>
+						<codigo>0</codigo>
+						<nombre>Medio</nombre>
+					</estatura>
+					<gradoEscolar>6</gradoEscolar>
+					<nacionalidad>
+						<codigo>0</codigo>
+						<nombre>Peruano</nombre>
+					</nacionalidad>
+					<nivelEscolar>
+						<codigo>0</codigo>
+						<nombre>Primaria</nombre>
+					</nivelEscolar>
+					<ordenNacimiento>2</ordenNacimiento>
+					<promedioEscolar>16.0</promedioEscolar>
+					<provincia>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</provincia>
+					<religion>
+						<codigo>0</codigo>
+						<nombre>Evangélico</nombre>
+					</religion>
+					<sexo>
+						<codigo>0</codigo>
+						<nombre>Masculino</nombre>
+					</sexo>
+					<tipoFamilia>
+						<codigo>0</codigo>
+						<nombre>Esamblada</nombre>
+					</tipoFamilia>
+				</alumno>
+			</evaluacionPostulante>
+		</ns2:evaluarAlumno>
+	</soap:Body>
+</soap:Envelope>]]></con:request><con:assertion type="SOAP Response" id="423172fb-4762-4ae5-aa7e-218bbb24dcba" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:loadTest id="9c883d38-1b58-464c-9bc2-379bdebf5e39" name="LoadTest 1"><con:settings><con:setting id="HttpSettings@close-connections">false</con:setting></con:settings><con:threadCount>20</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>1000</con:testLimit><con:limitType>COUNT_PER_THREAD</con:limitType><con:loadStrategy><con:type>Simple</con:type><con:config><testDelay>1000</testDelay><randomFactor>0.5</randomFactor></con:config></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
