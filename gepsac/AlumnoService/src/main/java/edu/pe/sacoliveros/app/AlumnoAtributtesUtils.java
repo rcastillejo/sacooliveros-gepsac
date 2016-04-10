@@ -14,8 +14,8 @@ public class AlumnoAtributtesUtils {
     public static final String CODIGO_PREFIX = "A20150000";
     public static final String CODIGO_PREFIX_POSTULANTE = "A20160000";
 
-    private static final String[] NOMBRES_MASCULINOS = {"Luis Ricardo", "Braulia Andrea", "Jose Alberto", "Jose Luis", "Braulio Sergio", "Raúl Leonardo"};
-    private static final String[] NOMBRES_FEMENINOS = {"Luis Ricardo", "Braulia Andrea", "Jose Alberto", "Jose Luis", "Braulio Sergio", "Raúl Leonardo"};
+    private static final String[] NOMBRES_MASCULINOS = {"Luis Ricardo", "Jose Alberto", "Jose Luis", "Braulio Sergio", "Raúl Leonardo"};
+    private static final String[] NOMBRES_FEMENINOS = {"Braulia Andrea", "Andrea Melissa", "Giovanna", "Sandra"};
     private static final String[] APELLIDOS = {"Castillejo", "Castillo", "Jose ", "Gálvez", "Cornejo", "Herrera", "Jimenez"};
     private static final String[] DOMICILIOS = {"Manco Segundo 333", "Gálvez Barrenechea 515", "Univertiaria 550", "Bolivar 1510"};
     private static final String[] GENERO = {"Masculino", "Femenino"};

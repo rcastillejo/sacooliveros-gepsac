@@ -10,6 +10,7 @@ import com.sacooliveros.gepsac.dao.DAOFactory;
 import com.sacooliveros.gepsac.dao.SingletonDAOFactory;
 import com.sacooliveros.gepsac.dao.factory.MyBatisDAOFactory;
 import com.sacooliveros.gepsac.model.comun.Entidad;
+import com.sacooliveros.gepsac.model.comun.Perfil;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.EvaluacionPostulante;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
@@ -129,10 +130,19 @@ public class ExpertoServiceTest {
         log.debug("resultado:" + result);
         assertNotNull(result);
 
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+        Perfil perfil = null;
         for (PerfilEvaluado perfilEval : result.getPerfiles()) {
             log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
                     perfilEval.getProbabilidad());
+            if(perfilEval.isSeleccionado()){
+                perfil = perfilEval.getPerfil();
+            }
         }
+        
+        assertNotNull(perfil);
+        assertEquals("P0002", perfil.getCodigo());
 
     }
     //@Test
@@ -146,11 +156,11 @@ public class ExpertoServiceTest {
 
         alumno = new Alumno();
         alumno.setCodigo("A201500098");
-        alumno.setSexo(new Entidad("Femenino"));
+        alumno.setSexo(new Entidad("Masculino"));
         alumno.setEdad(18);
         alumno.setContextura(new Entidad("Grande"));
         alumno.setEstatura(new Entidad("Alto"));
-        alumno.setTipoFamilia(new Entidad("Monoparental"));
+        alumno.setTipoFamilia(new Entidad("Extensa"));
         alumno.setOrdenNacimiento(1);
         alumno.setCantHnos(0);
         alumno.setNivelEscolar(new Entidad("Secundaria"));
@@ -173,11 +183,125 @@ public class ExpertoServiceTest {
 
         log.debug("resultado:" + result);
         assertNotNull(result);
+        Perfil perfil = null;
+        for (PerfilEvaluado perfilEval : result.getPerfiles()) {
+            log.debug("Perfil [{}={}] [{}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
+                    perfilEval.getProbabilidad(), perfilEval.isSeleccionado());
+            if(perfilEval.isSeleccionado()){
+                perfil = perfilEval.getPerfil();
+            }
+        }
+        
+        assertNotNull(perfil);
+        assertEquals("P0001", perfil.getCodigo());
 
+    }
+    //@Test
+    public void testEvaluarAlumnoTestigo() {
+        log.debug("testEvaluarAlumnoTestigo");
+        //String codigo = "A201500099";
+        //String codigo = "A201500098";
+        String codigo = "2";
+        Alumno alumno;
+        ExpertoService instance = new ExpertoService();
+
+        alumno = new Alumno();
+        alumno.setCodigo("A201500098");
+        alumno.setSexo(new Entidad("Femenino"));
+        alumno.setEdad(15);
+        alumno.setContextura(new Entidad("Grande"));
+        alumno.setEstatura(new Entidad("Medio"));
+        alumno.setTipoFamilia(new Entidad("Extensa"));
+        alumno.setOrdenNacimiento(2);
+        alumno.setCantHnos(2);
+        alumno.setNivelEscolar(new Entidad("Primaria"));
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(17.00);
+        alumno.setCantCambioColegio(2);
+        alumno.setReligion(new Entidad("Ateo"));
+        alumno.setNacionalidad(new Entidad("Peruano"));
+        alumno.setDistrito(new Entidad("Pueblo Libre"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
+
+        EvaluacionPostulante evaluacion = new EvaluacionPostulante();
+        evaluacion.setCodigo("EV"+new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()));
+        evaluacion.setAlumno(alumno);
+        
+        log.debug("evaluacion:" + evaluacion);
+        
+        EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
+
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+        Perfil perfil = null;
         for (PerfilEvaluado perfilEval : result.getPerfiles()) {
             log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
                     perfilEval.getProbabilidad());
+            if(perfilEval.isSeleccionado()){
+                perfil = perfilEval.getPerfil();
+            }
         }
+        
+        assertNotNull(perfil);
+        assertEquals("P0003", perfil.getCodigo());
+
+    }
+    @Test
+    public void testEvaluarAlumnoNoIdentificado() {
+        log.debug("testEvaluarAlumnoNoIdentificado");
+        //String codigo = "A201500099";
+        //String codigo = "A201500098";
+        String codigo = "2";
+        Alumno alumno;
+        ExpertoService instance = new ExpertoService();
+
+        alumno = new Alumno();
+        alumno.setCodigo("A201500098");
+        alumno.setSexo(new Entidad("Femenino"));
+        alumno.setEdad(12);
+        alumno.setContextura(new Entidad("Mediano"));
+        alumno.setEstatura(new Entidad("Alto"));
+        alumno.setTipoFamilia(new Entidad("Nuclear"));
+        alumno.setOrdenNacimiento(2);
+        alumno.setCantHnos(2);
+        alumno.setNivelEscolar(new Entidad("Secundaria"));
+        alumno.setGradoEscolar(5);
+        alumno.setPromedioEscolar(17.00);
+        alumno.setCantCambioColegio(2);
+        alumno.setReligion(new Entidad("Católico"));
+        alumno.setNacionalidad(new Entidad("Peruano"));
+        alumno.setDistrito(new Entidad("Pueblo Libre"));
+        alumno.setProvincia(new Entidad("Lima"));
+        alumno.setDepartamento(new Entidad("Lima"));
+
+        EvaluacionPostulante evaluacion = new EvaluacionPostulante();
+        evaluacion.setCodigo("EV"+new SimpleDateFormat("YYYYMMddHHmmss").format(new Date()));
+        evaluacion.setAlumno(alumno);
+        
+        log.debug("evaluacion:" + evaluacion);
+        
+        EvaluacionPostulante result = instance.evaluarAlumno(evaluacion);
+
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+
+        log.debug("resultado:" + result);
+        assertNotNull(result);
+        Perfil perfil = null;
+        for (PerfilEvaluado perfilEval : result.getPerfiles()) {
+            log.debug("Perfil [{}={}]", perfilEval.getPerfil() != null ? perfilEval.getPerfil().getCodigo() : perfilEval.getPerfil(),
+                    perfilEval.getProbabilidad());
+            if(perfilEval.isSeleccionado()){
+                perfil = perfilEval.getPerfil();
+            }
+        }
+        
+        assertNotNull(perfil);
+        assertEquals("P0000", perfil.getCodigo());
 
     }
 

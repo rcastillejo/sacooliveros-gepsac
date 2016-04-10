@@ -10,8 +10,6 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -37,11 +35,11 @@ public class WebServiceAlumno {
     public List<Alumno> listarAlumnoPostulante() {
         if (CON_ALUMNO) {
             if (alumnosPostulante == null || alumnosPostulante.isEmpty()) {
-                alumnosPostulante = alumnoUtils.createAlumnos(AlumnoAtributtesUtils.CODIGO_PREFIX_POSTULANTE, SIZE_POSTULANTE);
-                alumnosPostulante.add(alumnoUtils.createAlumnoAgresor("A201500999", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoVictima("A201500998", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoTestigo("A201500997", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoNoIdentificado("A201500996", "", "", ""));
+                alumnosPostulante = alumnoUtils.createAlumnos(AlumnoAtributtesUtils.CODIGO_PREFIX_POSTULANTE, 0);
+                alumnosPostulante.add(alumnoUtils.createAlumnoAgresor("A201600001", "Josue ", "Rios", "Taipe"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoVictima("A201600002", "Omar", "Fernandez", "Larrea"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoTestigo("A201600003", "Tania", "Castillo", "Huillca"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoNoIdentificado("A201600004", "Maria", "Zapata", "Gómez"));
             }
         } else {
             alumnosPostulante = new ArrayList<Alumno>();
@@ -72,10 +70,10 @@ public class WebServiceAlumno {
         if (CON_ALUMNO) {
             if (alumnosEvaluado == null || alumnosEvaluado.isEmpty()) {
                 alumnosEvaluado = alumnoUtils.createAlumnos(AlumnoAtributtesUtils.CODIGO_PREFIX, SIZE_POSTULANTE);
-                alumnosPostulante.add(alumnoUtils.createAlumnoAgresor("A201600099", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoVictima("A201600098", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoTestigo("A201600097", "", "", ""));
-                alumnosPostulante.add(alumnoUtils.createAlumnoNoIdentificado("A201600096", "", "", ""));
+                alumnosPostulante.add(alumnoUtils.createAlumnoAgresor("A201500099", "Christian", "Sánchez", "Castillejo"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoVictima("A201500098", "Daniel", "Castllejo", "Sánchez"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoTestigo("A201500097", "Ana", "Romano", "Sánchez"));
+                alumnosPostulante.add(alumnoUtils.createAlumnoNoIdentificado("A201500096", "Maribel", "Castillejo", "Espinoza"));
             }
         } else {
             alumnosEvaluado = new ArrayList<Alumno>();

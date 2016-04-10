@@ -31,7 +31,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
     private static final String SQL_TRAIN = "Select cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,"
             + "CASE WHEN cod_perfil is null THEN '' ELSE cod_perfil END from tp_alumno_evaluado "
-            + "where cod_estado='ALU0002'";
+            + "where cod_estado='ALU0002' and cod_alumno between 'A201500101' and 'A201500137'";
     private static final String RELATION_NAME = "alumno2";
     private static final String URL_DATABASE = "jdbc:postgresql://localhost:5432/gepsac2";
     private static final String USERNAME = "postgres";

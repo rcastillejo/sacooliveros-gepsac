@@ -7,6 +7,7 @@ package com.sacooliveros.gepsac.service.experto.se;
 
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 
 /**
  *
@@ -28,6 +29,10 @@ public class Engines {
             instancia.loadRules(rulesConfig);
             instancia.loadFacts(factsConfig);
             return instancia;
+        }catch (ValidatorException e) {
+            throw e;
+        }catch (ExpertoServiceException e) {
+            throw e;
         } catch (Exception e) {
             throw new ExpertoServiceException(Experto.Error.Codigo.GENERAL, Experto.Error.Mensaje.CARGAR_REGLAS_ACOSO_ESCOLAR, e);
         }

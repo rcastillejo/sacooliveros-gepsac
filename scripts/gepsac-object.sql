@@ -278,7 +278,7 @@ CREATE TABLE tp_perfil
   nom_perfil character varying(25) NOT NULL,
   des_perfil character varying(250) NOT NULL,
   
-  --cod_estado character varying(15) NOT NULL, 
+  deshabilitado boolean, 
   
   usu_crea character varying(50), -- Usuario de creacion
   fec_crea timestamp without time zone DEFAULT now(), -- Fecha de creacion
@@ -554,7 +554,7 @@ CREATE TABLE tp_perfil_evaluacion
   indice int not null,
   cod_perfil character varying(15) NULL,
   
-  probabilidad numeric(10,2) NOT NULL,
+  probabilidad numeric(10,4) NOT NULL,
   seleccionado boolean NOT NULL,
   
   usu_crea character varying(50), -- Usuario de creacion

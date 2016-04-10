@@ -107,7 +107,7 @@ public class AlumnoMockUtils {
         alumno.setEdad(18);
         alumno.setContextura("Grande");
         alumno.setAltura("Alto");
-        alumno.setTipoFamilia("Monoparental");
+        alumno.setTipoFamilia("Extensa");
         alumno.setOrdenNacimiento(1);
         alumno.setNumHnos(0);
         alumno.setNivelEscolar("Secundaria");
@@ -165,18 +165,18 @@ public class AlumnoMockUtils {
         alumno.setApellidoMaterno(apellidoMaterno);
         alumno.setDomicilio(AlumnoAtributtesUtils.getDomicilio());
 
-        alumno.setGenero("Masculino");
+        alumno.setGenero("Femenino");
         alumno.setEdad(15);
         alumno.setContextura("Pequeño");
-        alumno.setAltura("Alto");
-        alumno.setTipoFamilia("Monoparental");
+        alumno.setAltura("Medio");
+        alumno.setTipoFamilia("Extensa");
         alumno.setOrdenNacimiento(2);
         alumno.setNumHnos(2);
-        alumno.setNivelEscolar("Secundaria");
+        alumno.setNivelEscolar("Primaria");
         alumno.setGradoEscolar(5);
-        alumno.setPromedioEscolar(11.00);
+        alumno.setPromedioEscolar(17.00);
         alumno.setNroCambioColegio(2);
-        alumno.setReligion("Católico");
+        alumno.setReligion("Ateo");
         alumno.setNacionalidad("Peruano");
         alumno.setDistrito("Pueblo Libre");
         alumno.setProvincia("Lima");
@@ -196,16 +196,16 @@ public class AlumnoMockUtils {
         alumno.setApellidoMaterno(apellidoMaterno);
         alumno.setDomicilio(AlumnoAtributtesUtils.getDomicilio());
 
-        alumno.setGenero("Masculino");
-        alumno.setEdad(15);
-        alumno.setContextura("Pequeño");
+        alumno.setGenero("Femenino");
+        alumno.setEdad(12);
+        alumno.setContextura("Mediano");
         alumno.setAltura("Alto");
-        alumno.setTipoFamilia("Monoparental");
+        alumno.setTipoFamilia("Nuclear");
         alumno.setOrdenNacimiento(2);
         alumno.setNumHnos(2);
         alumno.setNivelEscolar("Secundaria");
         alumno.setGradoEscolar(5);
-        alumno.setPromedioEscolar(11.00);
+        alumno.setPromedioEscolar(17.00);
         alumno.setNroCambioColegio(2);
         alumno.setReligion("Católico");
         alumno.setNacionalidad("Peruano");

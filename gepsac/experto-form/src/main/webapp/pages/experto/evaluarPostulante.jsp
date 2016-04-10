@@ -137,8 +137,8 @@
     }
 
     function cargarRespuestaEvaluacion(evaluacion) {
-        var max = 0;
         var perfilMax;
+        $("input[id^='P000']").removeClass('P0001 P0002 P0003 P0000');
         $("#codigoEvaluacion").val(evaluacion.codigo);
         for (var i in evaluacion.perfiles) {
             var perfilEval = evaluacion.perfiles[i];
@@ -161,13 +161,13 @@
             porcProbabilidad = porcProbabilidad.toFixed(2);
             console.log('Perfil Evaluado', perfilEval, '%', porcProbabilidad);
             el.val(porcProbabilidad + '%');
-            if (max < porcProbabilidad) {
-                max = porcProbabilidad;
+            if (perfilEval.seleccionado && perfilEval.seleccionado === true) {
                 perfilMax = perfilEval.perfil.codigo;
+                $("#" + perfilMax).addClass(perfilMax);
             }
         }
 
-        $("#" + perfilMax).addClass(perfilMax);
+        
     }
 
     function initEvaluarAlumno() {
@@ -271,8 +271,8 @@
         color: black;
     }
     .P0000{
-        background-color:gray;
-        color: black;
+        background-color:#46d246;
+        color: white;
     }
 </style>
 
