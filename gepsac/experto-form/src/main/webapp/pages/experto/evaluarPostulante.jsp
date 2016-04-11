@@ -35,7 +35,8 @@
     var myColumnsReq = [];
     var dialog;
 
-    $(document).ready(function () {
+    $(document).ready(function () {        
+        initPerfiles();
         initEvaluarAlumno();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -186,6 +187,36 @@
                     location.assign("<%=request.getContextPath()%>");
                 }, "MENSAJE");
             });
+        }
+    }
+    
+    var serviceIP = "<%=request.getLocalAddr()%>";
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/experto";
+    function initPerfiles(){
+        $.ajax({
+            type: "GET",
+            timeout:3000, 
+            //dataType: 'json',
+            url: serviceUrl + '/perfil'
+        }).done(function (listado) {
+            console.log('objeto', listado);
+            cargarPerfiles(listado);
+        }).fail(function (error) {
+            console.log('error', error);
+            fn_mdl_alert(error.responseText, function () {
+                location.assign("<%=request.getContextPath()%>");
+            }, "MENSAJE");
+        });
+    }
+    
+    function cargarPerfiles(listado) {
+        var table = $("#tblPerfiles tbody");
+        for (var i in listado) {
+            var perfil = listado[i];
+            var perfilTd = $("#perfilClone").find("tbody tr").clone();
+            perfilTd.find("label").append(perfil.nombre);
+            perfilTd.find("input").attr("id", perfil.codigo);
+            table.append(perfilTd);
         }
     }
 
@@ -402,12 +433,15 @@
         </fieldset>
         <fieldset>
             <legend>Resultado de la Evaluaci&oacute;n</legend>
-            <table border="1">
-                <tr>
-                    <td>Perfil</td> 
-                    <td>Porcentaje Similitud (%)</td>  
-                </tr>
-                <tr>
+            <table id="tblPerfiles" border="1">
+                <thead>                    
+                    <tr>
+                        <th>Perfil</th> 
+                        <th>Porcentaje Similitud (%)</th>  
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <!--<tr>
                     <td> Agresor</td>
                     <td><input id="P0001" type="text" disabled="true" style="text-align: right" value="0.00%"></td>  
                 </tr>
@@ -422,9 +456,23 @@
                 <tr>
                     <td> No Identificado</td>
                     <td><input id="P0000" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
-                </tr>
+                </tr>-->
             </table>
         </fieldset>
+        
+        <div id="perfilClone" style="display:none">
+            <table>
+                <tr>
+                    <td>
+                        <label for="probPerfil" />
+                    </td>
+                    <td>
+                        <input name="probPerfil" type="text" disabled="true" style="text-align: right" value="0.00%">
+                    </td>                     
+                </tr>
+            </table>
+        </div>
+        
         <div class="mensaje" >
             <span>
                 <label id="mensaje" />                

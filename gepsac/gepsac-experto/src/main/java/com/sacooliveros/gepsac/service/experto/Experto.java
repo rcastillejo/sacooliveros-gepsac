@@ -76,7 +76,7 @@ public interface Experto {
             String PREGUNTA_REQUERIDO = "Debe seleccionar al menos una pregunta";
             String MANTENIMIENTO_REGLA = "Error al realizar la operación";
             String NO_EXISTE_PREGUNTA = "No existen preguntas";
-            String NO_EXISTE_PERFIL = "No existen perfiles";
+            String NO_EXISTE_PERFIL = "No existe información de los perfiles de acoso escolar";
         }
     }
 

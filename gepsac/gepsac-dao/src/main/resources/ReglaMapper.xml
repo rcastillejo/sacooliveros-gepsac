@@ -98,6 +98,8 @@
             a.des_perfil
         FROM 
             tp_perfil a
+        WHERE
+            a.deshabilitado = false
         Order by 
             a.cod_perfil;
     </select>

@@ -37,6 +37,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link PreguntaRegla }
+     * 
+     */
+    public PreguntaRegla createPreguntaRegla() {
+        return new PreguntaRegla();
+    }
+
+    /**
      * Create an instance of {@link ExplicacionResultado }
      * 
      */
@@ -45,11 +53,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link Participante }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
+    public Participante createParticipante() {
+        return new Participante();
     }
 
     /**
@@ -61,19 +69,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ExplicacionResponse }
+     * Create an instance of {@link Estado }
      * 
      */
-    public ExplicacionResponse createExplicacionResponse() {
-        return new ExplicacionResponse();
+    public Estado createEstado() {
+        return new Estado();
     }
 
     /**
-     * Create an instance of {@link Perfil }
+     * Create an instance of {@link Explicacion }
      * 
      */
-    public Perfil createPerfil() {
-        return new Perfil();
+    public Explicacion createExplicacion() {
+        return new Explicacion();
     }
 
     /**
@@ -93,27 +101,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Regla }
+     * Create an instance of {@link PerfilEvaluado }
      * 
      */
-    public Regla createRegla() {
-        return new Regla();
+    public PerfilEvaluado createPerfilEvaluado() {
+        return new PerfilEvaluado();
     }
 
     /**
-     * Create an instance of {@link PreguntaRegla }
+     * Create an instance of {@link Model }
      * 
      */
-    public PreguntaRegla createPreguntaRegla() {
-        return new PreguntaRegla();
-    }
-
-    /**
-     * Create an instance of {@link Participante }
-     * 
-     */
-    public Participante createParticipante() {
-        return new Participante();
+    public Model createModel() {
+        return new Model();
     }
 
     /**
@@ -125,19 +125,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Explicacion }
+     * Create an instance of {@link Regla }
      * 
      */
-    public Explicacion createExplicacion() {
-        return new Explicacion();
+    public Regla createRegla() {
+        return new Regla();
     }
 
     /**
-     * Create an instance of {@link PerfilEvaluado }
+     * Create an instance of {@link Perfil }
      * 
      */
-    public PerfilEvaluado createPerfilEvaluado() {
-        return new PerfilEvaluado();
+    public Perfil createPerfil() {
+        return new Perfil();
     }
 
     /**
@@ -149,19 +149,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ExplicacionResponse }
+     * 
+     */
+    public ExplicacionResponse createExplicacionResponse() {
+        return new ExplicacionResponse();
+    }
+
+    /**
      * Create an instance of {@link EvaluacionPostulante }
      * 
      */
     public EvaluacionPostulante createEvaluacionPostulante() {
         return new EvaluacionPostulante();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
     }
 
     /**

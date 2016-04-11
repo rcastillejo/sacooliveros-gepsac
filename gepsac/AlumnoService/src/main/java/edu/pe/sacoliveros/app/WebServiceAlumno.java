@@ -5,6 +5,7 @@
  */
 package edu.pe.sacoliveros.app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
@@ -32,8 +33,9 @@ public class WebServiceAlumno {
      * @return
      */
     @WebMethod(operationName = "listarAlumnoPostulante")
-    public List<Alumno> listarAlumnoPostulante() {
-        if (CON_ALUMNO) {
+    public List<Alumno> listarAlumnoPostulante() throws IOException {
+        alumnoUtils.loadConfig();        
+        if (alumnoUtils.isConAlumnos()) {
             if (alumnosPostulante == null || alumnosPostulante.isEmpty()) {
                 alumnosPostulante = alumnoUtils.createAlumnos(AlumnoAtributtesUtils.CODIGO_PREFIX_POSTULANTE, 0);
                 alumnosPostulante.add(alumnoUtils.createAlumnoAgresor("A201600001", "Josue ", "Rios", "Taipe"));
@@ -51,7 +53,7 @@ public class WebServiceAlumno {
     public List<Alumno> buscarAlumnoPostulante(
             @WebParam(name = "codigo") String codigo,
             @WebParam(name = "nombres") String nombres,
-            @WebParam(name = "apellidos") String apellidos) {
+            @WebParam(name = "apellidos") String apellidos) throws IOException {
         
         alumnosPostulante = listarAlumnoPostulante();
 
@@ -60,7 +62,7 @@ public class WebServiceAlumno {
 
     @WebMethod(operationName = "obtenerAlumnoPostulante")
     public Alumno obtenerAlumnoPostulante(
-            @WebParam(name = "codigo") String codigo) {
+            @WebParam(name = "codigo") String codigo) throws IOException {
         alumnosPostulante = listarAlumnoPostulante();
         return alumnoUtils.obtenerAlumno(alumnosPostulante, codigo);
     }

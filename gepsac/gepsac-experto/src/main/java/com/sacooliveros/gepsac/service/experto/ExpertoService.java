@@ -206,13 +206,13 @@ public class ExpertoService implements Experto {
             EvaluacionAcosoEscolar evaluacionAcosoEscolar = consultarResultadoAcosoEscolar(evaluacion.getCodigo());
 
             /**
-             * 4.1.4.	El sistema carga las preguntas de la evaluaci√≥n
+             * 4.1.4.	El sistema carga las preguntas de la evaluaciÛn
              */
             log.info("[{}] El sistema carga las preguntas de la evaluacion", evaluacionAcosoEscolar.getCodigo());
             List<PreguntaEvaluacion> preguntas = evaluacionAcosoEscolar.getPreguntas();
 
             /**
-             * 4.1.5.	El sistema eval√∫a las respuestas de una evaluaci√≥n de
+             * 4.1.5.	El sistema eval˙a las respuestas de una evaluaciÛn de
              * acuerdo a las reglas.
              */
             log.info("[{}] El sistema determina el perfil de acoso escolar de una evaluacion", evaluacionAcosoEscolar.getCodigo());
@@ -220,7 +220,7 @@ public class ExpertoService implements Experto {
 
             /**
              * 4.1.6.	El sistema determina el perfil de acoso escolar de una
-             * evaluaci√≥n.
+             * evaluaciÛn.
              */
             String perfilResultado = resultado.getConclusion();
             Perfil perfil = new Perfil();
@@ -234,12 +234,12 @@ public class ExpertoService implements Experto {
             evaluacionAcosoEscolar.setPerfil(perfil);
 
             /**
-             * 4.1.7.	El sistema graba la evaluaci√≥n con el perfil en estado
+             * 4.1.7.	El sistema graba la evaluaciÛn con el perfil en estado
              * Evaluado.
              */
             evaluacionAcosoEscolar.setCodigoEstado(Estado.EvaluacionAcosoEscolar.EVALUADO);
 
-            log.info("[{}] El sistema graba la evaluaci√≥n con el perfil en estado '{}'", 
+            log.info("[{}] El sistema graba la evaluaciÛn con el perfil en estado '{}'", 
                     new Object[]{evaluacionAcosoEscolar.getCodigo(), StateUtil.getDescription(Estado.EvaluacionAcosoEscolar.EVALUADO)});
             evaluacionDao.actualizarRespuestaEvaluacion(evaluacionAcosoEscolar, resultado.getReglasActivas());
 
@@ -256,7 +256,7 @@ public class ExpertoService implements Experto {
             log.debug("[{}] Evaluacion de acoso escolar, resultado [perfil={}]", new Object[]{evaluacionAcosoEscolar.getCodigo(), perfil});
 
             /**
-             * 4.1.9.	El sistema muestra el mensaje [Evaluaci√≥n realizada
+             * 4.1.9.	El sistema muestra el mensaje [EvaluaciÛn realizada
              * satisfactoriamente] en los registros del sistema.
              */
             return MessageFormat.format(Mensaje.EVALUAR_ACOSO_ESCOLAR, new Object[]{evaluacionAcosoEscolar.getCodigo()});
@@ -460,7 +460,7 @@ public class ExpertoService implements Experto {
             }
 
             /**
-             * 4.2.1.4.	El sistema valida la definici√≥n de la regla
+             * 4.2.1.4.	El sistema valida la definiciÛn de la regla
              */
             log.info("El sistema valida la repeticion de una pregunta");
             validarPreguntaRepetida(regla);
@@ -491,8 +491,8 @@ public class ExpertoService implements Experto {
             log.info("El sistema grabo las reglas");
 
             /**
-             * 4.2.1.6.	El sistema muestra mensaje ‚ÄúLa regla se agreg√≥
-             * satisfactoriamente‚Äù con el listado de reglas actualizado.
+             * 4.2.1.6.	El sistema muestra mensaje 'La regla se agregÛ
+             * satisfactoriamente' con el listado de reglas actualizado.
              */
             return MessageFormat.format(Mensaje.AGREGAR_REGLA, new Object[]{regla.getCodigo()});
         } catch (ValidatorException e) {
@@ -515,7 +515,7 @@ public class ExpertoService implements Experto {
             }
 
             /**
-             * 4.2.1.4.	El sistema valida la definici√≥n de la regla
+             * 4.2.1.4.	El sistema valida la definiciÛn de la regla
              */
             validarPreguntaRepetida(regla);
 
@@ -548,8 +548,8 @@ public class ExpertoService implements Experto {
                 log.info("El sistema grabo los cambios de la regla");
 
                 /**
-                 * 4.2.1.6.	El sistema muestra mensaje ‚ÄúLa Regla se actualiz√≥
-                 * satisfactoriamente‚Äù con el listado de reglas actualizado.
+                 * 4.2.1.6.	El sistema muestra mensaje ìLa Regla se actualizÛ
+                 * satisfactoriamenteî con el listado de reglas actualizado.
                  */
                 msg = MessageFormat.format(Mensaje.MODIFICAR_REGLA, new Object[]{regla.getCodigo()});
             } catch (ForeignKeyException e) {

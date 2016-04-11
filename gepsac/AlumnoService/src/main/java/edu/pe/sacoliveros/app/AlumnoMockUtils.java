@@ -5,8 +5,13 @@
  */
 package edu.pe.sacoliveros.app;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +22,25 @@ import org.slf4j.LoggerFactory;
 public class AlumnoMockUtils {
 
     private static final Logger log = LoggerFactory.getLogger(AlumnoMockUtils.class);
+    private Properties config;
+    private boolean conAlumnos;
+
+    public void loadConfig() throws IOException {
+        if (config == null) {
+            config = new Properties();
+        }
+        String configPath = System.getProperty("jboss.server.config.dir");
+        log.debug("Ruta configuracion [{}]", configPath);
+        File configFile = new File(configPath, "gepsac-service.properties");
+        if (configFile.exists()) {
+            config.load(new FileReader(configFile));
+            log.debug("Parametros cargados [{}]", config);
+            conAlumnos = Boolean.parseBoolean(config.getProperty("habilitarAlumnos"));
+            log.debug("Parametro habilitarAlumnos={}", conAlumnos);
+        } else {
+            log.warn("No existe el arhivo [{}]", configFile);
+        }
+    }
 
     public List<Alumno> createAlumnos(String codigoPrefix, int size) {
 
@@ -92,7 +116,7 @@ public class AlumnoMockUtils {
         return alumno;
     }
 
-    public Alumno createAlumnoAgresor(String codigo, 
+    public Alumno createAlumnoAgresor(String codigo,
             String nombres, String apellidoPaterno, String apellidoMaterno) {
         Alumno alumno = new Alumno();
         alumno.setCodigo(codigo);
@@ -124,7 +148,7 @@ public class AlumnoMockUtils {
         return alumno;
     }
 
-    public Alumno createAlumnoVictima(String codigo, 
+    public Alumno createAlumnoVictima(String codigo,
             String nombres, String apellidoPaterno, String apellidoMaterno) {
         Alumno alumno = new Alumno();
         alumno.setCodigo(codigo);
@@ -155,7 +179,7 @@ public class AlumnoMockUtils {
         return alumno;
     }
 
-    public Alumno createAlumnoTestigo(String codigo, 
+    public Alumno createAlumnoTestigo(String codigo,
             String nombres, String apellidoPaterno, String apellidoMaterno) {
         Alumno alumno = new Alumno();
         alumno.setCodigo(codigo);
@@ -186,7 +210,7 @@ public class AlumnoMockUtils {
         return alumno;
     }
 
-    public Alumno createAlumnoNoIdentificado(String codigo, 
+    public Alumno createAlumnoNoIdentificado(String codigo,
             String nombres, String apellidoPaterno, String apellidoMaterno) {
         Alumno alumno = new Alumno();
         alumno.setCodigo(codigo);
@@ -215,6 +239,10 @@ public class AlumnoMockUtils {
 
         log.debug("Alumno No Identificado creado [{}]", alumno);
         return alumno;
+    }
+
+    public boolean isConAlumnos() {
+        return conAlumnos;
     }
 
 }

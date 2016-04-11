@@ -45,83 +45,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BuscarAlumnoPostulante }
+     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
      * 
      */
-    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
-        return new BuscarAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
-     * 
-     */
-    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
-        return new ObtenerAlumnoPostulanteResponse();
-    }
-
-    /**
-     * Create an instance of {@link ListarAlumnoEvaluadoResponse }
-     * 
-     */
-    public ListarAlumnoEvaluadoResponse createListarAlumnoEvaluadoResponse() {
-        return new ListarAlumnoEvaluadoResponse();
-    }
-
-    /**
-     * Create an instance of {@link ListarAlumnoPostulante }
-     * 
-     */
-    public ListarAlumnoPostulante createListarAlumnoPostulante() {
-        return new ListarAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoEvaluacion }
-     * 
-     */
-    public ObtenerAlumnoEvaluacion createObtenerAlumnoEvaluacion() {
-        return new ObtenerAlumnoEvaluacion();
-    }
-
-    /**
-     * Create an instance of {@link BuscarAlumnoEvaluado }
-     * 
-     */
-    public BuscarAlumnoEvaluado createBuscarAlumnoEvaluado() {
-        return new BuscarAlumnoEvaluado();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoEvaluacionResponse }
-     * 
-     */
-    public ObtenerAlumnoEvaluacionResponse createObtenerAlumnoEvaluacionResponse() {
-        return new ObtenerAlumnoEvaluacionResponse();
-    }
-
-    /**
-     * Create an instance of {@link Alumno }
-     * 
-     */
-    public Alumno createAlumno() {
-        return new Alumno();
-    }
-
-    /**
-     * Create an instance of {@link ObtenerAlumnoPostulante }
-     * 
-     */
-    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
-        return new ObtenerAlumnoPostulante();
-    }
-
-    /**
-     * Create an instance of {@link BuscarAlumnoEvaluadoResponse }
-     * 
-     */
-    public BuscarAlumnoEvaluadoResponse createBuscarAlumnoEvaluadoResponse() {
-        return new BuscarAlumnoEvaluadoResponse();
+    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
+        return new BuscarAlumnoPostulanteResponse();
     }
 
     /**
@@ -141,11 +69,83 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BuscarAlumnoPostulanteResponse }
+     * Create an instance of {@link ObtenerAlumnoPostulanteResponse }
      * 
      */
-    public BuscarAlumnoPostulanteResponse createBuscarAlumnoPostulanteResponse() {
-        return new BuscarAlumnoPostulanteResponse();
+    public ObtenerAlumnoPostulanteResponse createObtenerAlumnoPostulanteResponse() {
+        return new ObtenerAlumnoPostulanteResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoEvaluacion }
+     * 
+     */
+    public ObtenerAlumnoEvaluacion createObtenerAlumnoEvaluacion() {
+        return new ObtenerAlumnoEvaluacion();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoPostulante }
+     * 
+     */
+    public BuscarAlumnoPostulante createBuscarAlumnoPostulante() {
+        return new BuscarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link Alumno }
+     * 
+     */
+    public Alumno createAlumno() {
+        return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoEvaluado }
+     * 
+     */
+    public BuscarAlumnoEvaluado createBuscarAlumnoEvaluado() {
+        return new BuscarAlumnoEvaluado();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoPostulante }
+     * 
+     */
+    public ListarAlumnoPostulante createListarAlumnoPostulante() {
+        return new ListarAlumnoPostulante();
+    }
+
+    /**
+     * Create an instance of {@link BuscarAlumnoEvaluadoResponse }
+     * 
+     */
+    public BuscarAlumnoEvaluadoResponse createBuscarAlumnoEvaluadoResponse() {
+        return new BuscarAlumnoEvaluadoResponse();
+    }
+
+    /**
+     * Create an instance of {@link ListarAlumnoEvaluadoResponse }
+     * 
+     */
+    public ListarAlumnoEvaluadoResponse createListarAlumnoEvaluadoResponse() {
+        return new ListarAlumnoEvaluadoResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoEvaluacionResponse }
+     * 
+     */
+    public ObtenerAlumnoEvaluacionResponse createObtenerAlumnoEvaluacionResponse() {
+        return new ObtenerAlumnoEvaluacionResponse();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAlumnoPostulante }
+     * 
+     */
+    public ObtenerAlumnoPostulante createObtenerAlumnoPostulante() {
+        return new ObtenerAlumnoPostulante();
     }
 
     /**

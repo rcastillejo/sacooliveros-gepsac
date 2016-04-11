@@ -5,6 +5,7 @@
  */
 package edu.pe.sacoliveros.app;
 
+import java.io.IOException;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,7 +43,7 @@ public class WebServiceAlumnoTest {
      * Test of listarAlumnoPostulante method, of class WebServiceAlumno.
      */
     //@Test
-    public void testListarAlumnoPostulante() {
+    public void testListarAlumnoPostulante() throws IOException {
         System.out.println("listarAlumnoPostulante");
         WebServiceAlumno instance = new WebServiceAlumno();
         

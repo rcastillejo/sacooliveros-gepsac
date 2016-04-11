@@ -250,7 +250,7 @@ public class ExpertoServiceTest {
         assertEquals("P0003", perfil.getCodigo());
 
     }
-    @Test
+    //@Test
     public void testEvaluarAlumnoNoIdentificado() {
         log.debug("testEvaluarAlumnoNoIdentificado");
         //String codigo = "A201500099";
