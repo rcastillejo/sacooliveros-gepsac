@@ -49,14 +49,14 @@ public interface Experto {
 
         interface Mensaje {
 
-            String GENERAL = "No se pudo realizar la  evaluaciÃ³n [{0}]";
+            String GENERAL = "No se pudo realizar la  evaluación [{0}]";
             String LISTAR = "No se encuentra planes";
             String EVALUAR = "Error al evaluar alumno postulante [{0}]";
-            String NO_EXISTE_ALUMNO_EVALUADOS = "No existe suficiente informaciÃ³n de alumnos evaluados";
+            String NO_EXISTE_ALUMNO_EVALUADOS = "No existe suficiente información de alumnos evaluados";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR = "No existen evaluaciones de acoso escolar [{0}]";
             String NO_EXISTE_EVALUACION_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "No existen evaluaciones de acoso escolar resuelto o evaluadas";
             
-            String SOLICITUD_CON_EVALUACIONES_PENDIENTES_EVALUAR = "Existen Evaluaciones de la Solicitud PsicolÃ³gica pendientes de Evaluar";
+            String SOLICITUD_CON_EVALUACIONES_PENDIENTES_EVALUAR = "Existen Evaluaciones de la Solicitud Psicológica pendientes de Evaluar";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR = "Error al consultar evaluaciones de acoso escolar";
             String LISTAR_EVALUACIONES_ACOSO_ESCOLAR_EVALUADO_RESUELTO = "Error al consultar evaluaciones de acoso escolar";
             String OBTENER_REGLA_ACOSO_ESCOLAR = "Error al consultar regla de acoso escolar";

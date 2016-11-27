@@ -49,7 +49,10 @@ insert into tp_alumno_evaluado (cod_alumno,sexo,edad,cod_contextura,cod_estatura
 
 
 --Data Comun
+-- Perfiles
+Select cod_perfil, nom_perfil from tp_perfil where deshabilitado = false;
 
+--Alumnos Evaludos
 Select 
             a.cod_alumno as "Alumno",
             b.nom_perfil as "Perfil",
@@ -76,14 +79,28 @@ where cod_estado = 'ALU0002'
 and cod_alumno between 'A201500101' and 'A201500137'
 order by a.cod_perfil asc, a.cod_alumno desc;
 
-
-
---Alumnos Evaluados
-Select cod_evaluacion as "Evaluacion", cod_alumno as "Alumno", fec_evaluacion "Fecha Evaluacion"
-from tp_evaluacion_postulante
-where cod_evaluacion = 'EV201604090000037245';
-
-Select nom_perfil as "Perfil", probabilidad as "Porcentaje", CASE WHEN seleccionado THEN 'TRUE' ELSE 'FALSE' END as "Selecionado"
-from tp_perfil_evaluacion a inner join tp_perfil b on a.cod_perfil = b.cod_perfil
-where cod_evaluacion = 'EV201604090000037245';
-
+--Alumnos Postulantes
+Select 
+            a.cod_alumno as "Alumno",
+            a.nombres as "Nombres",
+            a.apellido_pat as "Apellido Paterno",
+            a.apellido_mat as "Apellido Materno",
+            CASE WHEN a.sexo = '1' THEN 'Masculino' ELSE 'Femenino 'END as "Sexo",
+edad as "Edad",
+            (select nom_contextura from tp_contextura where cod_contextura = a.cod_contextura) as "Contextura",
+            (select nom_estatura from tp_estatura where cod_estatura = a.cod_estatura) as "Estatura",
+            (select nom_familia from tp_tipo_familia where cod_familia = a.cod_familia) as "Tipo Familia",
+orden_nacimiento as "Orden Nacimineto",
+cant_hnos as "Num Hnos",
+            CASE WHEN a.sexo = '1' THEN 'Primaria' ELSE 'Secundaria 'END as "Nivel Escolar",
+grado_escolar as "Grado",
+promedio_escolar as "Promedio",
+cant_cambio_colegio as "Num. Cambios",
+            (select nom_religion from tp_religion where cod_religion = a.cod_religion) as "Religion",
+            (select nom_distrito from tp_distrito where cod_distrito = a.cod_distrito) as "Distrito",
+            (select nom_departamento from tp_departamento where cod_departamento = a.cod_departamento) as "Departamento",
+            (select nom_provincia from tp_provincia where cod_provincia = a.cod_provincia) as "Provincia",
+            (select nom_nacionalidad from tp_nacionalidad where cod_nacionalidad = a.cod_nacionalidad) as "Nacionalidad"
+from tp_alumno_postulante a
+where cod_alumno between 'A201600001' and 'A201600004'
+order by a.cod_perfil asc, a.cod_alumno desc;
