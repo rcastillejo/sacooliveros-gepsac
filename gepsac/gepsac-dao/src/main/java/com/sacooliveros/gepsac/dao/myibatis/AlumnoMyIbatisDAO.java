@@ -97,6 +97,25 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
     }
 
     @Override
+    public Alumno obtenerEvaluado(String id) {
+        Alumno model;
+        SqlSession session = null;
+        AlumnoMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(AlumnoMapper.class);
+            model = mapper.getEvaluado(id);
+            log.info("Plan obtenido [{}]", model);
+            return model;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
     public void ingresarPostulante(Alumno model) {
         SqlSession session = null;
         AlumnoMapper mapper;
@@ -147,6 +166,56 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
     }
 
     @Override
+    public void ingresarEvaluado(Alumno model) {
+        SqlSession session = null;
+        AlumnoMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(AlumnoMapper.class);
+            log.debug("Registrando [{}] ...", model);
+            if (mapper.insertEvaluado(model) == 0) {
+                throw new DAOException("No se pudo registrar");
+            }
+            session.commit();
+            log.info("Registrado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
+    public void actualizarEvaluado(Alumno model) {
+        SqlSession session = null;
+        AlumnoMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(AlumnoMapper.class);
+            log.debug("Actualizando [{}] ...", model);
+            if (mapper.updateEvaluado(model) == 0) {
+                throw new DAOException("No se pudo actualizar");
+            }
+            session.commit();
+            log.info("Actualizado [{}]", model);
+
+        } catch (Exception e) {
+            if (session != null) {
+                session.rollback();
+            }
+            throw new DAOException("Error al grabar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+
+    @Override
     public void grabarPostulante(Alumno model) {
 
         Alumno alumnoConsultado = obtenerPostulante(model.getCodigo());
@@ -156,6 +225,19 @@ public class AlumnoMyIbatisDAO extends GenericMyIbatisDAO implements AlumnoDAO {
             ingresarPostulante(model);
         } else {
             actualizarPostulante(model);
+        }
+    }
+
+    @Override
+    public void grabarEvaluado(Alumno model) {
+
+        Alumno alumnoConsultado = obtenerEvaluado(model.getCodigo());
+        log.debug("Alumno consultado [{}]", alumnoConsultado);
+
+        if (alumnoConsultado == null) {
+            ingresarEvaluado(model);
+        } else {
+            actualizarEvaluado(model);
         }
     }
 

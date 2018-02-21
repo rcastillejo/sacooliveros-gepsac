@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="83044739-138e-4dce-9927-4a052c3c2f98" activeEnvironment="Default" name="BOService" resourceRoot="" soapui-version="5.1.3" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d0d9898c-31b5-4594-863b-042b53cf1d3c" wsaVersion="NONE" name="BOServiceSoapBinding" type="wsdl" bindingName="{http://service.gepsac.sacooliveros.com/}BOServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8180/gepsac-service/BOService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8180/gepsac-service/BOService?wsdl"><con:part><con:url>http://localhost:8180/gepsac-service/BOService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="BOService" targetNamespace="http://service.gepsac.sacooliveros.com/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://service.gepsac.sacooliveros.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://service.gepsac.sacooliveros.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="evaluarAlumno" type="tns:evaluarAlumno"/>
+      <xs:element name="evaluarAlumnoResponse" type="tns:evaluarAlumnoResponse"/>
+      <xs:element name="explicacion" type="tns:explicacion"/>
+      <xs:element name="explicacionResponse" type="tns:explicacionResponse"/>
+      <xs:complexType name="evaluarAlumno">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="evaluacionPostulante" type="tns:evaluacionPostulante"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="evaluacionPostulante">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="alumno" type="tns:alumno"/>
+              <xs:element minOccurs="0" name="fechaEvaluacion" type="xs:dateTime"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="perfiles" nillable="true" type="tns:perfilEvaluado"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="model">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+          <xs:element minOccurs="0" name="estado" type="tns:estado"/>
+          <xs:element minOccurs="0" name="fecCre" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="fecMod" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="usuCre" type="xs:string"/>
+          <xs:element minOccurs="0" name="usuMod" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="alumno">
+        <xs:complexContent>
+          <xs:extension base="tns:participante">
+            <xs:sequence>
+              <xs:element name="cantCambioColegio" type="xs:int"/>
+              <xs:element name="cantHnos" type="xs:int"/>
+              <xs:element minOccurs="0" name="contextura" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="departamento" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="direccion" type="xs:string"/>
+              <xs:element minOccurs="0" name="distrito" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="estatura" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="fechaNacimiento" type="xs:dateTime"/>
+              <xs:element name="gradoEscolar" type="xs:int"/>
+              <xs:element minOccurs="0" name="lugarNacimiento" type="xs:string"/>
+              <xs:element minOccurs="0" name="nacionalidad" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="nivelEscolar" type="tns:entidad"/>
+              <xs:element name="ordenNacimiento" type="xs:int"/>
+              <xs:element minOccurs="0" name="perfil" type="tns:perfil"/>
+              <xs:element name="promedioEscolar" type="xs:double"/>
+              <xs:element minOccurs="0" name="provincia" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="religion" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="sexo" type="tns:entidad"/>
+              <xs:element minOccurs="0" name="tipoFamilia" type="tns:entidad"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="participante">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="apellidoMaterno" type="xs:string"/>
+              <xs:element minOccurs="0" name="apellidoPaterno" type="xs:string"/>
+              <xs:element name="edad" type="xs:int"/>
+              <xs:element minOccurs="0" name="email" type="xs:string"/>
+              <xs:element minOccurs="0" name="nombres" type="xs:string"/>
+              <xs:element minOccurs="0" name="telefono" type="xs:string"/>
+              <xs:element minOccurs="0" name="tipo" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="entidad">
+        <xs:sequence>
+          <xs:element name="codigo" type="xs:int"/>
+          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="perfil">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+              <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="estado">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+          <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
+          <xs:element minOccurs="0" name="nombre" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="perfilEvaluado">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigoEvaluacion" type="xs:string"/>
+          <xs:element name="indice" type="xs:int"/>
+          <xs:element minOccurs="0" name="perfil" type="tns:perfil"/>
+          <xs:element name="probabilidad" type="xs:double"/>
+          <xs:element name="seleccionado" type="xs:boolean"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="evaluarAlumnoResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:evaluacionPostulante"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="explicacion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="evaluacionAcosoEscolar" type="tns:evaluacionAcosoEscolar"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="evaluacionAcosoEscolar">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="alumno" type="tns:alumno"/>
+              <xs:element minOccurs="0" name="fechaEvaluacion" type="xs:dateTime"/>
+              <xs:element minOccurs="0" name="perfil" type="tns:perfil"/>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="preguntas" nillable="true" type="tns:preguntaEvaluacion"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="preguntaEvaluacion">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigoEvaluacion" type="xs:string"/>
+          <xs:element name="ordenEvaluacion" type="xs:int"/>
+          <xs:element minOccurs="0" name="pregunta" type="tns:pregunta"/>
+          <xs:element minOccurs="0" name="regla" type="xs:string"/>
+          <xs:element minOccurs="0" name="respuesta" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="pregunta">
+        <xs:complexContent>
+          <xs:extension base="tns:model">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="alias" type="xs:string"/>
+              <xs:element minOccurs="0" name="enunciado" type="xs:string"/>
+              <xs:element minOccurs="0" name="tipo" type="xs:string"/>
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="explicacionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:explicacionResultado"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="explicacionResultado">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="alumno" type="tns:alumno"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="preguntas" nillable="true" type="tns:preguntaEvaluacion"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="evaluarAlumnoResponse">
+    <wsdl:part element="tns:evaluarAlumnoResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="evaluarAlumno">
+    <wsdl:part element="tns:evaluarAlumno" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="explicacion">
+    <wsdl:part element="tns:explicacion" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="explicacionResponse">
+    <wsdl:part element="tns:explicacionResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="BOService">
+    <wsdl:operation name="evaluarAlumno">
+      <wsdl:input message="tns:evaluarAlumno" name="evaluarAlumno"></wsdl:input>
+      <wsdl:output message="tns:evaluarAlumnoResponse" name="evaluarAlumnoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="explicacion">
+      <wsdl:input message="tns:explicacion" name="explicacion"></wsdl:input>
+      <wsdl:output message="tns:explicacionResponse" name="explicacionResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BOServiceSoapBinding" type="tns:BOService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="evaluarAlumno">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="evaluarAlumno">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="evaluarAlumnoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="explicacion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="explicacion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="explicacionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="BOService">
+    <wsdl:port binding="tns:BOServiceSoapBinding" name="BOServicePort">
+      <soap:address location="http://localhost:8180/gepsac-service/BOService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint></con:endpoints><con:operation id="e153702a-4187-47ec-a84b-188bec3adf4e" isOneWay="false" action="" name="evaluarAlumno" bindingOperationName="evaluarAlumno" type="Request-Response" outputName="evaluarAlumnoResponse" inputName="evaluarAlumno" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="b2140a82-7871-4716-97bf-05bcc0603bbc" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.gepsac.sacooliveros.com/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ser:evaluarAlumno>\r
+         <!--Optional:-->\r
+         <evaluacionPostulante>\r
+            <!--Optional:-->\r
+            <codigo>?</codigo>\r
+            <!--Optional:-->\r
+            <estado>\r
+               <!--Optional:-->\r
+               <codigo>?</codigo>\r
+               <!--Optional:-->\r
+               <descripcion>?</descripcion>\r
+               <!--Optional:-->\r
+               <nombre>?</nombre>\r
+            </estado>\r
+            <!--Optional:-->\r
+            <fecCre>?</fecCre>\r
+            <!--Optional:-->\r
+            <fecMod>?</fecMod>\r
+            <!--Optional:-->\r
+            <usuCre>?</usuCre>\r
+            <!--Optional:-->\r
+            <usuMod>?</usuMod>\r
+            <!--Optional:-->\r
+            <alumno>\r
+               <!--Optional:-->\r
+               <codigo>?</codigo>\r
+               <!--Optional:-->\r
+               <estado>\r
+                  <!--Optional:-->\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <descripcion>?</descripcion>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </estado>\r
+               <!--Optional:-->\r
+               <fecCre>?</fecCre>\r
+               <!--Optional:-->\r
+               <fecMod>?</fecMod>\r
+               <!--Optional:-->\r
+               <usuCre>?</usuCre>\r
+               <!--Optional:-->\r
+               <usuMod>?</usuMod>\r
+               <!--Optional:-->\r
+               <apellidoMaterno>?</apellidoMaterno>\r
+               <!--Optional:-->\r
+               <apellidoPaterno>?</apellidoPaterno>\r
+               <edad>?</edad>\r
+               <!--Optional:-->\r
+               <email>?</email>\r
+               <!--Optional:-->\r
+               <nombres>?</nombres>\r
+               <!--Optional:-->\r
+               <telefono>?</telefono>\r
+               <!--Optional:-->\r
+               <tipo>?</tipo>\r
+               <cantCambioColegio>?</cantCambioColegio>\r
+               <cantHnos>?</cantHnos>\r
+               <!--Optional:-->\r
+               <contextura>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </contextura>\r
+               <!--Optional:-->\r
+               <departamento>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </departamento>\r
+               <!--Optional:-->\r
+               <direccion>?</direccion>\r
+               <!--Optional:-->\r
+               <distrito>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </distrito>\r
+               <!--Optional:-->\r
+               <estatura>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </estatura>\r
+               <!--Optional:-->\r
+               <fechaNacimiento>?</fechaNacimiento>\r
+               <gradoEscolar>?</gradoEscolar>\r
+               <!--Optional:-->\r
+               <lugarNacimiento>?</lugarNacimiento>\r
+               <!--Optional:-->\r
+               <nacionalidad>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </nacionalidad>\r
+               <!--Optional:-->\r
+               <nivelEscolar>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </nivelEscolar>\r
+               <ordenNacimiento>?</ordenNacimiento>\r
+               <!--Optional:-->\r
+               <perfil>\r
+                  <!--Optional:-->\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <estado>\r
+                     <!--Optional:-->\r
+                     <codigo>?</codigo>\r
+                     <!--Optional:-->\r
+                     <descripcion>?</descripcion>\r
+                     <!--Optional:-->\r
+                     <nombre>?</nombre>\r
+                  </estado>\r
+                  <!--Optional:-->\r
+                  <fecCre>?</fecCre>\r
+                  <!--Optional:-->\r
+                  <fecMod>?</fecMod>\r
+                  <!--Optional:-->\r
+                  <usuCre>?</usuCre>\r
+                  <!--Optional:-->\r
+                  <usuMod>?</usuMod>\r
+                  <!--Optional:-->\r
+                  <descripcion>?</descripcion>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </perfil>\r
+               <promedioEscolar>?</promedioEscolar>\r
+               <!--Optional:-->\r
+               <provincia>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </provincia>\r
+               <!--Optional:-->\r
+               <religion>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </religion>\r
+               <!--Optional:-->\r
+               <sexo>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </sexo>\r
+               <!--Optional:-->\r
+               <tipoFamilia>\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </tipoFamilia>\r
+            </alumno>\r
+            <!--Optional:-->\r
+            <fechaEvaluacion>?</fechaEvaluacion>\r
+            <!--Zero or more repetitions:-->\r
+            <perfiles>\r
+               <!--Optional:-->\r
+               <codigoEvaluacion>?</codigoEvaluacion>\r
+               <indice>?</indice>\r
+               <!--Optional:-->\r
+               <perfil>\r
+                  <!--Optional:-->\r
+                  <codigo>?</codigo>\r
+                  <!--Optional:-->\r
+                  <estado>\r
+                     <!--Optional:-->\r
+                     <codigo>?</codigo>\r
+                     <!--Optional:-->\r
+                     <descripcion>?</descripcion>\r
+                     <!--Optional:-->\r
+                     <nombre>?</nombre>\r
+                  </estado>\r
+                  <!--Optional:-->\r
+                  <fecCre>?</fecCre>\r
+                  <!--Optional:-->\r
+                  <fecMod>?</fecMod>\r
+                  <!--Optional:-->\r
+                  <usuCre>?</usuCre>\r
+                  <!--Optional:-->\r
+                  <usuMod>?</usuMod>\r
+                  <!--Optional:-->\r
+                  <descripcion>?</descripcion>\r
+                  <!--Optional:-->\r
+                  <nombre>?</nombre>\r
+               </perfil>\r
+               <probabilidad>?</probabilidad>\r
+               <seleccionado>?</seleccionado>\r
+            </perfiles>\r
+         </evaluacionPostulante>\r
+      </ser:evaluarAlumno>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:call><con:call id="6c250c3e-ee13-4432-99d0-fa336f68b338" name="Performance"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns2:evaluarAlumno xmlns:ns2="http://service.gepsac.sacooliveros.com/">
+			<evaluacionPostulante>
+				<alumno>
+					<codigo>A201600000</codigo>
+					<apellidoMaterno>Cornejo</apellidoMaterno>
+					<apellidoPaterno>Jose </apellidoPaterno>
+					<edad>15</edad>
+					<nombres>Jose Alberto</nombres>
+					<cantCambioColegio>3</cantCambioColegio>
+					<cantHnos>4</cantHnos>
+					<contextura>
+						<codigo>0</codigo>
+						<nombre>Pequeño</nombre>
+					</contextura>
+					<departamento>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</departamento>
+					<direccion>Gálvez Barrenechea 515</direccion>
+					<distrito>
+						<codigo>0</codigo>
+						<nombre>Breña</nombre>
+					</distrito>
+					<estatura>
+						<codigo>0</codigo>
+						<nombre>Medio</nombre>
+					</estatura>
+					<gradoEscolar>6</gradoEscolar>
+					<nacionalidad>
+						<codigo>0</codigo>
+						<nombre>Peruano</nombre>
+					</nacionalidad>
+					<nivelEscolar>
+						<codigo>0</codigo>
+						<nombre>Primaria</nombre>
+					</nivelEscolar>
+					<ordenNacimiento>2</ordenNacimiento>
+					<promedioEscolar>16.0</promedioEscolar>
+					<provincia>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</provincia>
+					<religion>
+						<codigo>0</codigo>
+						<nombre>Evangélico</nombre>
+					</religion>
+					<sexo>
+						<codigo>0</codigo>
+						<nombre>Masculino</nombre>
+					</sexo>
+					<tipoFamilia>
+						<codigo>0</codigo>
+						<nombre>Esamblada</nombre>
+					</tipoFamilia>
+				</alumno>
+			</evaluacionPostulante>
+		</ns2:evaluarAlumno>
+	</soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="047f171b-6749-4e09-b929-000dcdeba2f6" isOneWay="false" action="" name="explicacion" bindingOperationName="explicacion" type="Request-Response" outputName="explicacionResponse" inputName="explicacion" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ebfd8881-4e0a-4e0e-818e-522f746ea824" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.gepsac.sacooliveros.com/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <ser:explicacion>\r
+         <!--Optional:-->\r
+         <evaluacionAcosoEscolar>\r
+            <!--Optional:-->\r
+            <codigo>EV20151205203901</codigo>\r
+         </evaluacionAcosoEscolar>\r
+      </ser:explicacion>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/explicacion"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="f97d15d3-67ac-43fa-95d4-4bc351438a7e" name="TestPerformance"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="b457e954-eab4-4a20-8263-5a9950e87ead" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true"><con:settings/><con:testStep type="request" id="5f33ef50-8410-4abd-affc-0a8ae2d58117" name="evaluarAlumno - Performance"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BOServiceSoapBinding</con:interface><con:operation>evaluarAlumno</con:operation><con:request name="evaluarAlumno - Performance" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ca30438d-c65e-4f2d-a01c-8f3def64f899"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8180/gepsac-service/BOService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns2:evaluarAlumno xmlns:ns2="http://service.gepsac.sacooliveros.com/">
+			<evaluacionPostulante>
+				<alumno>
+					<codigo>A201600000</codigo>
+					<apellidoMaterno>Cornejo</apellidoMaterno>
+					<apellidoPaterno>Jose </apellidoPaterno>
+					<edad>15</edad>
+					<nombres>Jose Alberto</nombres>
+					<cantCambioColegio>3</cantCambioColegio>
+					<cantHnos>4</cantHnos>
+					<contextura>
+						<codigo>0</codigo>
+						<nombre>Pequeño</nombre>
+					</contextura>
+					<departamento>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</departamento>
+					<direccion>Gálvez Barrenechea 515</direccion>
+					<distrito>
+						<codigo>0</codigo>
+						<nombre>Breña</nombre>
+					</distrito>
+					<estatura>
+						<codigo>0</codigo>
+						<nombre>Medio</nombre>
+					</estatura>
+					<gradoEscolar>6</gradoEscolar>
+					<nacionalidad>
+						<codigo>0</codigo>
+						<nombre>Peruano</nombre>
+					</nacionalidad>
+					<nivelEscolar>
+						<codigo>0</codigo>
+						<nombre>Primaria</nombre>
+					</nivelEscolar>
+					<ordenNacimiento>2</ordenNacimiento>
+					<promedioEscolar>16.0</promedioEscolar>
+					<provincia>
+						<codigo>0</codigo>
+						<nombre>Lima</nombre>
+					</provincia>
+					<religion>
+						<codigo>0</codigo>
+						<nombre>Evangélico</nombre>
+					</religion>
+					<sexo>
+						<codigo>0</codigo>
+						<nombre>Masculino</nombre>
+					</sexo>
+					<tipoFamilia>
+						<codigo>0</codigo>
+						<nombre>Esamblada</nombre>
+					</tipoFamilia>
+				</alumno>
+			</evaluacionPostulante>
+		</ns2:evaluarAlumno>
+	</soap:Body>
+</soap:Envelope>]]></con:request><con:assertion type="SOAP Response" id="423172fb-4762-4ae5-aa7e-218bbb24dcba" name="SOAP Response"/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://service.gepsac.sacooliveros.com/BOService/evaluarAlumno"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:loadTest id="9c883d38-1b58-464c-9bc2-379bdebf5e39" name="LoadTest 1"><con:settings><con:setting id="HttpSettings@close-connections">false</con:setting></con:settings><con:threadCount>20</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>10</con:testLimit><con:limitType>COUNT_PER_THREAD</con:limitType><con:loadStrategy><con:type>Simple</con:type><con:config><testDelay>1000</testDelay><randomFactor>0.5</randomFactor></con:config></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

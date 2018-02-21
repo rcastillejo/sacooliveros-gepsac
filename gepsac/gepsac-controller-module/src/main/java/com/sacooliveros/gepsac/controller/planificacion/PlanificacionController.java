@@ -93,7 +93,7 @@ public class PlanificacionController {
         try {
             PlanDAO planDao = SingletonDAOFactory.getDAOFactory().getPlanEstrategicoDAO();
 
-            plan.setEstado(State.PlanEstrategico.REGISTRADO);
+            plan.setCodigoEstado(State.PlanEstrategico.REGISTRADO);
             plan.setFecRegistro(new Date());
 
             planDao.ingresar(plan);
@@ -111,7 +111,7 @@ public class PlanificacionController {
             planAConfigurar = planDao.obtener(plan.getCodigo());
 
             planAConfigurar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
-            planAConfigurar.setEstado(State.PlanEstrategico.CONFIGURADO);
+            planAConfigurar.setCodigoEstado(State.PlanEstrategico.CONFIGURADO);
             planAConfigurar.setFecConfiguracion(new Date());
 
             planDao.actualizar(planAConfigurar);
@@ -191,7 +191,7 @@ public class PlanificacionController {
      planAProgramar = planDao.obtener(plan.getCodigo());
 
      planAProgramar.setEstrategiasSeleccionadas(plan.getEstrategiasSeleccionadas());
-     planAProgramar.setEstado(State.PlanEstrategico.PROGRAMADO);
+     planAProgramar.setCodigoEstado(State.PlanEstrategico.PROGRAMADO);
      planAProgramar.setFecConfiguracion(new Date());
 
      planDao.actualizar(planAProgramar);
@@ -205,7 +205,7 @@ public class PlanificacionController {
      for (PlanActividad actividad : estrategia.getActividadesSeleccionadas()) {
      actividad.setCodigoPlan(estrategia.getCodigoPlan());
      actividad.setCodigoEstrategia(estrategia.getCodigo());
-     actividad.setEstado(planAProgramar.getEstado());
+     actividad.setCodigoEstado(planAProgramar.getEstado());
 
      planDao.updateActividad(actividad);
 
@@ -213,7 +213,7 @@ public class PlanificacionController {
      indicador.setCodigoPlan(actividad.getCodigoPlan());
      indicador.setCodigoEstrategia(actividad.getCodigoEstrategia());
      indicador.setCodigoActividad(actividad.getActividad().getCodigo());
-     indicador.setEstado(planAProgramar.getEstado());
+     indicador.setCodigoEstado(planAProgramar.getEstado());
 
      planDao.updateIndicador(indicador);
      }

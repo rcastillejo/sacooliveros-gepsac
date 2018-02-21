@@ -25,7 +25,8 @@ public interface State {
 
     interface EvaluacionAcosoEscolar {
 
-        String REGISTRADO = "EVA0001";
+        String POR_RESOLVER = "EVA0000";
+        String RESUELTO = "EVA0001";
         String EVALUADO = "EVA0002";
     }
 
@@ -33,5 +34,12 @@ public interface State {
 
         String REGISTRADO = "ALU0001";
         String EVALUADO = "ALU0002";
+    }
+
+    interface SolicitudPsicologica {
+
+        String PENDIENTE = "SPS0001";
+        String EN_EVALUACION = "SPS0002";
+        String POR_ATENDER = "SPS0003";
     }
 }

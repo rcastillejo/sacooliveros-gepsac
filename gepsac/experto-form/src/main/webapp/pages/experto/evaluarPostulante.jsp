@@ -35,7 +35,8 @@
     var myColumnsReq = [];
     var dialog;
 
-    $(document).ready(function () {
+    $(document).ready(function () {        
+        initPerfiles();
         initEvaluarAlumno();
 
         //Cancelar la Evaluacion del Alumno Nuevo
@@ -63,6 +64,11 @@
             }
         });
     });
+
+    function noExisteAlumnoPostulante(){
+        fn_util_CierraModal();
+        location.assign("<%=request.getContextPath()%>");
+    }
 
     function validarEvaluacion() {
         var sError = "";
@@ -108,67 +114,110 @@
 
     function evaluarAlumnoNuevo() {
         var data = serializeEvaluacionAlumnoNuevo();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
-        }).done(function (result) {
-            var evaluacion = result[0];
-            var msg = result[1];
-            console.log('evaluacion', evaluacion);
-            console.log('msg', msg);
-            cargarRespuestaEvaluacion(evaluacion);
-            $('#btnBuscarAlumnoNuevo').attr('disabled','disabled');
-            $('#btnEvaluar').attr('disabled','disabled');
-            fn_mdl_alert(msg, function () {}, "CONFIRMACION");
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function () {
-                location.assign("<%=request.getContextPath()%>");
-            }, "MENSAJE");
-        });
-
-        //$("#cphCuerpo_txtDetalle").val(JSON.stringify(listado));
-        //console.log('detalle json', $("#cphCuerpo_txtDetalle").val());
-
+        if(validateUrl("<%=request.getContextPath()%>")){
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<%=request.getContextPath()%>" + action + '?method=evaluarAlumno&evaluacion=' + JSON.stringify(data)
+            }).done(function (result) {
+                var evaluacion = result[0];
+                var msg = result[1];
+                console.log('evaluacion', evaluacion);
+                console.log('msg', msg);
+                cargarRespuestaEvaluacion(evaluacion);
+                $('#btnBuscarAlumnoNuevo').attr('disabled', 'disabled');
+                $('#btnEvaluar').attr('disabled', 'disabled');
+                fn_mdl_alert(msg, function () {}, "CONFIRMACION");
+            }).fail(function (error) {
+                console.log('error', error);
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "MENSAJE");
+            });
+        }
     }
 
     function cargarRespuestaEvaluacion(evaluacion) {
+        var perfilMax;
+        $("input[id^='P000']").removeClass('P0001 P0002 P0003 P0000');
+        $("#codigoEvaluacion").val(evaluacion.codigo);
         for (var i in evaluacion.perfiles) {
             var perfilEval = evaluacion.perfiles[i];
             var el;
             if (perfilEval.perfil === undefined) {
                 el = $("#mensaje");
-            } else if (perfilEval.perfil.codigo === 'P0001') {
-                el = $("#agresor");
-            } else if (perfilEval.perfil.codigo === 'P0002') {
-                el = $("#victima");
-            } else if (perfilEval.perfil.codigo === 'P0003') {
-                el = $("#testigo");
+            } /*else if (perfilEval.perfil.codigo === 'P0001') {
+             el = $("#agresor");
+             } else if (perfilEval.perfil.codigo === 'P0002') {
+             el = $("#victima");
+             } else if (perfilEval.perfil.codigo === 'P0003') {
+             el = $("#testigo");
+             }*/
+            else {
+                el = $("#" + perfilEval.perfil.codigo);
             }
+
             var probabilidad = new Number(perfilEval.probabilidad);
             var porcProbabilidad = (probabilidad * 100.0);
             porcProbabilidad = porcProbabilidad.toFixed(2);
             console.log('Perfil Evaluado', perfilEval, '%', porcProbabilidad);
             el.val(porcProbabilidad + '%');
+            if (perfilEval.seleccionado && perfilEval.seleccionado === true) {
+                perfilMax = perfilEval.perfil.codigo;
+                $("#" + perfilMax).addClass(perfilMax);
+            }
         }
+
+        
     }
 
     function initEvaluarAlumno() {
         $("#mensajeError").empty();
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
+            }).done(function (objeto) {
+                console.log('objeto', objeto);
+                cargarEvaluacion(objeto);
+            }).fail(function (error) {
+                console.log('error', error);
+                fn_mdl_alert(error.responseText, function () {
+                    location.assign("<%=request.getContextPath()%>");
+                }, "MENSAJE");
+            });
+        }
+    }
+    
+    var serviceIP = "<%=request.getLocalAddr()%>";
+    var serviceUrl = "http://" + serviceIP + ":8180/gepsac-service/experto";
+    function initPerfiles(){
         $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initEvaluarAlumno'
-        }).done(function (objeto) {
-            console.log('objeto', objeto);
-            cargarEvaluacion(objeto);
+            type: "GET",
+            timeout:3000, 
+            //dataType: 'json',
+            url: serviceUrl + '/perfil'
+        }).done(function (listado) {
+            console.log('objeto', listado);
+            cargarPerfiles(listado);
         }).fail(function (error) {
             console.log('error', error);
             fn_mdl_alert(error.responseText, function () {
                 location.assign("<%=request.getContextPath()%>");
             }, "MENSAJE");
         });
+    }
+    
+    function cargarPerfiles(listado) {
+        var table = $("#tblPerfiles tbody");
+        for (var i in listado) {
+            var perfil = listado[i];
+            var perfilTd = $("#perfilClone").find("tbody tr").clone();
+            perfilTd.find("label").append(perfil.nombre);
+            perfilTd.find("input").attr("id", perfil.codigo);
+            table.append(perfilTd);
+        }
     }
 
     function cargarPlanEstrategia(plan) {
@@ -188,7 +237,7 @@
     }
 
     function cargarEvaluacion(objeto) {
-        $("#codigoEvaluacion").val(objeto.codigo);
+        //$("#codigoEvaluacion").val(objeto.codigo);
         var fechaEvaluacion = new Date();
         var twoDigitMonth = fechaEvaluacion.getMonth() + 1 + "";
         if (twoDigitMonth.length === 1)
@@ -238,6 +287,25 @@
     }
 
 </script>
+
+<style>
+    .P0001{
+        background-color:#B22222;
+        color: white;
+    }
+    .P0002{
+        background-color:#DAA520;
+        color: white;
+    }
+    .P0003{
+        background-color:#F0E68C;
+        color: black;
+    }
+    .P0000{
+        background-color:#46d246;
+        color: white;
+    }
+</style>
 
 <div class="div-pagina">
     <div id="div-pagina-titulo" class="div-pagina-titulo">
@@ -365,25 +433,46 @@
         </fieldset>
         <fieldset>
             <legend>Resultado de la Evaluaci&oacute;n</legend>
-            <table border="1">
-                <tr>
-                    <td>Perfil</td> 
-                    <td>Grado Similitud (%)</td>  
-                </tr>
-                <tr>
+            <table id="tblPerfiles" border="1">
+                <thead>                    
+                    <tr>
+                        <th>Perfil</th> 
+                        <th>Porcentaje Similitud (%)</th>  
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <!--<tr>
                     <td> Agresor</td>
-                    <td><input id="agresor" type="text" disabled="true" style="text-align: right"></td>  
+                    <td><input id="P0001" type="text" disabled="true" style="text-align: right" value="0.00%"></td>  
                 </tr>
                 <tr>
                     <td> V&iacute;ctima</td> 
-                    <td><input id="victima" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0002" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
                 </tr>
                 <tr>
                     <td> Testigo</td>
-                    <td><input id="testigo" type="text" disabled="true" style="text-align: right"></td>
+                    <td><input id="P0003" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
                 </tr>
+                <tr>
+                    <td> No Identificado</td>
+                    <td><input id="P0000" type="text" disabled="true" style="text-align: right" value="0.00%"></td>
+                </tr>-->
             </table>
         </fieldset>
+        
+        <div id="perfilClone" style="display:none">
+            <table>
+                <tr>
+                    <td>
+                        <label for="probPerfil" />
+                    </td>
+                    <td>
+                        <input name="probPerfil" type="text" disabled="true" style="text-align: right" value="0.00%">
+                    </td>                     
+                </tr>
+            </table>
+        </div>
+        
         <div class="mensaje" >
             <span>
                 <label id="mensaje" />                

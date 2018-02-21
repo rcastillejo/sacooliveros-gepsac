@@ -17,11 +17,34 @@ import java.util.List;
  */
 public class EvaluacionAcosoEscolar extends Model {
 
+    private String codigoPlantilla;
+    private String codigoSolicitud;
+    private Date fechaRegistro;
+    private Date fechaResuelto;
     private Date fechaEvaluacion;
     private Alumno alumno;
     private List<PreguntaEvaluacion> preguntas;
     private Perfil perfil;
 
+    public String getCodigoSolicitud() {
+        return codigoSolicitud;
+    }
+
+    public void setCodigoSolicitud(String codigoSolicitud) {
+        this.codigoSolicitud = codigoSolicitud;
+    }
+    
+
+    public String getCodigoPlantilla() {
+        return codigoPlantilla;
+    }
+
+    public void setCodigoPlantilla(String codigoPlantilla) {
+        this.codigoPlantilla = codigoPlantilla;
+    }
+
+    
+    
     public Date getFechaEvaluacion() {
         return fechaEvaluacion;
     }
@@ -30,7 +53,7 @@ public class EvaluacionAcosoEscolar extends Model {
         this.fechaEvaluacion = fechaEvaluacion;
     }
     
-    public void setPerfil(String codigoPerfil) {
+    public void setCodigoPerfil(String codigoPerfil) {
         if(codigoPerfil != null && !codigoPerfil.isEmpty()){
             perfil = new Perfil();
             perfil.setCodigo(codigoPerfil);
@@ -62,6 +85,23 @@ public class EvaluacionAcosoEscolar extends Model {
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaResuelto() {
+        return fechaResuelto;
+    }
+
+    public void setFechaResuelto(Date fechaResuelto) {
+        this.fechaResuelto = fechaResuelto;
+    }
+    
 
 
     @Override

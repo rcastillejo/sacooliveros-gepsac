@@ -13,7 +13,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://localhost:5432/gepsac"/>
+                <property name="url" value="jdbc:postgresql://localhost:5432/gepsac2"/>
                 <property name="username" value="postgres"/>
                 <property name="password" value="postgres"/>
                 <!-- Configuracion Pool de Conexiones -->
@@ -32,5 +32,9 @@
         <mapper resource="EstrategiaMapper.xml"/>
         <mapper resource="AlumnoMapper.xml"/>
         <mapper resource="EvaluacionPostulanteMapper.xml"/>
+        <mapper resource="EvaluacionAcosoEscolarMapper.xml"/>
+        <mapper resource="SolicitudPsicologicaMapper.xml"/>
+        <mapper resource="ReglaMapper.xml"/>
+        <mapper resource="ConfigMapper.xml"/>
     </mappers>
 </configuration>

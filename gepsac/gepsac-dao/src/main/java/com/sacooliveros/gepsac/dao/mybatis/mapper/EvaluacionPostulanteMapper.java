@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 public interface EvaluacionPostulanteMapper {
 
+    public String getCodigo();
+    
     public List<EvaluacionPostulante> query();
 
     public EvaluacionPostulante get(@Param("codigo") String codigo);

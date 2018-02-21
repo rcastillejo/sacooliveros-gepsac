@@ -8,8 +8,8 @@ package com.sacooliveros.gepsac.service.experto.rna.instance;
 import com.sacooliveros.gepsac.model.experto.Alumno;
 import com.sacooliveros.gepsac.model.experto.PerfilEvaluado;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
-import com.sacooliveros.gepsac.service.experto.rna.clasificador.Clasificador;
-import com.sacooliveros.gepsac.service.experto.rna.clasificador.ClasificadorFactory;
+import com.sacooliveros.gepsac.service.experto.rna.clasificador.ClassifierType;
+import com.sacooliveros.gepsac.service.experto.rna.clasificador.Classifiers;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -31,8 +31,9 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
     private static final String SQL_TRAIN = "Select cod_alumno,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,cod_provincia,cod_departamento,"
             + "CASE WHEN cod_perfil is null THEN '' ELSE cod_perfil END from tp_alumno_evaluado "
-            + "where cod_estado='ALU0002'";
-    private static final String RELATION_NAME = "alumno";
+            + "where cod_estado='ALU0002' and cod_alumno between 'A201500101' and 'A201500137'";
+    private static final String RELATION_NAME = "alumno2";
+    private static final String URL_DATABASE = "jdbc:postgresql://localhost:5432/gepsac2";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "postgres";
 
@@ -40,6 +41,7 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
     public AlumnoInstancia() throws Exception {
         query = new InstanceQuery();
+        query.setDatabaseURL(URL_DATABASE);
         query.setUsername(USERNAME);
         query.setPassword(PASSWORD);
     }
@@ -63,37 +65,8 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
 
         datapredict = new Instances(RELATION_NAME, fvWekaAttributes, 0);
         Instance ins = new Instance(fvWekaAttributes.size());
-        /*
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 35);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "TECNICO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 800);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 3);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 11);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 2800);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "BLOQUEADO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "BLOQUEADO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 200);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 6);
-        
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(0), 1);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(1), 41);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(2), "M");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(3), "SECUNDARIA");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(4), 6900);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(5), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(6), 28);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(7), 11500);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(8), "ABIERTO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(9), "ABIERTO");
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(10), 0);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(11), 600);
-         ins.setValue((Attribute) fvWekaAttributes.elementAt(12), 17);*/
+
         int idx = 0;
-        /*ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getCodigo());
-        idx++;*/
         ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getSexo().getCodigo());
         idx++;
         ins.setValue((Attribute) fvWekaAttributes.elementAt(idx), alumno.getEdad());
@@ -225,11 +198,27 @@ public class AlumnoInstancia implements Instancia<Alumno, PerfilEvaluado> {
     @Override
     public Classifier train(Instances dataEntrenar) {
         try {
-            Classifier clasificador = ClasificadorFactory.create(Clasificador.MLP);
+            Classifier clasificador = Classifiers.create(ClassifierType.MLP);
             clasificador.buildClassifier(dataEntrenar);
             return clasificador;
         } catch (Exception e) {
             throw new ExpertoServiceException("Error al predecir alumno", e);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        if (query != null) {
+            try {
+                log.debug("Revisando estado de instancia antes de cerrar [connected={}]", 
+                        new Object[]{query.isConnected()});
+                query.close();
+                query.disconnectFromDatabase();
+                log.debug("Revisando estado de instancia luego de cerrar [connected={}]", 
+                        new Object[]{query.isConnected()});
+            } catch (Exception e) {
+                log.warn("No se pudo cerrar la instancia del query", e);
+            }
         }
     }
 

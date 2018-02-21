@@ -10,31 +10,6 @@
         <!--Modulo Planificacion-->
         <form-bean name="configurarEstrategiaForm" type="com.sacooliveros.gepsac.form.planificacion.ConfigurarEstrategiaForm" />
         <form-bean name="programarPlanForm" type="com.sacooliveros.gepsac.form.planificacion.ProgramarPlanForm" />
-        <!--
-        <form-bean name="transaccionReporteForm" type="com.novatronic.sca.form.reporte.TransaccionReporteForm" />
-        <form-bean name="usuarioForm" type="com.novatronic.sca.security.form.UsuarioForm" />
-        <form-bean name="usuarioAdminForm" type="com.novatronic.sca.security.form.UsuarioForm" />
-        <form-bean name="empresaForm" type="com.novatronic.sca.security.form.EmpresaForm" />
-        <form-bean name="aplicacionForm" type="com.novatronic.sca.security.form.AplicacionForm" />
-        <form-bean name="aplicacionAdminForm" type="com.novatronic.sca.security.form.AplicacionForm" />
-        <form-bean name="rolForm" type="com.novatronic.sca.security.form.RolForm" />
-        <form-bean name="rolAdminForm" type="com.novatronic.sca.security.form.RolForm" />
-        <form-bean name="loginForm" type="com.novatronic.sca.security.form.LoginForm" />
-        <form-bean name="permisoForm" type="com.novatronic.sca.security.form.PermisoForm" />
-         <form-bean name="permisoAdminForm" type="com.novatronic.sca.security.form.PermisoForm" />
-        <form-bean name="politicaForm" type="com.novatronic.sca.security.form.PoliticaForm" />
-        <form-bean name="auditoriaForm" type="com.novatronic.sca.security.form.AuditoriaForm" />
-        <form-bean name="templateForm" type="com.novatronic.sca.security.form.TemplateForm" />
-        <form-bean name="templateFormApplication" type="com.novatronic.sca.security.form.TemplateForm" />
-        <form-bean name="templateEditForm" type="com.novatronic.sca.security.form.TemplateForm" />
-        <form-bean name="usuarioBloqueoForm" type="com.novatronic.sca.security.form.UsuarioBloqueoForm" />
-        <form-bean name="usuarioDesbloqueoForm" type="com.novatronic.sca.security.form.UsuarioDesbloqueoForm" />
-        <form-bean name="horarioForm" type="com.novatronic.sca.security.form.HorarioForm" />
-        <form-bean name="horarioAdminForm" type="com.novatronic.sca.security.form.HorarioForm" />
-        <form-bean name="importarForm" type="com.novatronic.sca.security.form.ImportarTemplateForm" />
-        <form-bean name="importarAdminForm" type="com.novatronic.sca.security.form.ImportarTemplateForm" />
-        <form-bean name="cambioClaveForm" type="com.novatronic.sca.security.form.CambioClaveForm" />
-        <form-bean name="olvideClaveForm" type="com.novatronic.sca.security.form.OlvideClaveForm" />-->
     </form-beans>
     
     <global-exceptions>
@@ -76,174 +51,52 @@
                 parameter="method" 
                 validate="false">
             <forward name="evaluarPostulante" path="evaluarPostulante" redirect="true"/>
-        </action>        
+        </action>
         
-        <!--       
-        <action path="/TransaccionReporte" 
-                type="com.novatronic.sca.action.reporte.TransaccionReporteAction"
-                name="transaccionReporteForm"
+        <action path="/GenerarExplicacion" 
+                type="com.sacooliveros.gepsac.form.experto.GenerarExplicacionAction"
                 scope="request"
                 parameter="method" 
                 validate="false">
-            <forward name="transaccionReporte" path="transaccionReporte" redirect="true"/>
-        </action>
-        <action path="/Usuario" type="com.novatronic.sca.action.UsuarioAction"
-                name="usuarioForm"
-                parameter="method" 
-                validate="false">
-            <forward name="usuario" path="usuario" redirect="true"/>
-        </action>
-        <action path="/UsuarioAdmin" type="com.novatronic.sca.action.UsuarioAction"
-                name="usuarioAdminForm"
-                parameter="method" 
-                validate="false">
-            <forward name="usuario" path="usuario" redirect="true"/>
-        </action>               
-        <action path="/Empresa" type="com.novatronic.sca.action.EmpresaAction"
-                name="empresaForm"
-                parameter="method"
-                validate="false">
-            <forward name="empresa" path="empresa" redirect="true"/>
-        </action>
-        <action path="/Aplicacion" type="com.novatronic.sca.action.AplicacionAction"
-                name="aplicacionForm"
-                parameter="method"
-                validate="false">
-            <forward name="aplicacion" path="aplicacion" redirect="true"/>
-        </action>
-        <action path="/AplicacionAdmin" type="com.novatronic.sca.action.AplicacionAction"
-                name="aplicacionAdminForm"
-                parameter="method"
-                validate="false">
-            <forward name="aplicacion" path="aplicacion" redirect="true"/>
-        </action>
-        <action path="/Rol" type="com.novatronic.sca.action.RolAction"
-                name="rolForm"
-                parameter="method"
-                validate="false">
-            <forward name="rol" path="rol" redirect="true"/>
-        </action>
-         <action path="/RolAdmin" type="com.novatronic.sca.action.RolAction"
-                name="rolAdminForm"
-                parameter="method"
-                validate="false">
-            <forward name="rol" path="rol" redirect="true"/>
+            <forward name="listarAcosoEscolar" path="listarAcosoEscolar" redirect="true"/>
+            <forward name="explicacionAcosoEscolar" path="explicacionAcosoEscolar" redirect="true"/>
         </action>
         
-        <action path="/Permiso" type="com.novatronic.sca.action.PermisoAction"
-                name="permisoForm"
-                parameter="method"
-                validate="false">
-            <forward name="permiso" path="permiso" redirect="true"/>
-        </action>
-        <action path="/PermisoAdmin" type="com.novatronic.sca.action.PermisoAction"
-                name="permisoAdminForm"
-                parameter="method"
-                validate="false">
-            <forward name="permiso" path="permiso" redirect="true"/>
-        </action>
-        
-        <action path="/Auditoria" type="com.novatronic.sca.action.AuditoriaAction"
-                name="auditoriaForm"
-                parameter="method"
-                validate="false">
-            <forward name="auditoria" path="auditoria" redirect="true"/>
-        </action>
-                  
-        <action path="/Login" type="com.novatronic.sca.security.action.LoginAction"
-                name="loginForm" 
-                parameter="method" 
+        <action path="/ConsultarExplicacion" 
+                type="com.sacooliveros.gepsac.form.experto.ConsultarExplicacionAction"
                 scope="request"
-                validate="true">
-            <forward name="errorServidorCorreo" path="errorServidorCorreo" redirect="true"/>
-            <forward name="volverALogin" path="volverALogin" redirect="true"/>
-            <forward name="cambioClave" path="cambioClave" redirect="true"/>
-            <forward name="inicioSistema" path="inicioSistema" redirect="true"/>
-            <forward name="olvideClave" path="olvideClave"  redirect="true"/>
-            <forward name="cambioPrimeraClave" path="cambioPrimeraClave"  redirect="true"/>
-        </action>
-        
-        <action path="/Politica" type="com.novatronic.sca.action.PoliticaAction"
-                name="politicaForm"
                 parameter="method" 
                 validate="false">
-            <forward name="politica" path="politica" redirect="true"/>
+            <forward name="consultarAcosoEscolar" path="consultarAcosoEscolar" redirect="true"/>
         </action>
         
-        <action path="/Template" type="com.novatronic.sca.action.TemplateAction"
-                name="templateForm"
-                parameter="method"
+        <action path="/ResolverAcosoEscolar" 
+                type="com.sacooliveros.gepsac.form.evaluacion.ResolverAcosoEscolarAction"
+                scope="request"
+                parameter="method" 
                 validate="false">
-            <forward name="template" path="template" redirect="true"/>
+            <forward name="listarResolverAcosoEscolar" path="listarResolverAcosoEscolar" redirect="true"/>
+            <forward name="resolverAcosoEscolar" path="resolverAcosoEscolar" redirect="true"/>
         </action>
         
-        <action path="/TemplateApplication" type="com.novatronic.sca.action.TemplateAction"
-                name="templateFormApplication"
-                parameter="method"
+        <action path="/MantenerRegla" 
+                type="com.sacooliveros.gepsac.form.experto.MantenerReglaAction"
+                scope="request"
+                parameter="method" 
                 validate="false">
-            <forward name="template" path="template" redirect="true"/>
+            <forward name="mantenerRegla" path="mantenerRegla" redirect="true"/>
         </action>
         
-        <action path="/TemplateEdit" type="com.novatronic.sca.action.TemplateAction"
-                name="templateEditForm"
-                parameter="method"
+        <action path="/RegistrarSolicitudPsicologica" 
+                type="com.sacooliveros.gepsac.form.evaluacion.RegistrarSolicitudPsicologicaAction"
+                scope="request"
+                parameter="method" 
                 validate="false">
-            <forward name="template" path="template" redirect="true"/>
+            <forward name="listarSolicitudPsicologica" path="listarSolicitudPsicologica" redirect="true"/>
+            <forward name="registrarSolicitudPsicologica" path="registrarSolicitudPsicologica" redirect="true"/>
+            <forward name="consultarSolicitudPsicologica" path="consultarSolicitudPsicologica" redirect="true"/>
+            <forward name="editarSolicitudPsicologica" path="editarSolicitudPsicologica" redirect="true"/>
         </action>
-        
-        <action path="/Bloqueo" type="com.novatronic.sca.action.UsuarioBloqueoAction"
-                name="usuarioBloqueoForm"
-                parameter="method"
-                validate="false">
-            <forward name="bloqueo" path="bloqueo" redirect="true"/>
-        </action>
-        <action path="/Desbloqueo" type="com.novatronic.sca.action.UsuarioDesbloqueoAction"
-                name="usuarioDesbloqueoForm"
-                parameter="method"
-                validate="false">
-            <forward name="desbloqueo" path="desbloqueo" redirect="true"/>
-        </action>
-        
-        <action path="/Horario" type="com.novatronic.sca.action.HorarioAction"
-			name="horarioForm" parameter="method" validate="false">
-            <forward name="horario" path="horario" redirect="true" />
-        </action>
-        <action path="/HorarioAdmin" type="com.novatronic.sca.action.HorarioAction"
-			name="horarioAdminForm" parameter="method" validate="false">
-            <forward name="horario" path="horario" redirect="true" />
-        </action>
-        
-        <action path="/TemplateImportar" type="com.novatronic.sca.action.ImportarAction"
-                name="importarForm"
-                parameter="method"
-                validate="false">
-            <forward name="importar" path="importar" redirect="true"/>
-        </action>
-        <action path="/TemplateAdminImportar" type="com.novatronic.sca.action.ImportarAction"
-                name="importarAdminForm"
-                parameter="method"
-                validate="false">
-            <forward name="importar" path="importar" redirect="true"/>
-        </action>
-        
-        <action path="/CambioClave" type="com.novatronic.sca.action.CambioClaveAction"
-                name="cambioClaveForm"
-                parameter="method"
-                validate="false">
-            <forward name="inicioSistema" path="inicioSistema" redirect="true"/>
-            <forward name="cambioClave" path="cambioClave" redirect="true"/>
-            <forward name="volverALogin" path="volverALogin" redirect="true"/>
-        </action>
-
-        <action path="/OlvideClave" type="com.novatronic.sca.action.OlvideClaveAction"
-                name="olvideClaveForm"
-                parameter="method"
-                validate="false">
-            <forward name="inicioSistema" path="inicioSistema" redirect="true"/>
-            <forward name="olvideClave" path="olvideClave"  redirect="true"/>
-            <forward name="volverALogin" path="volverALogin" redirect="true"/>
-        </action>
-        -->
     </action-mappings>
     
     <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>

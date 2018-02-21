@@ -10,11 +10,10 @@ import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import com.sacooliveros.gepsac.evaluador.util.Identificador;
 import com.sacooliveros.gepsac.model.comun.Estado;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
+import com.sacooliveros.gepsac.model.util.StateUtil;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
-import com.sacooliveros.gepsac.service.experto.se.Engine;
-import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import org.slf4j.Logger;
@@ -27,12 +26,13 @@ import org.slf4j.LoggerFactory;
 public class TimerTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(TimerTask.class);
-    private final Identificador idf;
-    private final BlockingQueue<Mensaje> colaEvaluacion;
-    private final Experto experto;
-    private final long waitMilis;
+    protected Identificador idf;
+    protected BlockingQueue<Mensaje> colaEvaluacion;
+    protected Experto experto;
+    protected long waitMilis;
 
-    public TimerTask(Configuration configuration, BlockingQueue<Mensaje> colaEvaluacion) {
+    
+    public void configure(Configuration configuration, BlockingQueue<Mensaje> colaEvaluacion) {
         this.idf = Identificador.getInstance(configuration.getBrokerName());
         this.colaEvaluacion = colaEvaluacion;
         this.experto = new ExpertoService();
@@ -52,7 +52,7 @@ public class TimerTask implements Runnable {
                  * 4.1.2.	El sistema busca los registros de las evaluaciones en
                  * estado “Registrado”.
                  */
-                log.info("El sistema busca los registros de las evaliaciones en estado 'Registrado'");
+                log.info("El sistema busca los registros de las evaluaciones en estado '{}'", StateUtil.getDescription(Estado.EvaluacionAcosoEscolar.RESUELTO));
                 List<EvaluacionAcosoEscolar> evaluaciones = buscaEvaluacionesAcosoEscolar();
 
                 /**
@@ -82,13 +82,14 @@ public class TimerTask implements Runnable {
      * @return Evaluaciones en estado Registrado
      */
     private List<EvaluacionAcosoEscolar> buscaEvaluacionesAcosoEscolar() {
-        return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.REGISTRADO);
+        return experto.listarEvaluacionAcosoEscolar(Estado.EvaluacionAcosoEscolar.RESUELTO);
     }
 
     private void enviarMensaje(EvaluacionAcosoEscolar evaluacion) {
         Mensaje evaluacionModel = new Mensaje();
         evaluacionModel.setId(idf.getCode());
-        evaluacionModel.setEvaluacion(evaluacion);
+        evaluacionModel.setRequest(evaluacion);
+        evaluacionModel.start();
 
         boolean insertaOk = colaEvaluacion.offer(evaluacionModel);
         if (insertaOk) {

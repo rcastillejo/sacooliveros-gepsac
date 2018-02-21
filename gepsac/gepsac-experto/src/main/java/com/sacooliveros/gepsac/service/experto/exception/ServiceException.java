@@ -5,25 +5,42 @@
  */
 package com.sacooliveros.gepsac.service.experto.exception;
 
+import java.text.MessageFormat;
+
 /**
  *
  * @author Ricardo
  */
-public class ServiceException extends RuntimeException{
+public class ServiceException extends RuntimeException {
 
-    public ServiceException() {
+    private final String code;
+
+    public ServiceException(String code) {
+        this.code = code;
     }
 
-    public ServiceException(String message) {
+    public ServiceException(String code, String message) {
         super(message);
+        this.code = code;
     }
 
-    public ServiceException(String message, Throwable cause) {
-        super(message, cause);
+    public ServiceException(String code, String message, Object... args) {
+        super(MessageFormat.format(message, args));
+        this.code = code;
     }
 
-    public ServiceException(Throwable cause) {
+    public ServiceException(String code, String message, Throwable cause, Object... args) {
+        super(MessageFormat.format(message, args), cause);
+        this.code = code;
+    }
+
+    public ServiceException(String code, Throwable cause) {
         super(cause);
+        this.code = code;
     }
-    
+
+    public String getCode() {
+        return code;
+    }
+
 }

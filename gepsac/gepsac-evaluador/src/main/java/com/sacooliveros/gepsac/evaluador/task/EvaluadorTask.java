@@ -6,12 +6,14 @@
 package com.sacooliveros.gepsac.evaluador.task;
 
 import com.sacooliveros.gepsac.evaluador.message.Mensaje;
+import com.sacooliveros.gepsac.evaluador.perf.Logp;
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.service.experto.Experto;
 import com.sacooliveros.gepsac.service.experto.ExpertoService;
 import com.sacooliveros.gepsac.service.experto.exception.ExpertoServiceException;
+import com.sacooliveros.gepsac.service.experto.exception.ValidatorException;
 import com.sacooliveros.gepsac.service.experto.se.Engine;
-import com.sacooliveros.gepsac.service.experto.se.EngineFactory;
+import com.sacooliveros.gepsac.service.experto.se.Engines;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -25,15 +27,13 @@ public class EvaluadorTask implements Runnable {
 
     private static final Logger log = LoggerFactory.getLogger(EvaluadorTask.class);
 
-    //private boolean continuaServerThread;
-    private final int workerId;
-    private final BlockingQueue<Mensaje> colaEvaluacion;
-    private final Experto service;
+    protected int workerId;
+    protected BlockingQueue<Mensaje> colaEvaluacion;
+    protected Experto service;
 
-    public EvaluadorTask(int workerId, BlockingQueue<Mensaje> colaEvaluacion) {
+    public void configure(int workerId, BlockingQueue<Mensaje> colaEvaluacion) {
         this.workerId = workerId;
         this.colaEvaluacion = colaEvaluacion;
-        //this.continuaServerThread = Boolean.TRUE;
         this.service = new ExpertoService();
     }
 
@@ -52,25 +52,32 @@ public class EvaluadorTask implements Runnable {
     }
 
     public void procesarMensaje(Mensaje mensaje) {
-        String id = mensaje.getId();
-
+        EvaluacionAcosoEscolar evaluacionAcosoEscolar = (EvaluacionAcosoEscolar) mensaje.getRequest();
+        String logId = '[' + evaluacionAcosoEscolar.getCodigo() + ']';
         try {
+
             /**
              * 4.1.3.	El sistema carga las reglas de acoso escolar de cada
              * perfil
              */
-            log.info(/*id + "\t" +*/ "El sistema carga las reglas de acoso escolar de cada perfil");
-            Engine engine = EngineFactory.create();
+            log.info(logId + "El sistema carga las reglas de acoso escolar de cada perfil");
+            Engine engine = Engines.create();
 
-            EvaluacionAcosoEscolar evaluacion = mensaje.getEvaluacion();
+            String msg = service.evaluarRespuestaAcosoEscolar(evaluacionAcosoEscolar, engine);
+            log.info(logId + msg);
 
-            String msg = service.evaluarRespuestaAcosoEscolar(evaluacion, engine);
+            if (evaluacionAcosoEscolar.getCodigoSolicitud() != null) {
+                msg = service.verificarSolicitudPsicologica(evaluacionAcosoEscolar);
+                log.info(logId + msg);
+            }
 
-            log.info(/*id + "\t" + */msg );
+            Logp.showTrx(evaluacionAcosoEscolar.getCodigo(), "EvaluarAcosoEscolar", mensaje.getInit());
+        } catch (ValidatorException e) {
+            log.error(logId + e.getMessage(), e);
         } catch (ExpertoServiceException e) {
-            log.error(id + "\t" + e.getMessage(), e);
+            log.error(logId + e.getMessage(), e);
         } catch (Exception e) {
-            log.error(id + "\tOcurrio un error en el procesamiento", e);
+            log.error(logId + "Ocurrio un error en el procesamiento", e);
         }
     }
 
@@ -103,4 +110,12 @@ public class EvaluadorTask implements Runnable {
     public void stop() {
         continuaServerThread = Boolean.FALSE;
     }*/
+    public int getWorkerId() {
+        return workerId;
+    }
+
+    public BlockingQueue<Mensaje> getColaEvaluacion() {
+        return colaEvaluacion;
+    }
+
 }

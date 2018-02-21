@@ -5,7 +5,6 @@
  */
 package com.sacooliveros.gepsac.evaluador.thread;
 
-import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 

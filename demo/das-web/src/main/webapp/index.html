@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" ng-app="ngdemo">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My AngularJS App</title>
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="lib/bootstrap/css/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" href="css/bootstrap/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+
+
+        <script type="text/ng-template" id="alert.html">
+            <div class="alert" style="background-color:#fa39c3;color:white; position: fixed; position: fixed; top: 50%; left: 0; width: 100%;" role="alert">
+            <div ng-transclude></div>
+            </div>
+        </script>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-md-12">
+                <header ng-include="'templates/header.html'"></header>
+            </div>
+        </div>
+        <div id="centro" class="row">
+            <div class="col-md-2 full-height">
+                <div id="menu" resize-width  ng-include="'templates/menu.html'"></div>
+            </div>
+            <div class="col-md-10 full-height">
+                <div id="cuerpo" resize-height resize-width ng-view></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!--<footer ng-include="'../page/templates/footer.html'"></footer>-->
+            </div>
+        </div>
+
+        <!-- JQuery ================================================================ -->
+        <script src="lib/jquery/jquery-2.0.3.js"></script>
+
+        <!-- Bootstrap ============================================================= -->
+        <script src="lib/bootstrap/js/bootstrap.js"></script>
+
+        <!-- AngularJS ============================================================= -->
+        <!-- In production use:
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        -->
+        <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-route.js"></script>
+        <script src="lib/angular/angular-animate.js"></script>
+        <script src="lib/angular/angular-resource.js"></script>
+        <script src="lib/angular/angular-ui-router.js"></script>
+        <script src="lib/angular/ui-bootstrap-tpls-1.2.1.js"></script>
+
+        <!-- AngularJS App Code ==================================================== -->
+        <script src="js/app.js"></script>
+        <script src="js/services.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/filters.js"></script>
+        <script src="js/directives.js"></script>
+
+    </body>
+</html>

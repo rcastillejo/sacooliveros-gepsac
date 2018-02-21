@@ -227,6 +227,7 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
+*.log*
 /gepsac/gepsac-model/target/
 /gepsac/gepsac-dao/target/
 /gepsac/gepsac-controller-module/target/
@@ -244,3 +245,8 @@ nb-configuration.xml
 /gepsac/gepsac-evaluador/target/
 /gepsac/scjrec-installer/target/
 /gepsac/gepsac-evaluador-installer/target/
+/gepsac/gepsac-service-rs/target/
+/gepsac/gepsac-service-ws/target/
+/demo/das-web/target/
+/demo/angulardemorestful-step4-angularjs-crud/target/
+/gepsac/evaluacion-form/target/

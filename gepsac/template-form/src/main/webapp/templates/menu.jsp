@@ -8,26 +8,39 @@
         <img src="<%=request.getContextPath()%>/resources/images/novatronic.png" /> 
     </div>-->
     <ul id="accordion">
-<!--     EMPRESA -->
-
-        <%--<li>
-            <div>Planificación</div>
+        <li>
+            <div>Evaluacion</div>
             <ul style="display: none;">
                 <li>
-                    <html:link page="/ConfigurarEstrategia.do?method=init" >
-                        Configurar Plan
+                    <html:link page="/RegistrarSolicitudPsicologica.do?method=init" >
+                        Registrar Solicitud Psicologica
                     </html:link>
                 </li>
                 <li>
-                    <html:link page="/ProgramarPlan.do?method=init" >
-                        Programar Plan
+                    <html:link page="/ResolverAcosoEscolar.do?method=init" >
+                        Resolver Evaluacion
                     </html:link>
-                <li> 
+                </li>
             </ul>
-        </li>--%>
+        </li>
         <li>
             <div>Experto</div>
             <ul style="display: none;">
+                <li>
+                    <html:link page="/MantenerRegla.do?method=init" >
+                        Actualizar Reglas de Acoso Escolar
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/GenerarExplicacion.do?method=init&profile=P" >
+                        Consultar Resultado Evaluacion Acoso Escolar
+                    </html:link>
+                </li>
+                <li>
+                    <html:link page="/GenerarExplicacion.do?method=init&profile=E" >
+                        Generar Explicacion Resultado
+                    </html:link>
+                </li>
                 <li>
                     <html:link page="/EvaluarPostulante.do?method=init" >
                         Evaluar Nuevos Alumnos

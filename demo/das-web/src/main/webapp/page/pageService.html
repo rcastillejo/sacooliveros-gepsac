@@ -1,0 +1,151 @@
+<div class="container" style="width: 100%">
+	<div>
+		<form class="form-group" name="formulario">
+
+			<div class="panel panel-primary" style="width: 1000px">
+
+				<div class="panel-heading">
+					<div class="row" >
+						<div class="col-md-8">
+				    		<h3 class="panel-title">{{serviceTexto.titulo | uppercase}}</h3>
+				    	</div>
+				    	<div class="col-md-4"></div>
+				    </div>
+				</div>
+
+				<div class="panel-body">
+					
+					<div class="row" >
+						<div class="col-md-12"> 
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.serviceId.$error.required">*</span>
+							<label>{{serviceTexto.serviceId}}</label> 
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 170px" 
+									name="serviceId" 
+								 	ng-model="selectService.serviceId" 
+								 	placeholder="Codigo ..."
+								 	allow-pattern="(\d|[a-z])"
+									my-maxlength="16"
+								 	required/>
+						</div> 
+						<div class="col-md-12"> 
+							<span  class="glyphicon" style="color: red;"	
+									ng-show="!formulario.$pristine && 
+									formulario.serviceDesc.$error.required">*</span>
+							<label>{{serviceTexto.serviceDesc}}</label>
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 300px" 
+									name="serviceDesc" 
+								 	ng-model="selectService.serviceDesc" 
+								 	allow-pattern="(\s|\d|[a-z])"
+									my-maxlength="30"
+								 	required/>
+						</div> 
+						<div class="col-md-12"> 
+							<label>{{serviceTexto.discriminationRules}}</label>
+							<input type="text" 
+									class="form-control input-sm"
+									style="width: 160px" 
+									name="discriminationRules" 
+									ng-model="selectService.discriminationRules"> 
+						</div>
+						<div class="col-md-12"> 
+						<label>{{serviceTexto.authorizationBins}}</label>
+						<input type="text" 
+								class="form-control input-sm" 
+								style="width: 150px"
+								ng-model="valAddTxt" 
+								name="authorizationBins"
+								my-enter="createOption()" 
+								placeholder="Ingrese bin...Enter!!"
+								allow-pattern="\d"
+								my-maxlength="6"/>
+						</div>
+						<div class="col-md-12"> 
+							<div class="checkbox" style="width: 590px">
+			                	<label style="width: 190px"
+			                			ng-repeat="valBin in selectService.authorizationBins.bin">
+								    <span class="glyphicon glyphicon-remove-circle" 
+								    		style="color: red;"
+								    		ng-click="deleteOption(valBin.binId)"></span>
+								    <span> {{valBin.binId}} </span>
+								    <span> {{valBin.binStatus}} </span>
+								</label>
+			                </div>
+			            </div>
+			            <div class="col-md-12"> 
+			                <label>{{serviceTexto.routes}}</label>
+			                <div class="checkbox" style="width: 600px">
+			                	<label style="width: 200px" 
+			                			ng-repeat="myRoute in listRoute" 
+			                			ng-model="selectService.routes.routeId" >
+							  	<input 
+								    type="checkbox"
+								    name="route"
+								    value="{{myRoute.routeId}}"
+								    ng-checked="selectionRoute.indexOf(myRoute.routeId) > -1"
+								    ng-click="getSelectionRoute(myRoute.routeId)"> {{myRoute.routeId}}
+								</label>
+			                </div>
+	                	</div>
+	                	<div class="col-md-12"> 
+	                		<br />
+							<button class="btn btn-primary glyphicon glyphicon-file" 
+									ng-click="nuevo()">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-floppy-disk" 
+									ng-click="grabar(selectService)" 
+									ng-disabled="!formulario.$valid">
+							</button>
+							<button class="btn btn-primary glyphicon glyphicon-refresh" 
+									ng-click="refrescar()">
+							</button>
+						</div>
+					</div>
+
+					<br />			
+
+					<div class="row" ng-hide="hideAlert">
+						<div class="col-md-12">
+							<div class="alert alert-{{responseRestTag}}">
+							  <strong>Respuesta :</strong> {{responseRest}}
+							</div>
+						</div>
+					</div>
+
+					<div class"table-responsive">
+						<table class="table table-striped table-bordered table-hover table-condensed" >
+						    <thead>
+						     	<tr class="success">
+						     		<th align="right" style="width: 30px">Num</th>
+							        <th style="width: 100px">{{serviceTexto.serviceIdTbl}}</th>
+							        <th style="width: 30px">{{serviceTexto.serviceDescTbl}}</th>
+							        <th style="width: 100px">{{serviceTexto.discriminationRulesTbl}}</th>
+							        <th style="width: 100px">{{serviceTexto.opcionActionTbl}}</th>
+						      	</tr>
+						    </thead>
+						    <tbody>
+						      	<tr ng-repeat="valueRow in serviceGeneral.services">
+						      		<td>{{$index + 1}}</td>
+							        <td>{{valueRow.serviceId}}</td>
+							        <td>{{valueRow.serviceDesc}}</td>
+							        <td>{{valueRow.discriminationRules}}</td>
+							        <td >
+							        	<button class="btn btn-success btn-xs glyphicon glyphicon-pencil" 
+							        			ng-click="editar(valueRow)"></button>
+							        	<button class="btn btn-danger btn-xs glyphicon glyphicon-trash" 
+							        			ng-click="quitar(valueRow.serviceId)"></button>
+							        </td>
+						      	</tr>
+						    </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

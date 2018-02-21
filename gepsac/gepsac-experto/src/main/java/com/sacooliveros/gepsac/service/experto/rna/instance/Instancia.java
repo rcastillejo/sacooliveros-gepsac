@@ -23,4 +23,6 @@ public interface Instancia<S,P> {
     Classifier train(Instances dataEntrenar);
     
     List<P> predict(Classifier clasificador, Instances dataEntrenado, Instances dataEvaluar);
+    
+    void destroy();
 }

@@ -1,7 +1,7 @@
 body { /*background-color: #336699;*/
     margin: 0 auto;
     /*text-align: center;*/
-    width: 1150px;
+    width: 1000px;
 }
 
 @font-face {
@@ -179,7 +179,7 @@ a.chg-password:hover,a.rst-password:hover {
 
 .sca-title {
     font-family: Calibri;
-    font-size: 32px;
+    font-size: 25px;
 }
 
 .separatorGreen {
@@ -255,10 +255,11 @@ a.chg-password:hover,a.rst-password:hover {
     display: block;
     font-size: 14px;
     font-weight: normal;
-    height: 10px;
+    /*height: 10px;*/
     text-align: center;
     width: 170px;
     margin: 2px;
+    border-bottom: 1px solid;
 }
 
 #accordion ul li:hover {

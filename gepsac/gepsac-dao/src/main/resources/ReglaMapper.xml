@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.ReglaMapper" >
+    
+    <resultMap id="recordRegla" type="com.sacooliveros.gepsac.model.experto.Regla" >
+        <id column="cod_regla" property="codigo" jdbcType="VARCHAR" />
+        <result column="tipo" property="tipo" jdbcType="VARCHAR" />
+        <result column="cod_perfil" property="perfil.codigo" jdbcType="VARCHAR" />
+        <result column="nom_perfil" property="perfil.nombre" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="recordPreguntaRegla" type="com.sacooliveros.gepsac.model.experto.PreguntaRegla" >
+        <id column="cod_pregunta" property="pregunta.codigo" jdbcType="VARCHAR" />
+        <result column="cod_regla" property="codigoRegla" jdbcType="VARCHAR" />
+        
+        <result column="tipo" property="pregunta.deshabilitado" jdbcType="VARCHAR" />
+        <result column="alias" property="pregunta.alias" jdbcType="VARCHAR" />
+        <result column="enunciado" property="pregunta.enunciado" jdbcType="VARCHAR" />
+        
+    </resultMap>
+    
+    <resultMap id="recordPregunta" type="com.sacooliveros.gepsac.model.evaluacion.Pregunta" >
+        <id column="cod_pregunta" property="codigo" jdbcType="VARCHAR" />
+        
+        <result column="tipo" property="tipo" jdbcType="VARCHAR" />
+        <result column="alias" property="alias" jdbcType="VARCHAR" />
+        <result column="enunciado" property="enunciado" jdbcType="VARCHAR" />
+        
+    </resultMap>
+    
+    <resultMap id="recordPerfil" type="com.sacooliveros.gepsac.model.comun.Perfil" >
+        <id column="cod_perfil" property="codigo" jdbcType="VARCHAR" />
+        
+        <result column="nom_perfil" property="nombre" jdbcType="VARCHAR" />
+        <result column="des_perfil" property="descripcion" jdbcType="VARCHAR" />
+        
+    </resultMap>
+    
+       
+    <select id="query" resultMap="recordRegla">
+        SELECT
+            a.cod_regla,
+            a.deshabilitado,
+            d.cod_perfil,
+            d.nom_perfil
+        FROM 
+            tp_regla_acoso_escolar a
+        INNER JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        Order by 
+            a.cod_regla;
+    </select>
+  
+    <select id="get" resultMap="recordRegla">
+        SELECT
+            a.cod_regla,
+            a.deshabilitado,
+            d.cod_perfil,
+            d.nom_perfil
+        FROM 
+            tp_regla_acoso_escolar a
+        INNER JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            cod_regla=#{codigo}
+    </select>
+  
+  
+    <select id="queryPregunta" resultMap="recordPregunta">
+        SELECT
+            a.cod_pregunta,
+            a.enunciado
+        FROM 
+            tp_pregunta a
+        Order by 
+            a.cod_pregunta;
+    </select>
+  
+    <select id="getPreguntas" resultMap="recordPreguntaRegla">
+        SELECT
+            a.cod_pregunta,
+            a.cod_regla,
+            b.enunciado
+        FROM 
+            tp_pregunta_regla a
+        INNER JOIN
+            tp_pregunta b ON b.cod_pregunta = a.cod_pregunta
+        WHERE
+            a.cod_regla = #{codigo}
+        Order by 
+            a.cod_pregunta;
+    </select>
+  
+    <select id="queryPerfil" resultMap="recordPerfil">
+        SELECT
+            a.cod_perfil,
+            a.nom_perfil,
+            a.des_perfil
+        FROM 
+            tp_perfil a
+        WHERE
+            a.deshabilitado = false
+        Order by 
+            a.cod_perfil;
+    </select>
+  
+    <select id="getCodigo" resultType="string">
+        SELECT concat('R', nextval('SEQ_REGLA'));
+    </select>
+    
+  
+    <insert id="insert">
+        Insert into tp_regla_acoso_escolar 
+            (cod_regla, deshabilitado, cod_perfil)
+        values
+            (#{codigo},#{deshabilitado},#{perfil.codigo})
+    </insert>
+  
+    <insert id="insertPregunta">
+        Insert into tp_pregunta_regla 
+            (cod_regla, cod_pregunta)
+        values
+            (#{codigoRegla},#{pregunta.codigo})
+    </insert>
+  
+  
+    <update id="update">
+        Update 
+            tp_regla_acoso_escolar 
+        Set
+            deshabilitado = #{deshabilitado},
+            cod_perfil = #{perfil.codigo}
+        Where
+            cod_regla=#{codigo}
+    </update> 
+    
+    
+    
+    <!--<update id="updatePreguntas">
+        Update 
+            tp_pregunta_regla
+        Set
+            orden_evaluado = #{ordenEvaluacion},
+            regla = #{regla}
+        Where
+            cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+    </update>-->
+  
+    <delete id="delete">
+        Delete from 
+            tp_regla_acoso_escolar 
+        Where
+            cod_regla=#{codigo}
+    </delete> 
+  
+    <delete id="deshabilitar">
+        Update tp_regla_acoso_escolar 
+        set deshabilitado = true
+        Where
+            cod_regla=#{codigo}
+    </delete> 
+       
+  
+    <select id="cantUso" resultType="int">
+        Select count(*) from tp_pregunta_evaluacion_regla
+        Where cod_regla=#{codigo}
+    </select> 
+  
+    <select id="queryExplicacionPremisas" resultType="string">
+        Select distinct enunciado 
+        from tp_pregunta_evaluacion_regla a
+        inner join tp_pregunta b on b.cod_pregunta = a.cod_pregunta
+        Where cod_evaluacion=#{codigoEvaluacion}
+    </select> 
+  
+    <select id="queryExplicacionReglas" resultType="string">
+        Select distinct a.cod_regla
+        from tp_pregunta_evaluacion_regla a
+        Where cod_evaluacion=#{codigoEvaluacion}
+    </select> 
+       
+    
+    <delete id="deletePreguntas">
+        Delete from
+            tp_pregunta_regla
+        Where
+            cod_regla = #{codigo}
+    </delete>
+    
+    <select id="queryReglaActiva" resultMap="recordRegla">
+        SELECT
+            a.cod_regla,
+            a.deshabilitado,
+            d.cod_perfil,
+            d.nom_perfil
+        FROM 
+            tp_regla_acoso_escolar a
+        INNER JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        WHERE
+            a.deshabilitado = false
+        Order by 
+            a.cod_regla
+    </select>
+    
+</mapper>

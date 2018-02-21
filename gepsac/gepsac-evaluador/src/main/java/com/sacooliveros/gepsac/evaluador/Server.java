@@ -5,7 +5,8 @@ import com.sacooliveros.gepsac.evaluador.config.Configuration;
 import com.sacooliveros.gepsac.evaluador.message.Mensaje;
 import com.sacooliveros.gepsac.evaluador.task.EvaluadorTask;
 import com.sacooliveros.gepsac.evaluador.task.TimerTask;
-import com.sacooliveros.gepsac.evaluador.thread.SingletonThreadPoolFactory;
+import com.sacooliveros.gepsac.evaluador.task.Type;
+import com.sacooliveros.gepsac.evaluador.thread.ThreadPoolBuilder;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -84,8 +85,8 @@ public class Server {
      *
      * @param args Array con los parametros de entrada
      */
-    public static void main(String[] args) {
-        
+    public static void main(String[] args) throws Exception {
+
         //  Se leen las propiedades del Broker (broker.properties) y las propiedades de los endpoints ()
         Configuration configuration = new Configuration("broker.properties");
 
@@ -122,49 +123,37 @@ public class Server {
          * validar ya que puede haber cambiado para mejor 
          */
         log.info("Iniciando Configuracion del Pool de Evaluadores");
-        SingletonThreadPoolFactory.init();
+        ThreadPoolBuilder.init();
 
-        BlockingQueue<Mensaje> colaEvaluaciones = new LinkedBlockingQueue<Mensaje>();
+        executeTypes(configuration);
 
-        executeTimer(configuration, colaEvaluaciones);
-
-        executeTasks(configuration, colaEvaluaciones);
-
-        // --------------------------------------------------------------------------------- //
-        //
-        // REGISTRO DE MANEJADOR DE SE�AL DE SHUTDOWN
-        //
-        // --------------------------------------------------------------------------------- //
-        //registroSignalHandler();
     }
 
-    /**
-     * Metodo que intercepta las seniales USR1 y USR2 desde el Sistema
-     * Operativo.
-     *
-     * @param numThreads - número de hilos a evaluar
-     * @param timeForThreads - tiempo total en segundos para la evaluacion de
-     * los hilos
-     * @param brokerInterval - intervalo en segundos para la verificacion de
-     * hilos
-     */
-    private static void registroSignalHandler() {
-        log.debug("Registrando listener de senial.");
-        SignalHandler sigHnd = new Server.SignalUSR2Handler();
-        Signal.handle(new Signal("USR2"), sigHnd);
+    private static void executeTypes(Configuration configuration) throws Exception {
+        for (Type type : configuration.getTypes()) {
+            BlockingQueue<Mensaje> colaEvaluaciones = new LinkedBlockingQueue<Mensaje>();
+
+            executeTimer(configuration, colaEvaluaciones, type.getTimer());
+
+            executeTasks(configuration, colaEvaluaciones, type.getEvaluator());
+        }
     }
 
     private static void executeTasks(Configuration config,
-            BlockingQueue<Mensaje> colaEvaluaciones) {
+            BlockingQueue<Mensaje> colaEvaluaciones,
+            String evaluatorClassname) throws Exception {
 
         int numThreads = config.getNumThreads();
 
-        ThreadPoolExecutor threadPool = SingletonThreadPoolFactory.createThreadFactory(config);
+        ThreadPoolExecutor threadPool = ThreadPoolBuilder.createThreadFactory(config);
 
         log.debug("Fabrica para procesos asicronos creado:" + threadPool.getCorePoolSize());
         for (int workerId = 0; workerId < numThreads; workerId++) {
             try {
-                EvaluadorTask task = new EvaluadorTask(workerId, colaEvaluaciones);
+                Class claz = Class.forName(evaluatorClassname);
+                EvaluadorTask task = (EvaluadorTask) claz.newInstance();
+                task.configure(workerId, colaEvaluaciones);
+                
                 threadPool.execute(task);
                 log.debug("Proceso Asincrono Worker[" + task + "] iniciado");
             } catch (Exception e) {
@@ -174,11 +163,15 @@ public class Server {
         }
     }
 
-    private static void executeTimer(Configuration configuration, BlockingQueue<Mensaje> colaEvaluaciones) {
+    private static void executeTimer(Configuration configuration,
+            BlockingQueue<Mensaje> colaEvaluaciones,
+            String timerClassname) throws Exception {
         ThreadGroup threadGroup = new ThreadGroup("Timer");
-        TimerTask timerTask = new TimerTask(configuration, colaEvaluaciones);
+        Class claz = Class.forName(timerClassname);
+        TimerTask task = (TimerTask) claz.newInstance();
+        task.configure(configuration, colaEvaluaciones);
 
-        Thread exeTask = new Thread(threadGroup, timerTask);
+        Thread exeTask = new Thread(threadGroup, task);
         exeTask.setName("TimerTask");
         exeTask.start();
     }

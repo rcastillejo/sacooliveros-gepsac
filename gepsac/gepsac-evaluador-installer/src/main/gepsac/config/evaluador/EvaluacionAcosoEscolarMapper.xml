@@ -81,6 +81,26 @@
             cod_evaluacion=#{codigoEvaluacion}
     </select>
   
+    <select id="queryPreguntaAfirmativa" resultMap="recordPreguntaEvaluacion">
+        SELECT
+            cod_evaluacion,
+            b.cod_pregunta,
+            b.tipo,
+            b.alias,
+            b.enunciado,
+            respuesta
+        FROM 
+            tp_pregunta_evaluacion a
+        INNER JOIN
+            tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
+        where
+            respuesta = 'SI'
+        and
+            cod_evaluacion=#{codigoEvaluacion}
+        order by 
+            orden_evaluacion asc
+    </select>
+  
     <insert id="insert">
         Insert into tp_evaluacion_acoso_escolar 
             (cod_evaluacion, fec_evaluacion, cod_alumno, cod_estado)
@@ -118,7 +138,8 @@
         Update 
             tp_pregunta_evaluacion 
         Set
-            orden_evaluado = #{ordenEvaluacion}
+            orden_evaluado = #{ordenEvaluacion},
+            regla = #{regla}
         Where
             cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
     </insert>

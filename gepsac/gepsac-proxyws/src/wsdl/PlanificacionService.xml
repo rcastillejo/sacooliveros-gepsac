@@ -96,6 +96,7 @@
   <xs:complexType name="estado">
     <xs:sequence>
       <xs:element minOccurs="0" name="codigo" type="xs:string"/>
+      <xs:element minOccurs="0" name="descripcion" type="xs:string"/>
       <xs:element minOccurs="0" name="nombre" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
@@ -431,7 +432,7 @@
   </wsdl:binding>
   <wsdl:service name="PlanificacionService">
     <wsdl:port binding="tns:PlanificacionServiceSoapBinding" name="PlanificacionServicePort">
-      <soap:address location="http://rcastillejo:8180/gepsac-service/PlanificacionService"/>
+      <soap:address location="http://localhost:8080/gepsac-service/PlanificacionService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

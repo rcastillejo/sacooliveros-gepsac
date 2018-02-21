@@ -4,7 +4,9 @@
 <%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 
 <div class="sca-header">
-    <div style="display: inline-block;">
+    <br/>
+    <br/>
+    <div style="display: inline-block; width: 70%">
         <span class="sca-title">
             <bean:message key="header.title"/>
         </span>	

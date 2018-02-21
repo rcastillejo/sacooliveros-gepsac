@@ -37,4 +37,18 @@ public interface BOService {
         @WebParam(name = "evaluacionPostulante", targetNamespace = "")
         EvaluacionPostulante evaluacionPostulante);
 
+    /**
+     * 
+     * @param codigoEvaluacionAcosoEscolar
+     * @return
+     *     returns com.sacooliveros.gepsac.service.ExplicacionResultado
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "explicacion", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.service.Explicacion")
+    @ResponseWrapper(localName = "explicacionResponse", targetNamespace = "http://service.gepsac.sacooliveros.com/", className = "com.sacooliveros.gepsac.service.ExplicacionResponse")
+    public ExplicacionResultado explicacion(
+        @WebParam(name = "codigoEvaluacionAcosoEscolar", targetNamespace = "")
+        String codigoEvaluacionAcosoEscolar);
+
 }

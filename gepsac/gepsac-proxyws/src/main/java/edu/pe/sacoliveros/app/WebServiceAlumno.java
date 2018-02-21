@@ -40,6 +40,26 @@ public interface WebServiceAlumno {
 
     /**
      * 
+     * @param codigo
+     * @param nombres
+     * @param apellidos
+     * @return
+     *     returns java.util.List<edu.pe.sacoliveros.app.Alumno>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "buscarAlumnoEvaluado", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.BuscarAlumnoEvaluado")
+    @ResponseWrapper(localName = "buscarAlumnoEvaluadoResponse", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.BuscarAlumnoEvaluadoResponse")
+    public List<Alumno> buscarAlumnoEvaluado(
+        @WebParam(name = "codigo", targetNamespace = "")
+        String codigo,
+        @WebParam(name = "nombres", targetNamespace = "")
+        String nombres,
+        @WebParam(name = "apellidos", targetNamespace = "")
+        String apellidos);
+
+    /**
+     * 
      * @return
      *     returns java.util.List<edu.pe.sacoliveros.app.Alumno>
      */
@@ -68,5 +88,30 @@ public interface WebServiceAlumno {
         String nombres,
         @WebParam(name = "apellidos", targetNamespace = "")
         String apellidos);
+
+    /**
+     * 
+     * @param codigo
+     * @return
+     *     returns edu.pe.sacoliveros.app.Alumno
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "obtenerAlumnoEvaluacion", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.ObtenerAlumnoEvaluacion")
+    @ResponseWrapper(localName = "obtenerAlumnoEvaluacionResponse", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.ObtenerAlumnoEvaluacionResponse")
+    public Alumno obtenerAlumnoEvaluacion(
+        @WebParam(name = "codigo", targetNamespace = "")
+        String codigo);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<edu.pe.sacoliveros.app.Alumno>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "listarAlumnoEvaluado", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.ListarAlumnoEvaluado")
+    @ResponseWrapper(localName = "listarAlumnoEvaluadoResponse", targetNamespace = "http://app.sacoliveros.pe.edu/", className = "edu.pe.sacoliveros.app.ListarAlumnoEvaluadoResponse")
+    public List<Alumno> listarAlumnoEvaluado();
 
 }

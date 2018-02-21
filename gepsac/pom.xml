@@ -11,6 +11,7 @@
     
     <modules>
         <module>gepsac-parent</module>
+        <module>evaluacion-form</module>
         <module>experto-form</module>
         <module>template-form</module>
         <module>gepsac-backoffice</module>
@@ -23,6 +24,8 @@
         <module>AlumnoService</module>
         <module>gepsac-evaluador</module>
         <module>gepsac-evaluador-installer</module>
+        <module>gepsac-service-rs</module>
+        <module>gepsac-service-ws</module>
     </modules>
 
 </project>

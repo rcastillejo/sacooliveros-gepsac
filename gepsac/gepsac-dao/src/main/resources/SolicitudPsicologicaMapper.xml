@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.SolicitudPsicologicaMapper" >
+    
+    <resultMap id="recordSolicitudPsicologica" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudPsicologica" >
+        <id column="cod_solicitud" property="codigo" jdbcType="VARCHAR" />
+        <result column="fec_solicitud" property="fechaSolicitud" jdbcType="DATE" />
+        <result column="fec_atencion" property="fechaAtencion" jdbcType="DATE" />        
+        <result column="cod_usuario" property="solicitante.codigo" jdbcType="VARCHAR" />
+        <result column="nombres" property="solicitante.nombres" jdbcType="VARCHAR" />
+        <result column="apellidos" property="solicitante.apellidos" jdbcType="VARCHAR" />
+        <result column="motivo" property="motivo" jdbcType="VARCHAR" />
+        <result column="descripcion" property="descripcion" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="nom_estado" property="estado.nombre" jdbcType="VARCHAR" />
+        <!--<result column="usu_crea" property="usuCre" jdbcType="VARCHAR" />
+        <result column="fec_crea" property="fecCre" jdbcType="DATE" />
+        <result column="usu_modif" property="usuMod" jdbcType="VARCHAR" />
+        <result column="fec_modif" property="fecMod" jdbcType="DATE" />-->
+    </resultMap>
+    
+    <resultMap id="recordSolicitudAlumno" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno" >
+        <id column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="dirigido" property="dirigido" jdbcType="BOOLEAN" />        
+        
+    </resultMap>
+    
+    <resultMap id="recordSolicitudAlumnoInvolucrado" type="com.sacooliveros.gepsac.model.evaluacion.SolicitudAlumno" >
+        <id column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="dirigido" property="dirigido" jdbcType="BOOLEAN" />        
+        <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />        
+        <result column="apellido_pat" property="alumno.apellidoPaterno" jdbcType="VARCHAR" />        
+        <result column="apellido_mat" property="alumno.apellidoMaterno" jdbcType="VARCHAR" />        
+        <result column="edad" property="alumno.edad" jdbcType="INTEGER" />        
+        <result column="cod_ditrito" property="alumno.distrito.codigo" jdbcType="INTEGER" />        
+        <result column="nom_ditrito" property="alumno.distrito.nombre" jdbcType="VARCHAR" />        
+        
+    </resultMap>
+       
+    <select id="query" resultMap="recordSolicitudPsicologica">
+        SELECT
+            a.cod_solicitud,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.fec_solicitud,
+            a.fec_atencion,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+    </select>
+       
+    <select id="queryEstado" resultMap="recordSolicitudPsicologica">
+        SELECT
+            a.cod_solicitud,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.fec_solicitud,
+            a.fec_atencion,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        WHERE
+            a.cod_estado = #{codigoEstado}
+    </select>
+       
+    <select id="queryPendiente" resultMap="recordSolicitudPsicologica">
+        SELECT
+            a.cod_solicitud,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.fec_solicitud,
+            a.fec_atencion,
+            a.cod_estado,
+            c.nom_estado/*,
+            (SELECT (DATE_PART('day', now()::timestamp - a.fec_solicitud::timestamp) * 24 + 
+               DATE_PART('hour', now()::timestamp - a.fec_solicitud::timestamp)) * 60 +
+               DATE_PART('minute', now()::timestamp - a.fec_solicitud::timestamp)) as diffMinutes*/
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        WHERE
+            a.cod_estado = 'SPS0001' and (SELECT (DATE_PART('day', now()::timestamp - a.fec_solicitud::timestamp) * 24 + 
+               DATE_PART('hour', now()::timestamp - a.fec_solicitud::timestamp)) * 60 +
+               DATE_PART('minute', now()::timestamp - a.fec_solicitud::timestamp)) >= #{maxMinutosPendiente};
+    </select>
+       
+    <select id="queryCantidadAtendidas" resultType="int">
+        SELECT
+            count(*)
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN tp_solicitud_alumno b on a.cod_solicitud = b.cod_solicitud
+        WHERE motivo = 1
+        and cod_estado in ('SPS0003','SPS0004')
+        and cod_alumno = #{alumnoInvolucradoCodigo}
+    </select>
+  
+    <select id="get" resultMap="recordSolicitudPsicologica">
+        SELECT
+            a.cod_solicitud,
+            a.fec_solicitud,
+            a.fec_atencion,
+            b.cod_usuario,
+            b.nombres,
+            b.apellidos,
+            a.motivo,
+            a.descripcion,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_solicitud_psicologica a
+        INNER JOIN
+            tp_usuario b on a.solicitante = b.cod_usuario
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        WHERE
+           a.cod_solicitud=#{codigo}
+        
+    </select>
+    
+    <select id="queryAlumnos" resultMap="recordSolicitudAlumno">
+        SELECT
+            a.cod_solicitud,
+            a.cod_alumno,
+            a.dirigido
+        FROM 
+            tp_solicitud_alumno a
+        WHERE
+            a.cod_solicitud= #{codigoSolicitud}
+    </select>
+    
+    <select id="queryAlumnosInvolucrados" resultMap="recordSolicitudAlumno">
+        SELECT
+            a.cod_solicitud,
+            a.cod_alumno,
+            a.dirigido
+        FROM 
+            tp_solicitud_alumno a
+        WHERE
+            a.cod_solicitud= #{codigoSolicitud}
+    </select>
+    
+    <insert id="insert">
+        Insert into tp_solicitud_psicologica 
+            (cod_solicitud, fec_solicitud, fec_atencion, solicitante, motivo, 
+            descripcion,  cod_estado)
+        values
+            (#{codigo}, #{fechaSolicitud}, #{fechaAtencion}, #{solicitante.codigo}, #{motivo}, 
+            #{descripcion}, #{estado.codigo})
+    </insert>
+    
+    <insert id="insertAlumnos">
+        Insert into tp_solicitud_alumno 
+            (cod_solicitud, cod_alumno, dirigido)
+        values
+            (#{codigoSolicitud}, #{alumno.codigo}, #{dirigido})
+    </insert>
+  
+  
+    <update id="update">
+        Update 
+            tp_solicitud_psicologica 
+        Set
+            motivo = #{motivo}, 
+            descripcion = #{descripcion}
+        Where
+            cod_solicitud=#{codigo}
+    </update> 
+    
+    <update id="updateEstado">
+        Update 
+            tp_solicitud_psicologica 
+        Set
+            cod_estado = #{estado.codigo}
+        Where
+            cod_solicitud=#{codigo}
+    </update> 
+    
+    <delete id="delete">
+        Delete from 
+                    tp_solicitud_psicologica
+        Where
+                    cod_solicitud=#{codigo}
+    </delete>
+    
+    
+    <delete id="deleteAlumnos">
+        Delete from 
+                    tp_solicitud_alumno
+        Where
+                    cod_solicitud=#{codigo}
+    </delete>
+    
+    
+    
+</mapper>

@@ -26,6 +26,8 @@ public class ObjectFactory {
 
     private final static QName _EvaluarAlumno_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "evaluarAlumno");
     private final static QName _EvaluarAlumnoResponse_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "evaluarAlumnoResponse");
+    private final static QName _Explicacion_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "explicacion");
+    private final static QName _ExplicacionResponse_QNAME = new QName("http://service.gepsac.sacooliveros.com/", "explicacionResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.sacooliveros.gepsac.service
@@ -35,43 +37,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Estado }
+     * Create an instance of {@link PreguntaRegla }
      * 
      */
-    public Estado createEstado() {
-        return new Estado();
+    public PreguntaRegla createPreguntaRegla() {
+        return new PreguntaRegla();
     }
 
     /**
-     * Create an instance of {@link EvaluacionPostulante }
+     * Create an instance of {@link ExplicacionResultado }
      * 
      */
-    public EvaluacionPostulante createEvaluacionPostulante() {
-        return new EvaluacionPostulante();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumnoResponse }
-     * 
-     */
-    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
-        return new EvaluarAlumnoResponse();
-    }
-
-    /**
-     * Create an instance of {@link Model }
-     * 
-     */
-    public Model createModel() {
-        return new Model();
-    }
-
-    /**
-     * Create an instance of {@link EvaluarAlumno }
-     * 
-     */
-    public EvaluarAlumno createEvaluarAlumno() {
-        return new EvaluarAlumno();
+    public ExplicacionResultado createExplicacionResultado() {
+        return new ExplicacionResultado();
     }
 
     /**
@@ -83,11 +61,59 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EvaluarAlumno }
+     * 
+     */
+    public EvaluarAlumno createEvaluarAlumno() {
+        return new EvaluarAlumno();
+    }
+
+    /**
+     * Create an instance of {@link Estado }
+     * 
+     */
+    public Estado createEstado() {
+        return new Estado();
+    }
+
+    /**
+     * Create an instance of {@link Explicacion }
+     * 
+     */
+    public Explicacion createExplicacion() {
+        return new Explicacion();
+    }
+
+    /**
+     * Create an instance of {@link Pregunta }
+     * 
+     */
+    public Pregunta createPregunta() {
+        return new Pregunta();
+    }
+
+    /**
      * Create an instance of {@link Alumno }
      * 
      */
     public Alumno createAlumno() {
         return new Alumno();
+    }
+
+    /**
+     * Create an instance of {@link PerfilEvaluado }
+     * 
+     */
+    public PerfilEvaluado createPerfilEvaluado() {
+        return new PerfilEvaluado();
+    }
+
+    /**
+     * Create an instance of {@link Model }
+     * 
+     */
+    public Model createModel() {
+        return new Model();
     }
 
     /**
@@ -99,6 +125,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Regla }
+     * 
+     */
+    public Regla createRegla() {
+        return new Regla();
+    }
+
+    /**
      * Create an instance of {@link Perfil }
      * 
      */
@@ -107,11 +141,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PerfilEvaluado }
+     * Create an instance of {@link EvaluarAlumnoResponse }
      * 
      */
-    public PerfilEvaluado createPerfilEvaluado() {
-        return new PerfilEvaluado();
+    public EvaluarAlumnoResponse createEvaluarAlumnoResponse() {
+        return new EvaluarAlumnoResponse();
+    }
+
+    /**
+     * Create an instance of {@link ExplicacionResponse }
+     * 
+     */
+    public ExplicacionResponse createExplicacionResponse() {
+        return new ExplicacionResponse();
+    }
+
+    /**
+     * Create an instance of {@link EvaluacionPostulante }
+     * 
+     */
+    public EvaluacionPostulante createEvaluacionPostulante() {
+        return new EvaluacionPostulante();
     }
 
     /**
@@ -130,6 +180,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "evaluarAlumnoResponse")
     public JAXBElement<EvaluarAlumnoResponse> createEvaluarAlumnoResponse(EvaluarAlumnoResponse value) {
         return new JAXBElement<EvaluarAlumnoResponse>(_EvaluarAlumnoResponse_QNAME, EvaluarAlumnoResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Explicacion }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "explicacion")
+    public JAXBElement<Explicacion> createExplicacion(Explicacion value) {
+        return new JAXBElement<Explicacion>(_Explicacion_QNAME, Explicacion.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExplicacionResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.gepsac.sacooliveros.com/", name = "explicacionResponse")
+    public JAXBElement<ExplicacionResponse> createExplicacionResponse(ExplicacionResponse value) {
+        return new JAXBElement<ExplicacionResponse>(_ExplicacionResponse_QNAME, ExplicacionResponse.class, null, value);
     }
 
 }

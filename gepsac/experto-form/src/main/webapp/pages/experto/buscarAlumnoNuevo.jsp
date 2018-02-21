@@ -35,18 +35,25 @@
      }
 
     function initBuscarAlumnoNuevo() {
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
-        }).done(function (listado) {
-            console.log('listado', listado);
-            cargarListado(listado);
-        }).fail(function (error) {
-            console.log('error', error);
-            //$("#mensajeError").append(error);
-            fn_mdl_alert(error.responseText, parent.fn_util_CierraModal, "MENSAJE");
-        });
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                timeout:3000, 
+                url: "<%=request.getContextPath()%>" + action + '?method=initBuscarAlumnoNuevo'
+            }).done(function (listado) {
+                console.log('listado', listado);
+                cargarListado(listado);
+            }).fail(function (error) {
+                console.log('error', error);
+                if (error.status === 500) {
+                    fn_mdl_alert(error.responseText, parent.noExisteAlumnoPostulante, "MENSAJE");
+                } else {
+                    //$("#mensajeError").append(error);
+                    fn_mdl_alert("Ocurrio un error al consultar los alumnos", null, "MENSAJE");
+                }
+            });
+        }
     }
 
 
@@ -67,6 +74,7 @@
         detalle.find("#lblNombres").append(json.nombres);
         detalle.find("#lblApellidos").append(json.apellidoPaterno+' '+json.apellidoMaterno);
         detalle.find("#lblEdad").append(json.edad + ' años');
+        detalle.find("#lblContextura").append(json.contextura);
         detalle.find("#lblDistrito").append(json.distrito);
         detalle.find("#lblDomicilio").append(json.domicilio);
 
@@ -96,18 +104,26 @@
         var codigo = $("#codigo").val();
         var nombres = $("#nombres").val();
         var apellidos = $("#apellidos").val();
-        $.ajax({
-            type: "POST",
-            dataType: 'json',
-            url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
-        }).done(function (listado) {
-            console.log('listado', listado);
-            $("#tblDetalle tbody").empty();
-            cargarListado(listado);
-        }).fail(function (error) {
-            console.log('error', error);
-            fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
-        });        
+        if(validateUrl("<%=request.getContextPath()%>")){            
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                timeout:3000,
+                url: "<%=request.getContextPath()%>" + action + '?method=buscarAlumnoNuevo&codigo='+codigo+'&nombres='+nombres+'&apellidos='+apellidos
+            }).done(function (listado) {
+                console.log('listado', listado);
+                $("#tblDetalle tbody").empty();
+                cargarListado(listado);
+            }).fail(function (error, textStatus) {
+                console.log('error', error);
+                if (error.status === 500) {
+                    //$("#mensajeError").append(error);
+                    fn_mdl_alert(error.responseText, function(){}, "MENSAJE");
+                } else {
+                    fn_mdl_alert("Ocurrio un error al consultar los alumnos", null, "MENSAJE");
+                }
+            });     
+        }
     }
 
 </script>
@@ -161,6 +177,9 @@
                         <label id="lblEdad" class="inputValue"></label>
                     </td>
                     <td>
+                        <label id="lblContextura" class="inputValue"></label>
+                    </td>
+                    <td>
                         <label id="lblDomicilio" class="inputValue"></label>
                     </td>
                     <td>
@@ -178,6 +197,7 @@
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Edad</th>
+                    <th>Contextura</th>
                     <th>Distrito</th>	
                     <th>Domicilio</th>
                 </tr>	

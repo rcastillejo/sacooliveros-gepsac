@@ -10,4 +10,22 @@
     <listener>
         <listener-class>com.sacooliveros.gepsac.service.listener.ServiceListener</listener-class>
     </listener>
+    
+    
+    <!--Servlet Rest-->
+    <servlet>
+        <servlet-name>GepsacRest</servlet-name>
+        <servlet-class>
+            org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+        </servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>com.sacooliveros.gepsac.service.rs.ApplicationConfig</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>GepsacRest</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 </web-app>

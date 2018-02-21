@@ -7,6 +7,8 @@ package com.sacooliveros.gepsac.dao;
 
 import com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar;
 import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion;
+import com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa;
+import com.sacooliveros.gepsac.model.experto.Regla;
 import java.util.List;
 
 /**
@@ -24,10 +26,27 @@ public interface EvaluacionAcosoEscolarDAO extends BaseDao<EvaluacionAcosoEscola
     void grabarPostulante(Alumno model);
 
     Alumno obtenerPostulante(String id);*/
-    
-     List<EvaluacionAcosoEscolar> listarEvaluacionPorEstado(String codigoEstado);
-     
-     List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion);
-     
-     void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+    String getCodigo();
+
+    void ingresar(EvaluacionAcosoEscolar evaluacion, List<PreguntaEvaluacionAlternativa> preguntasAlternativas);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionPorEstado(String codigoEstado);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionPorSolicitud(String codigoSolicitud);
+
+    List<EvaluacionAcosoEscolar> listarEvaluacionEvaluadoResuelto();
+
+    List<PreguntaEvaluacion> listarPreguntaEvaluacion(String codigoEvaluacion);
+
+    List<PreguntaEvaluacionAlternativa> listarPreguntaEvaluacionAlternativa(String codigoEvaluacion, String codigoPregunta);
+
+    List<PreguntaEvaluacion> listarPreguntaAfirmativa(String codigoEvaluacion);
+
+    void actualizarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion, List<Regla> reglasActivas);
+
+    void registrarRespuestaEvaluacion(EvaluacionAcosoEscolar evaluacion);
+
+    EvaluacionAcosoEscolar obtenerDesdePlantillaVigente();
+
+    List<PreguntaEvaluacionAlternativa> obtenerPreguntaDesdePlantilla(String codigoPlantilla);
 }

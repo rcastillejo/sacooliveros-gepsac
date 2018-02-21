@@ -8,18 +8,17 @@ package com.sacooliveros.gepsac.form.experto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sacooliveros.gepsac.proxyws.util.ProxyUtil;
-import com.sacooliveros.gepsac.service.Alumno;
 import com.sacooliveros.gepsac.service.BOService;
 import com.sacooliveros.gepsac.service.EvaluacionPostulante;
 import edu.pe.sacoliveros.app.WebServiceAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceException;
+import javax.xml.ws.soap.SOAPFaultException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -46,18 +45,17 @@ public class EvaluarPostulanteAction extends DispatchAction {
         jsonBuilder = new GsonBuilder().create();
     }
 
-    private String getCodigoDocumento(String codigo) {
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMddHHmmss");
-        return codigo + sdf.format(new Date());
-    }
-
     public void initEvaluarAlumno(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         try {
             EvaluacionPostulante evaluacion = new EvaluacionPostulante();
-            evaluacion.setCodigo(getCodigoDocumento(Config.CODIGO_DOCUMENTO));
             Resultado resultado = createSuccessResult(evaluacion);
-
             generalAction(resultado, response);
+        } catch (SOAPFaultException e) {
+            LoggerUtil.error(logger, "initEvaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "initEvaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al evaluar al alumno"), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "initEvaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -70,15 +68,46 @@ public class EvaluarPostulanteAction extends DispatchAction {
             logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
 
             List<edu.pe.sacoliveros.app.Alumno> listaAlumno = service.listarAlumnoPostulante();
-            if(listaAlumno.isEmpty()){
-                throw new Exception("No existe información que coincida con lo ingresado");
+            if(listaAlumno == null || listaAlumno.isEmpty()){
+                throw new Exception("No existe información de los alumnos postulantes");
             }
             
             Resultado resultado = createSuccessResult(listaAlumno);
 
             generalAction(resultado, response);
+        } catch (SOAPFaultException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos nuevos"), response);
         } catch (Exception e) {
             LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+
+    public void initBuscarAlumnoEvaluado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
+
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno = service.listarAlumnoEvaluado(); 
+            if(listaAlumno == null || listaAlumno.isEmpty()){
+                throw new Exception("No existe información de los alumnos postulantes");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
+
+            generalAction(resultado, response);
+        } catch (SOAPFaultException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoEvaluado", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoEvaluado", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos evaluados"), response);  
+        } catch (Exception e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoEvaluado", "experto", request, e);
             generalAction(createErrorResult(e), response);
         }
     }
@@ -98,6 +127,39 @@ public class EvaluarPostulanteAction extends DispatchAction {
             
             Resultado resultado = createSuccessResult(listaAlumno);
             generalAction(resultado, response);
+        } catch (SOAPFaultException e) {            
+            LoggerUtil.error(logger, "buscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);  
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "buscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos nuevos"), response);  
+        } catch (Exception e) {
+            LoggerUtil.error(logger, "buscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);
+        }
+    }
+    
+    public void buscarAlumnoEvaluado(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            WebServiceAlumno service = ProxyUtil.getAlumoServicePort(Config.TIMEOUT);
+            logger.debug("Buscando Alumnos Nuevos al Servicio Saco Oliveros");
+            String codigo = request.getParameter("codigo");
+            String nombres = request.getParameter("nombres");
+            String apellidos = request.getParameter("apellidos");
+            
+            List<edu.pe.sacoliveros.app.Alumno> listaAlumno= service.buscarAlumnoEvaluado(codigo, nombres, apellidos);
+            if(listaAlumno.isEmpty()){
+                throw new Exception("No existe información que coincida con lo ingresado");
+            }
+            
+            Resultado resultado = createSuccessResult(listaAlumno);
+            generalAction(resultado, response);
+        } catch (SOAPFaultException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult(e), response);   
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al consultar los alumnos evaluados"), response);     
         } catch (Exception e) {
             LoggerUtil.error(logger, "initBuscarAlumnoNuevo", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -124,6 +186,12 @@ public class EvaluarPostulanteAction extends DispatchAction {
 
             logger.info("Evaluacion resultado [{}]", evaluacionPostulante.getCodigo());
             generalAction(createSuccessResult(new Object[]{evaluacionPostulante, msg}), response);
+        } catch (SOAPFaultException e) {
+            LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult(e), response);       
+        } catch (WebServiceException e) {
+            LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
+            generalAction(createErrorResult("Ocurrio un error al evaluar al alumno"), response);            
         } catch (Exception e) {
             LoggerUtil.error(logger, "evaluarAlumno", "experto", request, e);
             generalAction(createErrorResult(e), response);
@@ -153,6 +221,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
         json = resultado.getJson();
         mensaje = resultado.getMensaje();
 
+        response.setStatus(resultado.getCodigo());
         if (StringUtils.isNotBlank(json)) {
             try {
                 response.setContentType("text/json;charset=utf-8");
@@ -173,7 +242,7 @@ public class EvaluarPostulanteAction extends DispatchAction {
                 throw new RuntimeException(e);
             }
         }
-        response.setStatus(resultado.getCodigo());
+        
     }
 
 }

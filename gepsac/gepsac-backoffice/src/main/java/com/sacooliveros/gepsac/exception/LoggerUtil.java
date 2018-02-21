@@ -5,7 +5,7 @@
  */
 package com.sacooliveros.gepsac.exception;
 
-import com.novatronic.sca.util.Config;
+import com.sacooliveros.gepsac.util.Config;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +21,7 @@ public class LoggerUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(Config.DATE_FORMAT);
         SimpleDateFormat stf = new SimpleDateFormat(Config.TIME_FORMAT);
         logger.error(
-                MessageFormat.format("acción={0}, módulo={1}, fecha={2}, hora={3}, usuario={4}, mensaje={5}",
+                MessageFormat.format("acciï¿½n={0}, mï¿½dulo={1}, fecha={2}, hora={3}, usuario={4}, mensaje={5}",
                 new Object[]{accion, modulo, sdf.format(calendar.getTime()), stf.format(calendar.getTime()), usuario, mensaje}),
                 e);
     }

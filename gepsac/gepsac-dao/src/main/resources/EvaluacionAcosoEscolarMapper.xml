@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sacooliveros.gepsac.dao.mybatis.mapper.EvaluacionAcosoEscolarMapper" >
+    
+    <resultMap id="recordEvaluacionAcosoEscolar" type="com.sacooliveros.gepsac.model.evaluacion.EvaluacionAcosoEscolar" >
+        <id column="cod_evaluacion" property="codigo" jdbcType="VARCHAR" />
+        <result column="cod_solicitud" property="codigoSolicitud" jdbcType="VARCHAR" />
+        <result column="cod_plantilla" property="codigoPlantilla" jdbcType="VARCHAR" />
+        <result column="fec_resuelto" property="fechaResuelto" jdbcType="DATE" />
+        <result column="fec_evaluacion" property="fechaEvaluacion" jdbcType="DATE" />
+        <result column="cod_alumno" property="alumno.codigo" jdbcType="VARCHAR" />
+        <result column="nombres" property="alumno.nombres" jdbcType="VARCHAR" />
+        <result column="apellido_pat" property="alumno.apellidoPaterno" jdbcType="VARCHAR" />
+        <result column="apellido_mat" property="alumno.apellidoMaterno" jdbcType="VARCHAR" />
+        <result column="cod_perfil" property="perfil.codigo" jdbcType="VARCHAR" />
+        <result column="nom_perfil" property="perfil.nombre" jdbcType="VARCHAR" />
+        <result column="cod_estado" property="estado.codigo" jdbcType="VARCHAR" />
+        <result column="nom_estado" property="estado.nombre" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap id="recordPreguntaEvaluacion" type="com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacion" >
+        <id column="cod_pregunta" property="pregunta.codigo" jdbcType="VARCHAR" />
+        <result column="cod_evaluacion" property="codigoEvaluacion" jdbcType="VARCHAR" />
+        
+        <result column="tipo" property="pregunta.tipo" jdbcType="VARCHAR" />
+        <result column="alias" property="pregunta.alias" jdbcType="VARCHAR" />
+        <result column="enunciado" property="pregunta.enunciado" jdbcType="VARCHAR" />
+        
+        <result column="respuesta" property="respuesta" jdbcType="VARCHAR" />
+        <result column="orden_evaluado" property="ordenEvaluacion" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <resultMap id="recordPreguntaEvaluacionAlternativa" type="com.sacooliveros.gepsac.model.evaluacion.PreguntaEvaluacionAlternativa" >
+        <id column="secuencia" property="alternativa.secuencia" jdbcType="INTEGER" />
+        <result column="cod_pregunta" property="codigoPregunta" jdbcType="VARCHAR" />
+        <result column="cod_evaluacion" property="codigoEvaluacion" jdbcType="VARCHAR" />
+        
+        <result column="alternativa" property="alternativa.alternativa" jdbcType="VARCHAR" />
+        <result column="seleccionado" property="seleccionado" jdbcType="BOOLEAN" />
+        
+    </resultMap>
+       
+       
+    <select id="getCodigo" resultType="string">
+        SELECT concat('EV', to_char(now(), 'YYYYMMDD'), LPAD(nextval('SEQ_EVALUACION_ACOSO_ESCOLAR')::text, 10, '0'));
+    </select>
+    
+    <select id="query" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT
+            cod_evaluacion,
+            cod_solicitud,
+            cod_plantilla,
+            fec_evaluacion,
+            fec_resuelto,
+            cod_alumno,
+            cod_perfil,
+            cod_estado
+        FROM 
+            tp_evaluacion_acoso_escolar;
+    </select>
+  
+    <select id="get" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT
+            cod_evaluacion,
+            cod_solicitud,
+            cod_plantilla,
+            fec_evaluacion,
+            fec_resuelto,
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            cod_evaluacion=#{codigo}
+    </select>
+  
+    <select id="getDesdePlantillaVigente" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT cod_plantilla
+        FROM 
+            tp_plantilla_evaluacion_acoso_escolar
+        where
+            vigente
+    </select>
+  
+    <select id="listarPreguntaDesdePlantilla" resultMap="recordPreguntaEvaluacionAlternativa">
+        SELECT
+            a.cod_plantilla,
+            a.cod_pregunta,
+            a.secuencia
+        FROM 
+            tp_pregunta_plantilla a
+        where
+            a.cod_plantilla = #{codigoPlantilla}
+    </select>
+  
+  
+    <select id="queryEstado" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT
+            cod_evaluacion,
+            cod_solicitud,
+            cod_plantilla,
+            fec_evaluacion,
+            fec_resuelto,
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            a.cod_estado=#{codigoEstado}
+    </select>
+  
+    <select id="querySolicitud" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT
+            cod_evaluacion,
+            cod_solicitud,
+            cod_plantilla,
+            fec_evaluacion,
+            fec_resuelto,
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            a.cod_solicitud=#{codigoSolicitud}
+    </select>
+  
+    <select id="queryEvaluadoResuelto" resultMap="recordEvaluacionAcosoEscolar">
+        SELECT
+            cod_evaluacion,
+            cod_solicitud,
+            cod_plantilla,
+            fec_evaluacion,
+            fec_resuelto,
+            b.cod_alumno,
+            b.nombres,
+            b.apellido_pat,
+            b.apellido_mat,
+            a.cod_perfil,
+            d.nom_perfil,
+            a.cod_estado,
+            c.nom_estado
+        FROM 
+            tp_evaluacion_acoso_escolar a
+        INNER JOIN
+            tp_alumno_evaluado b ON a.cod_alumno = b.cod_alumno
+        INNER JOIN
+            tp_estado c ON a.cod_estado = c.cod_estado
+        LEFT JOIN
+            tp_perfil d ON a.cod_perfil = d.cod_perfil
+        where
+            a.cod_estado in ('EVA0001','EVA0002');
+    </select>
+  
+    <select id="queryPregunta" resultMap="recordPreguntaEvaluacion">
+        SELECT DISTINCT
+            cod_evaluacion,
+            b.cod_pregunta,
+            b.enunciado
+        FROM 
+            tp_pregunta_evaluacion a
+        INNER JOIN
+            tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
+        where
+            cod_evaluacion=#{codigoEvaluacion}
+        ORDER BY b.cod_pregunta
+    </select>
+  
+    <select id="queryPreguntaAlternativa" resultMap="recordPreguntaEvaluacionAlternativa">
+        SELECT
+            b.cod_evaluacion,
+            b.cod_pregunta,
+            b.seleccionado,
+            c.secuencia,
+            c.alternativa
+        FROM 
+            tp_pregunta_evaluacion b
+        INNER JOIN
+            tp_alternativa c ON b.secuencia = c.secuencia 
+        where
+            cod_evaluacion=#{codigoEvaluacion} and b.cod_pregunta = #{codigoPregunta}
+    </select>
+  
+    <select id="queryPreguntaAfirmativa" resultMap="recordPreguntaEvaluacion">
+        SELECT
+            cod_evaluacion,
+            b.cod_pregunta,
+            b.tipo,
+            b.alias,
+            b.enunciado,
+            respuesta
+        FROM 
+            tp_pregunta_evaluacion a
+        INNER JOIN
+            tp_pregunta b ON a.cod_pregunta = b.cod_pregunta
+        where
+            respuesta = 'SI'
+        and 
+            a.orden_evaluado > 0
+        and
+            cod_evaluacion=#{codigoEvaluacion}
+        order by 
+            a.orden_evaluado asc
+    </select>
+  
+    <insert id="insert">
+        Insert into tp_evaluacion_acoso_escolar 
+            (cod_evaluacion, cod_plantilla, cod_solicitud, cod_alumno, cod_estado)
+        values
+            (#{codigo},#{codigoPlantilla},#{codigoSolicitud}, #{alumno.codigo},#{estado.codigo})
+    </insert>
+  
+    <insert id="insertPreguntaEvaluacion">
+        Insert into tp_pregunta_evaluacion 
+            (cod_evaluacion, cod_plantilla, cod_pregunta, secuencia, seleccionado)
+        values
+            (#{codigoEvaluacion},#{codigoPlantilla},#{codigoPregunta},#{alternativa.secuencia},false)
+    </insert>
+  
+  
+    <update id="update">
+        Update 
+            tp_evaluacion_acoso_escolar 
+        Set
+            fec_evaluacion = #{fechaEvaluacion},
+            cod_alumno = #{alumno.codigo},
+            cod_perfil = #{perfil.codigo},
+            cod_estado = #{estado.codigo}
+        Where
+            cod_evaluacion=#{codigo}
+    </update> 
+    
+    
+    <!-- Actualizar Acoso Escolar a Resuelto-->
+    <update id="updateResueltoEvalAcosoEscolar">
+        Update 
+            tp_evaluacion_acoso_escolar 
+        Set
+            fec_resuelto = #{fechaResuelto},
+            cod_estado = #{estado.codigo}
+        Where
+            cod_evaluacion=#{codigo}
+    </update>
+    
+    <insert id="updateRespuestaPreguntas">
+        Update 
+            tp_pregunta_evaluacion 
+        Set
+            seleccionado = #{seleccionado}
+        Where
+        cod_evaluacion = #{codigoEvaluacion} 
+        and cod_pregunta = #{codigoPregunta} 
+        and secuencia = #{alternativa.secuencia}
+    </insert>
+    
+    <update id="updateRespEvalAcosoEscolar">
+        Update 
+            tp_evaluacion_acoso_escolar 
+        Set
+            fec_evaluacion = #{fechaEvaluacion},
+            cod_perfil = #{perfil.codigo},
+            cod_estado = #{estado.codigo}
+        Where
+            cod_evaluacion=#{codigo}
+    </update> 
+    
+    
+    <insert id="updatePreguntas">
+        Update 
+            tp_pregunta_evaluacion 
+        Set
+            orden_evaluado = #{ordenEvaluacion},
+            regla = #{regla}
+        Where
+            cod_evaluacion = #{codigoEvaluacion} and cod_pregunta = #{pregunta.codigo}
+    </insert>
+    
+    
+    <insert id="insertPreguntaEvaluacionRegla">
+        Insert into tp_pregunta_evaluacion_regla
+            (cod_regla, cod_evaluacion, cod_pregunta, cod_plantilla, secuencia)
+        values
+            (#{codigoRegla},#{preguntaAlternativa.codigoEvaluacion},#{preguntaAlternativa.codigoPregunta},
+        #{preguntaAlternativa.codigoPlantilla},#{preguntaAlternativa.alternativa.secuencia})
+    </insert>
+    
+</mapper>

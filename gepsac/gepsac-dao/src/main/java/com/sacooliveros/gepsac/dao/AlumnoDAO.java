@@ -19,12 +19,21 @@ public interface AlumnoDAO extends BaseDao<Alumno> {
 
     void actualizarPostulante(Alumno model);
     
+    void ingresarEvaluado(Alumno model);
+
+    void actualizarEvaluado(Alumno model);
+    
     void grabarPostulante(Alumno model);
 
     Alumno obtenerPostulante(String id);
+    
+    Alumno obtenerEvaluado(String id);
     
     
     void cargarCodificacionAlumno(Alumno alumno);
     
     void actualizarEstadoAlumnoEvaluado(Alumno model);
+    
+    
+    void grabarEvaluado(Alumno model);
 }

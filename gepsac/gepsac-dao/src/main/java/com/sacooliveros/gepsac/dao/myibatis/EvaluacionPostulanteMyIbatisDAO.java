@@ -30,6 +30,23 @@ public class EvaluacionPostulanteMyIbatisDAO extends GenericMyIbatisDAO implemen
     }
 
     @Override
+    public String getCodigo() {
+        SqlSession session = null;
+        EvaluacionPostulanteMapper mapper;
+
+        try {
+            session = getConnection();
+            mapper = session.getMapper(EvaluacionPostulanteMapper.class);
+            String codigo = mapper.getCodigo();
+            log.debug("Codigo [{}]", new Object[]{codigo});
+            return codigo;
+        } catch (Exception e) {
+            throw new DAOException("Error al consultar", e);
+        } finally {
+            closeConnection(session);
+        }
+    }
+    @Override
     public List listar() {
         SqlSession session = null;
         EvaluacionPostulanteMapper mapper;

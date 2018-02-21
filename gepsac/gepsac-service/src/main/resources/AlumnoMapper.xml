@@ -90,6 +90,34 @@
         where
             cod_alumno=#{codigo}
     </select>
+  
+    <select id="getEvaluado" resultMap="recordCodificacionAlumnoMap">
+        Select 
+            cod_alumno,
+            nombres,
+            apellido_pat,
+            apellido_mat,
+            sexo as "sexo.codigo",
+            edad,
+            cod_contextura as "contextura.codigo",
+            cod_estatura as "estatura.codigo",
+            cod_familia as "tipoFamilia.codigo",
+            orden_nacimiento,
+            cant_hnos,
+            nivel_escolar as "nivelEscolar",
+            grado_escolar,
+            promedio_escolar,
+            cant_cambio_colegio,
+            cod_religion as "religion.codigo",
+            cod_nacionalidad as "nacionalidad.codigo",
+            cod_distrito as "distrito.codigo",
+            cod_provincia as "provincia.codigo",
+            cod_departamento as "departamento.codigo"
+        from 
+            tp_alumno_evaluado
+        where
+            cod_alumno=#{codigo}
+    </select>
     
     <select id="cargarCodificacionAlumno" resultMap="recordCodificacionAlumnoMap">
         Select 
@@ -130,6 +158,44 @@
     <update id="updatePostulante">
         Update 
             tp_alumno_postulante 
+        Set
+            nombres = #{nombres},
+            apellido_pat = #{apellidoPaterno},
+            apellido_mat = #{apellidoMaterno},
+            sexo = #{sexo.codigo},
+            edad = #{edad},
+            cod_contextura = #{contextura.codigo},
+            cod_estatura = #{estatura.codigo},
+            cod_familia = #{tipoFamilia.codigo},
+            orden_nacimiento = #{ordenNacimiento},
+            cant_hnos = #{cantHnos},
+            nivel_escolar = #{nivelEscolar.codigo},
+            grado_escolar = #{gradoEscolar},
+            promedio_escolar = #{promedioEscolar},
+            cant_cambio_colegio = #{cantCambioColegio},
+            cod_religion = #{religion.codigo},
+            cod_nacionalidad = #{nacionalidad.codigo},
+            cod_distrito = #{distrito.codigo},
+            cod_provincia = #{provincia.codigo},
+            cod_departamento = #{departamento.codigo}
+        Where
+            cod_alumno=#{codigo}
+    </update> 
+    
+    <insert id="insertEvaluado">
+        Insert into tp_alumno_evaluado
+            (cod_alumno,nombres,apellido_pat,apellido_mat,sexo,edad,cod_contextura,cod_estatura,cod_familia,orden_nacimiento,
+            cant_hnos,nivel_escolar,grado_escolar,promedio_escolar,cant_cambio_colegio,cod_religion,cod_nacionalidad,cod_distrito,
+            cod_provincia,cod_departamento,cod_estado)
+        values
+            (#{codigo},#{nombres},#{apellidoPaterno},#{apellidoMaterno},#{sexo.codigo},#{edad},#{contextura.codigo},#{estatura.codigo},#{tipoFamilia.codigo},#{ordenNacimiento},
+            #{cantHnos},#{nivelEscolar.codigo},#{gradoEscolar},#{promedioEscolar},#{cantCambioColegio},#{religion.codigo},#{nacionalidad.codigo},#{distrito.codigo},
+            #{provincia.codigo},#{departamento.codigo}, #{estado.codigo})
+    </insert> 
+  
+    <update id="updateEvaluado">
+        Update 
+            tp_alumno_evaluado
         Set
             nombres = #{nombres},
             apellido_pat = #{apellidoPaterno},
